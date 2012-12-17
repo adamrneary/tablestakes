@@ -1,24 +1,25 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html>
 <head>
-<title>Widget test</title>
-<script type="text/javascript" src="libs/jquery-1.8.0.js"></script>
-<script type="text/javascript" src="libs/d3.v2.js"></script>
-<script type="text/javascript" src="libs/nv.d3.js"></script>
-<script type="text/javascript" src="libs/indentedTree.js"></script>
+<meta charset="utf-8">
+<link href="./libs/TablesStakes.css" rel="stylesheet" type="text/css">
+<link href="./libs/nv.d3.css" rel="stylesheet" type="text/css">
+<script src="./libs/d3.v2.js"></script>
+<script src="./libs/nv.d3.js"></script>
+<script type="text/coffeescript" src="TablesStakes.coffee"></script>
+<script type="text/coffeescript" src="test.coffee"></script>
+
+<style>
+
+body {
+  overflow-y:scroll;
+}
+
+</style>
 </head>
-
 <body>
+<div id="example1" style="width:600px"></div>	
 
-<script type="text/coffeescript">
-$(document).ready ->
-    alert ""	
-</script>
-
-<h1 id="header" style="color: red">CoffeeScript test.</h1>
-
-</body>
-<!-- Pull coffee-script.js in AFTER all the CoffeeScript. -->
 <script type="text/javascript" src="libs/coffee-script.js"></script>
+</body>
 </html>
