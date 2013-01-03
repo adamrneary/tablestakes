@@ -12,7 +12,17 @@ and cloned with:
 
     git clone git://github.com/activecell/tablestakes.git
 
-Please use `script/bootstrap` to automatically check for current requirements.
+Please use `script/bootstrap` to automatically check for current requirements (it should be run until it completes successfully).
+
+## Building
+
+To view the examples:
+``` bash
+grunt build
+foreman start -f Procfile
+```
+
+Then navigate to the [showcase](http://localhost:5000).
 
 ## Contributing
 
@@ -30,17 +40,27 @@ To contribute to Tablestakes, please follow these instructions.
 
 Note: You don't have to fork the project in order to create a branch and a pull request!
 
-## Building
+### Hacking on the source
 
-Before building, ensure that all requirements are met with `script/bootstrap` (it should be run until it completes successfully.)
+Our grunt file automatically builds everything, so you only need to worry about the source itself. Inside the 'src' folder you will find:
 
-To view the examples:
-``` bash
-grunt build
-foreman start -f Procfile
-```
+* js/models/ for core table models (written in coffeescript)
+* js/utils/ for utility modules (written in coffeescript)
+* scss/ for scss files
 
-Then navigate to the [showcase](http://localhost:5000). 
+Note: If you add files, be sure that:
+
+1. new coffeescript files are included in the 'concat' function of grunt.js
+1. new scss files are imported by tables.scss (it would be rare to need to add a scss file!)
+
+### Hacking on the showcase examples
+
+All functionality added to the source code should be showcased in our examples. Grunt updates all dependencies. To update examples, simply follow these guidelines:
+
+1. To update an existing example, simply update code in examples/js, testing to make sure it works (!)
+1. To add a new route, simply create a new example js file in examples/js/ and then add the route to the link list array in index.js with a shortLink to your new js file
+
+The main index.html page is generated dynamically, and the result of the js in your example file will be showcased directly above the pretty source code.
 
 ## Data Philosophy 
 
