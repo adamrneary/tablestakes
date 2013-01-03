@@ -1,0 +1,10 @@
+build/
+dist/
+node_modules/
+/nbproject/
+*.swp
+.DS_Store
+.sass-cache/
+.idea/
+examples/css/charts.css
+examples/js/tablestakes.js

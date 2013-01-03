@@ -1,4 +1,4 @@
-class window.TablesStakes
+TablesStakes.Table = class Table
   margin :
     top: 0
     right: 0
