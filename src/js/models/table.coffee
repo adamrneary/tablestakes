@@ -1,4 +1,4 @@
-TablesStakes.Table = class Table
+Tablestakes.Table = class Table
   margin :
     top: 0
     right: 0

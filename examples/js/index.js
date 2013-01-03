@@ -30,7 +30,7 @@ var prepareLinks = function(route, el) {
   showcaseObject.routes[route.shortLink] = route.shortLink;
   showcaseObject[route.shortLink] = function() {
     $("#example_header").text(route.title);
-    var url = "javascript/" + route.shortLink + ".js";
+    var url = "js/" + route.shortLink + ".js";
     var script = $("<script>").attr("src", url);
     $("#example_view").empty().append(script);
         
@@ -52,6 +52,6 @@ $(document).ready(function() {
 
   Backbone.history.start();
   if (!window.location.hash) {
-    showcase.navigate("/#line");
+    showcase.navigate("/#base");
   }
 });
