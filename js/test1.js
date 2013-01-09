@@ -8,47 +8,38 @@
   testTree = [
     {
       key: "NVD3",
-      url: "http://novus.github.com/nvd3",
+      type: "ahaha",
       values: [
         {
           key: "Charts",
           _values: [
             {
               key: "Simple Line",
-              type: "Historical",
-              url: "http://novus.github.com/nvd3/ghpages/line.html"
+              type: "Historical"
             }, {
               key: "Scatter / Bubble",
-              type: "Snapshot",
-              url: "http://novus.github.com/nvd3/ghpages/scatter.html"
+              type: "Snapshot"
             }, {
               key: "Stacked / Stream / Expanded Area",
-              type: "Historical",
-              url: "http://novus.github.com/nvd3/ghpages/stackedArea.html"
+              type: "Historical"
             }, {
               key: "Discrete Bar",
-              type: "Snapshot",
-              url: "http://novus.github.com/nvd3/ghpages/discreteBar.html"
+              type: "Snapshot"
             }, {
               key: "Grouped / Stacked Multi-Bar",
-              type: "Snapshot / Historical",
-              url: "http://novus.github.com/nvd3/ghpages/multiBar.html"
+              type: "Snapshot / Historical"
             }, {
               key: "Horizontal Grouped Bar",
-              type: "Snapshot",
-              url: "http://novus.github.com/nvd3/ghpages/multiBarHorizontal.html"
+              type: "Snapshot"
             }, {
               key: "Line and Bar Combo",
-              type: "Historical",
-              url: "http://novus.github.com/nvd3/ghpages/linePlusBar.html"
+              type: "Historical"
             }, {
               key: "Cumulative Line",
-              type: "Historical",
-              url: "http://novus.github.com/nvd3/ghpages/cumulativeLine.html"
+              type: "Historical"
             }, {
               key: "Line with View Finder",
-              type: "Historical",
-              url: "http://novus.github.com/nvd3/ghpages/lineWithFocus.html"
+              type: "Historical"
             }
           ]
         }, {
@@ -56,10 +47,18 @@
           values: [
             {
               key: "Legend",
-              type: "Universal",
-              url: "http://novus.github.com/nvd3/examples/legend.html"
+              type: "Universal"
             }
           ]
+        }
+      ]
+    }, {
+      key: "New Root",
+      type: "tatata",
+      values: [
+        {
+          key: "1",
+          type: "123"
         }
       ]
     }
@@ -69,24 +68,16 @@
     {
       key: "key",
       label: "Name",
-      showCount: true,
-      width: "200px",
+      showCount: false,
+      width: "400px",
       type: "text",
-      classes: function(d) {
-        if (d.url) {
-          return "clickable name";
-        } else {
-          return "name";
-        }
-      },
-      click: function(d) {
-        return d3.select(this).html("hallo you were clicked");
-      }
+      classes: "key"
     }, {
       key: "type",
       label: "Type",
       width: "300px",
-      type: "text"
+      type: "text",
+      classes: "name"
     }
   ];
 
@@ -101,4 +92,6 @@
   $(document).ready(function() {
     return drawGraph();
   });
+
+
 }).call(this);

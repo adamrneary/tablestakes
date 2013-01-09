@@ -41,6 +41,8 @@
 
     TablesStakes.prototype.columnResize = true;
 
+    TablesStakes.prototype.isSortable = true;
+
     TablesStakes.prototype.isEditable = true;
 
     TablesStakes.prototype.gridData = [];
@@ -51,9 +53,48 @@
 
     TablesStakes.prototype.tableWidth = 0;
 
+    TablesStakes.prototype.isInRender = false;
+
+    TablesStakes.prototype.dispatchManualEvent = function(target) {
+      var mousedownEvent;
+      if (target.dispatchEvent && document.createEvent) {
+        mousedownEvent = document.createEvent("MouseEvent");
+        mousedownEvent.initMouseEvent("dblclick", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+        target.dispatchEvent(mousedownEvent);
+      } else {
+        if (document.createEventObject) {
+          mousedownEvent = document.createEventObject(window.event);
+          mousedownEvent.button = 1;
+          target.fireEvent("dblclick", mousedownEvent);
+        }
+      }
+    };
+
     TablesStakes.prototype.render = function(_) {
-      var self;
+      var self, setID;
       self = this;
+      this.gridData = [
+        {
+          values: this.gridData
+        }
+      ];
+      this.columns.forEach(function(column, i) {
+        return self.gridData[0][column['key']] = column['key'];
+      });
+      setID = function(node, prefix) {
+        node['_id'] = prefix;
+        if (node.values) {
+          node.values.forEach(function(subnode, i) {
+            return setID(subnode, prefix + "_" + i);
+          });
+        }
+        if (node._values) {
+          return node._values.forEach(function(subnode, i) {
+            return setID(subnode, prefix + "_" + i);
+          });
+        }
+      };
+      setID(self.gridData[0], "0");
       d3.select(_).datum(self.gridData).call(function(__) {
         return self.doRendering(__);
       });
@@ -90,16 +131,177 @@
       editCell = function(d, i) {
         var cell, columnKey, htmlContent;
         cell = d3.select(this);
-        htmlContent = d3.select(this).html();
+        htmlContent = d3.select(this).text();
         columnKey = d3.select(this)[0][0].parentNode.getAttribute("ref");
-        d3.select(this).html("");
-        return d3.select(this).append("input").attr("type", "text").attr("value", htmlContent).on("blur", function() {
-          cell.html(d3.select(this).node().value);
+        d3.select(this).text("");
+        d3.select(this).append("input").attr("type", "text").attr("value", htmlContent).on("keydown", function() {
+          /*
+                    nextCell = null
+                    if d3.event.keyCode == 9                                                         # tab key down
+                      d3.event.preventDefault()
+                      d3.event.stopPropagation()
+                      if d3.event.shiftKey == false                                                  # if shiftkey is not pressed, get next 
+                        nextCell = cell.node().parentNode.nextSibling
+                        if nextCell == null
+                          nextCell = cell.node().parentNode.parentNode.nextSibling
+                        if nextCell != null
+                          nextCell = d3.select(nextCell).selectAll(".name").node()
+                      else                                                                           # if shiftkey is not pressed, get previous
+                        nextCell = cell.node().parentNode.previousSibling
+                        if nextCell == null
+                          nextCell = cell.node().parentNode.parentNode.previousSibling
+                        if nextCell != null
+                          prevRow = d3.select(nextCell).selectAll(".name")[0]
+                          nextCell = prevRow[prevRow.length-1]
+                    else if d3.event.keyCode == 38                                                   # upward key pressed 
+                      nextRow = cell.node().parentNode.parentNode.previousSibling
+                      console.log(d, i)
+                    else if d3.event.keyCode == 40                                                   # downward key pressed
+                      nextRow = cell.node().parentNode.parentNode.nextSibling
+                      console.log(d, i)
+                    if nextCell != null
+                      self.dispatchManualEvent nextCell
+                    return
+          */
+
+        }).on("keyup", function() {
+          /*
+                    switch d3.event.keyCode
+                      when 13 # enter key down
+                        cell.text(d3.select(this).node().value)
+                        d[columnKey]=d3.select(this).node().value              
+                      when 27 # escape key down
+                        d3.select(this).node().value = d[columnKey]
+                        cell.text(d[columnKey])
+                    return
+          */
+
+        }).on("blur", function() {
+          cell.text(d3.select(this).node().value);
           return d[columnKey] = d3.select(this).node().value;
         }).node().focus();
       };
       selection.each(function(data) {
-        var click, depth, folded, hasChildren, i, icon, node, nodeEnter, nodes, table, tableEnter, tbody, thead, theadRow1, tree, update, wrap, wrapEnter;
+        var click, dblclick, depth, findNextNode, findPrevNode, folded, getCurrentColumnIndex, hasChildren, i, icon, keydown, keyup, node, nodeEnter, nodes, table, tableEnter, tbody, thead, theadRow1, tree, update, wrap, wrapEnter;
+        getCurrentColumnIndex = function(id) {
+          var col, currentindex, i, _i, _len, _ref;
+          currentindex = self.columns.length;
+          _ref = self.columns;
+          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+            col = _ref[i];
+            if (col.key === id) {
+              currentindex = i;
+              break;
+            }
+          }
+          return currentindex;
+        };
+        findNextNode = function(d, nodes) {
+          var i, idPath, leaf, nextNodeID, root, _i, _j, _len, _ref;
+          nextNodeID = null;
+          for (i = _i = 0, _len = nodes.length; _i < _len; i = ++_i) {
+            leaf = nodes[i];
+            if (leaf._id === d._id) {
+              if (nodes.length !== i + 1) {
+                nextNodeID = nodes[i + 1]._id;
+              }
+              break;
+            }
+          }
+          if (nextNodeID === null) {
+            return null;
+          }
+          idPath = nextNodeID.split("_");
+          root = self.gridData[0];
+          for (i = _j = 1, _ref = idPath.length - 1; 1 <= _ref ? _j <= _ref : _j >= _ref; i = 1 <= _ref ? ++_j : --_j) {
+            root = root.values[parseInt(idPath[i])];
+          }
+          return root;
+        };
+        findPrevNode = function(d, nodes) {
+          var i, idPath, leaf, prevNodeID, root, _i, _j, _len, _ref;
+          prevNodeID = null;
+          for (i = _i = 0, _len = nodes.length; _i < _len; i = ++_i) {
+            leaf = nodes[i];
+            if (leaf._id === d._id) {
+              break;
+            }
+            prevNodeID = leaf._id;
+          }
+          if (prevNodeID === null) {
+            return null;
+          }
+          if (prevNodeID === "0") {
+            return null;
+          }
+          idPath = prevNodeID.split("_");
+          root = self.gridData[0];
+          for (i = _j = 1, _ref = idPath.length - 1; 1 <= _ref ? _j <= _ref : _j >= _ref; i = 1 <= _ref ? ++_j : --_j) {
+            root = root.values[parseInt(idPath[i])];
+          }
+          return root;
+        };
+        keydown = function(d, nodes) {
+          var currentindex, nextCell, nextNode, prevNode;
+          nextCell = null;
+          if (d3.event.keyCode === 9) {
+            d3.event.preventDefault();
+            d3.event.stopPropagation();
+            currentindex = getCurrentColumnIndex(d.activatedID);
+            if (d3.event.shiftKey === false) {
+              if (currentindex < self.columns.length - 1) {
+                d.activatedID = self.columns[currentindex + 1].key;
+              } else {
+                nextNode = findNextNode(d, nodes);
+                if (nextNode !== null) {
+                  nextNode.activatedID = self.columns[0].key;
+                  d.activatedID = null;
+                }
+              }
+            } else {
+              if (currentindex > 0) {
+                d.activatedID = self.columns[currentindex - 1].key;
+              } else {
+                prevNode = findPrevNode(d, nodes);
+                if (prevNode !== null) {
+                  prevNode.activatedID = self.columns[self.columns.length - 1].key;
+                  d.activatedID = null;
+                }
+              }
+            }
+            update();
+          } else if (d3.event.keyCode === 38) {
+            prevNode = findPrevNode(d, nodes);
+            currentindex = getCurrentColumnIndex(d.activatedID);
+            if (prevNode !== null) {
+              prevNode.activatedID = self.columns[currentindex].key;
+              d.activatedID = null;
+            }
+            update();
+          } else if (d3.event.keyCode === 40) {
+            nextNode = findNextNode(d, nodes);
+            currentindex = getCurrentColumnIndex(d.activatedID);
+            if (nextNode !== null) {
+              nextNode.activatedID = self.columns[currentindex].key;
+              d.activatedID = null;
+            }
+            update();
+          }
+        };
+        keyup = function(d, nodes) {
+          switch (d3.event.keyCode) {
+            case 13:
+              console.log("enterkey");
+              d.activatedID = null;
+              update();
+              break;
+            case 27:
+              console.log("escape");
+              d3.select(this).node().value = d[d.activatedID];
+              d.activatedID = null;
+              update();
+          }
+        };
         click = function(d, _, unshift) {
           d3.event.stopPropagation();
           if (d3.event.shiftKey && !unshift) {
@@ -121,6 +323,25 @@
             d.values = d._values;
             d._values = null;
           }
+          return update();
+        };
+        dblclick = function(d, _, unshift) {
+          var DeactivateAll;
+          DeactivateAll = function(d) {
+            d.activatedID = null;
+            if (d.values) {
+              d.values.forEach(function(item, index) {
+                return DeactivateAll(item);
+              });
+            }
+            if (d._values) {
+              d._values.forEach(function(item, index) {
+                return DeactivateAll(item);
+              });
+            }
+          };
+          DeactivateAll(data[0]);
+          d.activatedID = d3.select(d3.select(this).node().parentNode).attr("meta-key");
           return update();
         };
         icon = function(d) {
@@ -148,6 +369,7 @@
           return d.values;
         }).size([self.height, self.childIndent]);
         update = function() {
+          self.isInRender = true;
           return selection.transition().call(function(_) {
             return self.doRendering(_);
           });
@@ -173,7 +395,7 @@
             th.append("span").text(column.label);
             if (self.columnResize) {
               th.style("position", "relative");
-              return th.append("div").attr("class", "table-resizable-handle").text('-').call(drag);
+              return th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call(drag);
             }
           });
         }
@@ -195,10 +417,13 @@
           return icon(d);
         }).classed("folded", folded);
         nodeEnter = node.enter().append("tr");
+        if (nodeEnter[0][0]) {
+          d3.select(nodeEnter[0][0]).style("display", "none");
+        }
         self.columns.forEach(function(column, index) {
           var nodeName;
-          nodeName = nodeEnter.append("td").style("padding-left", function(d) {
-            return (index ? 0 : d.depth * self.childIndent + 12 + (icon(d) ? 0 : 16)) + "px";
+          nodeName = nodeEnter.append("td").attr("meta-key", column.key).style("padding-left", function(d) {
+            return (index ? 0 : (d.depth - 1) * self.childIndent + (icon(d) ? 0 : 16)) + "px";
           }, "important").style("text-align", (column.type === "numeric" ? "right" : "left")).attr("ref", column.key);
           if (index === 0) {
             nodeName.append("img").classed("nv-treeicon", true).classed("nv-folded", folded).attr("src", function(d) {
@@ -211,11 +436,27 @@
               }
             }).on("click", click);
           }
-          nodeName.append("span").attr("class", d3.functor(column.classes)).text(function(d) {
-            if (column.format) {
-              return column.format(d);
+          nodeName.each(function(td) {
+            if (td.activatedID === column.key) {
+              return d3.select(this).append("span").attr("class", d3.functor(column.classes)).append("input").attr('type', 'text').attr('value', function(d) {
+                return d[column.key] || "";
+              }).on("keydown", function(d) {
+                return keydown(d, nodes);
+              }).on("keyup", keyup).on("blur", function(d) {
+                d[column.key] = d3.select(this).node().value;
+                if (self.isInRender === false) {
+                  d.activatedID = null;
+                  return update();
+                }
+              }).node().focus();
             } else {
-              return d[column.key] || "-";
+              return d3.select(this).append("span").attr("class", d3.functor(column.classes)).text(function(d) {
+                if (column.format) {
+                  return column.format(d);
+                } else {
+                  return d[column.key] || "-";
+                }
+              });
             }
           });
           if (column.showCount) {
@@ -228,7 +469,7 @@
             });
           }
           if (self.isEditable) {
-            return nodeName.select("span").on("dblclick", editCell);
+            return nodeName.select("span").on("dblclick", dblclick);
           }
         });
         return node.order().on("click", function(d) {
@@ -257,11 +498,12 @@
           });
         });
       });
+      this.isInRender = false;
       return this;
     };
 
     TablesStakes.prototype.data = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.gridData;
       }
       this.gridData = _;
@@ -269,7 +511,7 @@
     };
 
     TablesStakes.prototype.margin = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.margin;
       }
       this.margin.top = (typeof _.top !== "undefined" ? _.top : this.margin.top);
@@ -278,16 +520,24 @@
       return this.margin.left = (typeof _.left !== "undefined" ? _.left : this.margin.left);
     };
 
-    TablesStakes.prototype.header = function(_) {
-      if (!_) {
+    TablesStakes.prototype.columnReize = function(_) {
+      if (!arguments.length)  {
         return this.columnResize;
       }
       this.columnResize = _;
       return this;
     };
 
+    TablesStakes.prototype.editable = function(_) {
+      if (!arguments.length) {
+        return this.isEditable;
+      }
+      this.isEditable = _;
+      return this;
+    };
+
     TablesStakes.prototype.width = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return width;
       }
       this.width = _;
@@ -295,15 +545,23 @@
     };
 
     TablesStakes.prototype.height = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.height;
       }
       this.height = _;
       return this;
     };
 
+    TablesStakes.prototype.color = function(_) {
+      if (!arguments.length)  {
+        return this.color;
+      }
+      this.color = _;
+      return this;
+    };
+
     TablesStakes.prototype.id = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.id;
       }
       this.id = _;
@@ -311,7 +569,7 @@
     };
 
     TablesStakes.prototype.header = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.header;
       }
       this.header = _;
@@ -319,7 +577,7 @@
     };
 
     TablesStakes.prototype.noData = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.noData;
       }
       this.noData = _;
@@ -327,16 +585,15 @@
     };
 
     TablesStakes.prototype.columns = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.columns;
       }
       this.columns = _;
-      this.calculateTableWidth();
       return this;
     };
 
     TablesStakes.prototype.tableClass = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.tableClass;
       }
       this.tableClass = _;
@@ -344,7 +601,7 @@
     };
 
     TablesStakes.prototype.iconOpen = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.iconOpen;
       }
       this.iconOpen = _;
@@ -352,10 +609,18 @@
     };
 
     TablesStakes.prototype.iconClose = function(_) {
-      if (!_) {
+      if (!arguments.length)  {
         return this.iconClose;
       }
       this.iconClose = _;
+      return this;
+    };
+
+    TablesStakes.prototype.Sortable = function(_) {
+      if (!arguments.length)  {
+        return this.isSortable;
+      }
+      this.isSortable = _;
       return this;
     };
 

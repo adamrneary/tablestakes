@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <link href="libs/TablesStakes.css" rel="stylesheet" type="text/css">
 <link href="libs/nv.d3.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="libs/jquery-1.8.0.js"></script>
 <script type="text/javascript" src="libs/d3.v2.js"></script>
 <script type="text/javascript" src="js/tablestakes.js"></script>
 <style>
@@ -86,39 +85,29 @@ body {
     {
       key: "key",
       label: "Name",
-      showCount: true,
-      width: "200px",
+      showCount: false,
+      width: "400px",
       type: "text",
-      classes: function(d) {
-        if (d.url) {
-          return "clickable name";
-        } else {
-          return "name";
-        }
-      },
-      click: function(d) {
-        return d3.select(this).html("hallo you were clicked");
-      }
+      classes: "key"
     }, {
       key: "type",
       label: "Type",
       width: "300px",
-      type: "text"
+      type: "text",
+      classes: "name"
     }
   ];
 
   drawGraph = function() {
     var grid;
     grid = new window.TablesStakes();
-	grid.columnResize = false;
+	grid.columnResize = true;
+	grid.isEditable = false;
     grid.columns(testColumns);
     grid.data(testTree);
     grid.render('#example1');
   };
-
-  $(document).ready(function() {
-    return drawGraph();
-  });
+  drawGraph();
 </script>
 </body>
 </html>
