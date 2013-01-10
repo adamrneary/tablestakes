@@ -1,3 +1,5 @@
+require "rack"
+
 use Rack::Static, 
   :urls => ["/css", "/js","/img"],
   :root => "examples"
