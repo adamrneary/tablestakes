@@ -2,6 +2,7 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-coffee'); // http://github.com/avalade/grunt-coffee
   grunt.loadNpmTasks('grunt-compass'); // https://github.com/sindresorhus/grunt-sass
+  grunt.loadNpmTasks('grunt-styleguide'); // https://github.com/indieisaconcept/grunt-styleguide
   grunt.loadNpmTasks('grunt-contrib-copy'); // https://github.com/gruntjs/grunt-contrib-copy
   // Project configuration.
   grunt.initConfig({
@@ -25,6 +26,13 @@ module.exports = function(grunt) {
             specify: 'src/scss/tables.scss',
             dest: 'dist'            
       }  
+    },
+    styleguide: {
+      dev:{
+        files: {
+        'examples/styleguide': 'src/scss/tables.scss'
+        }
+      }
     },
     copy:{
         dist:{
@@ -79,6 +87,6 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'coffee compass concat min copy');
-  grunt.registerTask('build', 'coffee compass concat min copy');
+  grunt.registerTask('build', 'coffee compass styleguide concat min copy');
 
 };
