@@ -1,0 +1,1375 @@
+/* Primary palette
+-------------------------------------------------- */
+/* Chart palette
+-------------------------------------------------- */
+/* Alert palette
+-------------------------------------------------- */
+/* line 7, ../src/scss/tables.scss */
+table {
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 15, ../src/scss/tables.scss */
+.wide-table-header {
+  padding: 10px 0;
+}
+
+/* line 28, ../src/scss/tables.scss */
+.financial-statement-table {
+  font-size: 13px;
+}
+/* line 31, ../src/scss/tables.scss */
+.financial-statement-table .slick-cell, .financial-statement-table .slick-headerrow-column {
+  line-height: 26px;
+  color: #231f20;
+}
+
+/* line 41, ../src/scss/tables.scss */
+.slick-grid-container, .widget-block.slick-grid-container {
+  max-height: 330px;
+  padding: 10px;
+}
+
+/* line 46, ../src/scss/tables.scss */
+.slick-grid-table {
+  width: 100%;
+  padding-bottom: 5px;
+  overflow-y: hidden !important;
+}
+
+/* line 53, ../src/scss/tables.scss */
+.slick-scroll {
+  position: absolute;
+  right: -47px;
+  top: 50px;
+}
+/* line 58, ../src/scss/tables.scss */
+.slick-scroll .ui-slider-handler {
+  height: 100px !important;
+  margin-bottom: -100px !important;
+}
+/* line 63, ../src/scss/tables.scss */
+.slick-scroll .ui-slider-track {
+  height: 450px !important;
+}
+
+/* line 68, ../src/scss/tables.scss */
+.slick-viewport {
+  overflow: visible !important;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 12px;
+}
+
+/* line 74, ../src/scss/tables.scss */
+.slick-header {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 12px;
+  background: white;
+  border-bottom: 1px solid #eeeeee;
+  z-index: 10;
+}
+
+/* line 86, ../src/scss/tables.scss */
+.slick-header-columns, .slick-headerrow-columns {
+  position: relative;
+  white-space: nowrap;
+  cursor: default;
+  overflow: hidden;
+  font-weight: bold;
+}
+
+/* line 94, ../src/scss/tables.scss */
+.ui-state-default {
+  border: none;
+}
+
+/* line 98, ../src/scss/tables.scss */
+.slick-header-column.ui-state-default {
+  float: left;
+  display: inline-block;
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  margin: 0 0 2px 0;
+  padding: 0 0 0 5px;
+  color: #a69b9e;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  overflow: hidden;
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+  border: none !important;
+  background: none;
+}
+/* line 117, ../src/scss/tables.scss */
+.slick-header-column.ui-state-default:first-child {
+  border: none;
+}
+/* line 121, ../src/scss/tables.scss */
+.slick-header-column.ui-state-default .slick-column-name {
+  padding-right: 5px;
+}
+
+/* line 126, ../src/scss/tables.scss */
+.slick-headerrow-column.ui-state-default {
+  padding: 4px;
+}
+
+/* line 130, ../src/scss/tables.scss */
+.slick-header-column-sorted {
+  font-style: italic;
+}
+
+/* line 134, ../src/scss/tables.scss */
+.slick-sort-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 5px;
+  margin-left: 4px;
+}
+
+/* line 141, ../src/scss/tables.scss */
+.slick-sort-indicator-desc {
+  background: url(images/sort-desc.gif);
+}
+
+/* line 145, ../src/scss/tables.scss */
+.slick-sort-indicator-asc {
+  background: url(images/sort-asc.gif);
+}
+
+/* line 149, ../src/scss/tables.scss */
+.slick-resizable-handle {
+  position: absolute;
+  font-size: 0.1px;
+  display: block;
+  cursor: col-resize;
+  width: 3px;
+  right: 0px;
+  top: 0;
+  height: 100%;
+  border-right: 1px dotted #e6e6e6;
+}
+
+/* line 161, ../src/scss/tables.scss */
+.slick-sortable-placeholder {
+  background: #ddd;
+}
+
+/* line 165, ../src/scss/tables.scss */
+.grid-canvas {
+  position: relative;
+  outline: 0;
+}
+
+/* line 170, ../src/scss/tables.scss */
+.slick-row.ui-widget-content, .slick-row.ui-state-active {
+  position: absolute;
+  border: 0px;
+  width: 100%;
+}
+
+/* line 177, ../src/scss/tables.scss */
+.slick-row.independant {
+  font-style: italic;
+}
+/* line 180, ../src/scss/tables.scss */
+.slick-row.independant .slick-cell {
+  color: #99b718;
+}
+/* line 185, ../src/scss/tables.scss */
+.slick-row.subtotal-alt {
+  font-style: italic;
+  background-color: #D7E0E6;
+}
+/* line 189, ../src/scss/tables.scss */
+.slick-row.subtotal-alt .l0 {
+  font-weight: bold;
+}
+/* line 194, ../src/scss/tables.scss */
+.slick-row.parent {
+  border-bottom: 1px solid #cccccc;
+  cursor: pointer !important;
+  background-color: whitesmoke;
+  background-image: -moz-linear-gradient(top, white 0%, #e6e6e6 99%);
+  background-image: -ms-linear-gradient(top, white, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, white, #e6e6e6);
+  background-image: -o-linear-gradient(top, white, #e6e6e6);
+  background-image: linear-gradient(top, #ffffff, #e6e6e6);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFE6E6E6', GradientType=0);
+}
+/* line 200, ../src/scss/tables.scss */
+.slick-row.parent:hover {
+  cursor: pointer !important;
+  background-color: #f0f0f0;
+  background-image: -moz-linear-gradient(top, #f8f8f8 0%, #e6e6e6 99%);
+  background-image: -ms-linear-gradient(top, #f8f8f8, #e6e6e6);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(top, #f8f8f8, #e6e6e6);
+  background-image: -o-linear-gradient(top, #f8f8f8, #e6e6e6);
+  background-image: linear-gradient(top, #f8f8f8, #e6e6e6);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFF8F8F8', endColorstr='#FFE6E6E6', GradientType=0);
+}
+/* line 205, ../src/scss/tables.scss */
+.slick-row.parent.collapsed {
+  background: transparent;
+  border-bottom: none;
+}
+
+/* line 214, ../src/scss/tables.scss */
+.slick-cell [class^="icon-"], .slick-cell [class*="icon-"] {
+  float: right;
+  position: relative;
+  top: 5px;
+  right: 5px;
+}
+/* line 221, ../src/scss/tables.scss */
+.slick-cell .editable-cell {
+  color: #30878f;
+  cursor: pointer;
+}
+/* line 225, ../src/scss/tables.scss */
+.slick-cell .editable-cell:hover {
+  color: #675b5e;
+}
+/* line 228, ../src/scss/tables.scss */
+.slick-cell .editable-cell:hover [class^="icon-"], .slick-cell .editable-cell:hover [class*="icon-"] {
+  background-image: url("../images/sprite_icons_16x16_grey.png");
+}
+
+/* line 235, ../src/scss/tables.scss */
+.slick-cell, .slick-headerrow-column {
+  position: absolute;
+  height: 25px;
+  line-height: 25px;
+  margin: 0;
+  padding: 1px 2px 2px 5px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #231f20;
+  border: none;
+  border-bottom: 1px dotted #e6e6e6;
+  background: transparent;
+  z-index: 1;
+}
+
+/* line 256, ../src/scss/tables.scss */
+.slick-group-toggle {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+/* line 261, ../src/scss/tables.scss */
+.slick-group-toggle.expanded {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  *margin-right: .3em;
+  line-height: 16px;
+  vertical-align: text-top;
+  background-image: url("sprite_icons_16x16.png");
+  background-position: -330px -10px;
+  background-repeat: no-repeat;
+}
+/* line 150, ../src/scss/mixins.scss */
+.slick-group-toggle.expanded:last-child {
+  *margin-left: 0;
+}
+
+/* line 273, ../src/scss/tables.scss */
+.slick-group-toggle.collapsed {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  *margin-right: .3em;
+  line-height: 16px;
+  vertical-align: text-top;
+  background-image: url("sprite_icons_16x16.png");
+  background-position: -270px -10px;
+  background-repeat: no-repeat;
+}
+/* line 150, ../src/scss/mixins.scss */
+.slick-group-toggle.collapsed:last-child {
+  *margin-left: 0;
+}
+
+/* line 285, ../src/scss/tables.scss */
+.slick-cell.highlighted {
+  background: lightskyblue;
+  background: rgba(0, 0, 255, 0.2);
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  transition: all 0.5s;
+}
+
+/* line 293, ../src/scss/tables.scss */
+.slick-cell.flashing {
+  border: 1px solid red !important;
+}
+
+/* line 297, ../src/scss/tables.scss */
+.slick-cell.can-be-edited {
+  z-index: 11;
+  color: #006b75;
+  -webkit-transition: box-shadow 0.6s;
+  -moz-transition: box-shadow 0.6s;
+  -o-transition: box-shadow 0.6s;
+  transition: box-shadow 0.6s;
+}
+/* line 302, ../src/scss/tables.scss */
+.slick-cell.can-be-edited:hover {
+  background: #dae1e9;
+  cursor: pointer;
+}
+/* line 307, ../src/scss/tables.scss */
+.slick-cell.can-be-edited.active {
+  margin-top: -1px;
+  border: 1px solid #30878f;
+  background: white;
+  z-index: 12;
+  box-shadow: 0 0 5px rgba(0, 0, 20, 0.3);
+  -webkit-transition: box-shadow 0.6s;
+  -moz-transition: box-shadow 0.6s;
+  -o-transition: box-shadow 0.6s;
+  transition: box-shadow 0.6s;
+}
+/* line 316, ../src/scss/tables.scss */
+.slick-cell.can-be-edited.active:after {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 4px;
+  height: 4px;
+  background: #30878f;
+}
+/* line 327, ../src/scss/tables.scss */
+.slick-cell.can-be-edited.active .editor-text {
+  width: 80px;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+/* line 336, ../src/scss/tables.scss */
+.slick-cell:focus {
+  outline: none;
+}
+
+/* line 340, ../src/scss/tables.scss */
+.slick-reorder-proxy {
+  display: inline-block;
+  background: blue;
+  opacity: 0.15;
+  filter: alpha(opacity=15);
+  cursor: move;
+}
+
+/* line 348, ../src/scss/tables.scss */
+.slick-reorder-guide {
+  display: inline-block;
+  height: 2px;
+  background: blue;
+  opacity: 0.7;
+  filter: alpha(opacity=70);
+}
+
+/* line 356, ../src/scss/tables.scss */
+.slick-selection {
+  z-index: 10;
+  position: absolute;
+  border: 2px dashed black;
+}
+
+/* line 362, ../src/scss/tables.scss */
+.slick-popup-wrapper {
+  position: absolute;
+  padding: 7px;
+  border: 2px solid #007f9b;
+  background: white;
+  z-index: 10000;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+/* line 370, ../src/scss/tables.scss */
+.slick-popup-wrapper:after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: -2px;
+  bottom: -2px;
+  width: 7px;
+  height: 7px;
+  background: #007F9B;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+}
+
+/* line 386, ../src/scss/tables.scss */
+.nested-header {
+  padding: 0 0 10px 0;
+}
+
+/* line 390, ../src/scss/tables.scss */
+.pivot-table {
+  width: 100%;
+}
+
+/* line 392, ../src/scss/tables.scss */
+.table-nav-bar {
+  margin: 20px 0px 0px;
+  text-align: center;
+}
+
+/* line 397, ../src/scss/tables.scss */
+.text-add-segment-channel {
+  width: 185px;
+}
+
+/* line 401, ../src/scss/tables.scss */
+.row-fluid {
+  width: 100%;
+  *zoom: 1;
+}
+
+/* line 407, ../src/scss/tables.scss */
+.row-fluid:before,
+.row-fluid:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+/* line 413, ../src/scss/tables.scss */
+.row-fluid:after {
+  clear: both;
+}
+
+/* line 417, ../src/scss/tables.scss */
+.row-fluid [class*="span"] {
+  display: block;
+  float: left;
+  width: 100%;
+  min-height: 30px;
+  margin-left: 2.127659574468085%;
+  *margin-left: 2.074468085106383%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 429, ../src/scss/tables.scss */
+.row-fluid [class*="span"]:first-child {
+  margin-left: 0;
+}
+
+/* line 433, ../src/scss/tables.scss */
+.row-fluid .span4 {
+  width: 31.914893617021278%;
+  *width: 31.861702127659576%;
+}
+
+/* line 438, ../src/scss/tables.scss */
+table.three-year, table.megatable {
+  width: 100%;
+}
+/* line 441, ../src/scss/tables.scss */
+table.three-year thead, table.megatable thead {
+  color: #30878f;
+}
+/* line 445, ../src/scss/tables.scss */
+table.three-year .title, table.megatable .title {
+  text-align: left;
+}
+/* line 450, ../src/scss/tables.scss */
+table.three-year .bg-white
+td, table.megatable .bg-white
+td {
+  background: #f5f5f5;
+  border-top: 2px solid white;
+  vertical-align: middle;
+}
+
+/* line 458, ../src/scss/tables.scss */
+table.three-year .month .title, table.megatable th.title {
+  color: #00455b;
+}
+
+/* line 462, ../src/scss/tables.scss */
+table .child .title {
+  padding-left: 20px;
+}
+
+/* line 465, ../src/scss/tables.scss */
+table .child2 .title {
+  padding-left: 40px;
+}
+
+/* line 469, ../src/scss/tables.scss */
+.rowDrag {
+  opacity: 0.5;
+}
+
+/* line 474, ../src/scss/tables.scss */
+table.megatable {
+  border-collapse: separate;
+  margin-bottom: 18px;
+  padding: 0;
+  border-spacing: 0;
+}
+/* line 479, ../src/scss/tables.scss */
+table.megatable .errors {
+  color: red;
+  margin-top: 4px;
+  font-weight: normal;
+  line-height: 12px;
+}
+/* line 485, ../src/scss/tables.scss */
+table.megatable .title {
+  padding-left: 16px;
+}
+/* line 488, ../src/scss/tables.scss */
+table.megatable .last {
+  padding-right: 20px;
+}
+/* line 491, ../src/scss/tables.scss */
+table.megatable th, table.megatable td {
+  padding: 10px 10px 9px;
+  line-height: 13.5px;
+  text-align: right;
+  font-size: 13px;
+}
+/* line 497, ../src/scss/tables.scss */
+table.megatable td {
+  background: #f5f5f5;
+  border-top: 2px solid white;
+}
+/* line 501, ../src/scss/tables.scss */
+table.megatable th {
+  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+  font-weight: bold;
+}
+/* line 508, ../src/scss/tables.scss */
+table.megatable .heading .title {
+  font-weight: bold;
+  user-select: none;
+  -moz-user-select: -moz-none;
+  -o-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+/* line 518, ../src/scss/tables.scss */
+table.megatable .heading td {
+  border-bottom: 1px solid #bfbfbf;
+  border-top: 1px solid #dddddd;
+}
+/* line 524, ../src/scss/tables.scss */
+table.megatable .heading.child td {
+  background: url(/images/vbar_775px.png) no-repeat bottom whitesmoke;
+  border-bottom: none;
+  border-top: 2px solid white;
+}
+/* line 530, ../src/scss/tables.scss */
+table.megatable .heading.child .title {
+  background: url(/images/vbar_775px.png) no-repeat 40px bottom whitesmoke;
+}
+/* line 536, ../src/scss/tables.scss */
+table.megatable .heading.child2 td {
+  background: url(/images/vbar_775px.png) no-repeat bottom whitesmoke;
+  border-bottom: none;
+  border-top: 2px solid white;
+}
+/* line 545, ../src/scss/tables.scss */
+table.megatable .function td {
+  line-height: 16px;
+  background: none;
+  border-top: 3px solid #d7e0e6;
+  border-bottom: 3px solid #d7e0e6;
+  padding: 6px 10px;
+}
+/* line 553, ../src/scss/tables.scss */
+table.megatable .function .title {
+  border-left: 3px solid #d7e0e6;
+  padding-left: 11px;
+}
+/* line 557, ../src/scss/tables.scss */
+table.megatable .function .title img {
+  vertical-align: top;
+}
+/* line 562, ../src/scss/tables.scss */
+table.megatable .function .last {
+  border-right: 3px solid #d7e0e6;
+  padding-right: 20px;
+}
+/* line 568, ../src/scss/tables.scss */
+table.megatable .spacer td {
+  padding: 0;
+  background: none;
+  height: 10px;
+}
+/* line 574, ../src/scss/tables.scss */
+table.megatable .child .title {
+  padding-left: 40px;
+}
+/* line 578, ../src/scss/tables.scss */
+table.megatable .child2 .title {
+  padding-left: 60px;
+}
+/* line 582, ../src/scss/tables.scss */
+table.megatable .child2.subtotal .title {
+  background: url(/images/vbar_775px.png) no-repeat 60px 0 whitesmoke;
+}
+/* line 585, ../src/scss/tables.scss */
+table.megatable .child2.subtotal td {
+  background: url(/images/vbar_775px.png) no-repeat 0 0 whitesmoke;
+  border-bottom: none;
+}
+/* line 591, ../src/scss/tables.scss */
+table.megatable .subtotal td {
+  background: url(/images/vbar_775px.png) no-repeat 0 0 #e6e6e6;
+  border-bottom: 1px solid #bfbfbf;
+  color: #404040;
+}
+/* line 596, ../src/scss/tables.scss */
+table.megatable .subtotal-alt td {
+  background: #D7E0E6;
+  color: #404040;
+}
+/* line 600, ../src/scss/tables.scss */
+table.megatable .subtotal .title, table.megatable .total .title, table.megatable .subtotal-alt .title {
+  font-weight: bold;
+}
+/* line 603, ../src/scss/tables.scss */
+table.megatable .total td {
+  background: none;
+  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+  color: #81A80E;
+}
+/* line 609, ../src/scss/tables.scss */
+table.megatable.inset {
+  border: 1px solid #dddddd;
+}
+/* line 610, ../src/scss/tables.scss */
+table.megatable.bg-white td {
+  background: #fff;
+}
+
+/* line 616, ../src/scss/tables.scss */
+table.content {
+  border-collapse: collapse;
+  width: 100%;
+}
+/* line 619, ../src/scss/tables.scss */
+table.content td, table.content th {
+  text-align: left;
+  padding: 12px;
+}
+/* line 622, ../src/scss/tables.scss */
+table.content td.r, table.content th.r {
+  text-align: right;
+}
+/* line 626, ../src/scss/tables.scss */
+table.content th {
+  background: #fff;
+  color: #b4b5b8;
+  padding: 6px 12px;
+}
+/* line 631, ../src/scss/tables.scss */
+table.content td {
+  background: #fff;
+}
+/* line 633, ../src/scss/tables.scss */
+table.content td.empty {
+  padding: 0;
+}
+/* line 635, ../src/scss/tables.scss */
+table.content td.empty div.empty {
+  height: 18px;
+  padding: 27px 0;
+  background: #e2dedf;
+  position: relative;
+  text-align: center;
+  color: #9B9DA1;
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 647, ../src/scss/tables.scss */
+table.content tbody {
+  border: 1px solid #b4b5b8;
+}
+/* line 650, ../src/scss/tables.scss */
+table.content.zebra-striped tr:nth-child(odd) td {
+  background: #f9f9f9;
+}
+
+/* line 660, ../src/scss/tables.scss */
+table.three-year {
+  padding: 10px;
+  border-collapse: separate;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+/* line 668, ../src/scss/tables.scss */
+table.three-year th, table.three-year td {
+  font-size: 12px;
+  text-align: right;
+  padding: 9px 8px;
+  width: 66px;
+}
+/* line 674, ../src/scss/tables.scss */
+table.three-year th.title, table.three-year td.title {
+  width: 148px;
+  font-variant: small-caps;
+}
+/* line 678, ../src/scss/tables.scss */
+table.three-year th.title a, table.three-year th.title div.content, table.three-year td.title a, table.three-year td.title div.content {
+  width: 132px;
+}
+/* line 684, ../src/scss/tables.scss */
+table.three-year .year th {
+  position: relative;
+  top: 3px;
+  padding: 0 8px;
+  text-align: center;
+}
+/* line 691, ../src/scss/tables.scss */
+table.three-year .month th {
+  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+  text-transform: uppercase;
+}
+/* line 697, ../src/scss/tables.scss */
+table.three-year thead .first, table.three-year thead .now {
+  border-top: none;
+}
+/* line 700, ../src/scss/tables.scss */
+table.three-year thead .now {
+  font-weight: bold;
+  color: #999999;
+}
+/* line 706, ../src/scss/tables.scss */
+table.three-year .percent td {
+  background: #dae1e9;
+  border-top: 1px solid #cccccc;
+}
+/* line 710, ../src/scss/tables.scss */
+table.three-year .percent td.plan {
+  background: #e4e9ef;
+}
+/* line 714, ../src/scss/tables.scss */
+table.three-year .percent td a {
+  padding: 1px 8px 4px;
+}
+/* line 718, ../src/scss/tables.scss */
+table.three-year .percent td .fill-forward {
+  padding: 4px 0 3px 0;
+}
+/* line 722, ../src/scss/tables.scss */
+table.three-year .percent td.title {
+  width: 128px;
+}
+/* line 726, ../src/scss/tables.scss */
+table.three-year .percent td.title .content {
+  padding: 1px 8px 4px 20px;
+  width: 120px;
+}
+/* line 731, ../src/scss/tables.scss */
+table.three-year .percent td.first {
+  padding: 0;
+}
+/* line 733, ../src/scss/tables.scss */
+table.three-year .percent td.first a {
+  display: none;
+}
+/* line 738, ../src/scss/tables.scss */
+table.three-year .percent td.editing input {
+  padding: 3px 8px 2px;
+}
+/* line 744, ../src/scss/tables.scss */
+table.three-year .hidden {
+  display: none;
+}
+/* line 748, ../src/scss/tables.scss */
+table.three-year .editing {
+  background: #fff;
+  padding: 0;
+}
+/* line 751, ../src/scss/tables.scss */
+table.three-year .editing input {
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -ms-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
+  -webkit-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+  font-family: sans-serif;
+  font-size: 11px;
+  text-align: right;
+  background: #fff;
+  outline: none;
+  border: none;
+}
+/* line 761, ../src/scss/tables.scss */
+table.three-year .editing .fill-forward-container input {
+  width: 30px;
+  float: left;
+}
+/* line 767, ../src/scss/tables.scss */
+table.three-year tr.totals .content {
+  width: 50px;
+}
+/* line 770, ../src/scss/tables.scss */
+table.three-year tr.totals td.title {
+  padding: 0;
+}
+/* line 772, ../src/scss/tables.scss */
+table.three-year tr.totals td.title .content {
+  padding: 9px 8px;
+}
+/* line 776, ../src/scss/tables.scss */
+table.three-year tr.totals td {
+  background: #DAE1E9;
+}
+
+/* line 782, ../src/scss/tables.scss */
+table td.editable {
+  color: #006b75;
+}
+/* line 785, ../src/scss/tables.scss */
+table td.editable:hover {
+  background-color: #dae1e9;
+  cursor: pointer;
+  color: #006b75;
+}
+
+/* line 792, ../src/scss/tables.scss */
+.menu-trigger {
+  display: none;
+}
+
+/* line 797, ../src/scss/tables.scss */
+table .current-month td {
+  color: #00455b;
+}
+/* line 800, ../src/scss/tables.scss */
+table .current-month td span {
+  display: inline-block;
+  position: relative;
+  padding: 2px 7px 3px 7px;
+  font-size: 11px;
+  line-height: 1.1;
+  color: white;
+  background: #30878f;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 810, ../src/scss/tables.scss */
+table .current-month td span:after {
+  content: "";
+  display: block;
+  position: absolute;
+  right: 7px;
+  top: -4px;
+  width: 0;
+  height: 0;
+  border-bottom: 4px solid #30878f;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+}
+
+/* line 829, ../src/scss/tables.scss */
+table td .drop-down {
+  display: none;
+  position: absolute;
+  left: -25px;
+  bottom: -28px;
+  list-style: none;
+  width: 100%;
+  background: white;
+  -webkit-border-radius: 0 0 3px 3px;
+  -moz-border-radius: 0 0 3px 3px;
+  -ms-border-radius: 0 0 3px 3px;
+  -o-border-radius: 0 0 3px 3px;
+  border-radius: 0 0 3px 3px;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+}
+/* line 841, ../src/scss/tables.scss */
+table td .drop-down:hover {
+  display: block;
+}
+/* line 845, ../src/scss/tables.scss */
+table td .drop-down a {
+  padding: 2px 5px;
+  font-size: 11px;
+}
+/* line 851, ../src/scss/tables.scss */
+table td.active {
+  position: relative;
+  display: block;
+  width: auto;
+  border: 1px solid #007f9b;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
+  background-color: #edebeb;
+  background-image: -moz-linear-gradient(top, #e2dedf 0%, white 99%);
+  background-image: -ms-linear-gradient(top, #e2dedf, white);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e2dedf), to(white));
+  background-image: -webkit-linear-gradient(top, #e2dedf, white);
+  background-image: -o-linear-gradient(top, #e2dedf, white);
+  background-image: linear-gradient(top, #e2dedf, #ffffff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE2DEDF', endColorstr='#FFFFFFFF', GradientType=0);
+}
+/* line 859, ../src/scss/tables.scss */
+table td.active:hover {
+  cursor: text;
+  background: white;
+  -webkit-transform: scale(1.2, 1.2);
+  -moz-transform: scale(1.2, 1.2);
+  -ms-transform: scale(1.2, 1.2);
+  -o-transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
+  background-color: white;
+  background-image: -moz-linear-gradient(top, white 0%, white 99%);
+  background-image: -ms-linear-gradient(top, white, white);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(white));
+  background-image: -webkit-linear-gradient(top, white, white);
+  background-image: -o-linear-gradient(top, white, white);
+  background-image: linear-gradient(top, #ffffff, #ffffff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFFFFFFF', GradientType=0);
+}
+/* line 866, ../src/scss/tables.scss */
+table td.active .menu-trigger {
+  display: block;
+  position: absolute;
+  bottom: -1px;
+  right: -1px;
+  width: 9px;
+  height: 9px;
+  background: #007f9b;
+  cursor: pointer;
+}
+/* line 877, ../src/scss/tables.scss */
+table td.active .menu-trigger:hover + .drop-down {
+  display: block;
+}
+/* line 884, ../src/scss/tables.scss */
+table td.changed {
+  background-image: url("dirty.png");
+  background-repeat: no-repeat;
+  background-position: 1px 1px;
+  border: 1px solid #8eadb3;
+}
+
+/* line 893, ../src/scss/tables.scss */
+.fill-forward-container {
+  overflow: hidden;
+  width: 66px;
+}
+
+/* line 898, ../src/scss/tables.scss */
+.fill-forward {
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  float: left;
+  width: 20px;
+  padding: 4px 0 3px 0;
+  padding: 10px 0;
+  text-align: center;
+  background-repeat: repeat-x;
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#21808f), to(#00455b));
+  background-image: -moz-linear-gradient(top, #21808f, #00455b);
+  background-image: -ms-linear-gradient(top, #21808f, #00455b);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #21808f), color-stop(100%, #00455b));
+  background-image: -webkit-linear-gradient(top, #21808f, #00455b);
+  background-image: -o-linear-gradient(top, #21808f, #00455b);
+  background-image: linear-gradient(top, #21808f, #00455b);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#21808F', endColorstr='$primary-dark', GradientType=0);
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  border-color: #00455b #00455b #003f81;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+/* line 919, ../src/scss/tables.scss */
+.fill-forward .arrow-right {
+  margin: 0 auto;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid white;
+}
+
+/* line 929, ../src/scss/tables.scss */
+table td.uneditable {
+  color: #000;
+}
+/* line 931, ../src/scss/tables.scss */
+table td.uneditable:hover {
+  cursor: default;
+}
+
+/* line 936, ../src/scss/tables.scss */
+table .parent.open td.title:after {
+  border-bottom: none;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #006b75;
+}
+
+/* line 943, ../src/scss/tables.scss */
+table .parent.closed td.title:after {
+  border-bottom: none;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #006b75;
+}
+
+/* line 950, ../src/scss/tables.scss */
+table .parent td, .megatable .parent.heading td, table .rolldown0 td, table .rolldown1 td {
+  cursor: pointer;
+  background-color: #e6e6e6;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), color-stop(25%, white), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(white, white 25%, #e6e6e6);
+  background-image: -moz-linear-gradient(top, white, white 25%, #e6e6e6);
+  background-image: -ms-linear-gradient(white, white 25%, #e6e6e6);
+  background-image: -o-linear-gradient(white, white 25%, #e6e6e6);
+  background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  color: #006b75;
+  border-bottom: 1px solid #cccccc;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -webkit-transition: 0.1s linear all;
+  -moz-transition: 0.1s linear all;
+  transition: 0.1s linear all;
+}
+/* line 971, ../src/scss/tables.scss */
+table .parent td.plan, .megatable .parent.heading td.plan, table .rolldown0 td.plan, table .rolldown1 td.plan {
+  background-color: #e4e9ef;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), color-stop(25%, white), to(#e4e9ef));
+  background-image: -webkit-linear-gradient(white, white 25%, #e4e9ef);
+  background-image: -moz-linear-gradient(top, white, white 25%, #e4e9ef);
+  background-image: -ms-linear-gradient(white, white 25%, #e4e9ef);
+  background-image: -o-linear-gradient(white, white 25%, #e4e9ef);
+  background-image: linear-gradient(#ffffff, #ffffff 25%, #e4e9ef);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='lighten($primary-light, 3%)', GradientType=0);
+}
+
+/* line 982, ../src/scss/tables.scss */
+table .parent:hover td, table .rolldown0:hover td, table .rolldown1:hover td {
+  background-position: 0 -15px;
+  color: #006b75;
+  text-decoration: none;
+}
+
+/* line 988, ../src/scss/tables.scss */
+table .parent td.title:after {
+  content: "";
+  float: left;
+  margin: 7px 4px 0 0;
+  border-width: 0 4px 4px;
+  border-style: solid;
+  border-color: #006b75 transparent;
+}
+
+/* line 997, ../src/scss/tables.scss */
+.plan {
+  background: #f4f6f8;
+  text-shadow: 1px 1px rgba(255, 255, 255, 0.7);
+}
+
+/* line 1002, ../src/scss/tables.scss */
+table .total td {
+  background: none;
+  border-bottom: 1px solid #dddddd;
+  border-top: 1px solid #dddddd;
+  color: #81A80E;
+}
+/* line 1008, ../src/scss/tables.scss */
+table .total td.plan {
+  background: #f4f6f8;
+}
+
+/* line 1013, ../src/scss/tables.scss */
+table .subtotal .title, table .total .title, table .subtotal-alt .title {
+  font-weight: bold;
+}
+
+/* line 1017, ../src/scss/tables.scss */
+table .title {
+  cursor: default;
+}
+
+/* line 1021, ../src/scss/tables.scss */
+table .subtotal td {
+  background: url("bgs/vbar_775px.png") no-repeat 0 0 #e6e6e6;
+  color: #404040;
+  border-bottom: 1px solid #bfbfbf;
+}
+/* line 1026, ../src/scss/tables.scss */
+table .subtotal td.plan {
+  background-color: #eeeeee;
+}
+
+/* line 1030, ../src/scss/tables.scss */
+table .child2.subtotal td {
+  background: url("bgs/vbar_775px.png") no-repeat 0 0 whitesmoke;
+  border-bottom: none;
+}
+
+/* line 1034, ../src/scss/tables.scss */
+table .child2.subtotal .title {
+  background: url("bgs/vbar_775px.png") no-repeat 60px 0 whitesmoke;
+}
+
+/* line 1038, ../src/scss/tables.scss */
+table td.empty {
+  padding: 0;
+  border-top: 0;
+}
+/* line 1042, ../src/scss/tables.scss */
+table td.empty div.empty {
+  height: 88px;
+  background: #e2dedf;
+  position: relative;
+}
+/* line 1048, ../src/scss/tables.scss */
+table td.empty .copy {
+  padding-top: 32px;
+  color: #9B9DA1;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  height: 18px;
+  line-height: 18px;
+  margin: 0 auto;
+}
+
+/* line 1062, ../src/scss/tables.scss */
+.compare-cell.neg {
+  background: #e6d8da;
+}
+/* line 1065, ../src/scss/tables.scss */
+.compare-cell.pos {
+  background: #e3e7d7;
+}
+
+/* line 1073, ../src/scss/tables.scss */
+.editable .compare-cell.neg:hover {
+  background: #e6e6e6;
+}
+/* line 1078, ../src/scss/tables.scss */
+.editable .compare-cell.pos:hover {
+  background: #e6e6e6;
+}
+
+/* line 1085, ../src/scss/tables.scss */
+.compare-cell-tip {
+  margin-top: -50px;
+  margin-left: -30px;
+}
+
+/* line 1090, ../src/scss/tables.scss */
+.pagination {
+  height: 36px;
+  margin: 18px 0;
+}
+/* line 1094, ../src/scss/tables.scss */
+.pagination ul {
+  float: left;
+  margin: 0;
+  border: 1px solid #dddddd;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+  background-color: #e6e6e6;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), color-stop(25%, white), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(white, white 25%, #e6e6e6);
+  background-image: -moz-linear-gradient(top, white, white 25%, #e6e6e6);
+  background-image: -ms-linear-gradient(white, white 25%, #e6e6e6);
+  background-image: -o-linear-gradient(white, white 25%, #e6e6e6);
+  background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  color: #333;
+  font-size: 13px;
+  line-height: normal;
+  border: 1px solid #cccccc;
+  border-bottom-color: #bbb;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+/* line 1120, ../src/scss/tables.scss */
+.pagination li {
+  display: inline;
+}
+/* line 1124, ../src/scss/tables.scss */
+.pagination a {
+  float: left;
+  padding: 0 14px;
+  line-height: 34px;
+  border-right: 1px solid;
+  border-right-color: #ddd;
+  border-right-color: rgba(0, 0, 0, 0.15);
+  *border-right-color: #ddd;
+  /* IE6-7 */
+  text-decoration: none;
+}
+/* line 1137, ../src/scss/tables.scss */
+.pagination a:hover, .pagination .active a {
+  background: #e6e6e6;
+  color: #333;
+  text-decoration: none;
+}
+/* line 1143, ../src/scss/tables.scss */
+.pagination .disabled a, .pagination .disabled a:hover {
+  background-color: transparent;
+  color: #bfbfbf;
+}
+/* line 1148, ../src/scss/tables.scss */
+.pagination .next a {
+  border: 0;
+}
+/* line 1152, ../src/scss/tables.scss */
+.pagination .page-context {
+  color: #999999;
+  line-height: 34px;
+  margin-left: 10px;
+}
+
+/* line 1160, ../src/scss/tables.scss */
+.compare-checkbox {
+  text-align: right;
+}
+/* line 1162, ../src/scss/tables.scss */
+.compare-checkbox label {
+  float: none;
+}
+
+/* line 1167, ../src/scss/tables.scss */
+.table-flat {
+  width: 100%;
+  margin: 20px 0;
+}
+/* line 1171, ../src/scss/tables.scss */
+.table-flat td {
+  padding-top: 10px;
+}
+/* line 1174, ../src/scss/tables.scss */
+.table-flat td h6 {
+  padding-top: 5px;
+  font-size: 10px;
+  line-height: 20px;
+  color: #a69b9e;
+}
+/* line 1180, ../src/scss/tables.scss */
+.table-flat td h6 span {
+  display: block;
+  line-height: 18px;
+}
+
+/* line 1188, ../src/scss/tables.scss */
+.table-std {
+  width: 100%;
+  margin: 0 0 15px 0;
+  padding: 1px;
+  border-collapse: separate;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #e6e6e6;
+  background: white;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.12);
+}
+/* line 1200, ../src/scss/tables.scss */
+.table-std tr:first-child td {
+  border-top: none;
+}
+/* line 1206, ../src/scss/tables.scss */
+.table-std td {
+  padding: 8px 7px;
+  border-top: 1px dotted #e6e6e6;
+}
+/* line 1211, ../src/scss/tables.scss */
+.table-std th {
+  padding: 10px 0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.9);
+  background-color: #f0f0f0;
+  background-image: -moz-linear-gradient(top, #e6e6e6 0%, white 99%);
+  background-image: -ms-linear-gradient(top, #e6e6e6, white);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e6e6e6), to(white));
+  background-image: -webkit-linear-gradient(top, #e6e6e6, white);
+  background-image: -o-linear-gradient(top, #e6e6e6, white);
+  background-image: linear-gradient(top, #e6e6e6, #ffffff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE6E6E6', endColorstr='#FFFFFFFF', GradientType=0);
+}
+/* line 1217, ../src/scss/tables.scss */
+.table-std th:first-child {
+  -webkit-border-radius: 4px 0 0 0;
+  -moz-border-radius: 4px 0 0 0;
+  -ms-border-radius: 4px 0 0 0;
+  -o-border-radius: 4px 0 0 0;
+  border-radius: 4px 0 0 0;
+}
+/* line 1221, ../src/scss/tables.scss */
+.table-std th:last-child {
+  -webkit-border-radius: 0 4px 0 0;
+  -moz-border-radius: 0 4px 0 0;
+  -ms-border-radius: 0 4px 0 0;
+  -o-border-radius: 0 4px 0 0;
+  border-radius: 0 4px 0 0;
+}
+/* line 1227, ../src/scss/tables.scss */
+.table-std.companies td {
+  text-align: center;
+}
+/* line 1230, ../src/scss/tables.scss */
+.table-std.companies td:first-child {
+  text-align: left;
+}
+/* line 1236, ../src/scss/tables.scss */
+.table-std .switch {
+  display: inline-block;
+  position: relative;
+  top: 8px;
+}

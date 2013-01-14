@@ -1,0 +1,236 @@
+Script started on Fri Jan 11 18:42:24 2013
+bash: __git_ps1: command not found
+[?1034hsinisa@[tablestakes ]$ script/bootstrap 
+
+  tabestakes.js
+  A bad-ass interactive grid platform.
+
+  + node found.
+  + npm found.
+  + grunt found.
+  + compass found.
+Installing from package.json.
+[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35minstall[0m Couldn't read dependencies
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Failed to parse json
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Unexpected string
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m File: /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes/package.json
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Failed to parse package.json data.
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m package.json must be actual JSON, not just JavaScript.
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m 
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m This is not a bug in npm.
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Tell the package author to fix their package.json file. JSON.parse
+[0m
+[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mSystem[0m Darwin 12.2.0
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mcommand[0m "/usr/local/Cellar/node/0.8.16/bin/node" "/usr/local/bin/npm" "install"
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mcwd[0m /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mnode -v[0m v0.8.16
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mnpm -v[0m 1.1.69
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mfile[0m /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes/package.json
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mcode[0m EJSONPARSE
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m 
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Additional logging details can be found in:
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m     /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes/npm-debug.log
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mnot ok[0m code 0
+[0mInstalling ruby gems.
+Using chunky_png (1.2.7) 
+Using fssm (0.2.9) 
+Using sass (3.2.5) 
+Using compass (0.12.2) 
+Using compass_twitter_bootstrap (2.0.3) 
+Using thor (0.16.0) 
+Using foreman (0.60.2) 
+Using kss (0.4.0) 
+Using rack (1.4.1) 
+Using rack-protection (1.3.2) 
+Using tilt (1.3.3) 
+Using sinatra (1.3.3) 
+Using bundler (1.2.2) 
+[32mYour bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.[0m
+Performing sample build.
+path.existsSync is now called `fs.existsSync`.
+[31m>> [39mLocal Npm module "grunt-contrib-clean" not found. Is it installed?
+Loading "grunt.js" tasks and helpers...[31mERROR[39m
+[31m>> [39mTaskError: Unable to parse "package.json" file (Unexpected string).
+[31m<[39m[33mWARN[39m[31m>[39m [33mTask "build" not found. Use --force to continue.[39m [31m</[39m[33mWARN[39m[31m>[39m
+
+[31mAborted due to warnings.[39m
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ script/bootstrap 
+
+  tabestakes.js
+  A bad-ass interactive grid platform.
+
+  + node found.
+  + npm found.
+  + grunt found.
+  + compass found.
+Installing from package.json.
+[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35minstall[0m Couldn't read dependencies
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Failed to parse json
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Unexpected string
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m File: /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes/package.json
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Failed to parse package.json data.
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m package.json must be actual JSON, not just JavaScript.
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m 
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m This is not a bug in npm.
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Tell the package author to fix their package.json file. JSON.parse
+[0m
+[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mSystem[0m Darwin 12.2.0
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mcommand[0m "/usr/local/Cellar/node/0.8.16/bin/node" "/usr/local/bin/npm" "install"
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mcwd[0m /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mnode -v[0m v0.8.16
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mnpm -v[0m 1.1.69
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mfile[0m /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes/package.json
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mcode[0m EJSONPARSE
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m 
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m Additional logging details can be found in:
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m[35m[0m     /Users/sinisa/Workspaces/oDesk/Profitably Inc/ActiveCell/Code/tablestakes/npm-debug.log
+[0m[37m[40mnpm[0m [0m[31m[40mERR![0m [0m[35mnot ok[0m code 0
+[0mInstalling ruby gems.
+Using chunky_png (1.2.7) 
+Using fssm (0.2.9) 
+Using sass (3.2.5) 
+Using compass (0.12.2) 
+Using compass_twitter_bootstrap (2.0.3) 
+Using thor (0.16.0) 
+Using foreman (0.60.2) 
+Using kss (0.4.0) 
+Using rack (1.4.1) 
+Using rack-protection (1.3.2) 
+Using tilt (1.3.3) 
+Using sinatra (1.3.3) 
+Using bundler (1.2.2) 
+[32mYour bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.[0m
+Performing sample build.
+path.existsSync is now called `fs.existsSync`.
+[31m>> [39mLocal Npm module "grunt-contrib-clean" not found. Is it installed?
+Loading "grunt.js" tasks and helpers...[31mERROR[39m
+[31m>> [39mTaskError: Unable to parse "package.json" file (Unexpected string).
+[31m<[39m[33mWARN[39m[31m>[39m [33mTask "build" not found. Use --force to continue.[39m [31m</[39m[33mWARN[39m[31m>[39m
+
+[31mAborted due to warnings.[39m
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ script/bootstrap 
+
+  tabestakes.js
+  A bad-ass interactive grid platform.
+
+  + node found.
+  + npm found.
+  + grunt found.
+  + compass found.
+Installing from package.json.
+Installing ruby gems.
+Using chunky_png (1.2.7) 
+Using fssm (0.2.9) 
+Using sass (3.2.5) 
+Using compass (0.12.2) 
+Using compass_twitter_bootstrap (2.0.3) 
+Using thor (0.16.0) 
+Using foreman (0.60.2) 
+Using kss (0.4.0) 
+Using rack (1.4.1) 
+Using rack-protection (1.3.2) 
+Using tilt (1.3.3) 
+Using sinatra (1.3.3) 
+Using bundler (1.2.2) 
+[32mYour bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.[0m
+Performing sample build.
+path.existsSync is now called `fs.existsSync`.
+[4mRunning "coffee:coffee" (coffee) task[24m
+
+[4mRunning "compass:dev" (compass) task[24m
+`compass compile --sass-dir="src/scss" --css-dir="dist" src/scss/tables.scss` was initiated.
+
+COMPASS output:
+[31m[0m[32midentical[0m dist/tables.css 
+
+[4mRunning "styleguide:styledocco" (styleguide) task[24m
+
+[32m>> [39mDEST: examples/styleguide//index.html
+
+[4mRunning "concat:dist" (concat) task[24m
+File "dist/tablestakes.js" created.
+
+[4mRunning "min:dist" (min) task[24m
+File "dist/tablestakes.min.js" created.
+Uncompressed size: [32m20383[39m bytes.
+Compressed size: [32m2924[39m bytes gzipped ([32m9612[39m bytes minified).
+
+[4mRunning "copy:dist" (copy) task[24m
+Copying files to [36mexamples/js/[39m...[32mOK[39m
+Copying files to [36mexamples/css/[39m...[32mOK[39m
+Copying files to [36mdist/[39m...[32mOK[39m
+
+[32mDone, without errors.[39m
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ script/bootstrap 
+
+  tabestakes.js
+  A bad-ass interactive grid platform.
+
+  + node found.
+  + npm found.
+  + grunt found.
+  + compass found.
+Installing from package.json.
+Installing ruby gems.
+Using chunky_png (1.2.7) 
+Using fssm (0.2.9) 
+Using sass (3.2.5) 
+Using compass (0.12.2) 
+Using compass_twitter_bootstrap (2.0.3) 
+Using thor (0.16.0) 
+Using foreman (0.60.2) 
+Using kss (0.4.0) 
+Using rack (1.4.1) 
+Using rack-protection (1.3.2) 
+Using tilt (1.3.3) 
+Using sinatra (1.3.3) 
+Using bundler (1.2.2) 
+[32mYour bundle is complete! Use `bundle show [gemname]` to see where a bundled gem is installed.[0m
+Performing sample build.
+path.existsSync is now called `fs.existsSync`.
+[4mRunning "coffee:coffee" (coffee) task[24m
+
+[4mRunning "compass:dev" (compass) task[24m
+`compass compile --sass-dir="src/scss" --css-dir="dist" src/scss/tables.scss` was initiated.
+
+COMPASS output:
+[31m[0m[32midentical[0m dist/tables.css 
+
+[4mRunning "styleguide:styledocco" (styleguide) task[24m
+
+[32m>> [39mDEST: examples/styleguide//index.html
+
+[4mRunning "concat:dist" (concat) task[24m
+File "dist/tablestakes.js" created.
+
+[4mRunning "min:dist" (min) task[24m
+File "dist/tablestakes.min.js" created.
+Uncompressed size: [32m20383[39m bytes.
+Compressed size: [32m2924[39m bytes gzipped ([32m9612[39m bytes minified).
+
+[4mRunning "copy:dist" (copy) task[24m
+Copying files to [36mexamples/js/[39m...[32mOK[39m
+Copying files to [36mexamples/css/[39m...[32mOK[39m
+Copying files to [36mdist/[39m...[32mOK[39m
+
+[32mDone, without errors.[39m
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ git find __git_ps1
+git: 'find' is not a git command. See 'git --help'.
+
+Did you mean this?
+	init
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ find __git_ps1
+find: __git_ps1: No such file or directory
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ locate __git_ps1
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ which __git_ps1
+bash: __git_ps1: command not found
+sinisa@[tablestakes ]$ cd ..
+bash: __git_ps1: command not found
+sinisa@[Code ]$ 

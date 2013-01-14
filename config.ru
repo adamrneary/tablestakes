@@ -1,31 +1,48 @@
 require "rack"
+require 'compass_twitter_bootstrap'
 
-use Rack::Static, 
-  :urls => ["/css", "/js","/img"],
-  :root => "examples"
+require './app'
+run App.new
 
-  map "/" do
-    run lambda { |env|
-      [
-        200, 
-        {
-          'Content-Type'  => 'text/html', 
-          'Cache-Control' => 'public, max-age=86400' 
-        },
-        File.open('examples/index.html', File::RDONLY)
-      ]
-    }
-  end
+# use Rack::Static, 
+#   :urls => ["/css", "/js","/images"],
+#   :root => "examples"
 
-  map "/styleguide" do
-    run lambda { |env|
-      [
-        200, 
-        {
-          'Content-Type'  => 'text/html', 
-          'Cache-Control' => 'public, max-age=86400' 
-        },
-        File.open('examples/styleguide.html', File::RDONLY)
-      ]
-    }
-  end
+#   map "/" do
+#     run lambda { |env|
+#       [
+#         200, 
+#         {
+#           'Content-Type'  => 'text/html', 
+#           'Cache-Control' => 'public, max-age=86400' 
+#         },
+#         File.open('examples/index.html', File::RDONLY)
+#       ]
+#     }
+#   end
+
+#   map "/styleguide" do
+#     run lambda { |env|
+#       [
+#         200, 
+#         {
+#           'Content-Type'  => 'text/html', 
+#           'Cache-Control' => 'public, max-age=86400' 
+#         },
+#         File.open('examples/styleguide/index.html', File::RDONLY)
+#       ]
+#     }
+#   end
+
+#   map "/styleguide/tables.html" do
+#     run lambda { |env|
+#       [
+#         200, 
+#         {
+#           'Content-Type'  => 'text/html', 
+#           'Cache-Control' => 'public, max-age=86400' 
+#         },
+#         File.open('examples/styleguide/tables.html', File::RDONLY)
+#       ]
+#     }
+#   end

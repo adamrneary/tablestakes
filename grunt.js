@@ -2,7 +2,6 @@
 module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-coffee'); // http://github.com/avalade/grunt-coffee
   grunt.loadNpmTasks('grunt-compass'); // https://github.com/sindresorhus/grunt-sass
-  grunt.loadNpmTasks('grunt-styleguide'); // https://github.com/indieisaconcept/grunt-styleguide
   grunt.loadNpmTasks('grunt-contrib-copy'); // https://github.com/gruntjs/grunt-contrib-copy
   // Project configuration.
   grunt.initConfig({
@@ -27,18 +26,11 @@ module.exports = function(grunt) {
             dest: 'dist'            
       }  
     },
-    styleguide: {
-      dev:{
-        files: {
-        'examples/styleguide': 'src/scss/tables.scss'
-        }
-      }
-    },
     copy:{
         dist:{
             files:{
-                "examples/js/":"dist/tablestakes.js",
-                "examples/css/":"dist/tables.css",
+                "public/javascripts/":"dist/tablestakes.js",
+                "public/stylesheets/":"dist/tables.css",
                 "dist/":"src/scss/tables.scss"
             }
         }        
@@ -46,10 +38,10 @@ module.exports = function(grunt) {
     concat: {
         dist: {
             src: ['<banner:meta.banner>', 
-                  'src/js/intro.js',
-                  'src/js/core.js',
+                  'src/javascripts/intro.js',
+                  'src/javascripts/core.js',
                   'build/table.js',
-                  'src/js/outro.js'],
+                  'src/javascripts/outro.js'],
             dest: 'dist/<%= pkg.name %>.js'
         }
     },
@@ -87,6 +79,6 @@ module.exports = function(grunt) {
 
   // Default task.
   grunt.registerTask('default', 'coffee compass concat min copy');
-  grunt.registerTask('build', 'coffee compass styleguide concat min copy');
+  grunt.registerTask('build', 'coffee compass concat min copy');
 
 };
