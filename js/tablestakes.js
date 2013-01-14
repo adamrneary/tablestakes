@@ -33,9 +33,9 @@
 
     TablesStakes.prototype.tableClassName = "class";
 
-    TablesStakes.prototype.iconOpenImg = "images/expand.gif";
-
-    TablesStakes.prototype.iconCloseImg = "images/collapse.gif";
+    TablesStakes.prototype.iconOpenImg = "images/grey-plus.png";
+	
+    TablesStakes.prototype.iconCloseImg = "images/grey-minus.png";
 
     TablesStakes.prototype.dispatch = d3.dispatch("elementClick", "elementDblclick", "elementMouseover", "elementMouseout");
 
@@ -45,7 +45,13 @@
 
     TablesStakes.prototype.isEditable = true;
 
+    TablesStakes.prototype.hasDeleteColumn = true;
+
+    TablesStakes.prototype.isFilterable = true;
+
     TablesStakes.prototype.gridData = [];
+
+    TablesStakes.prototype.gridFilteredData = [];
 
     TablesStakes.prototype.tableObject = null;
 
@@ -53,7 +59,11 @@
 
     TablesStakes.prototype.tableWidth = 0;
 
+    TablesStakes.prototype.containerID = null;
+
     TablesStakes.prototype.isInRender = false;
+
+    TablesStakes.prototype.filterCondition = [];
 
     TablesStakes.prototype.dispatchManualEvent = function(target) {
       var mousedownEvent;
@@ -70,8 +80,72 @@
       }
     };
 
+    TablesStakes.prototype.setID = function(node, prefix) {
+      var self;
+      node['_id'] = prefix;
+      self = this;
+      if (node.values) {
+        node.values.forEach(function(subnode, i) {
+          return self.setID(subnode, prefix + "_" + i);
+        });
+      }
+      if (node._values) {
+        return node._values.forEach(function(subnode, i) {
+          return self.setID(subnode, prefix + "_" + i);
+        });
+      }
+    };
+
+    TablesStakes.prototype.setFilter = function(data, filter) {
+      var i, key, matchFound, self, _i, _j, _k, _len, _ref, _ref1, _ref2;
+      self = this;
+      if (typeof data._hiddenvalues === "undefined") {
+        data['_hiddenvalues'] = [];
+      }
+      if (data.values) {
+        data.values = data.values.concat(data._hiddenvalues);
+        data._hiddenvalues = [];
+        for (i = _i = _ref = data.values.length - 1; _i >= 0; i = _i += -1) {
+          if (this.setFilter(data.values[i], filter) === null) {
+            data._hiddenvalues.push(data.values.splice(i, 1)[0]);
+          }
+        }
+      }
+      if (data._values) {
+        data._values = data._values.concat(data._hiddenvalues);
+        data._hiddenvalues = [];
+        for (i = _j = _ref1 = data._values.length - 1; _j >= 0; i = _j += -1) {
+          if (this.setFilter(data._values[i], filter) === null) {
+            data._hiddenvalues.push(data._values.splice(i, 1)[0]);
+          }
+        }
+      }
+      if (data.values && data.values.length > 0) {
+        return data;
+      }
+      if (data._values && data._values.length > 0) {
+        return data;
+      }
+      matchFound = true;
+      _ref2 = filter.keys();
+      for (_k = 0, _len = _ref2.length; _k < _len; _k++) {
+        key = _ref2[_k];
+        if (data[key]) {
+          if (data[key].indexOf(filter.get(key)) === -1) {
+            matchFound = false;
+          }
+        } else {
+          matchFound = false;
+        }
+      }
+      if (matchFound) {
+        return data;
+      }
+      return null;
+    };
+
     TablesStakes.prototype.render = function(_) {
-      var self, setID;
+      var self;
       self = this;
       this.gridData = [
         {
@@ -81,21 +155,11 @@
       this.columns.forEach(function(column, i) {
         return self.gridData[0][column['key']] = column['key'];
       });
-      setID = function(node, prefix) {
-        node['_id'] = prefix;
-        if (node.values) {
-          node.values.forEach(function(subnode, i) {
-            return setID(subnode, prefix + "_" + i);
-          });
-        }
-        if (node._values) {
-          return node._values.forEach(function(subnode, i) {
-            return setID(subnode, prefix + "_" + i);
-          });
-        }
-      };
-      setID(self.gridData[0], "0");
-      d3.select(_).datum(self.gridData).call(function(__) {
+      this.setID(self.gridData[0], "0");
+      this.gridFilteredData = this.gridData;
+      this.setFilter(this.gridFilteredData[0], this.filterCondition);
+      this.containerID = _;
+      d3.select(_).datum(self.gridFilteredData).call(function(__) {
         return self.doRendering(__);
       });
       return this;
@@ -182,7 +246,7 @@
         }).node().focus();
       };
       selection.each(function(data) {
-        var click, dblclick, depth, findNextNode, findPrevNode, folded, getCurrentColumnIndex, hasChildren, i, icon, keydown, keyup, node, nodeEnter, nodes, table, tableEnter, tbody, thead, theadRow1, tree, update, wrap, wrapEnter;
+        var appendNode, click, dblclick, depth, dragbehavior, dragend, dragmove, dragstart, findNextNode, findNodeByID, findPrevNode, folded, getCurrentColumnIndex, hasChildren, i, icon, keydown, keyup, node, nodeEnter, nodes, removeNode, table, tableEnter, tbody, thead, theadRow1, theadRow2, tree, update, wrap, wrapEnter;
         getCurrentColumnIndex = function(id) {
           var col, currentindex, i, _i, _len, _ref;
           currentindex = self.columns.length;
@@ -195,6 +259,39 @@
             }
           }
           return currentindex;
+        };
+        removeNode = function(d) {
+          var currentindex, i, parent, _i, _ref;
+          parent = d.parent;
+          currentindex = parent.values.length;
+          for (i = _i = 0, _ref = parent.values.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
+            if (d._id === parent.values[i]._id) {
+              currentindex = i;
+              break;
+            }
+          }
+          parent.values.splice(currentindex, 1);
+          parent.children.splice(currentindex, 1);
+          return self.setID(parent, parent._id);
+        };
+        appendNode = function(d, child) {
+          if (d.values) {
+            d.values.push(child);
+          } else if (d._values) {
+            d._values.push(child);
+          } else {
+            d.values = [child];
+          }
+          return self.setID(d, d._id);
+        };
+        findNodeByID = function(id) {
+          var i, idPath, root, _i, _ref;
+          idPath = id.split("_");
+          root = self.gridFilteredData[0];
+          for (i = _i = 1, _ref = idPath.length - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+            root = root.values[parseInt(idPath[i])];
+          }
+          return root;
         };
         findNextNode = function(d, nodes) {
           var i, idPath, leaf, nextNodeID, root, _i, _j, _len, _ref;
@@ -212,7 +309,7 @@
             return null;
           }
           idPath = nextNodeID.split("_");
-          root = self.gridData[0];
+          root = self.gridFilteredData[0];
           for (i = _j = 1, _ref = idPath.length - 1; 1 <= _ref ? _j <= _ref : _j >= _ref; i = 1 <= _ref ? ++_j : --_j) {
             root = root.values[parseInt(idPath[i])];
           }
@@ -235,7 +332,7 @@
             return null;
           }
           idPath = prevNodeID.split("_");
-          root = self.gridData[0];
+          root = self.gridFilteredData[0];
           for (i = _j = 1, _ref = idPath.length - 1; 1 <= _ref ? _j <= _ref : _j >= _ref; i = 1 <= _ref ? ++_j : --_j) {
             root = root.values[parseInt(idPath[i])];
           }
@@ -301,6 +398,36 @@
               d.activatedID = null;
               update();
           }
+        };
+        dragstart = function(d) {
+          var targetRow;
+          targetRow = self.containerID + " tbody tr";
+          self.draggingObj = d._id;
+          self.draggingTargetObj = null;
+          return d3.selectAll(targetRow).on("mouseover", function(d) {
+            if (self.draggingObj === d._id.substring(0, self.draggingObj.length)) {
+              return;
+            }
+            d3.select(this).style("background-color", "red");
+            return self.draggingTargetObj = d._id;
+          }).on("mouseout", function(d) {
+            d3.select(this).style("background-color", null);
+            return self.draggingTargetObj = null;
+          });
+        };
+        dragmove = function(d) {};
+        dragend = function(d) {
+          var child, parent, targetRow;
+          targetRow = self.containerID + " tbody tr";
+          d3.selectAll(targetRow).on("mouseover", null).on("mouseout", null).style("background-color", null);
+          if (self.draggingTargetObj === null) {
+            return;
+          }
+          parent = findNodeByID(self.draggingTargetObj);
+          child = findNodeByID(self.draggingObj);
+          removeNode(child);
+          appendNode(parent, child);
+          return update();
         };
         click = function(d, _, unshift) {
           d3.event.stopPropagation();
@@ -398,6 +525,23 @@
               return th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call(drag);
             }
           });
+          if (self.hasDeleteColumn === true) {
+            theadRow1.append("th").text("delete");
+          }
+          if (self.isFilterable === true) {
+            theadRow2 = thead.append("tr");
+            self.columns.forEach(function(column, i) {
+              var keyFiled;
+              keyFiled = column.key;
+              return theadRow2.append("th").attr("meta-key", column.key).append("input").attr("type", "text").on("keyup", function(d) {
+                self.filterCondition.set(column.key, d3.select(this).node().value);
+                self.gridFilteredData = self.gridData;
+                self.setFilter(self.gridFilteredData[0], self.filterCondition);
+                self.setID(self.gridFilteredData[0], self.gridFilteredData[0]._id);
+                return update();
+              });
+            });
+          }
         }
         tbody = table.selectAll("tbody").data(function(d) {
           return d;
@@ -416,16 +560,29 @@
         node.select("img.nv-treeicon").attr("src", function(d) {
           return icon(d);
         }).classed("folded", folded);
-        nodeEnter = node.enter().append("tr");
+        dragbehavior = d3.behavior.drag().origin(Object).on("dragstart", dragstart).on("drag", dragmove).on("dragend", dragend);
+        nodeEnter = node.enter().append("tr").call(dragbehavior);
         if (nodeEnter[0][0]) {
           d3.select(nodeEnter[0][0]).style("display", "none");
         }
         self.columns.forEach(function(column, index) {
-          var nodeName;
-          nodeName = nodeEnter.append("td").attr("meta-key", column.key).style("padding-left", function(d) {
-            return (index ? 0 : (d.depth - 1) * self.childIndent + (icon(d) ? 0 : 16)) + "px";
-          }, "important").style("text-align", (column.type === "numeric" ? "right" : "left")).attr("ref", column.key);
+          var col_classes, nodeName;
+          col_classes = "";
+          if (typeof column.classes !== "undefined") {
+            col_classes += column.classes;
+          }
+          nodeName = nodeEnter.append("td").attr("meta-key", column.key).attr("class", function(d) {
+            var row_classes;
+            row_classes = "";
+            if (typeof d.classes !== "undefined") {
+              row_classes = d.classes;
+            }
+            return col_classes + " " + row_classes;
+          });
           if (index === 0) {
+            nodeName.style("padding-left", function(d) {
+              return (index ? 0 : (d.depth - 1) * self.childIndent + (icon(d) ? 0 : 16)) + "px";
+            }, "important").style("text-align", (column.type === "numeric" ? "right" : "left")).attr("ref", column.key);
             nodeName.append("img").classed("nv-treeicon", true).classed("nv-folded", folded).attr("src", function(d) {
               return icon(d);
             }).style("width", "14px").style("height", "14px").style("padding", "0 1px").style("display", function(d) {
@@ -472,6 +629,21 @@
             return nodeName.select("span").on("dblclick", dblclick);
           }
         });
+        if (self.hasDeleteColumn === true) {
+          nodeEnter.append("td").attr("class", function(d) {
+            var row_classes;
+            row_classes = "";
+            if (typeof d.classes !== "undefined") {
+              row_classes = d.classes;
+            }
+            return row_classes;
+          }).append("a").attr("href", "#").text("delete").on("click", function(d) {
+            if (confirm("Are you sure you are going to delete this?")) {
+              removeNode(d);
+              return update();
+            }
+          });
+        }
         return node.order().on("click", function(d) {
           return self.dispatch.elementClick({
             row: this,
@@ -503,7 +675,7 @@
     };
 
     TablesStakes.prototype.data = function(_) {
-      if (!arguments.length)  {
+      if (!_) {
         return this.gridData;
       }
       this.gridData = _;
@@ -511,7 +683,7 @@
     };
 
     TablesStakes.prototype.margin = function(_) {
-      if (!arguments.length)  {
+      if (!_) {
         return this.margin;
       }
       this.margin.top = (typeof _.top !== "undefined" ? _.top : this.margin.top);
@@ -521,7 +693,7 @@
     };
 
     TablesStakes.prototype.columnReize = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.columnResize;
       }
       this.columnResize = _;
@@ -529,7 +701,7 @@
     };
 
     TablesStakes.prototype.editable = function(_) {
-      if (!arguments.length) {
+      if (_ == null) {
         return this.isEditable;
       }
       this.isEditable = _;
@@ -537,7 +709,7 @@
     };
 
     TablesStakes.prototype.width = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return width;
       }
       this.width = _;
@@ -545,7 +717,7 @@
     };
 
     TablesStakes.prototype.height = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.height;
       }
       this.height = _;
@@ -553,7 +725,7 @@
     };
 
     TablesStakes.prototype.color = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.color;
       }
       this.color = _;
@@ -561,7 +733,7 @@
     };
 
     TablesStakes.prototype.id = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.id;
       }
       this.id = _;
@@ -569,7 +741,7 @@
     };
 
     TablesStakes.prototype.header = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.header;
       }
       this.header = _;
@@ -577,7 +749,7 @@
     };
 
     TablesStakes.prototype.noData = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.noData;
       }
       this.noData = _;
@@ -585,15 +757,16 @@
     };
 
     TablesStakes.prototype.columns = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.columns;
       }
+      this.filterCondition = d3.map([]);
       this.columns = _;
       return this;
     };
 
     TablesStakes.prototype.tableClass = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.tableClass;
       }
       this.tableClass = _;
@@ -601,7 +774,7 @@
     };
 
     TablesStakes.prototype.iconOpen = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.iconOpen;
       }
       this.iconOpen = _;
@@ -609,7 +782,7 @@
     };
 
     TablesStakes.prototype.iconClose = function(_) {
-      if (!arguments.length)  {
+      if (_ == null) {
         return this.iconClose;
       }
       this.iconClose = _;
@@ -617,11 +790,12 @@
     };
 
     TablesStakes.prototype.Sortable = function(_) {
-      if (!arguments.length)  {
+      if ((_ != null)) {
+        this.isSortable = _;
+        return this;
+      } else {
         return this.isSortable;
       }
-      this.isSortable = _;
-      return this;
     };
 
     return TablesStakes;

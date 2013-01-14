@@ -18,17 +18,25 @@ class window.TablesStakes
     type: "text"
   ]
   tableClassName : "class"
-  iconOpenImg : "images/expand.gif"
-  iconCloseImg : "images/collapse.gif"
+  iconOpenImg : "images/grey-plus.png"
+  iconCloseImg : "images/grey-minus.png"
   dispatch : d3.dispatch("elementClick", "elementDblclick", "elementMouseover", "elementMouseout")
   columnResize : true
+  
   isSortable : true
   isEditable : true
+  hasDeleteColumn : true
+  isFilterable : true
+  
   gridData : []
+  gridFilteredData : []
   tableObject : null
   minWidth : 50
   tableWidth : 0
+  containerID : null
+  
   isInRender : false
+  filterCondition : []
   
   dispatchManualEvent: (target)->
     if target.dispatchEvent and document.createEvent                                       # all browsers except IE before version 9
@@ -41,21 +49,57 @@ class window.TablesStakes
         mousedownEvent.button = 1                                                         # left button is down
         target.fireEvent("dblclick", mousedownEvent)
     return
+  setID : (node, prefix) ->
+    node['_id'] = prefix
+    self = this
+    if node.values
+      node.values.forEach (subnode, i) ->
+        self.setID subnode, prefix+"_"+i
+    if node._values
+      node._values.forEach (subnode, i) ->
+        self.setID subnode, prefix+"_"+i
+  setFilter: ( data, filter ) ->
+    self = this
+    if typeof data._hiddenvalues == "undefined"
+      data['_hiddenvalues'] = []
+    if data.values
+      data.values = data.values.concat(data._hiddenvalues)
+      data._hiddenvalues = []
+      for i in [data.values.length-1..0] by -1
+        if @setFilter(data.values[i], filter) == null
+          data._hiddenvalues.push(data.values.splice(i, 1)[0])
+    if data._values
+      data._values = data._values.concat(data._hiddenvalues)
+      data._hiddenvalues = []
+      for i in [data._values.length-1..0] by -1
+        if @setFilter(data._values[i], filter) == null
+          data._hiddenvalues.push(data._values.splice(i, 1)[0])
+    
+    if data.values and data.values.length > 0
+      return data
+    if data._values and data._values.length > 0
+      return data
+     
+    matchFound = true
+    for key in filter.keys()
+      if data[key]
+        if data[key].indexOf(filter.get(key)) == -1
+           matchFound = false
+      else
+        matchFound = false
+    if matchFound
+      return data            
+    return null
   render: (_) ->
     self = this
     @gridData = [values: @gridData]
     @columns.forEach ( column, i) ->
-      self.gridData[0][column['key']] = column['key']
-    setID = (node, prefix) ->
-      node['_id'] = prefix
-      if node.values
-        node.values.forEach (subnode, i) ->
-          setID subnode, prefix+"_"+i
-      if node._values
-        node._values.forEach (subnode, i) ->
-          setID subnode, prefix+"_"+i 
-    setID self.gridData[0], "0"
-    d3.select(_).datum(self.gridData).call( (__) -> self.doRendering __ )
+      self.gridData[0][column['key']] = column['key'] 
+    @setID(self.gridData[0], "0")
+    @gridFilteredData = @gridData
+    @setFilter( @gridFilteredData[0], @filterCondition)
+    @containerID = _
+    d3.select(_).datum(self.gridFilteredData).call( (__) -> self.doRendering __ )
     return this
   calculateTableWidth: () ->
     width = 0
@@ -79,7 +123,6 @@ class window.TablesStakes
           table_newX = table_x + (column_newX - column_x) #x + d3.event.dx 
           self.tableObject.attr "width", table_newX+"px"
       )
-    
     editCell = (d, i) ->
       cell = d3.select(this)
       htmlContent = d3.select(this).text()
@@ -144,6 +187,31 @@ class window.TablesStakes
             currentindex = i
             break
         currentindex
+      removeNode = (d) ->
+        parent = d.parent
+        currentindex = parent.values.length
+        for i in [0..parent.values.length - 1]
+          if d._id == parent.values[i]._id
+            currentindex = i
+            break
+        parent.values.splice currentindex, 1
+        parent.children.splice currentindex, 1
+        self.setID parent, parent._id
+      appendNode = (d, child) ->
+        if d.values
+          d.values.push(child)
+        else if d._values
+          d._values.push(child)
+        else 
+          d.values = [child]
+        self.setID d, d._id
+        #child.parent = d
+      findNodeByID = (id) ->
+        idPath = id.split "_"
+        root = self.gridFilteredData[0]
+        root = root.values[parseInt(idPath[i])] for i in [1..idPath.length-1]
+        root
+        
       findNextNode = (d, nodes) ->
         nextNodeID = null
         for leaf, i in nodes
@@ -153,7 +221,7 @@ class window.TablesStakes
             break
         return null if nextNodeID is null
         idPath = nextNodeID.split "_"
-        root = self.gridData[0]
+        root = self.gridFilteredData[0]
         root = root.values[parseInt(idPath[i])] for i in [1..idPath.length-1]
         root
       findPrevNode = (d, nodes) ->
@@ -165,7 +233,7 @@ class window.TablesStakes
         return null if prevNodeID is null
         return null if prevNodeID is "0"
         idPath = prevNodeID.split "_"
-        root = self.gridData[0]
+        root = self.gridFilteredData[0]
         root = root.values[parseInt(idPath[i])] for i in [1..idPath.length-1]
         root
       keydown = (d, nodes) ->
@@ -218,6 +286,35 @@ class window.TablesStakes
             d.activatedID = null
             update()
         return
+      dragstart = (d) ->
+        targetRow = self.containerID + " tbody tr"
+        self.draggingObj = d._id
+        self.draggingTargetObj = null
+        d3.selectAll(targetRow).on("mouseover", (d) ->
+          if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
+            return
+          d3.select(this).style("background-color", "red") 
+          self.draggingTargetObj = d._id
+        )
+        .on("mouseout", (d) ->
+          d3.select(this).style("background-color", null)
+          self.draggingTargetObj = null 
+        )
+      dragmove = (d) ->
+        
+      dragend = (d) ->
+        targetRow = self.containerID + " tbody tr"
+        d3.selectAll(targetRow)
+        .on("mouseover", null)
+        .on("mouseout", null)
+        .style("background-color", null)
+        if self.draggingTargetObj == null
+          return;
+        parent = findNodeByID self.draggingTargetObj
+        child = findNodeByID self.draggingObj
+        removeNode child
+        appendNode parent, child
+        update()
       click = (d, _, unshift) ->
         d3.event.stopPropagation()
         if d3.event.shiftKey and not unshift
@@ -264,7 +361,7 @@ class window.TablesStakes
       update = ->
         self.isInRender = true
         selection.transition().call (_) -> self.doRendering _
-
+      
       #grid.container = this
       data[0] = key: noData unless data[0]
       nodes = tree.nodes(data[0])
@@ -283,6 +380,20 @@ class window.TablesStakes
           if self.columnResize
             th.style("position","relative")
             th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call drag
+        if self.hasDeleteColumn == true
+          theadRow1.append("th").text("delete");
+        if self.isFilterable == true
+          theadRow2 = thead.append("tr")
+          self.columns.forEach (column, i) ->
+            keyFiled = column.key
+            theadRow2.append("th").attr("meta-key", column.key).append("input").attr("type","text")
+            .on("keyup", (d) ->
+              self.filterCondition.set(column.key, d3.select(this).node().value)
+              self.gridFilteredData = self.gridData
+              self.setFilter( self.gridFilteredData[0], self.filterCondition)
+              self.setID(self.gridFilteredData[0], self.gridFilteredData[0]._id)
+              update()
+            )
       tbody = table.selectAll("tbody").data((d) ->
         d
       )
@@ -299,13 +410,27 @@ class window.TablesStakes
       node.exit().remove()
       node.select("img.nv-treeicon").attr("src", (d) -> icon d ).classed "folded", folded
       #node.style("display", "none")
-      nodeEnter = node.enter().append("tr")
+      dragbehavior = d3.behavior.drag()
+        .origin(Object)
+        .on("dragstart", dragstart)
+        .on("drag", dragmove)
+        .on("dragend", dragend)
+      nodeEnter = node.enter().append("tr").call(dragbehavior)
       d3.select(nodeEnter[0][0]).style("display", "none") if nodeEnter[0][0]
       self.columns.forEach (column, index) ->
-        nodeName = nodeEnter.append("td").attr("meta-key",column.key).style("padding-left", (d) ->
-          ((if index then 0 else (d.depth - 1) * self.childIndent + ((if icon(d) then 0 else 16)))) + "px"
-        , "important").style("text-align", (if column.type is "numeric" then "right" else "left")).attr("ref", column.key)
+        col_classes = ""
+        col_classes += column.classes if typeof column.classes != "undefined"
+        nodeName = nodeEnter.append("td").attr("meta-key",column.key)
+        .attr("class", (d) ->
+          row_classes = ""
+          row_classes = d.classes if typeof d.classes != "undefined"
+          return col_classes + " " + row_classes
+        )
         if index is 0
+          nodeName.style("padding-left", (d) ->
+            ((if index then 0 else (d.depth - 1) * self.childIndent + ((if icon(d) then 0 else 16)))) + "px"
+          , "important").style("text-align", (if column.type is "numeric" then "right" else "left"))
+          .attr("ref", column.key)
           nodeName.append("img")
           .classed("nv-treeicon", true)
           .classed("nv-folded", folded)
@@ -347,7 +472,16 @@ class window.TablesStakes
         
         #nodeName.select("span").on "click", column.click  if column.click
         nodeName.select("span").on "dblclick", dblclick if self.isEditable
-
+      if self.hasDeleteColumn == true
+        nodeEnter.append("td").attr("class", (d) ->
+          row_classes = ""
+          row_classes = d.classes if typeof d.classes != "undefined"
+          row_classes
+        ).append("a").attr("href","#").text("delete").on("click", (d) ->
+          if confirm "Are you sure you are going to delete this?"
+            removeNode d
+            update() 
+        )
       node.order().on("click", (d) ->
         self.dispatch.elementClick
           row: this
@@ -428,6 +562,7 @@ class window.TablesStakes
 
   columns : (_) ->
     return @columns  unless _?
+    @filterCondition = d3.map([])
     @columns = _
     this
 

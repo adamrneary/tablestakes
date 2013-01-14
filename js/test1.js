@@ -55,10 +55,12 @@
     }, {
       key: "New Root",
       type: "tatata",
+      classes: "rowcustom1",
       values: [
         {
           key: "1",
-          type: "123"
+          type: "123",
+          classes: "rowcustom"
         }
       ]
     }
@@ -71,13 +73,18 @@
       showCount: false,
       width: "400px",
       type: "text",
-      classes: "key"
+      isEditable: true,
+      classes: "keyfield",
+      click: function(d) {
+        return d3.select(this).html("hallo you were clicked");
+      }
     }, {
       key: "type",
       label: "Type",
       width: "300px",
       type: "text",
-      classes: "name"
+      classes: "name",
+      isEditable: true
     }
   ];
 
@@ -92,6 +99,5 @@
   $(document).ready(function() {
     return drawGraph();
   });
-
 
 }).call(this);

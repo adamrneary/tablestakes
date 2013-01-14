@@ -46,9 +46,11 @@ testTree = [
 ,
   key: "New Root"
   type: "tatata"
+  classes: "rowcustom1"
   values: [
     key: "1"
     type: "123"
+    classes: "rowcustom"
   ]
 ]
 testColumns = [
@@ -58,11 +60,7 @@ testColumns = [
   width: "400px"
   type: "text"
   isEditable : true
-  classes: (d) ->
-    if d.url
-      "clickable name"
-    else
-      "name"
+  classes: "keyfield"
   click: (d) ->
     d3.select(this).html("hallo you were clicked")
 ,
@@ -79,5 +77,5 @@ drawGraph = ()->
   grid.columns testColumns
   grid.data testTree
   grid.render '#example1'  
-
-drawGraph()
+$(document).ready ->
+  drawGraph()
