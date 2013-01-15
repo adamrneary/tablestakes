@@ -1,10 +1,7 @@
-/*! tablestakes - v0.0.1 - 2013-01-11
+/*! tablestakes - v0.0.1 - 2013-01-15
 * https://github.com/activecell/tablestakes
 * Copyright (c) 2013 Activecell; Licensed  */
 
-(function (){
-var Tablestakes = window.Tablestakes || {};
-window.Tablestakes = Tablestakes;
 var Table;
 
 Tablestakes.Table = Table = (function() {
@@ -633,7 +630,5 @@ Tablestakes.Table = Table = (function() {
   };
 
   return Table;
-
-})();
 
 })();

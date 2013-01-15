@@ -29,8 +29,8 @@ module.exports = function(grunt) {
     copy:{
         dist:{
             files:{
-                "public/javascripts/":"dist/tablestakes.js",
-                "public/stylesheets/":"dist/tables.css",
+                "examples/public/js/":"dist/tablestakes.js",
+                "examples/public/css/":"dist/tables.css",
                 "dist/":"src/scss/tables.scss"
             }
         }        

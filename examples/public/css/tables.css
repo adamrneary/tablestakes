@@ -1,0 +1,71 @@
+/* Primary palette
+-------------------------------------------------- */
+/* Chart palette
+-------------------------------------------------- */
+/* Alert palette
+-------------------------------------------------- */
+/* line 27, ../src/scss/tables.scss */
+table {
+  padding: 10px;
+  border-collapse: separate;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  background: white;
+}
+
+/* line 83, ../src/scss/tables.scss */
+th, td {
+  font-size: 12px;
+  text-align: right;
+  padding: 9px 8px;
+  width: 66px;
+}
+/* line 93, ../src/scss/tables.scss */
+th .editable.active, td .editable.active {
+  position: relative;
+  display: block;
+  width: auto;
+  border: 1px solid #007f9b;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
+  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
+  background-color: #edebeb;
+  background-image: -moz-linear-gradient(top, #e2dedf 0%, white 99%);
+  background-image: -ms-linear-gradient(top, #e2dedf, white);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e2dedf), to(white));
+  background-image: -webkit-linear-gradient(top, #e2dedf, white);
+  background-image: -o-linear-gradient(top, #e2dedf, white);
+  background-image: linear-gradient(top, #e2dedf, #ffffff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE2DEDF', endColorstr='#FFFFFFFF', GradientType=0);
+}
+/* line 101, ../src/scss/tables.scss */
+th .editable.active:hover, td .editable.active:hover {
+  cursor: text;
+  background: white;
+  -webkit-transform: scale(1.2, 1.2);
+  -moz-transform: scale(1.2, 1.2);
+  -ms-transform: scale(1.2, 1.2);
+  -o-transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
+  background-color: white;
+  background-image: -moz-linear-gradient(top, white 0%, white 99%);
+  background-image: -ms-linear-gradient(top, white, white);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(white));
+  background-image: -webkit-linear-gradient(top, white, white);
+  background-image: -o-linear-gradient(top, white, white);
+  background-image: linear-gradient(top, #ffffff, #ffffff);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFFFFFFF', GradientType=0);
+}
+/* line 116, ../src/scss/tables.scss */
+th.changed, td.changed {
+  background-image: url("dirty.png");
+  background-repeat: no-repeat;
+  background-position: 1px 1px;
+  border: 1px solid #8eadb3;
+}
