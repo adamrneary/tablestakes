@@ -6,7 +6,9 @@
     <% if @section.modifiers.any? %>
       <ul class="styleguide-modifier">
         <% @section.modifiers.each do |modifier| %>
-          <li><strong><%= modifier.name %></strong> - <%= modifier.description %></li>
+          <li>
+            <strong><%= modifier.name %></strong> - 
+            <%= modifier.description %></li>
         <% end %>
       </ul>
     <% end %>

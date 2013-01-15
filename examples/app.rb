@@ -6,10 +6,12 @@ require 'erb'
 
 class App < Sinatra::Base
   get '/' do
+    @nav = "main"
     erb :index
   end
 
   get '/styleguide' do
+    @nav = "style"
     @styleguide = Kss::Parser.new('src/scss/')
     erb :styleguide
   end

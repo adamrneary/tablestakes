@@ -4,13 +4,26 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title>Tablestakes: A bad-ass interactive grid platform.</title>
   <!-- vendor stylesheets -->
-  <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/nv.d3.css"/> <!-- TODO: Remove -->
-  <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/bootstrap.css"/>
-  <link rel="stylesheet" type="text/css" href="/stylesheets/vendor/rainbow-theme.css"/>
-  <style>.icon-white {background-image: url("/images/glyphicons-halflings-white.png")}</style>
+  <link rel="stylesheet" type="text/css" href="/css/vendor/nv.d3.css"/> <!-- TODO: Remove -->
+  <link rel="stylesheet" type="text/css" href="/css/vendor/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/vendor/rainbow-theme.css"/>
+  <style>.icon-white {background-image: url("/img/glyphicons-halflings-white.png")}</style>
   
   <!-- tablestakes stylesheet -->
-  <link rel="stylesheet" type="text/css" href="/stylesheets/tables.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/tables.css"/>
+  
+  <!-- vendor javascripts -->
+  <script type="text/javascript" src="js/vendor/underscore.js"></script>
+  <script type="text/javascript" src="js/vendor/jquery-1.8.0.js"></script>
+  <script type="text/javascript" src="js/vendor/backbone.js"></script>
+  <script type="text/javascript" src="js/vendor/d3.v2.js"></script>
+  <script type="text/javascript" src="js/vendor/rainbow-custom.min.js"></script>
+  <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/vendor/kss.js"></script>
+
+  <!-- tablestakes javascripts -->
+  <script type="text/javascript" src="js/tablestakes.js"></script>
+  
   <title>Tablestakes: A bad-ass interactive grid platform.</title>
 </head>
 <body>
@@ -25,7 +38,7 @@
           <a class="brand" href="http://www.activecell.com">Tablestakes</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="/">
+              <li><a href="/">
                 <i class="icon-white icon-home"></i> Home
               </a></li>
               <li><a href="/styleguide">
@@ -42,18 +55,6 @@
     <div class="container">
       <%= yield %>
     </div>
-  <!-- vendor javascripts -->
-  <script type="text/javascript" src="javascripts/vendor/underscore.js"></script>
-  <script type="text/javascript" src="javascripts/vendor/jquery-1.8.0.js"></script>
-  <script type="text/javascript" src="javascripts/vendor/backbone.js"></script>
-  <script type="text/javascript" src="javascripts/vendor/d3.v2.js"></script>
-  <script type="text/javascript" src="javascripts/vendor/rainbow-custom.min.js"></script>
-  <script type="text/javascript" src="javascripts/vendor/bootstrap.min.js"></script>
-  <script src="/javascripts/vendor/kss.js"></script>
-
-  <!-- tablestakes javascripts -->
-  <script type="text/javascript" src="javascripts/tablestakes.js"></script>
-  <script type="text/javascript" src="javascripts/index.js"></script>
 
   <script type="text/javascript">
     $(function() {
