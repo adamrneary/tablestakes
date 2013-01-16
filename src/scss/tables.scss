@@ -22,12 +22,11 @@
 // 
 // Styleguide 1.1
 
-
 table {
   padding: 10px;
   border-collapse: separate;
   @include border-radius(4px);
-  box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+  box-shadow: 0 0 2px rgba(0,0,0,0.15);
   background: $white;
 }
 
@@ -41,6 +40,39 @@ table {
 // .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
 // 
 // Styleguide 1.2
+
+thead {
+  th, td {
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: $grey;
+  }
+
+  tr {
+    &.row-heading {
+      th, td {
+        color: $primary;
+        &:first-child {
+          color: $primary-dark
+        }
+      }
+    }
+
+    &.secondary {
+      th, td {
+        color: $primary;
+      }
+
+      th {
+        text-align: center;
+      }
+      
+      td {
+        border-bottom: solid 1px $light-grey;
+      }
+    }
+  }
+}
 
 
 // Footers

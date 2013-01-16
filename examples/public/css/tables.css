@@ -4,7 +4,7 @@
 -------------------------------------------------- */
 /* Alert palette
 -------------------------------------------------- */
-/* line 27, ../src/scss/tables.scss */
+/* line 25, ../src/scss/tables.scss */
 table {
   padding: 10px;
   border-collapse: separate;
@@ -13,18 +13,45 @@ table {
   -ms-border-radius: 4px;
   -o-border-radius: 4px;
   border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.15);
   background: white;
 }
 
-/* line 83, ../src/scss/tables.scss */
+/* line 45, ../src/scss/tables.scss */
+thead th, thead td {
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #a69b9e;
+}
+/* line 53, ../src/scss/tables.scss */
+thead tr.row-heading th, thead tr.row-heading td {
+  color: #30878f;
+}
+/* line 55, ../src/scss/tables.scss */
+thead tr.row-heading th:first-child, thead tr.row-heading td:first-child {
+  color: #00455b;
+}
+/* line 62, ../src/scss/tables.scss */
+thead tr.secondary th, thead tr.secondary td {
+  color: #30878f;
+}
+/* line 66, ../src/scss/tables.scss */
+thead tr.secondary th {
+  text-align: center;
+}
+/* line 70, ../src/scss/tables.scss */
+thead tr.secondary td {
+  border-bottom: solid 1px #e2dedf;
+}
+
+/* line 133, ../src/scss/tables.scss */
 th, td {
   font-size: 12px;
   text-align: right;
   padding: 9px 8px;
   width: 66px;
 }
-/* line 93, ../src/scss/tables.scss */
+/* line 143, ../src/scss/tables.scss */
 th .editable.active, td .editable.active {
   position: relative;
   display: block;
@@ -43,7 +70,7 @@ th .editable.active, td .editable.active {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE2DEDF', endColorstr='#FFFFFFFF', GradientType=0);
 }
-/* line 101, ../src/scss/tables.scss */
+/* line 151, ../src/scss/tables.scss */
 th .editable.active:hover, td .editable.active:hover {
   cursor: text;
   background: white;
@@ -62,7 +89,7 @@ th .editable.active:hover, td .editable.active:hover {
   background-repeat: repeat-x;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFFFFFFF', GradientType=0);
 }
-/* line 116, ../src/scss/tables.scss */
+/* line 166, ../src/scss/tables.scss */
 th.changed, td.changed {
   background-image: url("dirty.png");
   background-repeat: no-repeat;

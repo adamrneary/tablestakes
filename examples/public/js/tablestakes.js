@@ -1,4 +1,4 @@
-/*! tablestakes - v0.0.1 - 2013-01-15
+/*! tablestakes - v0.0.1 - 2013-01-16
 * https://github.com/activecell/tablestakes
 * Copyright (c) 2013 Activecell; Licensed  */
 

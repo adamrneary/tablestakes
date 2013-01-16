@@ -11,9 +11,8 @@ class App < Sinatra::Base
   end
 
   get '/styleguide' do
-    @nav = "style"
     @styleguide = Kss::Parser.new('src/scss/')
-    erb :styleguide
+    erb :"sections/one"
   end
 
   helpers do
