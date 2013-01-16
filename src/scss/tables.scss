@@ -22,6 +22,7 @@
 // 
 // Styleguide 1.1
 
+
 table {
   padding: 10px;
   border-collapse: separate;
@@ -35,13 +36,16 @@ table {
 // Headers
 // TODO: write descriptions
 // 
-// .secondary - used above normal header (for nested table headers)
+// sinisa, default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
+// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, http://cl.ly/image/0F362J2T2f1t shows row heading and column heading together
+// .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
 // 
 // Styleguide 1.2
 
 
 // Footers
 // Currently, we only use footers for explanatory notes
+// sinisa: something simple like a caption: http://cl.ly/image/0N0B0S0K1V0T
 // 
 // Styleguide 1.3
 
@@ -49,12 +53,14 @@ table {
 // Columns
 // TODO: write descriptions
 // 
-// .row-heading - for first 1-2 columns that describe the content of the row
-// .total - for columns at the end of the table showing row totals
-// .resizeable - allows the user to drag and drop the edges of the columns to resize
-// .sortable - for columns not currently sorted, informing the user that the column can be sorted
-// .sorted-asc - for column currently sorted ascending
-// .sorted-desc - for column currently sorted descending
+// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, let's kill this idea of light font weight for the row heading. stupid. default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
+// .total - for columns at the end of the table showing row totals; sinisa, perhaps just bold for now
+// .resizeable - allows the user to drag and drop the edges of the columns to resize; sinisa i dont know. do we need a style for this? or just turning cursor to left-right arrows?
+// .sortable - for columns not currently sorted, informing the user that the column can be sorted; sinisa, i don't know. do we need a style for this? hmm. maybe up and down arrows like this: http://cl.ly/image/3B2D1o0Q0Y0q
+// .sorted-asc - for column currently sorted ascending; sinisa, small up-facing arrow
+// .sorted-desc - for column currently sorted descending; sinisa, small down-facing arrow http://cl.ly/image/1c1U1N3Z2S2C
+// .right-aligned - for numeric columns (default is left-aligned)
+// .light - to de-emphasize less important columns; sinisa, see http://cl.ly/image/1q1k2V0w1x3z columns 1 and 3
 // 
 // Styleguide 2.1
 
@@ -62,15 +68,14 @@ table {
 // Rows
 // TODO: write descriptions
 // 
-// .draggable - indicates that the row can be moved up or down
-// .deletable - indicates that the row can be deleted by clicking the 'x'
-// .collapsible - expanded hierarchy node that can be collapsed by clicking
-// .expandable - collapsed hierarchy node that can be expanded by clicking
+// .draggable - indicates that the row can be moved up or down; sinisa this is new. something that doesn't suck that looks like this: http://cl.ly/image/2e1w252O3p1p
+// .deletable - indicates that the row can be deleted by clicking the 'x'; sinisa, we had a pencil icon in a cell somewhere. i hated it. :-) for deleteable rows, i want a little blue 'x' icon at the end to indicate that the row can be deleted
+// .collapsible - expanded hierarchy node that can be collapsed by clicking; sinisa, this is a case where the entire row is separated out as the parent: http://cl.ly/image/2i2q3e332F2u. I don't like the gradient, but maybe you can work your magic. arrow points down when expanded
+// .expandable - collapsed hierarchy node that can be expanded by clicking; sinisa, same as above but arrow points right when collapsed
 // .spacer - blank row to provide space
-// .
-// .
-// .subtotal - for rows showing total of a subset of rows above them
-// .total - for rows at the bottom of the table showing column totals
+// .subtotal - for rows showing total of a subset of rows above them; http://cl.ly/image/250s0Y1U013D is pretty good
+// .well - alt style for rows showing total of a subset of rows above them; http://cl.ly/image/2W2R3k423T3v is pretty good
+// .total - for rows at the bottom of the table showing column totals: sinisa the colors might be off here, but bold and activecell green: http://cl.ly/image/0D2a07462x3r
 // 
 // Styleguide 3.1
 
@@ -78,18 +83,18 @@ table {
 // Cells
 // TODO: write descriptions
 // 
-// .editable - editable cell
-// .active - active cell. Only editable cell can become active.
-// .changed - changed/dirty cell
-// .plan - cell for planned rows
-// .collapsible - for cells that don't have row-level hierarchy, expanded hierarchy node that can be collapsed by clicking
-// .expandable - for cells that don't have row-level hierarchy, collapsed hierarchy node that can be expanded by clicking
-// .indent1 - for cells that don't have row-level hierarchy, indented 1 space
-// .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces
-// .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces
-// .indent4 - for cells that don't have row-level hierarchy, indented 4 spaces
-// .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces
-// .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces
+// .editable - editable cell: sinisa just activecell link color indicates editable. anywhere. no pencil icon anywhere
+// .active - active cell. Only editable cell can become active. SINISA: THIS IS THIS MOST IMPORTANT ONE! http://cl.ly/image/0Z420V2p2I2G is half-way there. i want activecell link color for the border and a drop shadow, but i don't want the cell to be larger or oversized. the image's gradient looks terrible. either kill or improve it--your call. finally, we do like the little blue square in the lower right. it should look as much like our logo as possible. text inside the activecell should be activecell black, not link color
+// .changed - changed/dirty cell; sinisa, we don't have a style for this yet. this style is active after change but before confirmation that the change was recorded. either a different color, a different background, or a saving icon of some sort. what do you think is best?
+// .plan - cell for planned rows: sinisa: super light blue background: http://cl.ly/image/2m2G1c3o3T0K
+// .collapsible - for cells that don't have row-level hierarchy, expanded hierarchy node that can be collapsed by clicking; sinisa, this is different from row-level hierarchies. sometimes the rest of the table is the same as other cells. see http://cl.ly/image/1K0Q1j1G1U0U
+// .expandable - for cells that don't have row-level hierarchy, collapsed hierarchy node that can be expanded by clicking; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent1 - for cells that don't have row-level hierarchy, indented 1 space; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent4 - for cells that don't have row-level hierarchy, indented 4 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // 
 // Styleguide 4.1
 
