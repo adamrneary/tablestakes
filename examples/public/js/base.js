@@ -11,7 +11,7 @@ testTree = [
     values: [
       {
         key: "Charts",
-        _values: [
+        values: [
           {
             key: "Simple Line",
             type: "Historical"
@@ -83,8 +83,10 @@ testColumns = [
 drawGraph = function() {
   var grid;
   grid = new Tablestakes.Table();
-  grid.columns(testColumns);
-  grid.data(testTree);
+  grid.set('columns', testColumns);
+  grid.set('data', testTree);
+  //grid.columns(testColumns);
+  //grid.data(testTree);
   return grid.render('#example_view');
 };
 
