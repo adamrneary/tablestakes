@@ -1,11 +1,19 @@
 class window.TablesStakes
+
 # Public Variables
     attributes: {}
+        #sortable : false
+        #editable : false
+        #deletable : false
+        #filterable : false
+        #dragable: false
+
     margin :
         top: 0
         right: 0
         bottom: 0
         left: 0
+
 
     width : 960
     height : 500
@@ -25,10 +33,10 @@ class window.TablesStakes
     dispatch : d3.dispatch("elementClick", "elementDblclick", "elementMouseover", "elementMouseout")
     columnResize : true
 
-    isSortable : true
-    isEditable : true
-    hasDeleteColumn : true
-    isFilterable : true
+    #isSortable : false
+    #isEditable : false
+    #hasDeleteColumn : false
+    #isFilterable : false
 
     gridData : []
     gridFilteredData : []
@@ -40,7 +48,18 @@ class window.TablesStakes
     isInRender : false
     filterCondition : []
 
+    constructor: (options)->
+        @set 'sortable', false
+        @set 'editable', false
+        @set 'deletable', false
+        @set 'filterable', false
+        @set 'dragable', false
+        if options?
+            for key of options
+                @set key, options[key]
+
     render: (selector) ->
+
         console.log 'Table render'
         @gridData = [values: @get('data')]
         @columns.forEach ( column, i) =>
@@ -241,7 +260,7 @@ class TablesStakesCore
               d.activatedID = @columns[currentindex+1].key
             else
               nextNode = @findNextNode d, @nodes
-              if nextNode != null
+              if nextNode isnt null
                 nextNode.activatedID = @columns[0].key
                 d.activatedID = null
         else                                                                           # if shiftkey is not pressed, get previous
@@ -249,7 +268,7 @@ class TablesStakesCore
                 d.activatedID = @columns[currentindex-1].key
             else
                 prevNode = @findPrevNode d, @nodes
-                if prevNode != null
+                if prevNode isnt null
                     prevNode.activatedID = @columns[@columns.length - 1].key
                     d.activatedID = null
         @update()
@@ -257,7 +276,7 @@ class TablesStakesCore
     key_down: (node,d)->
         nextNode = @findNextNode d
         currentindex = @getCurrentColumnIndex d.activatedID
-        if nextNode != null
+        if nextNode isnt null
             nextNode.activatedID = @columns[currentindex].key
             d.activatedID = null
         @update()
@@ -283,17 +302,15 @@ class TablesStakesCore
 
     # decrease of the selection from the active cell
     blur: (node,d, column) ->
-        #console.log 'blur'
-        #cell = d3.select(node)
-        #columnKey = d3.select(node)[0][0].parentNode.getAttribute("ref")
-
-        #cell.text(d3.select(node).node().value)
-        #d[columnKey]=d3.select(node).node().value
-
-        #d[column.key]=d3.select('input').node().value
-        #if @table.isInRender == false
-            #d.activatedID = null
-            #@update()
+        cell = d3.select(node)
+        columnKey = d3.select(node)[0][0].parentNode.getAttribute("ref")
+        hz = d3.select(node)[0][0]
+        cell.text(d3.select(node).node().value)
+        d[columnKey]=d3.select(node).node().value
+        d[column.key]=d3.select('td input').node().value
+        if @table.isInRender == false
+            d.activatedID = null
+            @update()
 
     # click on the icon to deploy-fold
     click: (node,d, _, unshift) ->
@@ -324,36 +341,39 @@ class TablesStakesCore
     dragstart: (node,d) ->
         console.log 'dragstart'
         self = @
-        targetRow = @table.containerID + " tbody tr"
-        @draggingObj = d._id
-        @draggingTargetObj = null
-        d3.selectAll(targetRow).on("mouseover", (d) ->
-            if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
-                return
-            d3.select(this).style("background-color", "red") 
-            self.draggingTargetObj = d._id
-        )
-        .on("mouseout", (d) ->
-            d3.select(this).style("background-color", null)
-            self.draggingTargetObj = null 
-        )
+        if @table.get('dragable') is true
+            targetRow = @table.containerID + " tbody tr"
+            @draggingObj = d._id
+            @draggingTargetObj = null
+            d3.selectAll(targetRow).on("mouseover", (d) ->
+                if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
+                    return
+                d3.select(this).style("background-color", "red") 
+                self.draggingTargetObj = d._id
+            )
+            .on("mouseout", (d) ->
+                d3.select(this).style("background-color", null)
+                self.draggingTargetObj = null 
+            )
     dragmove: (d) ->
-        console.log 'dragmove'
+        if @table.get('dragable') is true
+            console.log 'dragmove'
         
     dragend: (node,d) ->
-        console.log 'dragend'
-        targetRow = @table.containerID + " tbody tr"
-        d3.selectAll(targetRow)
-        .on("mouseover", null)
-        .on("mouseout", null)
-        .style("background-color", null)
-        if @draggingTargetObj == null
-            return;
-        parent = @findNodeByID @draggingTargetObj
-        child = @findNodeByID @draggingObj
-        @removeNode child
-        @appendNode parent, child
-        @update()
+        if @table.get('dragable') is true
+            console.log 'dragend'
+            targetRow = @table.containerID + " tbody tr"
+            d3.selectAll(targetRow)
+            .on("mouseover", null)
+            .on("mouseout", null)
+            .style("background-color", null)
+            if @draggingTargetObj == null
+                return;
+            parent = @findNodeByID @draggingTargetObj
+            child = @findNodeByID @draggingObj
+            @removeNode child
+            @appendNode parent, child
+            @update()
 
     removeNode: (d) ->
         parent = d.parent
@@ -445,13 +465,18 @@ class TablesStakesCore
             @columns.forEach (column, i) =>
                 th = theadRow1.append("th").attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
                 th.append("span").text column.label
-                if @table.columnResize
+                if @table.get('sortable') is true
+                  if @table.get('deletable') is true
                     th.style("position","relative")
                     th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call drag
+                  else 
+                    if i isnt @columns.length-1
+                      th.style("position","relative")
+                      th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call drag
 
-            if @table.hasDeleteColumn == true
+            if @table.get('deletable') is true
                 theadRow1.append("th").text("delete");
-            if @table.isFilterable == true
+            if @table.get('filterable') is true
                 theadRow2 = thead.append("tr")
                 @columns.forEach (column, i) =>
                     keyFiled = column.key
@@ -498,14 +523,13 @@ class TablesStakesCore
             .on "dragend", (a,b,c)->
                 console.log 'dragstart2'
                 self.dragend this,a,b,c
-        console.log '2'
         @nodeEnter = node.enter().append("tr").call dragbehavior
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
         console.log 'core render end'
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
-        if @table.hasDeleteColumn == true
+        if @table.get('deletable') is true
             @nodeEnter.append("td").attr("class", (d) ->
                 row_classes = ""
                 row_classes = d.classes if typeof d.classes != "undefined"
@@ -579,10 +603,11 @@ class TablesStakesCore
         if column.showCount
             nodeName.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
-
+            
     renderNode: (node,column,td,nodeName)->
         console.log 'renderNode start'
         self = @
+        editable = @table.get('editable')
         if td.activatedID == column.key 
             d3.select(node).append("span").attr("class", d3.functor(column.classes))
             .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
@@ -593,10 +618,12 @@ class TablesStakesCore
             .on "blur", (d) ->
                 self.blur this,d, column
             .node().focus()
+            console.log 'columns=', @columns
         else
             d3.select(node).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                 if column.format then column.format(d) else (d[column.key] or "-")
+
         nodeName.select("span").on "click", (a,b,c)->
-            self.editable this,a,b,c if self.table.isEditable
-            #self.editCell this,a,b,c if self.table.isEditable
+            if editable and column.isEditable
+              self.editable this,a,b,c 
         #console.log 'renderNode end'

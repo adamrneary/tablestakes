@@ -1,23 +1,83 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<link href="libs/TablesStakes.css" rel="stylesheet" type="text/css">
-<link href="libs/nv.d3.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="libs/jquery-1.8.0.js"></script>
-<script type="text/javascript" src="libs/d3.v2.js"></script>
-<script type="text/coffeescript" src="TablesStakes.coffee"></script>
-<!--<script type="text/coffeescript" src="TablesStakes.orig.coffee"></script>-->
-<script type="text/coffeescript" src="test.coffee"></script>
-<script type="text/javascript" src="libs/coffee-script.js"></script>
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Tablestakes: A bad-ass interactive grid platform.</title>
+  <link href="libs/css/bootstrap.css" rel="stylesheet" type="text/css" />
+  <link href="libs/css/TablesStakes.css" rel="stylesheet" type="text/css">
+  <link href="libs/css/nv.d3.css" rel="stylesheet" type="text/css">
+  <link href="libs/css/style.css" rel="stylesheet" type="text/css">
+  <link href="libs/css/rainbow-theme.css" rel="stylesheet" type="text/css"/>
+  <style>.icon-white {background-image: url("libs/img/glyphicons-halflings-white.png")}</style>
+  <script type="text/javascript" src="libs/jquery-1.8.0.js"></script>
+  <script type="text/javascript" src="libs/underscore.js"></script>
+  <script type="text/javascript" src="libs/backbone.js"></script>
+  <script type="text/javascript" src="libs/d3.v2.js"></script>
+  <script type="text/javascript" src="libs/rainbow-custom.min.js"></script>
+  <script type="text/coffeescript" src="TablesStakes.coffee"></script>
+  <script type="text/javascript" src="libs/bootstrap.min.js"></script>
+  <script type="text/javascript" src="libs/coffee-script.js"></script>
+  <script type="text/coffeescript" src="index.coffee"></script>
+  <!--<script type="text/javascript" src="base.js"></script>-->
 
-<style>
-body {
-  overflow-y:scroll;
-}
-</style>
-</head>
-<body>
-<div id="example1" style="width:600px"></div>	
-</body>
+  <style>
+  body {
+    overflow-y:scroll;
+  }
+  </style>
+  </head>
+  <body>
+  <div class="row">
+
+    <div class="span3">
+      <div class="well">
+        <ul class="nav nav-list" id="coreLinkList">
+          <li class="nav-header">
+            Core features
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="span9">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="navbar-inner navbar navbar-inverse navbar-fixed-top">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="http://www.activecell.com">Tablestakes</a>
+                    <div class="nav-collapse">
+                      <ul class="nav">
+                        <li><a href="/">
+                          <i class="icon-white icon-home"></i> Home
+                        </a></li>
+                        <li><a href="/styleguide">
+                          <i class="icon-white icon-glass"></i> Style Guide
+                        </a></li>
+                        <li><a href="https://github.com/activecell/tablestakes">
+                          <i class="icon-white icon-book"></i> Source
+                        </a></li>
+                      </ul>
+                    </div><!--/.nav-collapse -->
+                </div>
+            </div>
+        </div>
+        <div class="example" id="base" style="width:600px"></div>	
+        <div class="example" id="editable" style="width:600px"></div>	
+        <div class="example" id="nested" style="width:600px"></div>	
+        <div class="example" id="filterable" style="width:600px"></div>	
+        <div class="example" id="add-and-delete" style="width:600px"></div>	
+        <div class="example" id="example-draggable" style="width:600px"></div>	
+
+        <h3>Code for example</h3>
+        <pre><code data-language="javascript" id="example_js"></code></pre>
+    </div>
+  </div>
+
+    <hr>
+
+  </body>
 </html>
