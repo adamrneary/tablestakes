@@ -4,7 +4,7 @@
 -------------------------------------------------- */
 /* Alert palette
 -------------------------------------------------- */
-/* line 25, ../src/scss/tables.scss */
+/* line 18, ../src/scss/tables.scss */
 table {
   padding: 10px;
   border-collapse: separate;
@@ -17,82 +17,165 @@ table {
   background: white;
 }
 
-/* line 45, ../src/scss/tables.scss */
+/* line 38, ../src/scss/tables.scss */
 thead th, thead td {
   text-transform: uppercase;
   white-space: nowrap;
   color: #a69b9e;
 }
-/* line 53, ../src/scss/tables.scss */
+/* line 46, ../src/scss/tables.scss */
 thead tr.row-heading th, thead tr.row-heading td {
   color: #30878f;
+  text-align: right;
 }
-/* line 55, ../src/scss/tables.scss */
+/* line 49, ../src/scss/tables.scss */
 thead tr.row-heading th:first-child, thead tr.row-heading td:first-child {
   color: #00455b;
 }
-/* line 62, ../src/scss/tables.scss */
+/* line 56, ../src/scss/tables.scss */
 thead tr.secondary th, thead tr.secondary td {
   color: #30878f;
 }
-/* line 66, ../src/scss/tables.scss */
+/* line 60, ../src/scss/tables.scss */
 thead tr.secondary th {
   text-align: center;
 }
-/* line 70, ../src/scss/tables.scss */
+/* line 64, ../src/scss/tables.scss */
 thead tr.secondary td {
   border-bottom: solid 1px #e2dedf;
 }
 
-/* line 133, ../src/scss/tables.scss */
+/* line 79, ../src/scss/tables.scss */
+tfoot th, tfoot td {
+  font-family: Georgia, serif;
+  font-size: 16px;
+  color: #a69b9e;
+  font-weight: bold;
+  font-style: italic;
+}
+
+/* line 108, ../src/scss/tables.scss */
+tbody th.total, tbody td.total {
+  font-weight: bold;
+}
+/* line 112, ../src/scss/tables.scss */
+tbody th.right-aligned, tbody td.right-aligned {
+  text-align: right;
+}
+/* line 116, ../src/scss/tables.scss */
+tbody th.light, tbody td.light {
+  color: #e2dedf;
+}
+
+/* line 125, ../src/scss/tables.scss */
+thead .resizeable {
+  cursor: col-resize;
+}
+/* line 130, ../src/scss/tables.scss */
+thead .sortable {
+  position: relative;
+  padding-left: 15px;
+  cursor: pointer;
+}
+/* line 135, ../src/scss/tables.scss */
+thead .sortable:before, thead .sortable:after {
+  position: absolute;
+  left: 10px;
+  height: 0;
+  width: 0;
+  content: "";
+}
+/* line 143, ../src/scss/tables.scss */
+thead .sortable:before {
+  top: 12px;
+  border-color: transparent transparent #30878f transparent;
+  border-style: solid;
+  border-width: 0px 5px 5px 5px;
+}
+/* line 150, ../src/scss/tables.scss */
+thead .sortable:after {
+  bottom: 12px;
+  border-color: #30878f transparent transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+}
+/* line 158, ../src/scss/tables.scss */
+thead .sortable.sorted-asc:after {
+  border-color: #e2dedf transparent transparent transparent;
+}
+/* line 164, ../src/scss/tables.scss */
+thead .sortable.sorted-desc:before {
+  border-color: transparent transparent #e2dedf transparent;
+}
+
+/* line 214, ../src/scss/tables.scss */
+tbody tr.well td:first-child, tbody tr.well th:first-child {
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #a69b9e;
+}
+
+/* line 237, ../src/scss/tables.scss */
 th, td {
   font-size: 12px;
-  text-align: right;
+  text-align: left;
   padding: 9px 8px;
   width: 66px;
 }
-/* line 143, ../src/scss/tables.scss */
-th .editable.active, td .editable.active {
+/* line 243, ../src/scss/tables.scss */
+th:first-child, td:first-child {
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #a69b9e;
+}
+/* line 250, ../src/scss/tables.scss */
+th.plan, td.plan {
+  background: #f5fbfc;
+}
+
+/* line 266, ../src/scss/tables.scss */
+th.editable, td.editable {
+  color: #30878f;
+  cursor: pointer;
+}
+/* line 271, ../src/scss/tables.scss */
+th.editable.active, td.editable.active {
   position: relative;
   display: block;
-  width: auto;
-  border: 1px solid #007f9b;
-  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
-  -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(0, 0, 0, 0.12);
-  background-color: #edebeb;
-  background-image: -moz-linear-gradient(top, #e2dedf 0%, white 99%);
-  background-image: -ms-linear-gradient(top, #e2dedf, white);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e2dedf), to(white));
-  background-image: -webkit-linear-gradient(top, #e2dedf, white);
-  background-image: -o-linear-gradient(top, #e2dedf, white);
-  background-image: linear-gradient(top, #e2dedf, #ffffff);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFE2DEDF', endColorstr='#FFFFFFFF', GradientType=0);
-}
-/* line 151, ../src/scss/tables.scss */
-th .editable.active:hover, td .editable.active:hover {
   cursor: text;
-  background: white;
-  -webkit-transform: scale(1.2, 1.2);
-  -moz-transform: scale(1.2, 1.2);
-  -ms-transform: scale(1.2, 1.2);
-  -o-transform: scale(1.2, 1.2);
-  transform: scale(1.2, 1.2);
-  background-color: white;
-  background-image: -moz-linear-gradient(top, white 0%, white 99%);
-  background-image: -ms-linear-gradient(top, white, white);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(white), to(white));
-  background-image: -webkit-linear-gradient(top, white, white);
-  background-image: -o-linear-gradient(top, white, white);
-  background-image: linear-gradient(top, #ffffff, #ffffff);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFFFF', endColorstr='#FFFFFFFF', GradientType=0);
+  border: 1px solid #30878f;
+  -webkit-box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
+  -moz-box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
+  box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
+  background: #faf9fa;
 }
-/* line 166, ../src/scss/tables.scss */
-th.changed, td.changed {
-  background-image: url("dirty.png");
-  background-repeat: no-repeat;
-  background-position: 1px 1px;
-  border: 1px solid #8eadb3;
+/* line 282, ../src/scss/tables.scss */
+th.editable.changed, td.editable.changed {
+  font-weight: bold;
+  border: 1px dotted #30878f;
+}
+
+/* line 303, ../src/scss/tables.scss */
+th.indent1, td.indent1 {
+  padding-left: 10px;
+}
+/* line 308, ../src/scss/tables.scss */
+th.indent2, td.indent2 {
+  padding-left: 20px;
+}
+/* line 313, ../src/scss/tables.scss */
+th.indent3, td.indent3 {
+  padding-left: 30px;
+}
+/* line 318, ../src/scss/tables.scss */
+th.indent4, td.indent4 {
+  padding-left: 40px;
+}
+/* line 323, ../src/scss/tables.scss */
+th.indent5, td.indent5 {
+  padding-left: 50px;
+}
+/* line 328, ../src/scss/tables.scss */
+th.indent6, td.indent6 {
+  padding-left: 60px;
 }

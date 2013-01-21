@@ -2,9 +2,6 @@
 @import "mixins";
 @import "compass/css3";
 
-// For basic styling, light padding and only horizontal dividers inherited from twitter-boostrap.
-// <br>
-// <br>
 // <strong>List of supported table HTML elements and how they should be used.</strong>
 // <br>
 // <br>
@@ -15,10 +12,6 @@
 // <code>&lt;td&gt;</code> Default table cell
 // <code>&lt;th&gt;</code> Special table cell for column (or row, depending on scope and placement) labels Must be used within a <code>&lt;thead&gt;</code>
 // <code>&lt;caption&gt;</code> Description or summary of what the table holds, especially useful for screen readers
-// Add any of the following classes to the .table base class.
-// 
-// .table-striped - Adds zebra-striping to any table row within the <code>&lt;tbody&gt;</code> via the <code>:nth-child</code> CSS selector (not available in IE7-IE8).
-// .table-condensed - Makes tables more compact by cutting cell padding in half.
 // 
 // Styleguide 1.1
 
@@ -52,6 +45,7 @@ thead {
     &.row-heading {
       th, td {
         color: $primary;
+        text-align: right;
         &:first-child {
           color: $primary-dark
         }
@@ -66,7 +60,7 @@ thead {
       th {
         text-align: center;
       }
-      
+
       td {
         border-bottom: solid 1px $light-grey;
       }
@@ -81,6 +75,15 @@ thead {
 // 
 // Styleguide 1.3
 
+tfoot {
+  th, td {
+    font-family: Georgia, serif;
+    font-size: 16px;
+    color: $grey;
+    font-weight: bold;
+    font-style: italic;
+  }
+}
 
 // Columns
 // TODO: write descriptions
@@ -95,6 +98,75 @@ thead {
 // .light - to de-emphasize less important columns; sinisa, see http://cl.ly/image/1q1k2V0w1x3z columns 1 and 3
 // 
 // Styleguide 2.1
+
+tbody {
+  th, td {
+    &.row-heading {
+
+    }
+
+    &.total {
+      font-weight: bold;
+    }
+
+    &.right-aligned {
+      text-align: right;
+    }
+
+    &.light {
+      color: $light-grey;
+    }
+  }
+}
+
+// sortable and resizeable columns are only alowed in a table head.
+thead {
+  // resizeable
+  .resizeable {
+    cursor: col-resize;
+  }
+  
+  // sortable
+  .sortable {
+    position: relative;
+    padding-left: 15px;
+    cursor: pointer;
+
+    &:before, &:after {
+      position: absolute;
+      left: 10px;
+      height: 0;
+      width: 0;
+      content: "";
+    }
+
+    &:before {
+      top: 12px;
+      border-color: transparent transparent $primary transparent;
+      border-style: solid;
+      border-width: 0px 5px 5px 5px; 
+    }
+
+    &:after {
+      bottom: 12px;
+      border-color: $primary transparent transparent transparent;
+      border-style: solid;
+      border-width: 5px 5px 0 5px;
+    }
+
+    &.sorted-asc {
+      &:after {
+        border-color: $light-grey transparent transparent transparent;
+      }
+    }
+
+    &.sorted-desc {
+       &:before {
+        border-color: transparent transparent $light-grey transparent;
+      }
+    }
+  }
+}
 
 
 // Rows
@@ -111,16 +183,112 @@ thead {
 // 
 // Styleguide 3.1
 
+tbody {
+  tr {
+    &.draggable {
+
+    }
+
+    &.deletable {
+      
+    }
+
+    &.collapsible {
+      
+    }
+
+    &.expandable {
+      
+    }
+
+    &.spacer {
+      
+    }
+
+    &.subtotal {
+      
+    }
+
+    &.well {
+      td, th {
+        &:first-child {
+          text-transform: uppercase;
+          white-space: nowrap;
+          color: $grey;
+        }
+      }
+    }
+
+    &.total {
+      
+    }
+  }
+}
 
 // Cells
+// TODO: write descriptions
+// 
+// .plan - cell for planned rows: sinisa: super light blue background: http://cl.ly/image/2m2G1c3o3T0K
+// .collapsible - for cells that don't have row-level hierarchy, expanded hierarchy node that can be collapsed by clicking; sinisa, this is different from row-level hierarchies. sometimes the rest of the table is the same as other cells. see http://cl.ly/image/1K0Q1j1G1U0U
+// .expandable - for cells that don't have row-level hierarchy, collapsed hierarchy node that can be expanded by clicking; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// 
+// Styleguide 4.1
+
+th, td {
+  font-size: 12px;
+  text-align: left;
+  padding: 9px 8px;
+  width: 66px;
+
+  &:first-child {
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: $grey;
+  }
+
+  // plan
+  &.plan {
+    background: $plan;
+  }
+}
+
+// Editable
 // TODO: write descriptions
 // 
 // .editable - editable cell: sinisa just activecell link color indicates editable. anywhere. no pencil icon anywhere
 // .active - active cell. Only editable cell can become active. SINISA: THIS IS THIS MOST IMPORTANT ONE! http://cl.ly/image/0Z420V2p2I2G is half-way there. i want activecell link color for the border and a drop shadow, but i don't want the cell to be larger or oversized. the image's gradient looks terrible. either kill or improve it--your call. finally, we do like the little blue square in the lower right. it should look as much like our logo as possible. text inside the activecell should be activecell black, not link color
 // .changed - changed/dirty cell; sinisa, we don't have a style for this yet. this style is active after change but before confirmation that the change was recorded. either a different color, a different background, or a saving icon of some sort. what do you think is best?
-// .plan - cell for planned rows: sinisa: super light blue background: http://cl.ly/image/2m2G1c3o3T0K
-// .collapsible - for cells that don't have row-level hierarchy, expanded hierarchy node that can be collapsed by clicking; sinisa, this is different from row-level hierarchies. sometimes the rest of the table is the same as other cells. see http://cl.ly/image/1K0Q1j1G1U0U
-// .expandable - for cells that don't have row-level hierarchy, collapsed hierarchy node that can be expanded by clicking; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// 
+// Styleguide 4.2
+
+th, td {
+  // editable
+  &.editable {
+    color: $primary;
+    cursor: pointer;
+
+    // active
+    &.active {
+      position: relative;
+      display: block;
+      // width: auto;
+      cursor: text;
+      border: 1px solid $primary;
+      @include box-shadow(#{1px 1px 3px rgba($primary, 0.4), inset 1px 1px 3px rgba($primary, 0.5)});
+      background: $lighter-grey;
+    }
+
+    // changed
+    &.changed {
+      font-weight: bold;
+      border: 1px dotted $primary;
+    }
+  }
+}
+
+// Intend
+// TODO: write descriptions
+// 
 // .indent1 - for cells that don't have row-level hierarchy, indented 1 space; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
@@ -128,50 +296,36 @@ thead {
 // .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // 
-// Styleguide 4.1
+// Styleguide 4.3
 
 th, td {
-  font-size: 12px;
-  text-align: right;
-  padding: 9px 8px;
-  width: 66px;
-
-  // editable
-  .editable {
-
-    // active
-    &.active {
-      position: relative;
-      display: block;
-      width: auto;
-      border: 1px solid $secondary-light;
-      @include box-shadow(#{1px 1px 3px rgba(0,0,0,0.4), inset 1px 1px 1px rgba(0,0,0,0.12)});
-      @include gradient-vertical($light-grey, $white);
-
-      &:hover {
-        cursor: text;
-        background: white;
-        @include scale(1.2);
-        @include gradient-vertical(lighten($light-grey, 15%), $white);
-      }
-    }
+  // indent1
+  &.indent1 {
+    padding-left: 10px;
   }
 
-  // uneditable
-  .uneditable {
-
+  // indent2
+  &.indent2 {
+    padding-left: 20px;
   }
 
-  // changed
-  &.changed {
-    background-image: url('dirty.png');
-    background-repeat: no-repeat;
-    background-position: 1px 1px;
-    border: 1px solid $dark-blue-60;
+  // indent3
+  &.indent3 {
+    padding-left: 30px;
   }
 
-  // title
-  .title {
+  // indent4
+  &.indent4 {
+    padding-left: 40px;
+  }
 
+  // indent5
+  &.indent5 {
+    padding-left: 50px;
+  }
+
+  // indent5
+  &.indent6 {
+    padding-left: 60px;
   }
 }

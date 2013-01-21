@@ -14,12 +14,10 @@
 <br>
 <br>
 <% @section.modifiers.each do |modifier| %>
-  <p><span class="label label-info"><%= modifier.name %></span></p>
+  <p><span class="label"><%= modifier.name %></span></p>
   <%= @example_html.sub('$modifier_class', " #{modifier.class_name}") %>
   <br>
 <% end %>
-<br>
-<br>
 <h3>Code:</h3>
 <pre><%= @escaped_html.sub('$modifier_class', "") %></pre>
 <hr>
