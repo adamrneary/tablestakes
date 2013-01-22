@@ -16,9 +16,11 @@
 // Styleguide 1.1
 
 table {
+  @include border-radius(4px);
+  @include box-sizing(border-box);
+  width: 100%;
   padding: 10px;
   border-collapse: separate;
-  @include border-radius(4px);
   box-shadow: 0 0 2px rgba(0,0,0,0.15);
   background: $white;
 }
@@ -29,8 +31,6 @@ table {
 // TODO: write descriptions
 // 
 // sinisa, default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
-// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, http://cl.ly/image/0F362J2T2f1t shows row heading and column heading together
-// .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
 // 
 // Styleguide 1.2
 
@@ -40,7 +40,16 @@ thead {
     white-space: nowrap;
     color: $grey;
   }
+}
 
+// Row heading
+// TODO: write descriptions
+// 
+// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, http://cl.ly/image/0F362J2T2f1t shows row heading and column heading together
+// 
+// Styleguide 1.2.1
+
+thead {
   tr {
     &.row-heading {
       th, td {
@@ -51,7 +60,18 @@ thead {
         }
       }
     }
+  }
+}
 
+// Secondary
+// TODO: write descriptions
+// 
+// .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
+// 
+// Styleguide 1.2.2
+
+thead {
+  tr {
     &.secondary {
       th, td {
         color: $primary;
@@ -90,14 +110,95 @@ tfoot {
 // 
 // .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, let's kill this idea of light font weight for the row heading. stupid. default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
 // .total - for columns at the end of the table showing row totals; sinisa, perhaps just bold for now
-// .resizeable - allows the user to drag and drop the edges of the columns to resize; sinisa i dont know. do we need a style for this? or just turning cursor to left-right arrows?
-// .sortable - for columns not currently sorted, informing the user that the column can be sorted; sinisa, i don't know. do we need a style for this? hmm. maybe up and down arrows like this: http://cl.ly/image/3B2D1o0Q0Y0q
-// .sorted-asc - for column currently sorted ascending; sinisa, small up-facing arrow
-// .sorted-desc - for column currently sorted descending; sinisa, small down-facing arrow http://cl.ly/image/1c1U1N3Z2S2C
 // .right-aligned - for numeric columns (default is left-aligned)
 // .light - to de-emphasize less important columns; sinisa, see http://cl.ly/image/1q1k2V0w1x3z columns 1 and 3
 // 
 // Styleguide 2.1
+
+tbody {
+  th, td {
+    &.row-heading {
+
+    }
+
+    &.total {
+      font-weight: bold;
+    }
+
+    &.right-aligned {
+      text-align: right;
+    }
+
+    &.light {
+      color: $light-grey;
+    }
+  }
+}
+
+// Resizable
+// TODO: write descriptions
+// 
+// .resizeable - allows the user to drag and drop the edges of the columns to resize; sinisa i dont know. do we need a style for this? or just turning cursor to left-right arrows?
+// 
+// Styleguide 2.2
+thead {
+  // resizeable
+  .resizeable {
+    cursor: col-resize;
+  }
+}
+
+// Sortable
+// TODO: write descriptions
+// 
+// .sortable - for columns not currently sorted, informing the user that the column can be sorted; sinisa, i don't know. do we need a style for this? hmm. maybe up and down arrows like this: http://cl.ly/image/3B2D1o0Q0Y0q
+// .sorted-asc - for column currently sorted ascending; sinisa, small up-facing arrow
+// .sorted-desc - for column currently sorted descending; sinisa, small down-facing arrow http://cl.ly/image/1c1U1N3Z2S2C
+// 
+// Styleguide 2.3
+
+thead {
+  // sortable
+  .sortable {
+    position: relative;
+    padding-left: 15px;
+    cursor: pointer;
+
+    &:before, &:after {
+      position: absolute;
+      left: 10px;
+      height: 0;
+      width: 0;
+      content: "";
+    }
+
+    &:before {
+      top: 12px;
+      border-color: transparent transparent $primary transparent;
+      border-style: solid;
+      border-width: 0px 5px 5px 5px; 
+    }
+
+    &:after {
+      bottom: 12px;
+      border-color: $primary transparent transparent transparent;
+      border-style: solid;
+      border-width: 5px 5px 0 5px;
+    }
+
+    &.sorted-asc {
+      &:after {
+        border-color: $light-grey transparent transparent transparent;
+      }
+    }
+
+    &.sorted-desc {
+       &:before {
+        border-color: transparent transparent $light-grey transparent;
+      }
+    }
+  }
+}
 
 tbody {
   th, td {
@@ -283,6 +384,25 @@ th, td {
       font-weight: bold;
       border: 1px dotted $primary;
     }
+  }
+}
+
+// Intend
+// TODO: write descriptions
+// 
+// .indent1 - for cells that don't have row-level hierarchy, indented 1 space; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent4 - for cells that don't have row-level hierarchy, indented 4 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// 
+// Styleguide 4.3
+
+th, td {
+  // indent1
+  &.indent1 {
+    padding-left: 10px;
   }
 }
 
