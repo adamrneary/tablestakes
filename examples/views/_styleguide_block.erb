@@ -11,7 +11,6 @@
 <% end %>
 <%= @example_html %>
 <% if @section.modifiers.count > 0 %>
-  <h3>HTML examples with CSS classes applied</h3>
   <% @section.modifiers.each do |modifier| %>
     <p><span class="label"><%= modifier.name %></span></p>
     <%= @example_html.sub('$modifier_class', " #{modifier.class_name}") %>

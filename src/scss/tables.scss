@@ -25,12 +25,11 @@ table {
   background: $white;
 }
 
-
-
 // Headers
 // TODO: write descriptions
 // 
-// sinisa, default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
+// .secondary - used above normal header (for nested table headers)
+// .row-heading - for first 1-2 columns that describe the content of the row
 // 
 // Styleguide 1.2
 
@@ -38,56 +37,27 @@ thead {
   th, td {
     text-transform: uppercase;
     white-space: nowrap;
-    color: $grey;
+    color: $primary;
+    text-align: right;
   }
-}
-
-// Row heading
-// TODO: write descriptions
-// 
-// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, http://cl.ly/image/0F362J2T2f1t shows row heading and column heading together
-// 
-// Styleguide 1.2.1
-
-thead {
-  tr {
-    &.row-heading {
-      th, td {
-        color: $primary;
-        text-align: right;
-        &:first-child {
-          color: $primary-dark
-        }
-      }
+  &.secondary {
+    th, td {
+      color: $primary;
+    }
+    th {
+      text-align: center;
+    }
+    td {
+      border-bottom: solid 1px $light-grey;
+    }
+  }
+  &.row-heading {
+    th, td {
+      color: $primary-dark;
+      text-align: left;
     }
   }
 }
-
-// Secondary
-// TODO: write descriptions
-// 
-// .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
-// 
-// Styleguide 1.2.2
-
-thead {
-  tr {
-    &.secondary {
-      th, td {
-        color: $primary;
-      }
-
-      th {
-        text-align: center;
-      }
-
-      td {
-        border-bottom: solid 1px $light-grey;
-      }
-    }
-  }
-}
-
 
 // Footers
 // Currently, we only use footers for explanatory notes
@@ -97,7 +67,6 @@ thead {
 
 tfoot {
   th, td {
-    font-family: Georgia, serif;
     font-size: 16px;
     color: $grey;
     font-weight: bold;
