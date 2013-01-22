@@ -110,10 +110,6 @@ tfoot {
 // 
 // .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, let's kill this idea of light font weight for the row heading. stupid. default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
 // .total - for columns at the end of the table showing row totals; sinisa, perhaps just bold for now
-// .resizeable - allows the user to drag and drop the edges of the columns to resize; sinisa i dont know. do we need a style for this? or just turning cursor to left-right arrows?
-// .sortable - for columns not currently sorted, informing the user that the column can be sorted; sinisa, i don't know. do we need a style for this? hmm. maybe up and down arrows like this: http://cl.ly/image/3B2D1o0Q0Y0q
-// .sorted-asc - for column currently sorted ascending; sinisa, small up-facing arrow
-// .sorted-desc - for column currently sorted descending; sinisa, small down-facing arrow http://cl.ly/image/1c1U1N3Z2S2C
 // .right-aligned - for numeric columns (default is left-aligned)
 // .light - to de-emphasize less important columns; sinisa, see http://cl.ly/image/1q1k2V0w1x3z columns 1 and 3
 // 
@@ -139,13 +135,29 @@ tbody {
   }
 }
 
-// sortable and resizeable columns are only alowed in a table head.
+// Resizable
+// TODO: write descriptions
+// 
+// .resizeable - allows the user to drag and drop the edges of the columns to resize; sinisa i dont know. do we need a style for this? or just turning cursor to left-right arrows?
+// 
+// Styleguide 2.2
 thead {
   // resizeable
   .resizeable {
     cursor: col-resize;
   }
-  
+}
+
+// Sortable
+// TODO: write descriptions
+// 
+// .sortable - for columns not currently sorted, informing the user that the column can be sorted; sinisa, i don't know. do we need a style for this? hmm. maybe up and down arrows like this: http://cl.ly/image/3B2D1o0Q0Y0q
+// .sorted-asc - for column currently sorted ascending; sinisa, small up-facing arrow
+// .sorted-desc - for column currently sorted descending; sinisa, small down-facing arrow http://cl.ly/image/1c1U1N3Z2S2C
+// 
+// Styleguide 2.3
+
+thead {
   // sortable
   .sortable {
     position: relative;
