@@ -16,9 +16,11 @@
 // Styleguide 1.1
 
 table {
+  @include border-radius(4px);
+  @include box-sizing(border-box);
+  width: 100%;
   padding: 10px;
   border-collapse: separate;
-  @include border-radius(4px);
   box-shadow: 0 0 2px rgba(0,0,0,0.15);
   background: $white;
 }
@@ -29,8 +31,6 @@ table {
 // TODO: write descriptions
 // 
 // sinisa, default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
-// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, http://cl.ly/image/0F362J2T2f1t shows row heading and column heading together
-// .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
 // 
 // Styleguide 1.2
 
@@ -40,7 +40,16 @@ thead {
     white-space: nowrap;
     color: $grey;
   }
+}
 
+// Row heading
+// TODO: write descriptions
+// 
+// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, http://cl.ly/image/0F362J2T2f1t shows row heading and column heading together
+// 
+// Styleguide 1.2.1
+
+thead {
   tr {
     &.row-heading {
       th, td {
@@ -51,7 +60,18 @@ thead {
         }
       }
     }
+  }
+}
 
+// Secondary
+// TODO: write descriptions
+// 
+// .secondary - used above normal header (for nested table headers) sinisa, see http://cl.ly/image/3Q2R1n0E1L1i
+// 
+// Styleguide 1.2.2
+
+thead {
+  tr {
     &.secondary {
       th, td {
         color: $primary;

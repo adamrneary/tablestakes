@@ -9,14 +9,15 @@
     <% end %>
   </ul>
 <% end %>
-<h3>HTML example</h3>
+<h3>Raw HTML example</h3>
 <%= @example_html %>
-<br>
-<br>
-<% @section.modifiers.each do |modifier| %>
-  <p><span class="label"><%= modifier.name %></span></p>
-  <%= @example_html.sub('$modifier_class', " #{modifier.class_name}") %>
-  <br>
+<% if @section.modifiers.count > 0 %>
+  <h3>HTML examples with CSS classes applied</h3>
+  <% @section.modifiers.each do |modifier| %>
+    <p><span class="label"><%= modifier.name %></span></p>
+    <%= @example_html.sub('$modifier_class', " #{modifier.class_name}") %>
+    <br>
+  <% end %>
 <% end %>
 <h3>Code:</h3>
 <pre><%= @escaped_html.sub('$modifier_class', "") %></pre>
