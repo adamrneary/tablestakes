@@ -12,22 +12,22 @@ class App < Sinatra::Base
 
   get '/styleguide' do
     @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/one"
+    erb :"styleguide/one"
   end
 
   get '/styleguide/columns' do
     @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/two"
+    erb :"styleguide/two"
   end
 
   get '/styleguide/rows' do
     @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/three"
+    erb :"styleguide/three"
   end
 
   get '/styleguide/cells' do
     @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/four"
+    erb :"styleguide/four"
   end
 
   helpers do
