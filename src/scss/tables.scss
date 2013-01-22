@@ -204,11 +204,6 @@ thead {
 // Rows
 // TODO: write descriptions
 // 
-// .draggable - indicates that the row can be moved up or down; sinisa this is new. something that doesn't suck that looks like this: http://cl.ly/image/2e1w252O3p1p
-// .deletable - indicates that the row can be deleted by clicking the 'x'; sinisa, we had a pencil icon in a cell somewhere. i hated it. :-) for deleteable rows, i want a little blue 'x' icon at the end to indicate that the row can be deleted
-// .collapsible - expanded hierarchy node that can be collapsed by clicking; sinisa, this is a case where the entire row is separated out as the parent: http://cl.ly/image/2i2q3e332F2u. I don't like the gradient, but maybe you can work your magic. arrow points down when expanded
-// .expandable - collapsed hierarchy node that can be expanded by clicking; sinisa, same as above but arrow points right when collapsed
-// .spacer - blank row to provide space
 // .subtotal - for rows showing total of a subset of rows above them; http://cl.ly/image/250s0Y1U013D is pretty good
 // .well - alt style for rows showing total of a subset of rows above them; http://cl.ly/image/2W2R3k423T3v is pretty good
 // .total - for rows at the bottom of the table showing column totals: sinisa the colors might be off here, but bold and activecell green: http://cl.ly/image/0D2a07462x3r
@@ -217,26 +212,6 @@ thead {
 
 tbody {
   tr {
-    &.draggable {
-
-    }
-
-    &.deletable {
-      
-    }
-
-    &.collapsible {
-      
-    }
-
-    &.expandable {
-      
-    }
-
-    &.spacer {
-      
-    }
-
     &.subtotal {
       
     }
@@ -256,6 +231,74 @@ tbody {
     }
   }
 }
+
+// Collapsible and expandable
+// TODO: write descriptions
+// 
+// .collapsible - expanded hierarchy node that can be collapsed by clicking; sinisa, this is a case where the entire row is separated out as the parent: http://cl.ly/image/2i2q3e332F2u. I don't like the gradient, but maybe you can work your magic. arrow points down when expanded
+// .expandable - collapsed hierarchy node that can be expanded by clicking; sinisa, same as above but arrow points right when collapsed
+// 
+// Styleguide 3.2
+
+tbody {
+  tr {
+    &.collapsible {
+      
+    }
+
+    &.expandable {
+      
+    }
+  }
+}
+
+
+// Draggable
+// TODO: write descriptions
+// 
+// .draggable - indicates that the row can be moved up or down; sinisa this is new. something that doesn't suck that looks like this: http://cl.ly/image/2e1w252O3p1p
+// 
+// Styleguide 3.3
+
+tbody {
+  tr {
+    &.draggable {
+
+    }
+  }
+}
+
+
+// Deletable
+// TODO: write descriptions
+// 
+// .deletable - indicates that the row can be deleted by clicking the 'x'; sinisa, we had a pencil icon in a cell somewhere. i hated it. :-) for deleteable rows, i want a little blue 'x' icon at the end to indicate that the row can be deleted
+// 
+// Styleguide 3.4
+
+tbody {
+  tr {
+    &.deletable {
+      
+    }
+  }
+}
+
+// Spacer
+// TODO: write descriptions
+// 
+// .spacer - blank row to provide space
+// 
+// Styleguide 3.5
+
+tbody {
+  tr {
+    &.spacer {
+      
+    }
+  }
+}
+
 
 // Cells
 // TODO: write descriptions
