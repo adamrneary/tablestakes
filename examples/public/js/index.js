@@ -1,20 +1,23 @@
-var core = [
-{
-  shortLink: "base", 
-  title: "Base example"
-},
-{
-  shortLink: "nested", 
-  title: "Nested"
-},
-{
-  shortLink: "filterable", 
-  title: "Filterable"
-},
-{
-  shortLink: "add-and-delete", 
-  title: "Add and delete"
-}
+core = [
+  {
+    shortLink: "base",
+    title: "Base example"
+  }, {
+    shortLink: "editable",
+    title: "Editable"
+  }, {
+    shortLink: "nested",
+    title: "Nested"
+  }, {
+    shortLink: "filterable",
+    title: "Filterable"
+  }, {
+    shortLink: "add-and-delete",
+    title: "Add and delete"
+  }, {
+    shortLink: "dragable",
+    title: "Dragable"
+  }
 ];
 
 var showcaseObject = {
@@ -34,7 +37,9 @@ var prepareLinks = function(route, el) {
     var script = $("<script>").attr("src", url);
     $("#example_view").empty().append(script);
         
-    $("#example_js").load(url, function() {
+    $("#example_js").load(url, function(data) {
+      $('.example-table').hide()
+      eval(data);
       $(this).removeClass("rainbow");
       Rainbow.color();
     });
