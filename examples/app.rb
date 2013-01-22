@@ -30,21 +30,6 @@ class App < Sinatra::Base
     erb :"styleguide/four"
   end
 
-  get '/styleguide/columns' do
-    @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/two"
-  end
-
-  get '/styleguide/rows' do
-    @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/three"
-  end
-
-  get '/styleguide/cells' do
-    @styleguide = Kss::Parser.new('src/scss/')
-    erb :"sections/four"
-  end
-
   helpers do
     # Generates a styleguide block. A little bit evil with @_out_buf, but
     # if you're using something like Rails, you can write a much cleaner helper

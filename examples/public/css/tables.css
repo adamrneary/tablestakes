@@ -115,91 +115,37 @@ thead .sortable.sorted-desc:before {
   border-color: transparent transparent #e2dedf transparent;
 }
 
-/* line 209, ../src/scss/tables.scss */
-tbody th.total, tbody td.total {
-  font-weight: bold;
-}
-/* line 213, ../src/scss/tables.scss */
-tbody th.right-aligned, tbody td.right-aligned {
-  text-align: right;
-}
-/* line 217, ../src/scss/tables.scss */
-tbody th.light, tbody td.light {
-  color: #e2dedf;
-}
-
-/* line 226, ../src/scss/tables.scss */
-thead .resizeable {
-  cursor: col-resize;
-}
-/* line 231, ../src/scss/tables.scss */
-thead .sortable {
-  position: relative;
-  padding-left: 15px;
-  cursor: pointer;
-}
-/* line 236, ../src/scss/tables.scss */
-thead .sortable:before, thead .sortable:after {
-  position: absolute;
-  left: 10px;
-  height: 0;
-  width: 0;
-  content: "";
-}
-/* line 244, ../src/scss/tables.scss */
-thead .sortable:before {
-  top: 12px;
-  border-color: transparent transparent #30878f transparent;
-  border-style: solid;
-  border-width: 0px 5px 5px 5px;
-}
-/* line 251, ../src/scss/tables.scss */
-thead .sortable:after {
-  bottom: 12px;
-  border-color: #30878f transparent transparent transparent;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-}
-/* line 259, ../src/scss/tables.scss */
-thead .sortable.sorted-asc:after {
-  border-color: #e2dedf transparent transparent transparent;
-}
-/* line 265, ../src/scss/tables.scss */
-thead .sortable.sorted-desc:before {
-  border-color: transparent transparent #e2dedf transparent;
-}
-
-/* line 315, ../src/scss/tables.scss */
+/* line 245, ../src/scss/tables.scss */
 tbody tr.well td:first-child, tbody tr.well th:first-child {
   text-transform: uppercase;
   white-space: nowrap;
   color: #a69b9e;
 }
 
-/* line 338, ../src/scss/tables.scss */
+/* line 268, ../src/scss/tables.scss */
 th, td {
   font-size: 12px;
   text-align: left;
   padding: 9px 8px;
   width: 66px;
 }
-/* line 344, ../src/scss/tables.scss */
+/* line 274, ../src/scss/tables.scss */
 th:first-child, td:first-child {
   text-transform: uppercase;
   white-space: nowrap;
   color: #a69b9e;
 }
-/* line 351, ../src/scss/tables.scss */
+/* line 281, ../src/scss/tables.scss */
 th.plan, td.plan {
   background: #f5fbfc;
 }
 
-/* line 367, ../src/scss/tables.scss */
+/* line 297, ../src/scss/tables.scss */
 th.editable, td.editable {
   color: #30878f;
   cursor: pointer;
 }
-/* line 372, ../src/scss/tables.scss */
+/* line 302, ../src/scss/tables.scss */
 th.editable.active, td.editable.active {
   position: relative;
   display: block;
@@ -210,38 +156,33 @@ th.editable.active, td.editable.active {
   box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
   background: #faf9fa;
 }
-/* line 383, ../src/scss/tables.scss */
+/* line 313, ../src/scss/tables.scss */
 th.editable.changed, td.editable.changed {
   font-weight: bold;
   border: 1px dotted #30878f;
 }
 
-/* line 404, ../src/scss/tables.scss */
+/* line 334, ../src/scss/tables.scss */
 th.indent1, td.indent1 {
   padding-left: 10px;
 }
-
-/* line 423, ../src/scss/tables.scss */
-th.indent1, td.indent1 {
-  padding-left: 10px;
-}
-/* line 428, ../src/scss/tables.scss */
+/* line 339, ../src/scss/tables.scss */
 th.indent2, td.indent2 {
   padding-left: 20px;
 }
-/* line 433, ../src/scss/tables.scss */
+/* line 344, ../src/scss/tables.scss */
 th.indent3, td.indent3 {
   padding-left: 30px;
 }
-/* line 438, ../src/scss/tables.scss */
+/* line 349, ../src/scss/tables.scss */
 th.indent4, td.indent4 {
   padding-left: 40px;
 }
-/* line 443, ../src/scss/tables.scss */
+/* line 354, ../src/scss/tables.scss */
 th.indent5, td.indent5 {
   padding-left: 50px;
 }
-/* line 448, ../src/scss/tables.scss */
+/* line 359, ../src/scss/tables.scss */
 th.indent6, td.indent6 {
   padding-left: 60px;
 }
