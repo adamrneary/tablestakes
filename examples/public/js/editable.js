@@ -72,6 +72,8 @@ grid = new window.TablesStakes({
     columns: testColumns,
     data: testTree
 });
-grid.render('#base');
-$('#base').show()
+grid.set('editable', true);
+grid.render('#editable');
+$('#editable').show()
 }).call(this);
+
