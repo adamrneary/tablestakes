@@ -115,37 +115,37 @@ thead .sortable.sorted-desc:before {
   border-color: transparent transparent #e2dedf transparent;
 }
 
-/* line 245, ../src/scss/tables.scss */
+/* line 246, ../src/scss/tables.scss */
 tbody tr.well td:first-child, tbody tr.well th:first-child {
   text-transform: uppercase;
   white-space: nowrap;
   color: #a69b9e;
 }
 
-/* line 268, ../src/scss/tables.scss */
+/* line 269, ../src/scss/tables.scss */
 th, td {
   font-size: 12px;
   text-align: left;
   padding: 9px 8px;
   width: 66px;
 }
-/* line 274, ../src/scss/tables.scss */
+/* line 275, ../src/scss/tables.scss */
 th:first-child, td:first-child {
   text-transform: uppercase;
   white-space: nowrap;
   color: #a69b9e;
 }
-/* line 281, ../src/scss/tables.scss */
+/* line 282, ../src/scss/tables.scss */
 th.plan, td.plan {
   background: #f5fbfc;
 }
 
-/* line 297, ../src/scss/tables.scss */
+/* line 298, ../src/scss/tables.scss */
 th.editable, td.editable {
   color: #30878f;
   cursor: pointer;
 }
-/* line 302, ../src/scss/tables.scss */
+/* line 303, ../src/scss/tables.scss */
 th.editable.active, td.editable.active {
   position: relative;
   display: block;
@@ -156,33 +156,33 @@ th.editable.active, td.editable.active {
   box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
   background: #faf9fa;
 }
-/* line 313, ../src/scss/tables.scss */
+/* line 314, ../src/scss/tables.scss */
 th.editable.changed, td.editable.changed {
   font-weight: bold;
   border: 1px dotted #30878f;
 }
 
-/* line 334, ../src/scss/tables.scss */
+/* line 335, ../src/scss/tables.scss */
 th.indent1, td.indent1 {
   padding-left: 10px;
 }
-/* line 339, ../src/scss/tables.scss */
+/* line 340, ../src/scss/tables.scss */
 th.indent2, td.indent2 {
   padding-left: 20px;
 }
-/* line 344, ../src/scss/tables.scss */
+/* line 345, ../src/scss/tables.scss */
 th.indent3, td.indent3 {
   padding-left: 30px;
 }
-/* line 349, ../src/scss/tables.scss */
+/* line 350, ../src/scss/tables.scss */
 th.indent4, td.indent4 {
   padding-left: 40px;
 }
-/* line 354, ../src/scss/tables.scss */
+/* line 355, ../src/scss/tables.scss */
 th.indent5, td.indent5 {
   padding-left: 50px;
 }
-/* line 359, ../src/scss/tables.scss */
+/* line 360, ../src/scss/tables.scss */
 th.indent6, td.indent6 {
   padding-left: 60px;
 }
