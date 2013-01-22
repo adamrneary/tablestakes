@@ -1,12 +1,29 @@
 {
-    "name": "TablesStakes",
-    "version": "0.0.1",
-    "private": true,
-    "scripts": {
-        "start": "node run"
-    },
-    "dependencies": {
-        "express": "3.0.6",
-        "coffee-script": ""
-    }
+  "name": "tablestakes",
+  "version": "0.0.1",
+  "author": {
+    "name": "Activecell",
+    "email": "activecell.com"
+  },
+  "homepage": "https://github.com/activecell/tablestakes",
+  "description": "A bad-ass interactive grid platform.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/activecell/tablestakes"
+  },
+  "keywords": [
+    "d3"
+  ],
+  "dependencies": {
+    "d3": "2.x.x"
+  },
+  "noAnalyze": true,
+  "devDependencies": {
+    "grunt": "0.3.11",
+    "grunt-styleguide": "~0.2.1",
+    "grunt-coffee": "0.0.2",
+    "grunt-compass": "0.3.7",
+    "grunt-contrib-copy": "0.3.2"
+  },
+  "license": "NONE"
 }

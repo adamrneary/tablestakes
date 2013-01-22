@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Tablestakes: A bad-ass interactive grid platform.</title>
+  <!-- vendor stylesheets -->
+  <link rel="stylesheet" type="text/css" href="/css/vendor/nv.d3.css"/> <!-- TODO: Remove -->
+  <link rel="stylesheet" type="text/css" href="/css/vendor/bootstrap.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/vendor/rainbow-theme.css"/>
+  <style>.icon-white {background-image: url("/img/glyphicons-halflings-white.png")}</style>
+  
+  <!-- tablestakes stylesheet -->
+  <link rel="stylesheet" type="text/css" href="/css/tables.css"/>
+  
+  <!-- vendor javascripts -->
+  <script type="text/javascript" src="/js/vendor/underscore.js"></script>
+  <script type="text/javascript" src="/js/vendor/jquery-1.8.0.js"></script>
+  <script type="text/javascript" src="/js/vendor/backbone.js"></script>
+  <script type="text/javascript" src="/js/vendor/d3.v2.js"></script>
+  <script type="text/javascript" src="/js/vendor/rainbow-custom.min.js"></script>
+  <script type="text/javascript" src="/js/vendor/bootstrap.min.js"></script>
+
+  <!-- tablestakes javascripts -->
+  <script type="text/javascript" src="/js/tablestakes.js"></script>
+  
+  <title>Tablestakes: A bad-ass interactive grid platform.</title>
+</head>
+<body data-spy="scroll" data-target=".nav-list">
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </a>
+        <a class="brand" href="http://www.activecell.com">Tablestakes</a>
+        <div class="nav-collapse">
+          <ul class="nav">
+            <li><a href="/"><i class="icon-white icon-home"></i> Home</a></li>
+            <li><a href="/styleguide"><i class="icon-white icon-glass"></i> Style Guide</a></li>
+            <li><a href="https://github.com/activecell/tablestakes"><i class="icon-white icon-book"></i> Source</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <%= yield %>
+  </div>
+
+  <script type="text/javascript">
+    $(function() {
+      $("[data-original-title]").tooltip();
+    });
+  </script>
+</body>
+</html>
