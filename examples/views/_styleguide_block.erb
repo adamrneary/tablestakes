@@ -1,21 +1,23 @@
-<h2><%= @section.section %> <small><%= @section.filename %></small></h2>
-<p><%= @section.description %></p>
-<% if @section.modifiers.any? %>
-  <ul>
-    <% @section.modifiers.each do |modifier| %>
-      <li>
-        <span class="label label-info"><%= modifier.name %></span> - 
-        <%= modifier.description %></li>
+<div class="styleguide-example">
+  <h3><%= @section.section %> <em><%= @section.filename %></em></h3>
+  <div class="styleguide-description">
+    <p><%= @section.description %></p>
+    <% if @section.modifiers.any? %>
+      <ul class="styleguide-modifier">
+        <% @section.modifiers.each do |modifier| %>
+          <li><strong><%= modifier.name %></strong> - <%= modifier.description %></li>
+        <% end %>
+      </ul>
     <% end %>
-  </ul>
-<% end %>
-<%= @example_html %>
-<% if @section.modifiers.count > 0 %>
+  </div>
+  <div class="styleguide-element">
+    <%= @example_html %>
+  </div>
   <% @section.modifiers.each do |modifier| %>
-    <p><span class="label"><%= modifier.name %></span></p>
-    <%= @example_html.sub('$modifier_class', " #{modifier.class_name}") %>
-    <br>
+    <div class="styleguide-element styleguide-modifier">
+      <span class="styleguide-modifier-name"><%= modifier.name %></span>
+      <%= @example_html.sub('$modifier_class', " #{modifier.class_name}") %>
+    </div>
   <% end %>
-<% end %>
-<pre><%= @escaped_html %></pre>
-<hr>
+  <pre class="styleguide-code"><%= @escaped_html %></pre>
+</div>
