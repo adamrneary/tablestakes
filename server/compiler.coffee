@@ -45,7 +45,7 @@ compileCoffeeExamples = (cb)->
             cb()
 
 compileScss = (cb)->
-    fs.readFile "#{__dirname}/../src/scss/index.scss", (err, scssFile)->
+    fs.readFile "#{__dirname}/../src/scss/tables.scss", (err, scssFile)->
         sass.render scssFile.toString(), (err, css)->
             if err
                 console.log err
