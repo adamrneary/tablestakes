@@ -6,7 +6,7 @@ head
     //
        vendor stylesheets 
     link(href='libs/css/bootstrap.css', rel='stylesheet', type='text/css')
-    link(href='libs/css/nv.d3.css', rel='stylesheet', type='text/css')
+    link(href='libs/css/styleguide.css', rel='stylesheet', type='text/css')
     link(href='libs/css/rainbow-theme.css', rel='stylesheet', type='text/css')
     style
       .icon-white {background-image: url("libs/img/glyphicons-halflings-white.png")}
@@ -42,7 +42,11 @@ head
                   i.icon-white.icon-home
                   | Home
               li
-                a(href='/styleguide')
+                a(href='/mocha')
+                  i.icon-white.icon-ok
+                  | Tests
+              li
+                a.active(href='/styleguide')
                   i.icon-white.icon-glass
                   | Style Guide
               li
@@ -65,13 +69,30 @@ head
             br
             br
             br
-            h1 #{sections[i].data.reference} #{sections[i].data.header}
-            br
-            div!= sections[i].data.description
-            br
-            div!= sections[i].data.example
-            br
-            pre= sections[i].data.example
+            .styleguide-example
+              .h3 #{sections[i].data.reference} #{sections[i].data.header}
+                em #{sections[i].data.filename} 
+              .styleguide-description
+                p!= sections[i].data.description
+                if sections[i].data.modifiers
+                  ul.styleguide-modifier
+                    each modifier in sections[i].data.modifiers
+                      li
+                        strong modifier.name
+                         - modifier.description
+              .styleguide-element!= sections[i].data.example
+              each @section.modifiers do |modifier|
+                .styleguide-element.styleguide-modifier
+                  span.styleguide-modifier-name modifier.name
+                  sections[i].data.example.sub('$modifier_class', " #{modifier.class_name}")
+              pre.styleguide-code= sections[i].data.example
+            //- h1 #{sections[i].data.reference} #{sections[i].data.header}
+            //- br
+            //- div!= sections[i].data.description
+            //- br
+            //- div!= sections[i].data.example
+            //- br
+            //- pre= sections[i].data.example
     script(type='text/javascript')
       $(function() {
       $("[data-original-title]").tooltip();
