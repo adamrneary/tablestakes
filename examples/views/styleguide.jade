@@ -81,7 +81,7 @@ head
                         strong modifier.name
                          - modifier.description
               .styleguide-element!= sections[i].data.example
-              each @section.modifiers do |modifier|
+              each modifier in sections[i].data.modifiers
                 .styleguide-element.styleguide-modifier
                   span.styleguide-modifier-name modifier.name
                   sections[i].data.example.sub('$modifier_class', " #{modifier.class_name}")
