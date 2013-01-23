@@ -1,0 +1,78 @@
+!!! 5
+html
+head
+    meta(http-equiv='content-type', content='text/html;charset=UTF-8')
+    title Tablestakes: A bad-ass interactive grid platform.
+    //
+       vendor stylesheets 
+    link(href='libs/css/bootstrap.css', rel='stylesheet', type='text/css')
+    link(href='libs/css/nv.d3.css', rel='stylesheet', type='text/css')
+    link(href='libs/css/rainbow-theme.css', rel='stylesheet', type='text/css')
+    style
+      .icon-white {background-image: url("libs/img/glyphicons-halflings-white.png")}
+    //
+       vendor javascripts 
+    script(type='text/javascript', src='libs/jquery-1.8.0.js')
+    script(type='text/javascript', src='libs/underscore.js')
+    script(type='text/javascript', src='libs/backbone.js')
+    script(type='text/javascript', src='libs/d3.v2.js')
+    script(type='text/javascript', src='libs/rainbow-custom.min.js')
+    script(type='text/javascript', src='libs/bootstrap.min.js')
+
+    script(type='text/javascript', src='js/tablestakes.js')
+    link(href='css/tablestakes.css', rel='stylesheet', type='text/css')
+    //
+      <script type="text/coffeescript" src="index.coffee"></script>
+    //
+      <script type="text/javascript" src="libs/coffee-script.js"></script>
+    title Tablestakes: A bad-ass interactive grid platform.
+  body(data-spy='scroll', data-target='.nav-list')
+    .navbar.navbar-inverse.navbar-fixed-top
+      .navbar-inner
+        .container
+          a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.brand(href='http://www.activecell.com') Tablestakes
+          .nav-collapse
+            ul.nav
+              li
+                a(href='/')
+                  i.icon-white.icon-home
+                  | Home
+              li
+                a(href='/styleguide')
+                  i.icon-white.icon-glass
+                  | Style Guide
+              li
+                a(href='https://github.com/activecell/tablestakes')
+                  i.icon-white.icon-book
+                  | Source
+          //
+            /.nav-collapse 
+    .container
+      .row
+        .span3
+          .well(data-spy='affix', data-offset-top='50', style='width: 220px;')
+            ul.nav.nav-list
+              - for (var i in sections)
+                li
+                  a(href='#/styleguide/#{sections[i].data.reference}') #{sections[i].data.reference} #{sections[i].data.header}
+        .span9
+          - for (var i in sections)
+            a(name='/styleguide/#{sections[i].data.reference}') &nbsp;
+            br
+            br
+            br
+            h1 #{sections[i].data.reference} #{sections[i].data.header}
+            br
+            div!= sections[i].data.description
+            br
+            div!= sections[i].data.example
+            br
+            pre= sections[i].data.example
+    script(type='text/javascript')
+      $(function() {
+      $("[data-original-title]").tooltip();
+      });

@@ -28,11 +28,13 @@ prepareLinks = (route, el) ->
     url = "js/" + route.shortLink + ".js"
     script = $("<script>").attr("src", url)
     $("#example_view").empty().append script
-    $("#example_js").load url, (data)->
-      $('.example').hide()
-      eval data
-      $(this).removeClass "rainbow"
-      Rainbow.color()
+    console.log 'url',url
+    $.get url, (data)->
+        $("#example_js").text data
+        $('.example').hide()
+        eval data
+        $(this).removeClass "rainbow"
+        Rainbow.color()
     Rainbow.color()
 
 $(document).ready ->
