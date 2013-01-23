@@ -62,9 +62,9 @@ app.get '/', (req,res)->
         #res.setHeader 'Content-Length', html.length
         #res.end html
 
-app.get '/jasmine', (req,res)->
+app.get '/mocha', (req,res)->
     compile ->
-        res.render 'jasmine'
+        res.render 'mocha'
 
 app.get '/styleguide', (req,res)->
     compile ->
