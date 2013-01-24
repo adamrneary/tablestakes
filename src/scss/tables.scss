@@ -313,8 +313,23 @@ tbody {
 
       th, td {
         &:last-child {
-          text-align: right;
-          width: auto;
+          text-align: right;        
+
+          &:before {
+            @include border-radius(200px);
+            content: "x";
+            display: block;
+            float: right;
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            background: $danger;
+            color: $white;
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+          }
         }
       }
     }
