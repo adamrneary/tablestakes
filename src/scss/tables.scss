@@ -38,9 +38,10 @@ thead {
   th, td {
     text-transform: uppercase;
     white-space: nowrap;
-    color: $primary;
+    color: $grey;
     text-align: right;
   }
+  
   &.secondary {
     th, td {
       color: $primary;
