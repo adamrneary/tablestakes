@@ -115,18 +115,46 @@ thead .sortable.sorted-desc:before {
   border-color: transparent transparent #e2dedf transparent;
 }
 
-/* line 283, ../src/scss/tables.scss */
+/* line 187, ../src/scss/tables.scss */
+tbody tr.subtotal th, tbody tr.subtotal td {
+  border-top: solid 1px #e2dedf;
+  border-bottom: solid 1px #e2dedf;
+  color: #a69b9e;
+  background: #faf9fa;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+/* line 198, ../src/scss/tables.scss */
+tbody tr.well td, tbody tr.well th {
+  border-top: solid 1px #e2dedf;
+  border-bottom: solid 1px #e2dedf;
+  color: #a69b9e;
+  background: #dae1e9;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+/* line 209, ../src/scss/tables.scss */
+tbody tr.total th, tbody tr.total td {
+  border-top: solid 1px #e2dedf;
+  border-bottom: solid 1px #e2dedf;
+  color: #c4d33e;
+  background: white;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+/* line 298, ../src/scss/tables.scss */
 th, td {
   font-size: 12px;
   text-align: left;
   padding: 9px 8px;
   width: 66px;
 }
-/* line 296, ../src/scss/tables.scss */
+/* line 311, ../src/scss/tables.scss */
 th.plan, td.plan {
   background: #f5fbfc;
 }
-/* line 302, ../src/scss/tables.scss */
+/* line 317, ../src/scss/tables.scss */
 th.collapsible:before, td.collapsible:before {
   top: 12px;
   border-color: transparent transparent #30878f transparent;
@@ -134,12 +162,12 @@ th.collapsible:before, td.collapsible:before {
   border-width: 0px 5px 5px 5px;
 }
 
-/* line 327, ../src/scss/tables.scss */
+/* line 342, ../src/scss/tables.scss */
 th.editable, td.editable {
   color: #30878f;
   cursor: pointer;
 }
-/* line 332, ../src/scss/tables.scss */
+/* line 347, ../src/scss/tables.scss */
 th.editable.active, td.editable.active {
   cursor: text;
   border: 1px solid #30878f;
@@ -148,33 +176,33 @@ th.editable.active, td.editable.active {
   box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
   background: #faf9fa;
 }
-/* line 343, ../src/scss/tables.scss */
+/* line 358, ../src/scss/tables.scss */
 th.editable.changed, td.editable.changed {
   font-weight: bold;
   border: 1px dotted #30878f;
 }
 
-/* line 364, ../src/scss/tables.scss */
+/* line 379, ../src/scss/tables.scss */
 th.indent1, td.indent1 {
   padding-left: 10px;
 }
-/* line 369, ../src/scss/tables.scss */
+/* line 384, ../src/scss/tables.scss */
 th.indent2, td.indent2 {
   padding-left: 20px;
 }
-/* line 374, ../src/scss/tables.scss */
+/* line 389, ../src/scss/tables.scss */
 th.indent3, td.indent3 {
   padding-left: 30px;
 }
-/* line 379, ../src/scss/tables.scss */
+/* line 394, ../src/scss/tables.scss */
 th.indent4, td.indent4 {
   padding-left: 40px;
 }
-/* line 384, ../src/scss/tables.scss */
+/* line 399, ../src/scss/tables.scss */
 th.indent5, td.indent5 {
   padding-left: 50px;
 }
-/* line 389, ../src/scss/tables.scss */
+/* line 404, ../src/scss/tables.scss */
 th.indent6, td.indent6 {
   padding-left: 60px;
 }

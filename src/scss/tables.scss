@@ -184,21 +184,36 @@ thead {
 tbody {
   tr {
     &.subtotal {
-      
+      th, td {
+        border-top: solid 1px $light-grey;
+        border-bottom: solid 1px $light-grey;
+        color: $grey;
+        background: $lighter-grey;
+        font-weight: bold;
+        text-transform: capitalize;
+      }
     }
 
     &.well {
       td, th {
-        // &:first-child {
-        //   text-transform: uppercase;
-        //   white-space: nowrap;
-        //   color: $grey;
-        // }
+        border-top: solid 1px $light-grey;
+        border-bottom: solid 1px $light-grey;
+        color: $grey;
+        background: $primary-light;
+        font-weight: bold;
+        text-transform: capitalize;
       }
     }
 
     &.total {
-      
+      th, td {
+        border-top: solid 1px $light-grey;
+        border-bottom: solid 1px $light-grey;
+        color: $green;
+        background: $white;
+        font-weight: bold;
+        text-transform: capitalize;
+      }
     }
   }
 }
