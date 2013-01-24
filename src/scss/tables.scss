@@ -303,7 +303,20 @@ tbody {
 tbody {
   tr {
     &.deletable {
-      
+
+      &:hover {
+        th, td {
+           border-top: dotted 1px $danger-light;
+           border-bottom: dotted 1px $danger-light;
+        }
+      }
+
+      th, td {
+        &:last-child {
+          text-align: right;
+          width: auto;
+        }
+      }
     }
   }
 }
@@ -319,7 +332,9 @@ tbody {
 tbody {
   tr {
     &.spacer {
-      
+      th, td {
+        text-indent: -9999em;
+      }
     }
   }
 }
@@ -339,7 +354,6 @@ th, td {
   font-size: 12px;
   text-align: left;
   padding: 9px 8px;
-  width: 66px;
 
   // &:first-child {
   //   text-transform: uppercase;
