@@ -54,31 +54,37 @@ tfoot th, tfoot td {
   font-style: italic;
 }
 
-/* line 93, ../src/scss/tables.scss */
+/* line 89, ../src/scss/tables.scss */
+tbody th.row-heading, tbody td.row-heading {
+  color: #a69b9e;
+  text-transform: uppercase;
+  text-align: left;
+}
+/* line 95, ../src/scss/tables.scss */
 tbody th.total, tbody td.total {
   font-weight: bold;
 }
-/* line 97, ../src/scss/tables.scss */
+/* line 99, ../src/scss/tables.scss */
 tbody th.right-aligned, tbody td.right-aligned {
   text-align: right;
 }
-/* line 101, ../src/scss/tables.scss */
+/* line 103, ../src/scss/tables.scss */
 tbody th.light, tbody td.light {
   color: #e2dedf;
 }
 
-/* line 115, ../src/scss/tables.scss */
+/* line 117, ../src/scss/tables.scss */
 thead .resizeable {
   cursor: col-resize;
 }
 
-/* line 131, ../src/scss/tables.scss */
+/* line 133, ../src/scss/tables.scss */
 thead .sortable {
   position: relative;
   padding-left: 15px;
   cursor: pointer;
 }
-/* line 136, ../src/scss/tables.scss */
+/* line 138, ../src/scss/tables.scss */
 thead .sortable:before, thead .sortable:after {
   position: absolute;
   left: 10px;
@@ -86,63 +92,55 @@ thead .sortable:before, thead .sortable:after {
   width: 0;
   content: "";
 }
-/* line 144, ../src/scss/tables.scss */
+/* line 146, ../src/scss/tables.scss */
 thead .sortable:before {
   top: 12px;
   border-color: transparent transparent #30878f transparent;
   border-style: solid;
   border-width: 0px 5px 5px 5px;
 }
-/* line 151, ../src/scss/tables.scss */
+/* line 153, ../src/scss/tables.scss */
 thead .sortable:after {
   bottom: 12px;
   border-color: #30878f transparent transparent transparent;
   border-style: solid;
   border-width: 5px 5px 0 5px;
 }
-/* line 159, ../src/scss/tables.scss */
+/* line 161, ../src/scss/tables.scss */
 thead .sortable.sorted-asc:after {
   border-color: #e2dedf transparent transparent transparent;
 }
-/* line 165, ../src/scss/tables.scss */
+/* line 167, ../src/scss/tables.scss */
 thead .sortable.sorted-desc:before {
   border-color: transparent transparent #e2dedf transparent;
 }
 
-/* line 190, ../src/scss/tables.scss */
-tbody tr.well td:first-child, tbody tr.well th:first-child {
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: #a69b9e;
-}
-
-/* line 281, ../src/scss/tables.scss */
+/* line 283, ../src/scss/tables.scss */
 th, td {
   font-size: 12px;
   text-align: left;
   padding: 9px 8px;
   width: 66px;
 }
-/* line 287, ../src/scss/tables.scss */
-th:first-child, td:first-child {
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: #a69b9e;
-}
-/* line 294, ../src/scss/tables.scss */
+/* line 296, ../src/scss/tables.scss */
 th.plan, td.plan {
   background: #f5fbfc;
 }
+/* line 302, ../src/scss/tables.scss */
+th.collapsible:before, td.collapsible:before {
+  top: 12px;
+  border-color: transparent transparent #30878f transparent;
+  border-style: solid;
+  border-width: 0px 5px 5px 5px;
+}
 
-/* line 310, ../src/scss/tables.scss */
+/* line 327, ../src/scss/tables.scss */
 th.editable, td.editable {
   color: #30878f;
   cursor: pointer;
 }
-/* line 315, ../src/scss/tables.scss */
+/* line 332, ../src/scss/tables.scss */
 th.editable.active, td.editable.active {
-  position: relative;
-  display: block;
   cursor: text;
   border: 1px solid #30878f;
   -webkit-box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
@@ -150,33 +148,33 @@ th.editable.active, td.editable.active {
   box-shadow: 1px 1px 3px rgba(48, 135, 143, 0.4), inset 1px 1px 3px rgba(48, 135, 143, 0.5);
   background: #faf9fa;
 }
-/* line 326, ../src/scss/tables.scss */
+/* line 343, ../src/scss/tables.scss */
 th.editable.changed, td.editable.changed {
   font-weight: bold;
   border: 1px dotted #30878f;
 }
 
-/* line 347, ../src/scss/tables.scss */
+/* line 364, ../src/scss/tables.scss */
 th.indent1, td.indent1 {
   padding-left: 10px;
 }
-/* line 352, ../src/scss/tables.scss */
+/* line 369, ../src/scss/tables.scss */
 th.indent2, td.indent2 {
   padding-left: 20px;
 }
-/* line 357, ../src/scss/tables.scss */
+/* line 374, ../src/scss/tables.scss */
 th.indent3, td.indent3 {
   padding-left: 30px;
 }
-/* line 362, ../src/scss/tables.scss */
+/* line 379, ../src/scss/tables.scss */
 th.indent4, td.indent4 {
   padding-left: 40px;
 }
-/* line 367, ../src/scss/tables.scss */
+/* line 384, ../src/scss/tables.scss */
 th.indent5, td.indent5 {
   padding-left: 50px;
 }
-/* line 372, ../src/scss/tables.scss */
+/* line 389, ../src/scss/tables.scss */
 th.indent6, td.indent6 {
   padding-left: 60px;
 }

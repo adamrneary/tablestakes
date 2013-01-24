@@ -87,7 +87,9 @@ tfoot {
 tbody {
   th, td {
     &.row-heading {
-
+      color: $grey;
+      text-transform: uppercase;
+      text-align: left;
     }
 
     &.total {
@@ -187,11 +189,11 @@ tbody {
 
     &.well {
       td, th {
-        &:first-child {
-          text-transform: uppercase;
-          white-space: nowrap;
-          color: $grey;
-        }
+        // &:first-child {
+        //   text-transform: uppercase;
+        //   white-space: nowrap;
+        //   color: $grey;
+        // }
       }
     }
 
@@ -284,15 +286,30 @@ th, td {
   padding: 9px 8px;
   width: 66px;
 
-  &:first-child {
-    text-transform: uppercase;
-    white-space: nowrap;
-    color: $grey;
-  }
+  // &:first-child {
+  //   text-transform: uppercase;
+  //   white-space: nowrap;
+  //   color: $grey;
+  // }
 
   // plan
   &.plan {
     background: $plan;
+  }
+
+  // collapsible
+  &.collapsible {
+    &:before {
+      top: 12px;
+      border-color: transparent transparent $primary transparent;
+      border-style: solid;
+      border-width: 0px 5px 5px 5px; 
+    }
+  }
+
+  // expandable
+  &.expandable {
+
   }
 }
 
@@ -313,8 +330,8 @@ th, td {
 
     // active
     &.active {
-      position: relative;
-      display: block;
+      // position: relative;
+      // display: block;
       // width: auto;
       cursor: text;
       border: 1px solid $primary;
