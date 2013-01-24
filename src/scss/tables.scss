@@ -120,7 +120,7 @@ thead {
   // resizeable
   .resizeable {
     cursor: col-resize;
-    
+
     // .resize-tool {
     //   cursor: col-resize;
     //   float: right;
@@ -246,6 +246,12 @@ tbody {
 // .expandable - for cells that don't have row-level hierarchy, collapsed hierarchy node that can be expanded by clicking; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // .deletable - indicates that the row can be deleted by clicking the 'x'
 // .draggable - indicates that the row can be moved up or down
+// .indent1 - for cells that don't have row-level hierarchy, indented 1 space; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent4 - for cells that don't have row-level hierarchy, indented 4 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
 // 
 // Styleguide 4.1
 
@@ -346,6 +352,36 @@ th, td {
       text-indent: 0;
     }
   }
+
+  // indent1
+  &.indent1 {
+    padding-left: 10px;
+  }
+
+  // indent2
+  &.indent2 {
+    padding-left: 20px;
+  }
+
+  // indent3
+  &.indent3 {
+    padding-left: 30px;
+  }
+
+  // indent4
+  &.indent4 {
+    padding-left: 40px;
+  }
+
+  // indent5
+  &.indent5 {
+    padding-left: 50px;
+  }
+
+  // indent5
+  &.indent6 {
+    padding-left: 60px;
+  }
 }
 
 // Editable
@@ -380,50 +416,5 @@ th, td {
       font-weight: bold;
       border: 1px dotted $primary;
     }
-  }
-}
-
-// Intend
-// 
-// TODO: write descriptions
-// 
-// .indent1 - for cells that don't have row-level hierarchy, indented 1 space; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent4 - for cells that don't have row-level hierarchy, indented 4 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// 
-// Styleguide 4.3
-
-th, td {
-  // indent1
-  &.indent1 {
-    padding-left: 10px;
-  }
-
-  // indent2
-  &.indent2 {
-    padding-left: 20px;
-  }
-
-  // indent3
-  &.indent3 {
-    padding-left: 30px;
-  }
-
-  // indent4
-  &.indent4 {
-    padding-left: 40px;
-  }
-
-  // indent5
-  &.indent5 {
-    padding-left: 50px;
-  }
-
-  // indent5
-  &.indent6 {
-    padding-left: 60px;
   }
 }
