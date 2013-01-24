@@ -8,7 +8,7 @@ Check your system for local requirements (run until it passes!):
 
     script/bootstrap
 
-Run specs to ensure that all tests pass:
+Run tests to ensure that all pass:
 
     npm test
     
@@ -22,11 +22,10 @@ Then navigate to the [showcase](http://localhost:5000).
 
 To contribute to Tablestakes, please follow these instructions.
 
-1. Clone the project with `git clone git://github.com/activecell/tablestakes.git`
 1. Complete the **five-minute setup** above.
 1. Create a thoughtfully named topic branch to contain your change
 1. Hack away
-1. Add specs and make sure everything still passes by running `npm test`
+1. Add tests and make sure everything still passes by running `npm test`
 1. If necessary, [rebase your commits into logical chunks](https://help.github.com/articles/interactive-rebase), without errors
 1. Push the branch up to GitHub
 1. Send a pull request for your branch
