@@ -6,7 +6,7 @@ A bad-ass interactive grid platform.
 
 Check your system for local requirements (run until it passes!):
 
-    npm install
+    script/bootstrap
 
 Run specs to ensure that all tests pass:
 
@@ -14,7 +14,7 @@ Run specs to ensure that all tests pass:
     
 Run the project locally:
 
-    npm start
+    foreman start
 
 Then navigate to the [showcase](http://localhost:5000).
 
@@ -26,7 +26,7 @@ To contribute to Tablestakes, please follow these instructions.
 1. Complete the **five-minute setup** above.
 1. Create a thoughtfully named topic branch to contain your change
 1. Hack away
-1. Add specs and make sure everything still passes by running `FUTURE: TBD`
+1. Add specs and make sure everything still passes by running `npm test`
 1. If necessary, [rebase your commits into logical chunks](https://help.github.com/articles/interactive-rebase), without errors
 1. Push the branch up to GitHub
 1. Send a pull request for your branch
@@ -48,7 +48,7 @@ For the showcase, you can either update the existing examples, or create a new e
 1. A pull request that can be merged into master
 1. Test coverage
 1. TomDoc
-1. Everything passing using `FUTURE: TBD`
+1. Everything passing using `npm test`
 1. Updated showcase for your functionality
 
 ### Hacking on design
