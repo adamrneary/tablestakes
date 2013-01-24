@@ -72,11 +72,10 @@ var grid;
 
 grid = new window.TablesStakes({
     columns: testColumns,
-    data: testTree
+    data: testTree,
+    el: '#draggable'
 });
-
-grid.set('dragable', true);
-
-grid.render('#example-draggable');
-$('#example-draggable').show()
+grid.set('draggable', true);
+grid.render();
+$('#draggable').show();
 }).call(this);

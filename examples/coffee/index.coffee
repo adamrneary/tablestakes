@@ -13,9 +13,12 @@ core = [
 ,
   shortLink: "add-and-delete"
   title: "Add and delete"
+,    
+  shortLink: "resizable",
+  title: "Resizable"
 ,
-  shortLink: "dragable"
-  title: "Dragable"
+  shortLink: "draggable"
+  title: "Draggable"
 ]
 
 showcaseObject = routes: {}
@@ -46,4 +49,5 @@ $(document).ready ->
   Backbone.history.start()
 
   showcase.navigate "/#base"  unless window.location.hash
+
 

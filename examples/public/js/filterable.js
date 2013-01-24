@@ -69,9 +69,10 @@
 var grid;
 grid = new window.TablesStakes({
     columns: testColumns,
-    data: testTree
+    data: testTree,
+    el: '#filterable'
 });
 grid.set('filterable', true);
-grid.render('#filterable');
+grid.render();
 $('#filterable').show()
 }).call(this);

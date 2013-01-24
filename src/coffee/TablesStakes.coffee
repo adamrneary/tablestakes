@@ -2,11 +2,6 @@ class window.TablesStakes
 
 # Public Variables
     attributes: {}
-        #sortable : false
-        #editable : false
-        #deletable : false
-        #filterable : false
-        #dragable: false
 
     margin :
         top: 0
@@ -32,18 +27,11 @@ class window.TablesStakes
     iconCloseImg : "images/grey-minus.png"
     dispatch : d3.dispatch("elementClick", "elementDblclick", "elementMouseover", "elementMouseout")
     columnResize : true
-
-    #isSortable : false
-    #isEditable : false
-    #hasDeleteColumn : false
-    #isFilterable : false
-
     gridData : []
     gridFilteredData : []
     tableObject : null
     minWidth : 50
     tableWidth : 0
-    containerID : null
 
     isInRender : false
     filterCondition : []
@@ -53,12 +41,13 @@ class window.TablesStakes
         @set 'editable', false
         @set 'deletable', false
         @set 'filterable', false
-        @set 'dragable', false
+        @set 'resizable', false
+        @set 'draggable', false
         if options?
             for key of options
                 @set key, options[key]
 
-    render: (selector) ->
+    render: () ->
 
         console.log 'Table render'
         @gridData = [values: @get('data')]
@@ -67,8 +56,7 @@ class window.TablesStakes
         @setID @gridData[0], "0"
         @gridFilteredData = @gridData
         @setFilter @gridFilteredData[0], @filterCondition
-        @containerID = selector if selector?
-        d3.select(@containerID).datum(@gridFilteredData).call( (selection) => @update selection )
+        d3.select(@get('el')).datum(@gridFilteredData).call( (selection) => @update selection )
         console.log 'table render end'
         @
         #@gridData = [values: @get('data')]
@@ -95,6 +83,7 @@ class window.TablesStakes
                 selection: selection
                 table: @
                 data: data
+
         @isInRender = false
         @
 
@@ -341,8 +330,8 @@ class TablesStakesCore
     dragstart: (node,d) ->
         console.log 'dragstart'
         self = @
-        if @table.get('dragable') is true
-            targetRow = @table.containerID + " tbody tr"
+        if @table.get('draggable') is true
+            targetRow = @table.get('el') + " tbody tr"
             @draggingObj = d._id
             @draggingTargetObj = null
             d3.selectAll(targetRow).on("mouseover", (d) ->
@@ -356,13 +345,13 @@ class TablesStakesCore
                 self.draggingTargetObj = null 
             )
     dragmove: (d) ->
-        if @table.get('dragable') is true
+        if @table.get('draggable') is true
             console.log 'dragmove'
         
     dragend: (node,d) ->
-        if @table.get('dragable') is true
+        if @table.get('draggable') is true
             console.log 'dragend'
-            targetRow = @table.containerID + " tbody tr"
+            targetRow = @table.get('el') + " tbody tr"
             d3.selectAll(targetRow)
             .on("mouseover", null)
             .on("mouseout", null)
@@ -439,7 +428,7 @@ class TablesStakesCore
         @tree = d3.layout.tree().children (d) -> d.values
         @nodes = @tree.nodes(@data[0])
 
-        wrap = d3.select(@table.containerID).selectAll("div").data([[@nodes]])
+        wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
         wrapEnter = wrap.enter().append("div").attr("class", "nvd3 nv-wrap nv-indentedtree")
         tableEnter = wrapEnter.append("table")
 
@@ -454,10 +443,13 @@ class TablesStakesCore
             if self.table.minWidth < column_newX
                 d3.select(th).attr("width", column_newX + "px")
                 index = parseInt(d3.select(th).attr("ref"))
-                self.columns[index].width = column_newX + "px";
-                table_x = parseFloat(self.tableObject.attr("width"))
+                self.columns[index].width = column_newX + "px"
+                table_x = parseFloat(self.tableObject[0].attr("width"))
                 table_newX = table_x + (column_newX - column_x) #x + d3.event.dx 
                 self.tableObject.attr "width", table_newX+"px"
+                console.log 'drag', self.tableObject[0]
+
+                self.update
 
         if @table.header
             thead = tableEnter.append("thead")
@@ -465,7 +457,7 @@ class TablesStakesCore
             @columns.forEach (column, i) =>
                 th = theadRow1.append("th").attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
                 th.append("span").text column.label
-                if @table.get('sortable') is true
+                if @table.get('resizable') is true
                   if @table.get('deletable') is true
                     th.style("position","relative")
                     th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call drag
@@ -627,3 +619,4 @@ class TablesStakesCore
             if editable and column.isEditable
               self.editable this,a,b,c 
         #console.log 'renderNode end'
+
