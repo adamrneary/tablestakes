@@ -423,7 +423,7 @@ class TablesStakesCore
 
     render: ->
         self = @
-        console.log 'core render start'
+        #console.log 'core render start'
         @data[0] = key: @table.noData unless @data[0]
         @tree = d3.layout.tree().children (d) -> d.values
         @nodes = @tree.nodes(@data[0])
@@ -440,31 +440,32 @@ class TablesStakesCore
             th = d3.select(this).node().parentNode
             column_x = parseFloat(d3.select(th).attr("width"))
             column_newX = d3.event.x # x + d3.event.dx
+            console.log column_newX
             if self.table.minWidth < column_newX
                 d3.select(th).attr("width", column_newX + "px")
+                d3.select(th).style("width", column_newX + "px")
                 index = parseInt(d3.select(th).attr("ref"))
                 self.columns[index].width = column_newX + "px"
-                table_x = parseFloat(self.tableObject[0].attr("width"))
+                table_x = parseFloat(self.tableObject.attr("width"))
                 table_newX = table_x + (column_newX - column_x) #x + d3.event.dx 
                 self.tableObject.attr "width", table_newX+"px"
-                console.log 'drag', self.tableObject[0]
 
-                self.update
 
         if @table.header
             thead = tableEnter.append("thead")
             theadRow1 = thead.append("tr")
             @columns.forEach (column, i) =>
-                th = theadRow1.append("th").attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
+                th = theadRow1.append("th")
+                th.attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
+                th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
                 th.append("span").text column.label
                 if @table.get('resizable') is true
-                  if @table.get('deletable') is true
                     th.style("position","relative")
-                    th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call drag
-                  else 
-                    if i isnt @columns.length-1
-                      th.style("position","relative")
-                      th.append("div").attr("class", "table-resizable-handle").text('&nbsp;').call drag
+                    th.attr("class", "resizeable")
+                    th.append("span").attr('class','resize-tool').text('|').call drag
+                    #FIXME
+                    if i is @columns.length-1
+                        th = theadRow1.append("th").style('width','10px')
 
             if @table.get('deletable') is true
                 theadRow1.append("th").text("delete");
@@ -482,7 +483,7 @@ class TablesStakesCore
                         self.update()
                     )
         # generate tbody
-        console.log 'core render body'
+        #console.log 'core render body'
         tbody = @tableObject.selectAll("tbody").data((d) ->
             d
         )
@@ -491,10 +492,10 @@ class TablesStakesCore
         depth = d3.max(@nodes, (node) ->
             node.depth
         )
-        console.log @table.height, depth, @table.childIndent
+        #console.log @table.height, depth, @table.childIndent
         @tree.size [@table.height, depth * @table.childIndent]
 
-        console.log 'core render nodes'
+        #console.log 'core render nodes'
         i = 0
         node = tbody.selectAll("tr").data((d) ->
             d
@@ -517,7 +518,7 @@ class TablesStakesCore
                 self.dragend this,a,b,c
         @nodeEnter = node.enter().append("tr").call dragbehavior
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
-        console.log 'core render end'
+        #console.log 'core render end'
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
@@ -557,7 +558,7 @@ class TablesStakesCore
 
 
     renderColumn: (column,index,node)->
-        console.log 'renderColumn start',index,column
+        #console.log 'renderColumn start',index,column
         self = @
         col_classes = ""
         col_classes += column.classes if typeof column.classes != "undefined"
@@ -588,7 +589,7 @@ class TablesStakesCore
         #nodeName.append("span").attr("class", d3.functor(column.classes)).text (d) ->
         #  (if column.format then column.format(d) else (d[column.key] or "-"))
 
-        console.log 'core renderColumn renderNode'
+        #console.log 'core renderColumn renderNode'
         nodeName.each (td) ->
             self.renderNode this,column,td,nodeName
 
@@ -597,7 +598,7 @@ class TablesStakesCore
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
             
     renderNode: (node,column,td,nodeName)->
-        console.log 'renderNode start'
+        #console.log 'renderNode start'
         self = @
         editable = @table.get('editable')
         if td.activatedID == column.key 

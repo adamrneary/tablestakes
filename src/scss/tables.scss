@@ -25,21 +25,6 @@ table {
   background: $white;
 }
 
-
-.table-resizable-handle {
-	position: absolute;
-	font-size: 0.1px;
-	display: block;
-	cursor: col-resize;
-	width: 4px;
-	right: 0px;
-	top: 0;
-	height: 100%;
-	background-color: red;
-}
-
-
-
 // Headers
 // 
 // TODO: write descriptions
@@ -134,7 +119,10 @@ tbody {
 thead {
   // resizeable
   .resizeable {
-    cursor: col-resize;
+    .resize-tool {
+        cursor: col-resize;
+        float: right;
+    }
   }
 }
 
