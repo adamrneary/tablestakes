@@ -41,22 +41,25 @@ thead {
     color: $grey;
     text-align: right;
   }
-  
-  &.secondary {
-    th, td {
-      color: $primary;
+
+  tr {
+    &.secondary {
+      th, td {
+        color: $primary;
+      }
+      th {
+        text-align: center;
+      }
+      td {
+        border-bottom: solid 1px $light-grey;
+      }
     }
-    th {
-      text-align: center;
-    }
-    td {
-      border-bottom: solid 1px $light-grey;
-    }
-  }
-  &.row-heading {
-    th, td {
-      color: $primary-dark;
-      text-align: left;
+
+    &.row-heading {
+      th, td {
+        color: $primary;
+        text-align: left;
+      }
     }
   }
 }
@@ -76,6 +79,15 @@ tfoot {
     font-style: italic;
   }
 }
+
+// Full stack table example
+// 
+// <div class="alert alert-info"><b>From Sinisa with Love</b></div>
+// <p style="text-align:center"><img src="http://depleted.files.wordpress.com/2010/02/1267346567678.jpg" /></p>
+// <div class="alert">Adam play with this, you will know better how this table is going to be used</div>
+// <div class="alert alert-error">Report any porblem to me</div>
+// 
+// Styleguide 1.4
 
 // Columns
 // 
@@ -143,12 +155,13 @@ thead {
   // sortable
   .sortable {
     position: relative;
-    padding-left: 15px;
+    padding-left: 20px;
     cursor: pointer;
+    text-align: left;
 
     &:before, &:after {
       position: absolute;
-      left: 10px;
+      left: 5px;
       height: 0;
       width: 0;
       content: "";
@@ -356,32 +369,32 @@ th, td {
 
   // indent1
   &.indent1 {
-    padding-left: 10px;
+    padding-left: 20px;
   }
 
   // indent2
   &.indent2 {
-    padding-left: 20px;
+    padding-left: 30px;
   }
 
   // indent3
   &.indent3 {
-    padding-left: 30px;
+    padding-left: 40px;
   }
 
   // indent4
   &.indent4 {
-    padding-left: 40px;
-  }
-
-  // indent5
-  &.indent5 {
     padding-left: 50px;
   }
 
   // indent5
-  &.indent6 {
+  &.indent5 {
     padding-left: 60px;
+  }
+
+  // indent5
+  &.indent6 {
+    padding-left: 70px;
   }
 }
 
