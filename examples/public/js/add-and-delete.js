@@ -69,9 +69,10 @@
 var grid;
 grid = new window.TablesStakes({
     columns: testColumns,
-    data: testTree
+    data: testTree,
+    el: '#add-and-delete'
 });
 grid.set('deletable', true);
-grid.render('#add-and-delete');
+grid.render();
 $('#add-and-delete').show()
 }).call(this);

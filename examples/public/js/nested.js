@@ -87,8 +87,9 @@
 var grid;
 grid = new window.TablesStakes({
     columns: testColumns,
-    data: testTree
+    data: testTree,
+    el: '#nested'
 });
-grid.render('#nested');
+grid.render();
 $('#nested').show()
 }).call(this);

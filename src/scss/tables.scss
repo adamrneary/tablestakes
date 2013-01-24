@@ -119,7 +119,10 @@ tbody {
 thead {
   // resizeable
   .resizeable {
-    cursor: col-resize;
+    .resize-tool {
+        cursor: col-resize;
+        float: right;
+    }
   }
 }
 

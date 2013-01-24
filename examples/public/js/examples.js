@@ -18,8 +18,11 @@ core = [
     shortLink: "add-and-delete",
     title: "Add and delete"
   }, {
-    shortLink: "dragable",
-    title: "Dragable"
+    shortLink: "resizable",
+    title: "Resizable"
+  }, {
+    shortLink: "draggable",
+    title: "Draggable"
   }
 ];
 

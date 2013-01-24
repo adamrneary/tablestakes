@@ -70,10 +70,11 @@
 var grid;
 grid = new window.TablesStakes({
     columns: testColumns,
-    data: testTree
+    data: testTree,
+    el: '#editable'
 });
 grid.set('editable', true);
-grid.render('#editable');
+grid.render();
 $('#editable').show()
 }).call(this);
 
