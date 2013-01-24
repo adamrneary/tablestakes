@@ -9,7 +9,7 @@ modules =
     path: require 'path'
     kss: require 'kss'
     jade: require 'jade'
-    async: require 'async'
+    #async: require 'async'
 
 app = express()
 
@@ -33,38 +33,31 @@ compiler.css = 'scss'
 compile = require('./compiler').compile
 
 getSections = (sections,cb)->
-    asyncArr = []
-    jade_sections = modules.fs.readdirSync "#{__dirname}/../examples/views/sections/"
-    for jade_section in jade_sections
-        ((jade_section)->
-            asyncArr.push (done)->
-                jade = modules.fs.readFileSync "#{__dirname}/../examples/views/sections/#{jade_section}"
-                if jade
-                    modules.jade.render jade, {pretty: true}, (err,html)->
-                        for section in sections
-                            if section.data.reference is jade_section.replace /\.jade/g, ''
-                                section.data.example = html
-                                break
-                        done()
-                else
-                    done()
-        )(jade_section)
-    modules.async.parallel asyncArr, ->
-        for section in sections
-            section.data.description = section.data.description.replace(/\n/g, "<br />")
-        cb sections
+    for section in sections
+        section.data.filename = 'tables.scss'
+        section.data.description = section.data.description.replace(/\n/g, "<br />")
+        jade = null
+        try
+            jade = modules.fs.readFileSync "#{__dirname}/../examples/views/sections/#{section.reference()}.jade"
+        if jade
+            locals =
+                section: section
+                className: '$modifier'
+            html = modules.jade.compile(jade, {pretty: true})(locals)
+            section.data.example = html
+            for modifier in section.modifiers()
+                modifier.data.example = modules.jade.compile(jade, {pretty: true})({className: modifier.className()})
+    cb sections
 
 app.get '/', (req,res)->
     compile ->
         res.render 'index'
-        #html = modules.fs.readFileSync __dirname+'/views/index.html'
-        #res.setHeader 'Content-Type', 'text/html'
-        #res.setHeader 'Content-Length', html.length
-        #res.end html
+            page: 'index'
 
 app.get '/mocha', (req,res)->
     compile ->
         res.render 'mocha'
+            page: 'mocha'
 
 app.get '/styleguide', (req,res)->
     compile ->
@@ -76,6 +69,7 @@ app.get '/styleguide', (req,res)->
             getSections styleguide.section(), (sections)->
                 res.render 'styleguide'
                     sections: sections
+                    page: 'styleguide'
 
 app.get "/js/#{name}.js", (req,res)->
     script = modules.fs.readFileSync "#{__dirname}/../dist/#{name}.js"

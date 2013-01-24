@@ -7,7 +7,7 @@ module.exports.name = 'dist'
 
 module.exports.compile = (cb)->
     compileCoffeeSrc ->
-        compileCoffeeSpec ->
+        compileCoffeeTests ->
             compileCoffeeExamples ->
                 switch module.exports.css
                     when 'less'
@@ -17,10 +17,10 @@ module.exports.compile = (cb)->
                         compileScss ->
                             cb()
 
-compileCoffeeSpec = (cb)->
-    child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -j #{__dirname}/../examples/public/js/spec.js -cb #{__dirname}/../spec/", (err,stdout,stderr)->
+compileCoffeeTests = (cb)->
+    child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -j #{__dirname}/../examples/public/js/test.js -cb #{__dirname}/../test/client/", (err,stdout,stderr)->
         if stderr
-            child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -p -cb #{__dirname}/spec/", (err,stdout,stderr)->
+            child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -p -cb #{__dirname}/../test/client/", (err,stdout,stderr)->
                 console.log 'coffee err: ',stderr
                 cb()
         else

@@ -1,30 +1,19 @@
 !!! 5
 html
   head
-    title Jasmine Spec Runner
-    link(rel='shortcut icon', type='image/png', href='libs/jasmine/jasmine_favicon.png')
-    link(rel='stylesheet', type='text/css', href='libs/jasmine/jasmine.css')
-    script(type='text/javascript', src='libs/jasmine/jasmine.js')
-    script(type='text/javascript', src='libs/jasmine/jasmine-html.js')
-    script(type='text/javascript', src='libs/d3.v2.js')
-    script(type='text/javascript', src='js/tablestakes.js')
-    script(type='text/javascript', src='js/spec.js')
-    script(type='text/javascript')
-      var jasmineEnv = jasmine.getEnv();
-      jasmineEnv.updateInterval = 1000;
-      var htmlReporter = new jasmine.HtmlReporter();
-      jasmineEnv.addReporter(htmlReporter);
-      jasmineEnv.specFilter = function(spec) {
-      return htmlReporter.specFilter(spec);
-      };
-      var currentWindowOnload = window.onload;
-      window.onload = function() {
-      if (currentWindowOnload) {
-      currentWindowOnload();
-      }
-      execJasmine();
-      };
-      function execJasmine() {
-      jasmineEnv.execute();
-      }
+    link(rel='stylesheet', href='libs/css/mocha.css')
+    include includes/head
+    script(src='libs/assert.js')
+    script(src='libs/mocha.js')
+    script
+      mocha.setup('bdd')
+    script(src='js/test.js')
+    style
+      #mocha-stats { top: 60px; }
+      #mocha-stats .progress { overflow: visible; }
   body
+    include includes/toppanel
+    .container
+      #mocha
+      script
+        mocha.run();

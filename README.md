@@ -6,15 +6,23 @@ A bad-ass interactive grid platform.
 
 Check your system for local requirements (run until it passes!):
 
-    script/bootstrap
+    ```
+    npm install
+    ```
+    (or script/bootstrap)
 
 Run specs to ensure that all tests pass:
 
-    FUTURE: TBD
+    ```
+    npm test
+    ```
     
 Run the project locally:
 
-    foreman start
+    ```
+    npm start
+    ```
+    (or foreman start)
 
 Then navigate to the [showcase](http://localhost:5000).
 
