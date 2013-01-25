@@ -39,7 +39,6 @@ thead {
     text-transform: uppercase;
     white-space: nowrap;
     color: $grey;
-    text-align: right;
   }
 
   tr {
@@ -95,7 +94,7 @@ tfoot {
 // 
 // .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, let's kill this idea of light font weight for the row heading. stupid. default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
 // .total - for columns at the end of the table showing row totals; sinisa, perhaps just bold for now
-// .right-aligned - for numeric columns (default is left-aligned)
+// .left-aligned - for numeric columns (default is right-aligned)
 // .light - to de-emphasize less important columns; sinisa, see http://cl.ly/image/1q1k2V0w1x3z columns 1 and 3
 // 
 // Styleguide 2.1
@@ -112,8 +111,8 @@ tbody {
       font-weight: bold;
     }
 
-    &.right-aligned {
-      text-align: right;
+    &.left-aligned {
+      text-align: left;
     }
 
     &.light {
@@ -271,7 +270,7 @@ tbody {
 
 th, td {
   font-size: 12px;
-  text-align: left;
+  text-align: right;
   padding: 9px 8px;
 
   // &:first-child {
