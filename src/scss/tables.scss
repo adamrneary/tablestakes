@@ -199,27 +199,27 @@ thead {
 
     &:before {
       top: 12px;
-      border-color: transparent transparent $white transparent;
+      border-color: transparent transparent $grey transparent;
       border-style: solid;
       border-width: 0px 5px 5px 5px; 
     }
 
     &:after {
       bottom: 12px;
-      border-color: $white transparent transparent transparent;
+      border-color: $grey transparent transparent transparent;
       border-style: solid;
       border-width: 5px 5px 0 5px;
     }
 
     &.sorted-asc {
       &:after {
-        border-color: $grey transparent transparent transparent;
+        border-color: $white transparent transparent transparent;
       }
     }
 
     &.sorted-desc {
        &:before {
-        border-color: transparent transparent $grey transparent;
+        border-color: transparent transparent $white transparent;
       }
     }
   }
