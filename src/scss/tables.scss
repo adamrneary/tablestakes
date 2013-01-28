@@ -47,18 +47,7 @@ thead {
     text-transform: uppercase;
     white-space: nowrap;
     color: $grey;
-
-    &.row-heading {
-      // SINISA: CHECK THIS. ALSO, NOT SURE HOW TO INCLUDE IN STYLE GUIDE! :-)
-      color: $white;
-      text-align: left;
-      font-weight: normal;
-    }
-    &.total {
-      // SINISA: CHECK THIS. ALSO, NOT SURE HOW TO INCLUDE IN STYLE GUIDE! :-)
-      color: $black;
-      background: lighten($secondary-light, 15%);
-    }
+    font-weight: normal;
   }
 
   th {
@@ -76,6 +65,35 @@ thead {
       td {
         border-bottom: solid 1px $light-grey;
       }
+    }
+  }
+}
+
+// .row-heading and .total
+// 
+// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong> 
+//
+// <code>&lt;th&gt;</code> should be used where we have content
+// <code>&lt;td&gt;</code> should be used where we have gaps (see .secondary)
+// 
+// .row-heading - (cell-level) first 1-2 columns describing the content of the row
+// .total - (cell-level) ending column summing prior cells
+// 
+// Styleguide 1.2.1
+
+thead {
+  th, td {
+    &.row-heading {
+      color: $white;
+      background: $secondary-light;
+      text-align: left;
+      font-weight: normal;
+    }
+
+    &.total {
+      color: $black;
+      background: lighten($secondary-light, 15%);
+      font-weight: normal;
     }
   }
 }
@@ -270,11 +288,15 @@ tbody {
     }
 
     &.well {
+      @include border-radius(0);
+      @include inner-shadow(0, 0, 5px, $grey);
+      display: block;
+      padding: 0;
+      margin: 0;
+      background: lighten($primary, 60%);
+
       td, th {
-        border-top: solid 1px $light-grey;
-        border-bottom: solid 1px $light-grey;
         color: $grey;
-        background: lighten($primary, 60%);
         font-weight: bold;
         text-transform: capitalize;
       }
@@ -454,6 +476,11 @@ th, td {
   &.editable {
     color: $primary;
     cursor: pointer;
+
+    &:hover {
+      border: 1px dotted $primary;
+      text-decoration: underline;
+    }
 
     // active
     &.active {
