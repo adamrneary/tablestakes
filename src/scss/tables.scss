@@ -22,10 +22,11 @@ table {
   padding: 10px;
   border-collapse: separate;
   // box-shadow: 0 0 2px rgba(0,0,0,0.15);
-  // background: $white;
+  color: $table-color;
+  background: $table-background;
 
   a {
-    color: $link-color;
+    color: $table-link-color;
   }
 }
 
@@ -44,24 +45,28 @@ thead {
   th, td {
     text-transform: uppercase;
     white-space: nowrap;
-    color: $grey;
     font-weight: normal;
   }
 
+  td {
+    color: $td-color;
+    background: $td-background;
+  }
+
   th {
-    color: $white;
-    background: $secondary-light;
+    color: $th-color;
+    background: $th-background;
   }
 
   tr {
     &.secondary {
       th, td {
-        color: $primary;
-        background: $white;
+        color: $header-primary-color;
+        background: $header-primary-background;
       }
 
       td {
-        border-bottom: solid 1px $light-grey;
+        border-bottom: solid 1px $header-primary-border-color;
       }
     }
   }
@@ -82,15 +87,15 @@ thead {
 thead {
   th, td {
     &.row-heading {
-      color: $white;
-      background: $secondary-light;
+      color: $header-row-heading-color;
+      background: $header-row-heading-background;
       text-align: left;
       font-weight: normal;
     }
 
     &.total {
-      color: $black;
-      background: lighten($primary, 60%);
+      color: $header-total-heading-color;
+      background: $header-total-heading-background;
       font-weight: bold;
     }
   }
@@ -105,7 +110,8 @@ thead {
 tfoot {
   th, td {
     font-size: 16px;
-    color: $grey;
+    color: $footer-color;
+    background: $footer-background;
     font-weight: 200;
     font-style: italic;
     text-align: left;
@@ -138,14 +144,15 @@ tfoot {
 tbody {
   th, td {
     &.row-heading {
-      color: $grey;
-      background: $white;
+      color: $column-row-heading-color;
+      background: $column-row-heading-background;
       text-transform: none;
       text-align: left;
     }
 
     &.total {
-      font-weight: bold;
+      color: $column-total-color;
+      background: $column-total-background;
     }
 
     &.left-aligned {
@@ -153,7 +160,8 @@ tbody {
     }
 
     &.light {
-      color: lighten($grey, 15%);
+      color: $column-light-color;
+      background: $column-light-background;
     }
   }
 }
@@ -181,11 +189,11 @@ thead {
       cursor: col-resize;
 
       &:hover {
-        background: $grey;
+        background: $resizable-hover-color;
       }
 
       &.neighbor {
-        background: $primary-dark;
+        background: $resizable-neighbor-color;
       }
 
       &.left {
@@ -227,27 +235,27 @@ thead {
 
     &:before {
       top: 12px;
-      border-color: transparent transparent $grey transparent;
+      border-color: transparent transparent $sortable-inactive-arrows-color transparent;
       border-style: solid;
       border-width: 0px 5px 5px 5px; 
     }
 
     &:after {
       bottom: 12px;
-      border-color: $grey transparent transparent transparent;
+      border-color: $sortable-inactive-arrows-color transparent transparent transparent;
       border-style: solid;
       border-width: 5px 5px 0 5px;
     }
 
     &.sorted-asc {
       &:after {
-        border-color: $white transparent transparent transparent;
+        border-color: $sortable-active-arrows-color transparent transparent transparent;
       }
     }
 
     &.sorted-desc {
        &:before {
-        border-color: transparent transparent $white transparent;
+        border-color: transparent transparent $sortable-active-arrows-color transparent;
       }
     }
   }
@@ -273,17 +281,18 @@ tbody {
   tr {
     &.subtotal {
       th, td {
-        border-top: solid 1px $light-grey;
-        color: $grey;
+        border-top: solid 1px $row-subtotal-border-top-color;
+        color: $row-subtotal-color;
+        background: $row-subtotal-background;
       }
     }
 
     &.subtotal2 {
       th, td {
-        border-top: solid 1px $light-grey;
-        border-bottom: solid 1px $light-grey;
-        color: $grey;
-        background: $lighter-grey;
+        border-top: solid 1px $row-subtotal2-border-top-color;
+        border-bottom: solid 1px $row-subtotal2-border-bottom-color;
+        color: $row-subtotal2-color;
+        background: $row-subtotal2-background;
         font-weight: bold;
         text-transform: capitalize;
       }
@@ -291,11 +300,12 @@ tbody {
 
     &.well {
       @include border-radius(0);
-      @include inner-shadow(0, 0, 5px, $grey);
+      @include inner-shadow(0, 0, 5px, $row-well-shadow-color);
       display: block;
       padding: 0;
       margin: 0;
-      background: lighten($primary, 60%);
+      color: $row-well-color;
+      background: $row-well-background;
 
       td, th {
         color: $grey;
@@ -306,10 +316,10 @@ tbody {
 
     &.total {
       th, td {
-        border-top: solid 1px $light-grey;
-        border-bottom: solid 1px $light-grey;
-        color: $success;
-        background: $white;
+        border-top: solid 1px $row-total-border-top-color;
+        border-bottom: solid 1px $row-total-border-bottom-color;
+        color: $row-total-color;
+        background: $row-total-background;
         font-weight: bold;
         text-transform: capitalize;
       }
@@ -335,15 +345,17 @@ tbody {
 
     &.emphasis {
       th, td {
-        color: $primary;
+        color: $row-emphasis-color;
+        background: $row-emphasis-background;
         font-size: 100%;
         font-weight: bold;
-        border-bottom: solid 1px $light-grey;
+        border-bottom: solid 1px $row-emphasis-border-bottom-color;
       }
     }
 
     &.emphasis2 {
-      background: $warning-light;
+      color: $row-emphasis2-color;
+      background: $row-emphasis2-background;
       font-size: 100%;
       font-weight: bold;
     }
@@ -387,13 +399,14 @@ th, td {
 
   // plan
   &.plan {
-    background: $plan;
+    color: $cell-plan-color;
+    background: $cell-plan-background;
   }
 
   // old
   &.old {
-    color: $grey;
-    background: $old
+    color: $cell-old-color;
+    background: $cell-old-background
   }
 
   // collapsible
@@ -407,7 +420,7 @@ th, td {
       height: 0;
       display: inline-block;
       margin: 0 5px 0 -5px;
-      border-color: $primary transparent transparent transparent;
+      border-color: $cell-collapsible-arrow-color transparent transparent transparent;
       border-style: solid;
       border-width: 5px;
       text-indent: 0;
@@ -426,7 +439,7 @@ th, td {
       height: 0;
       display: inline-block;
       margin: 0 5px 0 -5px;
-      border-color: transparent transparent transparent $primary;
+      border-color: transparent transparent transparent $cell-expandable-arrow-color;
       border-style: solid;
       border-width: 5px;
       text-indent: 0;
@@ -447,8 +460,8 @@ th, td {
       width: 16px;
       height: 16px;
       line-height: 16px;
-      background: $danger;
-      color: $white;
+      color: $cell-deletable-color;
+      background: $cell-deletable-background;
       text-align: center;
       font-size: 10px;
       font-weight: bold;
@@ -470,8 +483,8 @@ th, td {
       width: 16px;
       height: 16px;
       line-height: 16px;
-      background: $primary;
-      color: $white;
+      color: $cell-draggable-color;
+      background: $cell-draggable-background;
       text-align: center;
       font-size: 6px;
       font-weight: bold;
@@ -482,11 +495,11 @@ th, td {
 
   // editable
   &.editable {
-    color: $primary;
+    color: $cell-editable-active-border-color;
     cursor: pointer;
 
     &:hover {
-      border: 1px dotted $primary;
+      border: 1px dotted $cell-editable-hover-border-color;
       text-decoration: underline;
     }
 
@@ -496,15 +509,15 @@ th, td {
       // display: block;
       // width: auto;
       cursor: text;
-      border: 1px solid $primary;
-      @include box-shadow(#{1px 1px 3px rgba($primary, 0.4), inset 1px 1px 3px rgba($primary, 0.5)});
-      background: $lighter-grey;
+      border: 1px solid $cell-editable-active-border-color;
+      @include box-shadow(#{1px 1px 3px rgba($cell-editable-active-shadow-color, 0.4), inset 1px 1px 3px rgba($cell-editable-active-shadow-color, 0.5)});
+      background: $cell-editable-active-background;
     }
 
     // changed
     &.changed {
       font-weight: bold;
-      border: 1px dotted $primary;
+      border: 1px dotted $cell-editable-changed-border-color;
     }
   }
 
