@@ -451,12 +451,13 @@ th, td {
   &.deletable {
     text-align: left; 
     text-indent: -9999em;
+    cursor: pointer;
 
     &:before {
       @include border-radius(200px);
       content: "x";
       display: block;
-      float: right;
+      float: left;
       width: 16px;
       height: 16px;
       line-height: 16px;
@@ -474,12 +475,13 @@ th, td {
   &.draggable {
     text-align: left; 
     text-indent: -9999em;
+    cursor: pointer;
 
     &:before {
       @include border-radius(200px);
       content: "| | |";
       display: block;
-      float: right;
+      float: left;
       width: 16px;
       height: 16px;
       line-height: 16px;
