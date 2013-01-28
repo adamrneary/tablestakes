@@ -37,8 +37,6 @@ table {
 // <code>&lt;td&gt;</code> should be used where we have gaps (see .secondary)
 // 
 // .secondary - (row-level) used above normal header (for nested table headers)
-// .row-heading - (cell-level) first 1-2 columns describing the content of the row
-// .total - (cell-level) ending column summing prior cells
 // 
 // Styleguide 1.2
 
@@ -92,8 +90,8 @@ thead {
 
     &.total {
       color: $black;
-      background: lighten($secondary-light, 15%);
-      font-weight: normal;
+      background: lighten($primary, 60%);
+      font-weight: bold;
     }
   }
 }
@@ -390,6 +388,12 @@ th, td {
   // plan
   &.plan {
     background: $plan;
+  }
+
+  // old
+  &.old {
+    color: $grey;
+    background: $old
   }
 
   // collapsible
