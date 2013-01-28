@@ -21,16 +21,24 @@ table {
   width: 100%;
   padding: 10px;
   border-collapse: separate;
-  box-shadow: 0 0 2px rgba(0,0,0,0.15);
-  background: $white;
+  // box-shadow: 0 0 2px rgba(0,0,0,0.15);
+  // background: $white;
+
+  a {
+    color: $link-color;
+  }
 }
 
 // Headers
 // 
-// TODO: write descriptions
+// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong> 
+//
+// <code>&lt;th&gt;</code> should be used where we have content
+// <code>&lt;td&gt;</code> should be used where we have gaps (see .secondary)
 // 
-// .secondary - used above normal header (for nested table headers)
-// .row-heading - for first 1-2 columns that describe the content of the row
+// .secondary - (row-level) used above normal header (for nested table headers)
+// .row-heading - (cell-level) first 1-2 columns describing the content of the row
+// .total - (cell-level) ending column summing prior cells
 // 
 // Styleguide 1.2
 
@@ -39,26 +47,34 @@ thead {
     text-transform: uppercase;
     white-space: nowrap;
     color: $grey;
-    text-align: right;
+
+    &.row-heading {
+      // SINISA: CHECK THIS. ALSO, NOT SURE HOW TO INCLUDE IN STYLE GUIDE! :-)
+      color: $white;
+      text-align: left;
+      font-weight: normal;
+    }
+    &.total {
+      // SINISA: CHECK THIS. ALSO, NOT SURE HOW TO INCLUDE IN STYLE GUIDE! :-)
+      color: $black;
+      background: lighten($secondary-light, 15%);
+    }
+  }
+
+  th {
+    color: $white;
+    background: $secondary-light;
   }
 
   tr {
     &.secondary {
       th, td {
         color: $primary;
+        background: $white;
       }
-      th {
-        text-align: center;
-      }
+
       td {
         border-bottom: solid 1px $light-grey;
-      }
-    }
-
-    &.row-heading {
-      th, td {
-        color: $primary;
-        text-align: left;
       }
     }
   }
@@ -67,7 +83,6 @@ thead {
 // Footers
 // 
 // Currently, we only use footers for explanatory notes
-// sinisa: something simple like a caption: http://cl.ly/image/0N0B0S0K1V0T
 // 
 // Styleguide 1.3
 
@@ -75,8 +90,9 @@ tfoot {
   th, td {
     font-size: 16px;
     color: $grey;
-    font-weight: bold;
+    font-weight: 200;
     font-style: italic;
+    text-align: left;
   }
 }
 
@@ -89,14 +105,17 @@ tfoot {
 // 
 // Styleguide 1.4
 
+
+
+
 // Columns
 // 
-// TODO: write descriptions
+// These styles are actually cell styles, but they apply to an entire column at a time.
 // 
-// .row-heading - for first 1-2 columns that describe the content of the row;  sinisa, let's kill this idea of light font weight for the row heading. stupid. default should look like our chart labels: http://cl.ly/image/2u1r2e1u3U2P
-// .total - for columns at the end of the table showing row totals; sinisa, perhaps just bold for now
-// .right-aligned - for numeric columns (default is left-aligned)
-// .light - to de-emphasize less important columns; sinisa, see http://cl.ly/image/1q1k2V0w1x3z columns 1 and 3
+// .row-heading - for first 1-2 columns that describe the content of the row
+// .total - for columns at the end of the table showing row totals
+// .left-aligned - for numeric columns (default is right-aligned)
+// .light - to de-emphasize less important columns
 // 
 // Styleguide 2.1
 
@@ -104,7 +123,8 @@ tbody {
   th, td {
     &.row-heading {
       color: $grey;
-      text-transform: uppercase;
+      background: $white;
+      text-transform: none;
       text-align: left;
     }
 
@@ -112,12 +132,12 @@ tbody {
       font-weight: bold;
     }
 
-    &.right-aligned {
-      text-align: right;
+    &.left-aligned {
+      text-align: left;
     }
 
     &.light {
-      color: $light-grey;
+      color: lighten($grey, 15%);
     }
   }
 }
@@ -126,18 +146,36 @@ tbody {
 // 
 // TODO: write descriptions
 // 
-// .resizeable - allows the user to drag and drop the edges of the columns to resize; sinisa i dont know. do we need a style for this? or just turning cursor to left-right arrows?
+// .resizeable - allows the user to drag and drop the edges of the columns to resize
 // 
 // Styleguide 2.2
 thead {
   // resizeable
   .resizeable {
-    cursor: col-resize;
+    // cursor: col-resize;
+    position: relative;
 
-    // .resize-tool {
-    //   cursor: col-resize;
-    //   float: right;
-    // }
+    .resizeable-handle {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: inline-block;
+      width: 5px;
+      height: 100%;
+      cursor: col-resize;
+
+      &:hover {
+        background: $grey;
+      }
+
+      &.left {
+        left: 0;
+      }
+
+      &.right {
+        right: 0;
+      }
+    }
   }
 }
 
@@ -145,9 +183,9 @@ thead {
 // 
 // TODO: write descriptions
 // 
-// .sortable - for columns not currently sorted, informing the user that the column can be sorted; sinisa, i don't know. do we need a style for this? hmm. maybe up and down arrows like this: http://cl.ly/image/3B2D1o0Q0Y0q
-// .sorted-asc - for column currently sorted ascending; sinisa, small up-facing arrow
-// .sorted-desc - for column currently sorted descending; sinisa, small down-facing arrow http://cl.ly/image/1c1U1N3Z2S2C
+// .sortable - for columns not currently sorted, informing the user that the column can be sorted
+// .sortable.sorted-asc - for column currently sorted ascending
+// .sortable.sorted-desc - for column currently sorted descending
 // 
 // Styleguide 2.3
 
@@ -155,13 +193,13 @@ thead {
   // sortable
   .sortable {
     position: relative;
-    padding-left: 20px;
+    padding-right: 20px;
     cursor: pointer;
     text-align: left;
 
     &:before, &:after {
       position: absolute;
-      left: 5px;
+      right: 5px;
       height: 0;
       width: 0;
       content: "";
@@ -169,27 +207,27 @@ thead {
 
     &:before {
       top: 12px;
-      border-color: transparent transparent $primary transparent;
+      border-color: transparent transparent $white transparent;
       border-style: solid;
       border-width: 0px 5px 5px 5px; 
     }
 
     &:after {
       bottom: 12px;
-      border-color: $primary transparent transparent transparent;
+      border-color: $white transparent transparent transparent;
       border-style: solid;
       border-width: 5px 5px 0 5px;
     }
 
     &.sorted-asc {
       &:after {
-        border-color: $light-grey transparent transparent transparent;
+        border-color: $grey transparent transparent transparent;
       }
     }
 
     &.sorted-desc {
        &:before {
-        border-color: transparent transparent $light-grey transparent;
+        border-color: transparent transparent $grey transparent;
       }
     }
   }
@@ -198,18 +236,29 @@ thead {
 
 // Rows
 // 
-// TODO: write descriptions
+// These styles are applied an entire row at a time.
 // 
-// .subtotal - for rows showing total of a subset of rows above them; http://cl.ly/image/250s0Y1U013D is pretty good
-// .well - alt style for rows showing total of a subset of rows above them; http://cl.ly/image/2W2R3k423T3v is pretty good
-// .total - for rows at the bottom of the table showing column totals: sinisa the colors might be off here, but bold and activecell green: http://cl.ly/image/0D2a07462x3r
+// .subtotal - for rows showing total of a subset of rows above them
+// .subtotal2 - alt style for rows showing total of a subset of rows above them
+// .well - alt style for rows showing total of a subset of rows above them
+// .total - for rows at the bottom of the table showing column totals
+// .total2 - at style for rows at the bottom of the table showing column totals
 // .spacer - blank row to provide space
+// .emphasis - rows that need attention drawn to them
+// .emphasis2 - alt style for rows that need attention drawn to them
 // 
 // Styleguide 3.1
 
 tbody {
   tr {
     &.subtotal {
+      th, td {
+        border-top: solid 1px $light-grey;
+        color: $grey;
+      }
+    }
+
+    &.subtotal2 {
       th, td {
         border-top: solid 1px $light-grey;
         border-bottom: solid 1px $light-grey;
@@ -225,7 +274,7 @@ tbody {
         border-top: solid 1px $light-grey;
         border-bottom: solid 1px $light-grey;
         color: $grey;
-        background: $primary-light;
+        background: lighten($primary, 60%);
         font-weight: bold;
         text-transform: capitalize;
       }
@@ -235,8 +284,19 @@ tbody {
       th, td {
         border-top: solid 1px $light-grey;
         border-bottom: solid 1px $light-grey;
-        color: $green;
+        color: $success;
         background: $white;
+        font-weight: bold;
+        text-transform: capitalize;
+      }
+    }
+
+    &.total2 {
+      th, td {
+        border-top: solid 1px $light-grey;
+        border-bottom: solid 1px $light-grey;
+        color: $white;
+        background: $secondary;
         font-weight: bold;
         text-transform: capitalize;
       }
@@ -244,8 +304,24 @@ tbody {
 
     &.spacer {
       th, td {
+        text-align: left;
         text-indent: -9999em;
       }
+    }
+
+    &.emphasis {
+      th, td {
+        color: $primary;
+        font-size: 100%;
+        font-weight: bold;
+        border-bottom: solid 1px $light-grey;
+      }
+    }
+
+    &.emphasis2 {
+      background: $warning-light;
+      font-size: 100%;
+      font-weight: bold;
     }
   }
 }
@@ -253,25 +329,30 @@ tbody {
 
 // Cells
 // 
-// TODO: write descriptions
+// These styles relate to cells specifically and support our particular table library functionality
 // 
-// .plan - cell for planned rows: sinisa: super light blue background: http://cl.ly/image/2m2G1c3o3T0K
-// .collapsible - for cells that don't have row-level hierarchy, expanded hierarchy node that can be collapsed by clicking; sinisa, this is different from row-level hierarchies. sometimes the rest of the table is the same as other cells. see http://cl.ly/image/1K0Q1j1G1U0U
-// .expandable - for cells that don't have row-level hierarchy, collapsed hierarchy node that can be expanded by clicking; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .plan - for columns in the future
+// .old - for columns in the past
+// .collapsible - for cells in a hierarchy that are currently expanded (and can be collapsed by clicking)
+// .expandable - for cells in a hierarchy that are currently collapsed (and can be expanded by clicking)
 // .deletable - indicates that the row can be deleted by clicking the 'x'
 // .draggable - indicates that the row can be moved up or down
-// .indent1 - for cells that don't have row-level hierarchy, indented 1 space; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent2 - for cells that don't have row-level hierarchy, indented 2 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent3 - for cells that don't have row-level hierarchy, indented 3 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent4 - for cells that don't have row-level hierarchy, indented 4 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent5 - for cells that don't have row-level hierarchy, indented 5 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
-// .indent6 - for cells that don't have row-level hierarchy, indented 6 spaces; sinisa see http://cl.ly/image/1K0Q1j1G1U0U
+// .editable - indicates that the cell can be clicked on to edit
+// .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
+// .editable.active - Only editable cell can become active. SINISA: THIS IS THIS MOST IMPORTANT ONE! http://cl.ly/image/0Z420V2p2I2G is half-way there. i want activecell link color for the border and a drop shadow, but i don't want the cell to be larger or oversized. the image's gradient looks terrible. either kill or improve it--your call. finally, we do like the little blue square in the lower right. it should look as much like our logo as possible. text inside the activecell should be activecell black, not link color
+// .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
+// .indent1 - for cells in a hierarchy, indented 1 space
+// .indent2 - for cells in a hierarchy, indented 2 spaces
+// .indent3 - for cells in a hierarchy, indented 3 spaces
+// .indent4 - for cells in a hierarchy, indented 4 spaces
+// .indent5 - for cells in a hierarchy, indented 5 spaces
+// .indent6 - for cells in a hierarchy, indented 6 spaces
 // 
 // Styleguide 4.1
 
 th, td {
   font-size: 12px;
-  text-align: left;
+  text-align: right;
   padding: 9px 8px;
 
   // &:first-child {
@@ -288,6 +369,7 @@ th, td {
   // collapsible
   &.collapsible {
     cursor: pointer;
+    text-align: left;
 
     &:before {
       content: "";
@@ -306,6 +388,7 @@ th, td {
   // expandable
   &.expandable {
      cursor: pointer;
+     text-align: left;
 
     &:before {
       content: "";
@@ -367,48 +450,6 @@ th, td {
     }
   }
 
-  // indent1
-  &.indent1 {
-    padding-left: 20px;
-  }
-
-  // indent2
-  &.indent2 {
-    padding-left: 30px;
-  }
-
-  // indent3
-  &.indent3 {
-    padding-left: 40px;
-  }
-
-  // indent4
-  &.indent4 {
-    padding-left: 50px;
-  }
-
-  // indent5
-  &.indent5 {
-    padding-left: 60px;
-  }
-
-  // indent5
-  &.indent6 {
-    padding-left: 70px;
-  }
-}
-
-// Editable
-// 
-// TODO: write descriptions
-// 
-// .editable - editable cell: sinisa just activecell link color indicates editable. anywhere. no pencil icon anywhere
-// .active - active cell. Only editable cell can become active. SINISA: THIS IS THIS MOST IMPORTANT ONE! http://cl.ly/image/0Z420V2p2I2G is half-way there. i want activecell link color for the border and a drop shadow, but i don't want the cell to be larger or oversized. the image's gradient looks terrible. either kill or improve it--your call. finally, we do like the little blue square in the lower right. it should look as much like our logo as possible. text inside the activecell should be activecell black, not link color
-// .changed - changed/dirty cell; sinisa, we don't have a style for this yet. this style is active after change but before confirmation that the change was recorded. either a different color, a different background, or a saving icon of some sort. what do you think is best?
-// 
-// Styleguide 4.2
-
-th, td {
   // editable
   &.editable {
     color: $primary;
@@ -430,5 +471,41 @@ th, td {
       font-weight: bold;
       border: 1px dotted $primary;
     }
+  }
+
+  // indent1
+  &.indent1 {
+    text-align: left;
+    padding-left: 20px;
+  }
+
+  // indent2
+  &.indent2 {
+    text-align: left;
+    padding-left: 30px;
+  }
+
+  // indent3
+  &.indent3 {
+    text-align: left;
+    padding-left: 40px;
+  }
+
+  // indent4
+  &.indent4 {
+    text-align: left;
+    padding-left: 50px;
+  }
+
+  // indent5
+  &.indent5 {
+    text-align: left;
+    padding-left: 60px;
+  }
+
+  // indent5
+  &.indent6 {
+    text-align: left;
+    padding-left: 70px;
   }
 }
