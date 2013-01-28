@@ -162,7 +162,7 @@ tbody {
 
 // Resizable
 // 
-// TODO: write descriptions
+// <div class="alert alert-info">When <code>.resizeable-handle</code> is active <code>:hover</code>, <code>.neighbor</code> class should be added to the sibling cells <code>.resizeable-handle</code>, via javascript</div>
 // 
 // .resizeable - allows the user to drag and drop the edges of the columns to resize
 // 
@@ -184,6 +184,10 @@ thead {
 
       &:hover {
         background: $grey;
+      }
+
+      &.neighbor {
+        background: $primary-dark;
       }
 
       &.left {
