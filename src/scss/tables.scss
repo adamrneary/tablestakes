@@ -47,18 +47,7 @@ thead {
     text-transform: uppercase;
     white-space: nowrap;
     color: $grey;
-
-    &.row-heading {
-      // SINISA: CHECK THIS. ALSO, NOT SURE HOW TO INCLUDE IN STYLE GUIDE! :-)
-      color: $white;
-      text-align: left;
-      font-weight: normal;
-    }
-    &.total {
-      // SINISA: CHECK THIS. ALSO, NOT SURE HOW TO INCLUDE IN STYLE GUIDE! :-)
-      color: $black;
-      background: lighten($secondary-light, 15%);
-    }
+    font-weight: normal;
   }
 
   th {
@@ -76,6 +65,35 @@ thead {
       td {
         border-bottom: solid 1px $light-grey;
       }
+    }
+  }
+}
+
+// .row-heading and .total
+// 
+// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong> 
+//
+// <code>&lt;th&gt;</code> should be used where we have content
+// <code>&lt;td&gt;</code> should be used where we have gaps (see .secondary)
+// 
+// .row-heading - (cell-level) first 1-2 columns describing the content of the row
+// .total - (cell-level) ending column summing prior cells
+// 
+// Styleguide 1.2.1
+
+thead {
+  th, td {
+    &.row-heading {
+      color: $white;
+      background: $secondary-light;
+      text-align: left;
+      font-weight: normal;
+    }
+
+    &.total {
+      color: $black;
+      background: lighten($secondary-light, 15%);
+      font-weight: normal;
     }
   }
 }
@@ -144,7 +162,7 @@ tbody {
 
 // Resizable
 // 
-// TODO: write descriptions
+// <div class="alert alert-info">When <code>.resizeable-handle</code> is active <code>:hover</code>, <code>.neighbor</code> class should be added to the sibling cells <code>.resizeable-handle</code>, via javascript</div>
 // 
 // .resizeable - allows the user to drag and drop the edges of the columns to resize
 // 
@@ -166,6 +184,10 @@ thead {
 
       &:hover {
         background: $grey;
+      }
+
+      &.neighbor {
+        background: $primary-dark;
       }
 
       &.left {
@@ -207,27 +229,27 @@ thead {
 
     &:before {
       top: 12px;
-      border-color: transparent transparent $white transparent;
+      border-color: transparent transparent $grey transparent;
       border-style: solid;
       border-width: 0px 5px 5px 5px; 
     }
 
     &:after {
       bottom: 12px;
-      border-color: $white transparent transparent transparent;
+      border-color: $grey transparent transparent transparent;
       border-style: solid;
       border-width: 5px 5px 0 5px;
     }
 
     &.sorted-asc {
       &:after {
-        border-color: $grey transparent transparent transparent;
+        border-color: $white transparent transparent transparent;
       }
     }
 
     &.sorted-desc {
        &:before {
-        border-color: transparent transparent $grey transparent;
+        border-color: transparent transparent $white transparent;
       }
     }
   }
@@ -270,11 +292,15 @@ tbody {
     }
 
     &.well {
+      @include border-radius(0);
+      @include inner-shadow(0, 0, 5px, $grey);
+      display: block;
+      padding: 0;
+      margin: 0;
+      background: lighten($primary, 60%);
+
       td, th {
-        border-top: solid 1px $light-grey;
-        border-bottom: solid 1px $light-grey;
         color: $grey;
-        background: lighten($primary, 60%);
         font-weight: bold;
         text-transform: capitalize;
       }
@@ -454,6 +480,11 @@ th, td {
   &.editable {
     color: $primary;
     cursor: pointer;
+
+    &:hover {
+      border: 1px dotted $primary;
+      text-decoration: underline;
+    }
 
     // active
     &.active {
