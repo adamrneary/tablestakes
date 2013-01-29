@@ -112,11 +112,11 @@ class window.TablesStakesLib.events
         d3.selectAll(targetRow).on("mouseover", (d) ->
             if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
                 return
-            d3.select(this).style("background-color", "red") 
+            d3.select(this).attr("class", "draggable-destination") 
             self.draggingTargetObj = d._id
         )
         .on("mouseout", (d) ->
-            d3.select(this).style("background-color", null)
+            d3.select(this).attr("class", "") 
             self.draggingTargetObj = null 
         )
     dragmove: (d) ->
