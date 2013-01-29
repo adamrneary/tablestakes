@@ -17,8 +17,8 @@ core = [
   shortLink: "resizable",
   title: "Resizable"
 ,
-  shortLink: "draggable"
-  title: "Draggable"
+  shortLink: "hierarchy_dragging"
+  title: "Hierarchy dragging"
 ]
 
 showcaseObject = routes: {}

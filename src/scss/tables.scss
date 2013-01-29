@@ -72,6 +72,10 @@ thead {
   }
 }
 
+<<<<<<< HEAD
+th input {
+    float:left;
+=======
 // .row-heading and .total
 // 
 // <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong> 
@@ -99,6 +103,7 @@ thead {
       font-weight: bold;
     }
   }
+>>>>>>> e95db8fe1e42beab35cd1eece3f882f4ccfffe67
 }
 
 // Footers
@@ -388,7 +393,6 @@ tbody {
 
 th, td {
   font-size: 12px;
-  text-align: right;
   padding: 9px 8px;
 
   // &:first-child {

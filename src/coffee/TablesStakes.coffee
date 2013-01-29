@@ -170,3 +170,4 @@ class window.TablesStakes
             @isSortable
 
 
+
