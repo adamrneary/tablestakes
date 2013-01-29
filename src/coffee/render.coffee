@@ -3,7 +3,8 @@ window.TablesStakesLib = {} unless window.TablesStakesLib
 class window.TablesStakesLib.render
 
     constructor: (options)->
-        console.log 'core constructor, options:',options
+        console.log 'core constructor'
+        #console.log 'options:',options
         @table = options.table
         @selection = options.selection
         @data = options.data
@@ -25,6 +26,7 @@ class window.TablesStakesLib.render
             column_x = parseFloat(d3.select(th).attr("width"))
             column_newX = d3.event.x # x + d3.event.dx
             if self.table.minWidth < column_newX
+
                 d3.select(th).attr("width", column_newX + "px")
                 d3.select(th).style("width", column_newX + "px")
                 index = parseInt(d3.select(th).attr("ref"))
@@ -32,29 +34,22 @@ class window.TablesStakesLib.render
                 table_x = parseFloat(self.tableObject.attr("width"))
                 table_newX = table_x + (column_newX - column_x) #x + d3.event.dx 
                 self.tableObject.attr "width", table_newX+"px"
-        th.style("position","relative")
-        th.attr("class", "resizeable")
-        th.append("span").attr('class','resize-tool').text('|').call drag
-        #FIXME
-        if i is @columns.length-1
-            th = tr.append("th").style('width','10px')
+                self.tableObject.style "width", table_newX+"px"
+        th.classed 'resizeable',true
+        #th.append("div").attr('class','resizeable-handle left').call drag
+        th.append("div").attr('class','resizeable-handle right').call drag
 
     filterable: ->
+        self = @
         theadRow2 = @thead.append("tr")
         @columns.forEach (column, i) =>
             keyFiled = column.key
             self = @
             theadRow2.append("th").attr("meta-key", column.key).append("input").attr("type","text")
             .on "keyup", (d) ->
-                console.log d3.select(this).node().value
                 self.table.filterCondition.set(column.key, d3.select(this).node().value)
-                console.log self.table.filterCondition
-                #self.table.gridFilteredData = self.table.gridData
-                #console.log self.table.gridFilteredData
-                self.table.setFilter( self.table.gridFilteredData[0], self.table.filterCondition)
-
-                #self.table.setID(self.table.gridFilteredData[0], self.table.gridFilteredData[0]._id)
-                #self.update()
+                self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
+                self.table.render()
 
     deletable: (head)->
         if head
@@ -126,8 +121,7 @@ class window.TablesStakesLib.render
             th.attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
             th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
             th.append("span").text column.label
-            if @table is 'resizable'
-                @resizable th 
+            @resizable th if @table.is 'resizable'
 
         #console.log 'renderHead 2'
         @deletable true if @table.is 'deletable'
