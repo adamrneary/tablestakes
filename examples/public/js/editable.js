@@ -63,7 +63,7 @@
       width: "300px",
       type: "text",
       classes: "name",
-      isEditable: false
+      isEditable: true
     }
   ];
 

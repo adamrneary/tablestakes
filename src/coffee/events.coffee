@@ -78,7 +78,7 @@ class window.TablesStakesLib.events
 
     # click on the icon to deploy-fold
     click: (node,d, _, unshift) ->
-        console.log 'core click'
+        console.log 'events click'
         d.activatedID = null
         d3.event.stopPropagation()
 
@@ -138,8 +138,8 @@ class window.TablesStakesLib.events
 
     # change row if class editable
     editable: (node,d, _, unshift)->
-        console.log 'core editable'
+        console.log 'events editable'
         @core.utils.deactivateAll @core.data[0]
         d.activatedID = d3.select(d3.select(node).node().parentNode).attr("meta-key")
         @core.update()
-
+        d3.event.stopPropagation()
