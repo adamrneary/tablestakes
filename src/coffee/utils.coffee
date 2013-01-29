@@ -84,8 +84,8 @@ class window.TablesStakesLib.utils
 
     # change icons during deployment-folding
     icon: (d)->
-        if d.depth < 6
-            indent = d.depth
+        if (d.depth-1) < 6
+            indent = (d.depth-1)
         else
             indent = 6
         if d._values and d._values.length
@@ -93,5 +93,6 @@ class window.TablesStakesLib.utils
         else 
             if d.values and d.values.length
                 'collapsible' + ' ' + 'indent' + indent
-            else 'indent' + indent
+            else if d.depth isnt 1
+                'indent' + indent
 

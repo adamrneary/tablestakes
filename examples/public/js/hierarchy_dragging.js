@@ -72,7 +72,7 @@ var grid;
 grid = new window.TablesStakes({
     columns: testColumns,
     data: testTree,
-    el: '#hierarchy_dragging',
+    el: '#hierarchy_dragging'
 });
 grid.set('hierarchy_dragging', true);
 grid.render();

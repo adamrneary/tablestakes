@@ -1,4 +1,3 @@
-
 window.TablesStakesLib = {} unless window.TablesStakesLib
 class window.TablesStakesLib.render
 
@@ -26,7 +25,6 @@ class window.TablesStakesLib.render
             column_x = parseFloat(d3.select(th).attr("width"))
             column_newX = d3.event.x # x + d3.event.dx
             if self.table.minWidth < column_newX
-
                 d3.select(th).attr("width", column_newX + "px")
                 d3.select(th).style("width", column_newX + "px")
                 index = parseInt(d3.select(th).attr("ref"))
@@ -36,7 +34,6 @@ class window.TablesStakesLib.render
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
-        #th.append("div").attr('class','resizeable-handle left').call drag
         th.append("div").attr('class','resizeable-handle right').call drag
 
     filterable: ->
@@ -53,7 +50,7 @@ class window.TablesStakesLib.render
 
     deletable: (head)->
         if head
-            @theadRow.append("th").text("delete")
+            @theadRow.append("th").attr('width','15px')
         else
             @nodeEnter.append("td").attr('class', 'deletable').on("click", (d) =>
                 if confirm "Are you sure you are going to delete this?"
@@ -63,7 +60,7 @@ class window.TablesStakesLib.render
 
     draggableIcon: ->
         console.log 'draggableIcon', @nodeEnter
-        @nodeEnter.append("td").attr('class', 'draggable')
+        @nodeEnter.insert("td").attr('class', 'draggable')
 
     draggable: ->
         self = @
@@ -87,6 +84,7 @@ class window.TablesStakesLib.render
 
     nested: (nodeName)->
         self = @
+        nodeName.attr('class', (d) => @utils.icon (d))
         nodeName.on "click", (a,b,c)->
            self.events.click this,a,b,c
 
@@ -114,6 +112,7 @@ class window.TablesStakesLib.render
         #console.log 'renderHead start'
         @thead = @tableEnter.append("thead")
         @theadRow = @thead.append("tr")
+        @theadRow.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
         #console.log 'renderHead 1'
 
         @columns.forEach (column, i) =>
@@ -153,7 +152,7 @@ class window.TablesStakesLib.render
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
-
+        @draggableIcon()  if @table.is 'hierarchy_dragging'
         @draggable() if @table.is 'hierarchy_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
@@ -161,7 +160,6 @@ class window.TablesStakesLib.render
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
-        @draggableIcon()  if @table.is 'hierarchy_dragging'
         @deletable() if @table.is 'deletable'
         #console.log 'here'
             
@@ -193,19 +191,17 @@ class window.TablesStakesLib.render
         self = @
         col_classes = ""
         col_classes += column.classes if typeof column.classes != "undefined"
-
         nodeName = @nodeEnter.append("td").attr("meta-key",column.key)
         .attr("class", (d)=>
             row_classes = ""
             row_classes = d.classes if typeof d.classes != "undefined"
-            return col_classes + " " + row_classes
+            col_classes + " " + row_classes
         )
 
         if index is 0
             nodeName.attr("ref", column.key)
-            nodeName.attr('class', (d) => @utils.icon (d))
             @nested nodeName if @table.is 'nested'
-
+            @nested nodeName if @table.is 'hierarchy_dragging'
         @renderNodes column,nodeName
 
         if column.showCount
@@ -216,7 +212,7 @@ class window.TablesStakesLib.render
         #console.log 'renderNode start'
         self = @
         nodeName.each (td)->
-            if td.activatedID == column.key 
+            if td.activatedID == column.key
                 d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
                 .on "keydown", (d) -> 
@@ -229,6 +225,6 @@ class window.TablesStakesLib.render
             else
                 d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                     if column.format then column.format(d) else (d[column.key] or "-")
-
+            #d.class is 'percent'
             self.editable nodeName if self.table.is('editable') and column.isEditable
             #console.log 'renderNode end'
