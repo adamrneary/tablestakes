@@ -42,7 +42,7 @@ class window.TablesStakes
         @set 'deletable', false
         @set 'filterable', false
         @set 'resizable', false
-        @set 'draggable', false
+        @set 'hierarchy_dragging', false
         if options?
             for key of options
                 @set key, options[key]

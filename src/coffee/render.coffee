@@ -148,7 +148,7 @@ class window.TablesStakesLib.render
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
 
-        @draggable() if @table.is 'draggable'
+        @draggable() if @table.is 'hierarchy_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
         #console.log 'core render end'
