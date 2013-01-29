@@ -25,6 +25,7 @@ class window.TablesStakesLib.render
             column_x = parseFloat(d3.select(th).attr("width"))
             column_newX = d3.event.x # x + d3.event.dx
             if self.table.minWidth < column_newX
+
                 d3.select(th).attr("width", column_newX + "px")
                 d3.select(th).style("width", column_newX + "px")
                 index = parseInt(d3.select(th).attr("ref"))
@@ -34,11 +35,13 @@ class window.TablesStakesLib.render
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
+        #th.append("div").attr('class','resizeable-handle left').call drag
         th.append("div").attr('class','resizeable-handle right').call drag
 
     filterable: ->
         self = @
         theadRow2 = @thead.append("tr")
+        theadRow2.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
         @columns.forEach (column, i) =>
             keyFiled = column.key
             self = @
@@ -47,7 +50,9 @@ class window.TablesStakesLib.render
                 self.table.filterCondition.set(column.key, d3.select(this).node().value)
                 self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
                 self.table.render()
-
+            console.log '@columns', @columns.length
+        if @table.is 'deletable' 
+            theadRow2.append("th").attr('width','15px')
     deletable: (head)->
         if head
             @theadRow.append("th").attr('width','15px')
@@ -59,7 +64,6 @@ class window.TablesStakesLib.render
             )
 
     draggableIcon: ->
-        console.log 'draggableIcon', @nodeEnter
         @nodeEnter.insert("td").attr('class', 'draggable')
 
     draggable: ->
@@ -67,24 +71,21 @@ class window.TablesStakesLib.render
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
-                console.log 'dragstart2'
                 self.events.dragstart this,a,b,c
             .on "drag", (a,b,c)->
-                console.log 'dragstart2'
                 self.events.dragmove this,a,b,c
             .on "dragend", (a,b,c)->
-                console.log 'dragstart2'
                 self.events.dragend this,a,b,c
         @nodeEnter.call dragbehavior
 
-    editable: (nodeName)->
+    editable: (td)->
         self = @
-        nodeName.select("span").on "click", (a,b,c)->
+        td.classed 'editable',true
+        td.select("span").on "click", (a,b,c)->
             self.events.editable this,a,b,c 
 
     nested: (nodeName)->
         self = @
-        nodeName.attr('class', (d) => @utils.icon (d))
         nodeName.on "click", (a,b,c)->
            self.events.click this,a,b,c
 
@@ -153,13 +154,13 @@ class window.TablesStakesLib.render
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
         @draggableIcon()  if @table.is 'hierarchy_dragging'
-        @draggable() if @table.is 'hierarchy_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
         #console.log 'core render end'
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
+        @draggable() if @table.is 'hierarchy_dragging'
         @deletable() if @table.is 'deletable'
         #console.log 'here'
             
@@ -191,28 +192,31 @@ class window.TablesStakesLib.render
         self = @
         col_classes = ""
         col_classes += column.classes if typeof column.classes != "undefined"
-        nodeName = @nodeEnter.append("td").attr("meta-key",column.key)
+
+        column_td = @nodeEnter.append("td").attr("meta-key",column.key)
         .attr("class", (d)=>
             row_classes = ""
             row_classes = d.classes if typeof d.classes != "undefined"
-            col_classes + " " + row_classes
+            return col_classes + " " + row_classes
         )
 
         if index is 0
-            nodeName.attr("ref", column.key)
-            @nested nodeName if @table.is 'nested'
-            @nested nodeName if @table.is 'hierarchy_dragging'
-        @renderNodes column,nodeName
+            column_td.attr("ref", column.key)
+            column_td.attr('class', (d) => @utils.icon (d))
+            @nested column_td if @table.is 'nested'
+
+        @renderNodes column,column_td
 
         if column.showCount
-            nodeName.append("span").attr("class", "nv-childrenCount").text (d) ->
+            td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
             
-    renderNodes: (column,nodeName)->
+    renderNodes: (column,column_td)->
         #console.log 'renderNode start'
         self = @
-        nodeName.each (td)->
-            if td.activatedID == column.key
+        column_td.each (t,i)->
+                
+            if t.activatedID == column.key 
                 d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
                 .on "keydown", (d) -> 
@@ -222,9 +226,13 @@ class window.TablesStakesLib.render
                 .on "blur", (d) ->
                     self.events.blur this,d, column
                 .node().focus()
+                d3.select(this).classed 'active',true
             else
+                if t.changed
+                    d3.select(this).classed 'changed',true
                 d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                     if column.format then column.format(d) else (d[column.key] or "-")
-            #d.class is 'percent'
-            self.editable nodeName if self.table.is('editable') and column.isEditable
+            self.editable column_td if self.table.is('editable') and column.isEditable
+
             #console.log 'renderNode end'
+

@@ -86,7 +86,15 @@ grid = new window.TablesStakes({
     columns: testColumns,
     data: testTree,
     el: '#nested',
-    nested: true
+    sortable: true,
+    deletable: true,
+    filterable: true,
+    resizable: true,
+    nested: true,
+    hierarchy_dragging: true,
+    editable: true
+
 });
 grid.render();
 $('#nested').show()
+
