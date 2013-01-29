@@ -17,13 +17,12 @@ class window.TablesStakesLib.render
         @table.isInRender = true
         @selection.transition().call (selection) => @table.update selection
 
-    resizable: (tr,th)->
+    resizable: (th)->
         self = @
         drag = d3.behavior.drag().on "drag", (d, i) ->
             th = d3.select(this).node().parentNode
             column_x = parseFloat(d3.select(th).attr("width"))
             column_newX = d3.event.x # x + d3.event.dx
-            console.log column_newX
             if self.table.minWidth < column_newX
                 d3.select(th).attr("width", column_newX + "px")
                 d3.select(th).style("width", column_newX + "px")
@@ -39,8 +38,8 @@ class window.TablesStakesLib.render
         if i is @columns.length-1
             th = tr.append("th").style('width','10px')
 
-    filterable: (thead)->
-        theadRow2 = thead.append("tr")
+    filterable: ->
+        theadRow2 = @thead.append("tr")
         @columns.forEach (column, i) =>
             keyFiled = column.key
             self = @
@@ -60,11 +59,7 @@ class window.TablesStakesLib.render
         if head
             @theadRow.append("th").text("delete")
         else
-            @nodeEnter.append("td").attr("class", (d) ->
-                row_classes = ""
-                row_classes = d.classes if typeof d.classes != "undefined"
-                row_classes
-            ).append("a").attr("href","#").text("delete").on("click", (d) =>
+            @nodeEnter.append("td").attr('class', 'deletable').on("click", (d) =>
                 if confirm "Are you sure you are going to delete this?"
                     @utils.removeNode d
                     @update() 
@@ -127,7 +122,8 @@ class window.TablesStakesLib.render
             th.attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
             th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
             th.append("span").text column.label
-            @resizable th if @table.is 'resizable'
+            if @table is 'resizable'
+                @resizable th 
 
         #console.log 'renderHead 2'
         @deletable true if @table.is 'deletable'
