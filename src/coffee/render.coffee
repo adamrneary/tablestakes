@@ -145,8 +145,8 @@ class window.TablesStakesLib.render
             d.id or (d.id is ++i)
         )
         node.exit().remove()
-        node.select("img.nv-treeicon").attr("src", (d) => @utils.icon d ).classed "folded", @utils.folded
-        @nodeEnter = node.enter().append("tr")
+        node.select(".expandable").classed "folded", @utils.folded
+        @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
 
         @draggable() if @table.is 'draggable'
 
@@ -156,6 +156,7 @@ class window.TablesStakesLib.render
             @renderColumn column,index,node
 
         @deletable() if @table.is 'deletable'
+        console.log 'here'
             
         #node.order().on("click", (d) ->
             #self.table.dispatch.elementClick
@@ -180,6 +181,9 @@ class window.TablesStakesLib.render
                 #pos: [d.x, d.y]
         #)
 
+
+
+
     renderColumn: (column,index,node)->
         #console.log 'renderColumn start',index,column
         self = @
@@ -193,26 +197,11 @@ class window.TablesStakesLib.render
             return col_classes + " " + row_classes
         )
         if index is 0
-            nodeName.style("padding-left", (d)=>
-                ((if index then 0 else (d.depth - 1) * @table.childIndent + ((if @utils.icon(d) then 0 else 16)))) + "px"
-            , "important").style("text-align", (if column.type is "numeric" then "right" else "left"))
-            .attr("ref", column.key)
-
-            nodeName.append("img")
-            .classed("nv-treeicon", true)
-            .classed("nv-folded", @utils.folded)
-            .attr("src", (d) => @utils.icon d )
-            .style("width", "14px")
-            .style("height", "14px")
-            .style("padding", "0 1px")
-            .style("display", (d) =>
-                (if @utils.icon(d) then "inline-block" else "none")
+            nodeName.attr("ref", column.key)
+            .attr('class', (d) => @utils.icon (d)
             ).on "click", (a,b,c)->
-                self.events.click this,a,b,c
-        #nodeName.append("span").attr("class", d3.functor(column.classes)).text (d) ->
-        #  (if column.format then column.format(d) else (d[column.key] or "-"))
+               self.events.click this,a,b,c
 
-        #console.log 'core renderColumn renderNode'
         nodeName.each (td) ->
             self.renderNode this,column,td,nodeName
 

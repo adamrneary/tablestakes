@@ -84,5 +84,10 @@ class window.TablesStakesLib.utils
 
     # change icons during deployment-folding
     icon: (d)->
-        (if (d._values and d._values.length) then @core.table.iconOpenImg else (if (d.values and d.values.length) then @core.table.iconCloseImg else ""))
+        if d._values and d._values.length
+            'expandable' + ' ' + 'indent' + d.depth
+        else 
+            if d.values and d.values.length
+                'collapsible' + ' ' + 'indent' + d.depth
+            else 'indent' + d.depth
 

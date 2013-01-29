@@ -41,7 +41,8 @@
       type: "tatata"
     }, {
       key: "1",
-      type: "123"
+      type: "123",
+      class: 'total'
     }
   ];
 
