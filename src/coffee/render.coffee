@@ -66,6 +66,9 @@ class window.TablesStakesLib.render
                     @update() 
             )
 
+    draggableIcon: ->
+        @nodeEnter.prevend("td").attr('class', 'draggable')
+
     draggable: ->
         self = @
         dragbehavior = d3.behavior.drag()
@@ -119,6 +122,7 @@ class window.TablesStakesLib.render
         console.log 'renderHead 2'
         @deletable true if @table.is 'deletable'
         @filterable() if @table.is 'filterable'
+        @draggableIcon if 
         @
             
     renderBody: ->
