@@ -132,12 +132,6 @@ class window.TablesStakes
           return data            
         return null
 
-
-
-  #============================================================
-  # Expose Public Variables
-  #------------------------------------------------------------
-
     set: (key,value,options)->
         @attributes[key] = value if key? and value?
         #@[key] = value
@@ -154,6 +148,10 @@ class window.TablesStakes
             true
         else
             false
+
+    #============================================================
+    # Expose Public Variables
+    #------------------------------------------------------------
 
     setMargin : (margin) ->
         return @margin  unless margin?

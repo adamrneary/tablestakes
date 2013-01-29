@@ -85,6 +85,17 @@ class window.TablesStakesLib.render
                 self.events.dragend this,a,b,c
         @nodeEnter.call dragbehavior
 
+    editable: (nodeName)->
+        self = @
+        nodeName.select("span").on "click", (a,b,c)->
+            self.events.editable this,a,b,c 
+
+    nested: (nodeName)->
+        self = @
+        nodeName.attr('class', (d) => @utils.icon (d))
+        nodeName.on "click", (a,b,c)->
+           self.events.click this,a,b,c
+
     render: ->
         self = @
         #console.log 'core render start'
@@ -102,14 +113,14 @@ class window.TablesStakesLib.render
         @tableObject = wrap.select("table").attr("class", @table.tableClassName).attr("style","table-layout:fixed;").attr("width", @table.tableWidth + "px")
         #console.log 'core render 3'
         @renderHead() if @table.header
-        console.log 'core render 4'
+        #console.log 'core render 4'
         @renderBody()
 
     renderHead: ->
-        console.log 'renderHead start'
+        #console.log 'renderHead start'
         @thead = @tableEnter.append("thead")
         @theadRow = @thead.append("tr")
-        console.log 'renderHead 1'
+        #console.log 'renderHead 1'
 
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
@@ -118,14 +129,15 @@ class window.TablesStakesLib.render
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
-        console.log 'renderHead 2'
+        #console.log 'renderHead 2'
         @deletable true if @table.is 'deletable'
         @filterable() if @table.is 'filterable'
         @
             
     renderBody: ->
         # generate tbody
-        console.log 'core render body'
+        self = @
+        #console.log 'core render body'
         tbody = @tableObject.selectAll("tbody").data((d) ->
             d
         )
@@ -137,7 +149,7 @@ class window.TablesStakesLib.render
         #console.log @table.height, depth, @table.childIndent
         @tree.size [@table.height, depth * @table.childIndent]
 
-        console.log 'core render nodes'
+        #console.log 'core render nodes'
         i = 0
         node = tbody.selectAll("tr").data((d) ->
             d
@@ -156,33 +168,30 @@ class window.TablesStakesLib.render
             @renderColumn column,index,node
 
         @deletable() if @table.is 'deletable'
-        console.log 'here'
+        #console.log 'here'
             
-        #node.order().on("click", (d) ->
-            #self.table.dispatch.elementClick
-                #row: this
-                #data: d
-                #pos: [d.x, d.y]
+        node.order().on("click", (d) ->
+            self.table.dispatch.elementClick
+                row: this
+                data: d
+                pos: [d.x, d.y]
 
-        #).on("dblclick", (d) ->
-            #self.table.dispatch.elementDblclick
-                #row: this
-                #data: d
-                #pos: [d.x, d.y]
-        #).on("mouseover", (d) ->
-            #self.table.dispatch.elementMouseover
-                #row: this
-                #data: d
-                #pos: [d.x, d.y]
-        #).on("mouseout", (d) ->
-            #self.table.dispatch.elementMouseout
-                #row: this
-                #data: d
-                #pos: [d.x, d.y]
-        #)
-
-
-
+        ).on("dblclick", (d) ->
+            self.table.dispatch.elementDblclick
+                row: this
+                data: d
+                pos: [d.x, d.y]
+        ).on("mouseover", (d) ->
+            self.table.dispatch.elementMouseover
+                row: this
+                data: d
+                pos: [d.x, d.y]
+        ).on("mouseout", (d) ->
+            self.table.dispatch.elementMouseout
+                row: this
+                data: d
+                pos: [d.x, d.y]
+        )
 
     renderColumn: (column,index,node)->
         #console.log 'renderColumn start',index,column
@@ -196,39 +205,34 @@ class window.TablesStakesLib.render
             row_classes = d.classes if typeof d.classes != "undefined"
             return col_classes + " " + row_classes
         )
+
         if index is 0
             nodeName.attr("ref", column.key)
-            .attr('class', (d) => @utils.icon (d)
-            ).on "click", (a,b,c)->
-               self.events.click this,a,b,c
+            @nested nodeName if @table.is 'nested'
 
-        nodeName.each (td) ->
-            self.renderNode this,column,td,nodeName
+        @renderNodes column,nodeName
 
         if column.showCount
             nodeName.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
             
-    renderNode: (node,column,td,nodeName)->
+    renderNodes: (column,nodeName)->
         #console.log 'renderNode start'
         self = @
-        if td.activatedID == column.key 
-            d3.select(node).append("span").attr("class", d3.functor(column.classes))
-            .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
-            .on "keydown", (d) -> 
-                self.events.keydown this,d
-            .on "keyup", (a,b,c)->
-                self.events.keyup this,a,b,c
-            .on "blur", (d) ->
-                self.events.blur this,d, column
-            .node().focus()
-        else
-            d3.select(node).append("span").attr("class", d3.functor(column.classes)).text (d) ->
-                if column.format then column.format(d) else (d[column.key] or "-")
+        nodeName.each (td)->
+            if td.activatedID == column.key 
+                d3.select(this).append("span").attr("class", d3.functor(column.classes))
+                .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
+                .on "keydown", (d) -> 
+                    self.events.keydown this,d
+                .on "keyup", (a,b,c)->
+                    self.events.keyup this,a,b,c
+                .on "blur", (d) ->
+                    self.events.blur this,d, column
+                .node().focus()
+            else
+                d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
+                    if column.format then column.format(d) else (d[column.key] or "-")
 
-        nodeName.select("span").on "click", (a,b,c)->
-            if self.table.is('editable') and column.isEditable
-                self.events.editable this,a,b,c 
-        #console.log 'renderNode end'
-
-
+            self.editable nodeName if self.table.is('editable') and column.isEditable
+            #console.log 'renderNode end'
