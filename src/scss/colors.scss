@@ -118,7 +118,7 @@ $inverse-light:   $light-grey;
 // --------------------------------------------------
 
 //  Basic styles
-$table-color:                                 $grey;
+$table-color:                                 $dark-grey;
 $table-background:                            transparent;
 $table-link-color:                            $link-color;
 $th-color:                                    $white;
@@ -133,14 +133,14 @@ $header-primary-border-color:                 $light-grey;
 $header-row-heading-color:                    $white;
 $header-row-heading-background:               $secondary-light;
 $header-total-heading-color:                  $black;
-$header-total-heading-background:             lighten($primary, 60%);
+$header-total-heading-background:             lighten($primary, 40%);
 
 // Footers
 $footer-color:                                $table-color;
 $footer-background:                           $table-background;
 
 // Columns
-$column-row-heading-color:                    $grey;
+$column-row-heading-color:                    $dark-grey;
 $column-row-heading-background:               $table-background;
 $column-total-color:                          $header-total-heading-color;
 $column-total-background:                     $header-total-heading-background;
@@ -148,11 +148,11 @@ $column-light-color:                          lighten($grey, 15%);
 $column-light-background:                     $table-background;
 
 // Resizable
-$resizable-hover-color:                       $grey;
+$resizable-hover-color:                       $white;
 $resizable-neighbor-color:                    $primary-dark;
 
 // Sortable
-$sortable-inactive-arrows-color:               $grey;
+$sortable-inactive-arrows-color:               $primary-dark;
 $sortable-active-arrows-color:                 $white;
 
 // Rows
@@ -191,9 +191,9 @@ $cell-deletable-color:                        $white;
 $cell-deletable-background:                   $danger;
 $cell-draggable-color:                        $white;
 $cell-draggable-background:                   $primary;
-$cell-editable-color:                         $primary;
+$cell-editable-color:                         $link-color;
 $cell-editable-background:                    $table-background;
-$cell-editable-hover-border-color:            $primary;
+$cell-editable-hover-color:                   lighten($primary, 55%);
 $cell-editable-active-border-color:           $primary;
 $cell-editable-active-shadow-color:           $primary;
 $cell-editable-active-background:             $lighter-grey;

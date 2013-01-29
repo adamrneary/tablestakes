@@ -153,6 +153,7 @@ tbody {
     &.total {
       color: $column-total-color;
       background: $column-total-background;
+      font-weight: bold;
     }
 
     &.left-aligned {
@@ -184,7 +185,7 @@ thead {
       top: 0;
       bottom: 0;
       display: inline-block;
-      width: 5px;
+      width: 3px;
       height: 100%;
       cursor: col-resize;
 
@@ -401,6 +402,10 @@ th, td {
   &.plan {
     color: $cell-plan-color;
     background: $cell-plan-background;
+    
+    &.editable:hover {
+      background: $white;
+    }
   }
 
   // old
@@ -501,8 +506,7 @@ th, td {
     cursor: pointer;
 
     &:hover {
-      border: 1px dotted $cell-editable-hover-border-color;
-      text-decoration: underline;
+      background: $cell-editable-hover-color;
     }
 
     // active
