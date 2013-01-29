@@ -1,3 +1,4 @@
+
 window.TablesStakesLib = {} unless window.TablesStakesLib
 class window.TablesStakesLib.render
 
@@ -66,7 +67,8 @@ class window.TablesStakesLib.render
             )
 
     draggableIcon: ->
-        @nodeEnter.prevend("td").attr('class', 'draggable')
+        console.log 'draggableIcon', @nodeEnter
+        @nodeEnter.append("td").attr('class', 'draggable')
 
     draggable: ->
         self = @
@@ -90,7 +92,6 @@ class window.TablesStakesLib.render
 
     nested: (nodeName)->
         self = @
-        nodeName.attr('class', (d) => @utils.icon (d))
         nodeName.on "click", (a,b,c)->
            self.events.click this,a,b,c
 
@@ -131,7 +132,6 @@ class window.TablesStakesLib.render
         #console.log 'renderHead 2'
         @deletable true if @table.is 'deletable'
         @filterable() if @table.is 'filterable'
-        @draggableIcon if 
         @
             
     renderBody: ->
@@ -167,6 +167,7 @@ class window.TablesStakesLib.render
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
+        @draggableIcon()  if @table.is 'hierarchy_dragging'
         @deletable() if @table.is 'deletable'
         #console.log 'here'
             
@@ -208,6 +209,7 @@ class window.TablesStakesLib.render
 
         if index is 0
             nodeName.attr("ref", column.key)
+            nodeName.attr('class', (d) => @utils.icon (d))
             @nested nodeName if @table.is 'nested'
 
         @renderNodes column,nodeName
