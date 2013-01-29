@@ -61,28 +61,23 @@ class window.TablesStakesLib.render
                     @update() 
             )
 
-    draggableIcon: ->
-        console.log 'draggableIcon', @nodeEnter
-        @nodeEnter.append("td").attr('class', 'draggable')
-
     draggable: ->
         self = @
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
-                console.log 'dragstart2'
                 self.events.dragstart this,a,b,c
             .on "drag", (a,b,c)->
-                console.log 'dragstart2'
                 self.events.dragmove this,a,b,c
             .on "dragend", (a,b,c)->
-                console.log 'dragstart2'
                 self.events.dragend this,a,b,c
         @nodeEnter.call dragbehavior
+        @nodeEnter.append("td").attr('class', 'draggable')
 
-    editable: (nodeName)->
+    editable: (td)->
         self = @
-        nodeName.select("span").on "click", (a,b,c)->
+        td.classed 'editable',true
+        td.select("span").on "click", (a,b,c)->
             self.events.editable this,a,b,c 
 
     nested: (nodeName)->
@@ -154,14 +149,13 @@ class window.TablesStakesLib.render
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
 
-        @draggable() if @table.is 'hierarchy_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
         #console.log 'core render end'
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
-        @draggableIcon()  if @table.is 'hierarchy_dragging'
+        @draggable() if @table.is 'hierarchy_dragging'
         @deletable() if @table.is 'deletable'
         #console.log 'here'
             
@@ -194,7 +188,7 @@ class window.TablesStakesLib.render
         col_classes = ""
         col_classes += column.classes if typeof column.classes != "undefined"
 
-        nodeName = @nodeEnter.append("td").attr("meta-key",column.key)
+        column_td = @nodeEnter.append("td").attr("meta-key",column.key)
         .attr("class", (d)=>
             row_classes = ""
             row_classes = d.classes if typeof d.classes != "undefined"
@@ -202,21 +196,22 @@ class window.TablesStakesLib.render
         )
 
         if index is 0
-            nodeName.attr("ref", column.key)
-            nodeName.attr('class', (d) => @utils.icon (d))
-            @nested nodeName if @table.is 'nested'
+            column_td.attr("ref", column.key)
+            column_td.attr('class', (d) => @utils.icon (d))
+            @nested column_td if @table.is 'nested'
 
-        @renderNodes column,nodeName
+        @renderNodes column,column_td
 
         if column.showCount
-            nodeName.append("span").attr("class", "nv-childrenCount").text (d) ->
+            td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
             
-    renderNodes: (column,nodeName)->
+    renderNodes: (column,column_td)->
         #console.log 'renderNode start'
         self = @
-        nodeName.each (td)->
-            if td.activatedID == column.key 
+        column_td.each (t,i)->
+                
+            if t.activatedID == column.key 
                 d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
                 .on "keydown", (d) -> 
@@ -226,9 +221,12 @@ class window.TablesStakesLib.render
                 .on "blur", (d) ->
                     self.events.blur this,d, column
                 .node().focus()
+                d3.select(this).classed 'active',true
             else
+                if t.changed
+                    d3.select(this).classed 'changed',true
                 d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                     if column.format then column.format(d) else (d[column.key] or "-")
+            self.editable column_td if self.table.is('editable') and column.isEditable
 
-            self.editable nodeName if self.table.is('editable') and column.isEditable
             #console.log 'renderNode end'

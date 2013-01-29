@@ -13,6 +13,14 @@ class window.TablesStakesLib.events
                 @key_up node,d
             when 40
                 @key_down node,d
+            when 13                                                                        # enter key down
+                d.activatedID = null
+                d.changed = true
+                @core.update()              
+            when 27                                                                        # escape key down
+                d3.select(node).node().value = d[d.activatedID]
+                d.activatedID = null
+                @core.update()
         # clavey handler enter and esc 
 
     key_tab: (node,d)->
@@ -54,15 +62,8 @@ class window.TablesStakesLib.events
         @core.update()
 
     keyup: (node,d) ->
-        switch d3.event.keyCode
-            when 13                                                                        # enter key down
-                d.activatedID = null
-                @core.update()              
-            when 27                                                                        # escape key down
-                d3.select(node).node().value = d[d.activatedID]
-                d.activatedID = null
-                @core.update()
-        return
+        #switch d3.event.keyCode
+        #return
 
     # decrease of the selection from the active cell
     blur: (node,d, column) ->

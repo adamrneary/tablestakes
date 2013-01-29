@@ -19,6 +19,9 @@ core = [
 ,
   shortLink: "hierarchy_dragging"
   title: "Hierarchy dragging"
+,
+  shortLink: "all"
+  title: "all functions"
 ]
 
 showcaseObject = routes: {}
