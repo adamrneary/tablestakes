@@ -55,12 +55,13 @@ class window.TablesStakes
         @setID @gridData[0], "0"
         @gridFilteredData = @gridData
         @setFilter @gridFilteredData[0], @filterCondition
+        console.log @gridFilteredData
         d3.select(@get('el')).datum(@gridFilteredData).call( (selection) => @update selection )
         #console.log 'table render end'
         @
 
     update: (selection) -> 
-        console.log 'table update, selection:',selection
+        #console.log 'table update, selection:',selection
         selection.each (data)=> 
             new window.TablesStakesLib.render
                 selection: selection

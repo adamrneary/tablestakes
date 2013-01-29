@@ -70,9 +70,10 @@ var grid;
 grid = new window.TablesStakes({
     columns: testColumns,
     data: testTree,
-    el: '#filterable'
+    el: '#filterable',
+    filterable: true,
+    nested: true
 });
-grid.set('filterable', true);
 grid.render();
 $('#filterable').show()
 }).call(this);
