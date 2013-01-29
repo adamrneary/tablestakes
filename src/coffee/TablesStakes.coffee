@@ -42,7 +42,7 @@ class window.TablesStakes
         @set 'deletable', false
         @set 'filterable', false
         @set 'resizable', false
-        @set 'draggable', false
+        @set 'hierarchy_dragging', false
         if options?
             for key of options
                 @set key, options[key]
@@ -146,6 +146,7 @@ class window.TablesStakes
             matchFound = false
         #console.log 'table setFilter end'
         if matchFound
+          #@data = [data]
           return data            
         return null
 
@@ -188,7 +189,6 @@ class TablesStakesCore
         @table = options.table
         @selection = options.selection
         @data = options.data
-
         @columns = @table.get('columns')
         @render()
 
@@ -293,7 +293,6 @@ class TablesStakesCore
     blur: (node,d, column) ->
         cell = d3.select(node)
         columnKey = d3.select(node)[0][0].parentNode.getAttribute("ref")
-        hz = d3.select(node)[0][0]
         cell.text(d3.select(node).node().value)
         d[columnKey]=d3.select(node).node().value
         d[column.key]=d3.select('td input').node().value
@@ -330,7 +329,7 @@ class TablesStakesCore
     dragstart: (node,d) ->
         console.log 'dragstart'
         self = @
-        if @table.get('draggable') is true
+        if @table.get('hierarchy_dragging') is true
             targetRow = @table.get('el') + " tbody tr"
             @draggingObj = d._id
             @draggingTargetObj = null
@@ -345,11 +344,11 @@ class TablesStakesCore
                 self.draggingTargetObj = null 
             )
     dragmove: (d) ->
-        if @table.get('draggable') is true
+        if @table.get('hierarchy_dragging') is true
             console.log 'dragmove'
         
     dragend: (node,d) ->
-        if @table.get('draggable') is true
+        if @table.get('hierarchy_dragging') is true
             console.log 'dragend'
             targetRow = @table.get('el') + " tbody tr"
             d3.selectAll(targetRow)
@@ -408,7 +407,12 @@ class TablesStakesCore
 
     # change icons during deployment-folding
     icon: (d)->
-        (if (d._values and d._values.length) then @table.iconOpenImg else (if (d.values and d.values.length) then @table.iconCloseImg else ""))
+        if d._values and d._values.length
+            'expandable' 
+        else 
+            if d.values and d.values.length
+                'collapsible' 
+            else ""
 
     folded: (d) ->
         d._values and d._values.length
@@ -425,9 +429,9 @@ class TablesStakesCore
         self = @
         #console.log 'core render start'
         @data[0] = key: @table.noData unless @data[0]
-        @tree = d3.layout.tree().children (d) -> d.values
+        @tree = d3.layout.tree().children (d) -> 
+            d.values
         @nodes = @tree.nodes(@data[0])
-
         wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
         wrapEnter = wrap.enter().append("div").attr("class", "nvd3 nv-wrap nv-indentedtree")
         tableEnter = wrapEnter.append("table")
@@ -440,7 +444,6 @@ class TablesStakesCore
             th = d3.select(this).node().parentNode
             column_x = parseFloat(d3.select(th).attr("width"))
             column_newX = d3.event.x # x + d3.event.dx
-            console.log column_newX
             if self.table.minWidth < column_newX
                 d3.select(th).attr("width", column_newX + "px")
                 d3.select(th).style("width", column_newX + "px")
@@ -503,18 +506,15 @@ class TablesStakesCore
             d.id or (d.id is ++i)
         )
         node.exit().remove()
-        node.select("img.nv-treeicon").attr("src", (d) => @icon d ).classed "folded", @folded
+        node.select(".expandable").classed "folded", @folded
         self = @
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
-                console.log 'dragstart2'
                 self.dragstart this,a,b,c
             .on "drag", (a,b,c)->
-                console.log 'dragstart2'
                 self.dragmove this,a,b,c
             .on "dragend", (a,b,c)->
-                console.log 'dragstart2'
                 self.dragend this,a,b,c
         @nodeEnter = node.enter().append("tr").call dragbehavior
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
@@ -569,23 +569,32 @@ class TablesStakesCore
             row_classes = d.classes if typeof d.classes != "undefined"
             return col_classes + " " + row_classes
         )
-        if index is 0
-            nodeName.style("padding-left", (d)=>
-                ((if index then 0 else (d.depth - 1) * @table.childIndent + ((if @icon(d) then 0 else 16)))) + "px"
-            , "important").style("text-align", (if column.type is "numeric" then "right" else "left"))
-            .attr("ref", column.key)
 
-            nodeName.append("img")
-            .classed("nv-treeicon", true)
-            .classed("nv-folded", @folded)
-            .attr("src", (d) => @icon d )
-            .style("width", "14px")
-            .style("height", "14px")
-            .style("padding", "0 1px")
-            .style("display", (d) =>
-                (if @icon(d) then "inline-block" else "none")
+        if index is 0
+            console.log 'nodes', node
+            nodeName.attr("class", (d) =>
+                if index then 0 else 'indent' + d.depth)
+            .classed(((d) => @icon d), true)
+            .attr("ref", column.key
             ).on "click", (a,b,c)->
                 self.click this,a,b,c
+
+            #nodeName.style("padding-left", (d)=>
+                #((if index then 0 else (d.depth - 1) * @table.childIndent + ((if @icon(d) then 0 else 16)))) + "px"
+            #, "important").style("text-align", (if column.type is "numeric" then "right" else "left"))
+            #.attr("ref", column.key)
+
+            #nodeName.append("img")
+            #.classed("nv-treeicon", true)
+            #.classed("nv-folded", @folded)
+            #.attr("src", (d) => @icon d )
+            #.style("width", "14px")
+            #.style("height", "14px")
+            #.style("padding", "0 1px")
+            #.style("display", (d) =>
+                #(if @icon(d) then "inline-block" else "none")
+            #).on "click", (a,b,c)->
+                #self.click this,a,b,c
         #nodeName.append("span").attr("class", d3.functor(column.classes)).text (d) ->
         #  (if column.format then column.format(d) else (d[column.key] or "-"))
 
@@ -611,7 +620,6 @@ class TablesStakesCore
             .on "blur", (d) ->
                 self.blur this,d, column
             .node().focus()
-            console.log 'columns=', @columns
         else
             d3.select(node).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                 if column.format then column.format(d) else (d[column.key] or "-")

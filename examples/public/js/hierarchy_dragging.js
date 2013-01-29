@@ -67,15 +67,14 @@
     }
   ];
 
-  console.log('dragable');
 var grid;
 
 grid = new window.TablesStakes({
     columns: testColumns,
     data: testTree,
-    el: '#draggable'
+    el: '#hierarchy_dragging'
 });
-grid.set('draggable', true);
+grid.set('hierarchy_dragging', true);
 grid.render();
-$('#draggable').show();
+$('#hierarchy_dragging').show();
 }).call(this);
