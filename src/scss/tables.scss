@@ -484,26 +484,50 @@ th, td {
 
   // draggable
   &.draggable {
-    text-align: left; 
-    text-indent: -9999em;
+    position: relative;
     cursor: pointer;
+    padding-left: 20px;
+    &:before, &:after {
+      position: absolute;
+      left: 5px;
+      height: 0;
+      width: 0;
+      content: "";
+    }
 
     &:before {
-      @include border-radius(200px);
-      content: "| | |";
-      display: block;
-      float: left;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
-      color: $cell-draggable-color;
-      background: $cell-draggable-background;
-      text-align: center;
-      font-size: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      text-indent: 0;
+      top: 12px;
+      border-color: transparent transparent $sortable-inactive-arrows-color transparent;
+      border-style: solid;
+      border-width: 0px 5px 5px 5px; 
     }
+
+    &:after {
+      bottom: 12px;
+      border-color: $sortable-inactive-arrows-color transparent transparent transparent;
+      border-style: solid;
+      border-width: 5px 5px 0 5px;
+    }
+    // text-align: left; 
+    // text-indent: -9999em;
+    // cursor: pointer;
+
+    // &:before {
+    //   @include border-radius(200px);
+    //   content: "| | |";
+    //   display: block;
+    //   float: left;
+    //   width: 16px;
+    //   height: 16px;
+    //   line-height: 16px;
+    //   color: $cell-draggable-color;
+    //   background: $cell-draggable-background;
+    //   text-align: center;
+    //   font-size: 6px;
+    //   font-weight: bold;
+    //   cursor: pointer;
+    //   text-indent: 0;
+    // }
   }
 
   // editable
