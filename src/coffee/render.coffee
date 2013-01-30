@@ -259,7 +259,12 @@ class window.TablesStakesLib.core
     editable: (td,d,node,column)->
         self = @
         td.classed 'editable',true
-        td.on "click", (a,b,c)->
+        if @table.is 'nested'
+            event = 'dblclick'
+        else
+            event = 'click'
+        td.on event, (a,b,c)->
+            console.log event
             self.events.editable this,a,b,c 
         if d.activatedID == column.key 
             #console.log 'activated == colum'
