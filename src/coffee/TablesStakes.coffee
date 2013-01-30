@@ -44,19 +44,21 @@ class window.TablesStakes
         @set 'resizable', false
         @set 'nested', false
         @set 'hierarchy_dragging', false
+        @core = new window.TablesStakesLib.core
+        @filterCondition = d3.map([])
         if options?
             for key of options
                 @set key, options[key]
 
     render: () ->
-        #console.log 'Table render'
+        console.log 'Table render'
         @gridData = [values: @get('data')]
         @columns.forEach ( column, i) =>
           @gridData[0][column['key']] = column['key'] 
         @setID @gridData[0], "0"
         @gridFilteredData = @gridData
         @setFilter @gridFilteredData[0], @filterCondition
-        console.log @gridFilteredData
+        d3.select(@get('el')).html ''
         d3.select(@get('el')).datum(@gridFilteredData).call( (selection) => @update selection )
         #console.log 'table render end'
         @
@@ -64,10 +66,11 @@ class window.TablesStakes
     update: (selection) -> 
         #console.log 'table update, selection:',selection
         selection.each (data)=> 
-            new window.TablesStakesLib.render
+            @core.set    
                 selection: selection
                 table: @
                 data: data
+            @core.render()
 
         @isInRender = false
         @
@@ -99,6 +102,14 @@ class window.TablesStakes
           node._values.forEach (subnode, i) =>
             @setID subnode, prefix+"_"+i
 
+    filter: (key,value)->
+        console.log 'filter',key,value
+        value = value or ''
+        value = value.toString().toUpperCase()
+        @filterCondition.set key, value
+        @setFilter @gridFilteredData[0], @filterCondition
+        @render()
+
     setFilter: ( data, filter ) ->
         #console.log 'table setFilter start',data,filter
         self = this
@@ -125,10 +136,15 @@ class window.TablesStakes
         matchFound = true
         for key in filter.keys()
           if data[key]
-            if data[key].indexOf(filter.get(key)) == -1
+            #console.log data[key]
+            #arr = d3.map data[key], (d)->
+                #d.toUpperCase()
+            #console.log arr
+            _data = data[key].toUpperCase()
+            if _data.indexOf(filter.get(key)) == -1
                matchFound = false
           else
-            matchFound = false
+              matchFound = false
         #console.log 'table setFilter end'
         if matchFound
           return data            
@@ -136,10 +152,11 @@ class window.TablesStakes
 
     set: (key,value,options)->
         @attributes[key] = value if key? and value?
-        #@[key] = value
-        switch key
-            when 'columns'
-                @filterCondition = d3.map([])
+        unless value?
+            @attributes[key] = true
+        #switch key
+            #when 'columns'
+                #@filterCondition = d3.map([])
         @
 
     get: (key)->
