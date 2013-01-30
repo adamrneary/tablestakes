@@ -120,10 +120,7 @@ tfoot {
 
 // Full stack table example
 // 
-// <div class="alert alert-info"><b>From Sinisa with Love</b></div>
-// <p style="text-align:center"><img src="http://depleted.files.wordpress.com/2010/02/1267346567678.jpg" /></p>
-// <div class="alert">Adam play with this, you will know better how this table is going to be used</div>
-// <div class="alert alert-error">Report any porblem to me</div>
+// Example of all styles
 // 
 // Styleguide 1.4
 
@@ -153,6 +150,7 @@ tbody {
     &.total {
       color: $column-total-color;
       background: $column-total-background;
+      font-weight: bold;
     }
 
     &.left-aligned {
@@ -184,7 +182,7 @@ thead {
       top: 0;
       bottom: 0;
       display: inline-block;
-      width: 5px;
+      width: 3px;
       height: 100%;
       cursor: col-resize;
 
@@ -274,6 +272,7 @@ thead {
 // .spacer - blank row to provide space
 // .emphasis - rows that need attention drawn to them
 // .emphasis2 - alt style for rows that need attention drawn to them
+// .draggable-destination - class that is added to a row on which the <code>.draggable</code> hovers
 // 
 // Styleguide 3.1
 
@@ -359,6 +358,14 @@ tbody {
       font-size: 100%;
       font-weight: bold;
     }
+
+    &.draggable-destination {
+      th, td {
+        border-top: solid 1px $danger;
+        border-bottom: solid 1px $danger;
+        background: lighten($danger, 35%);
+      }
+    }
   }
 }
 
@@ -388,7 +395,7 @@ tbody {
 
 th, td {
   font-size: 12px;
-  text-align: left;
+  text-align: right;
   padding: 9px 8px;
 
   // &:first-child {
@@ -401,6 +408,10 @@ th, td {
   &.plan {
     color: $cell-plan-color;
     background: $cell-plan-background;
+    
+    &.editable:hover {
+      background: $white;
+    }
   }
 
   // old
@@ -456,7 +467,7 @@ th, td {
     &:before {
       @include border-radius(200px);
       content: "x";
-      display: block;
+      display: inline-block;
       float: left;
       width: 16px;
       height: 16px;
@@ -473,26 +484,50 @@ th, td {
 
   // draggable
   &.draggable {
-    text-align: left; 
-    text-indent: -9999em;
+    position: relative;
     cursor: pointer;
+    padding-left: 20px;
+    &:before, &:after {
+      position: absolute;
+      left: 5px;
+      height: 0;
+      width: 0;
+      content: "";
+    }
 
     &:before {
-      @include border-radius(200px);
-      content: "| | |";
-      display: block;
-      float: left;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
-      color: $cell-draggable-color;
-      background: $cell-draggable-background;
-      text-align: center;
-      font-size: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      text-indent: 0;
+      top: 12px;
+      border-color: transparent transparent $sortable-inactive-arrows-color transparent;
+      border-style: solid;
+      border-width: 0px 5px 5px 5px; 
     }
+
+    &:after {
+      bottom: 12px;
+      border-color: $sortable-inactive-arrows-color transparent transparent transparent;
+      border-style: solid;
+      border-width: 5px 5px 0 5px;
+    }
+    // text-align: left; 
+    // text-indent: -9999em;
+    // cursor: pointer;
+
+    // &:before {
+    //   @include border-radius(200px);
+    //   content: "| | |";
+    //   display: block;
+    //   float: left;
+    //   width: 16px;
+    //   height: 16px;
+    //   line-height: 16px;
+    //   color: $cell-draggable-color;
+    //   background: $cell-draggable-background;
+    //   text-align: center;
+    //   font-size: 6px;
+    //   font-weight: bold;
+    //   cursor: pointer;
+    //   text-indent: 0;
+    // }
   }
 
   // editable
@@ -501,8 +536,7 @@ th, td {
     cursor: pointer;
 
     &:hover {
-      border: 1px dotted $cell-editable-hover-border-color;
-      text-decoration: underline;
+      background: $cell-editable-hover-color;
     }
 
     // active
