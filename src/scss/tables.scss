@@ -18,10 +18,10 @@
 table {
   @include border-radius(4px);
   @include box-sizing(border-box);
+  position: relative;
   width: 100%;
   padding: 10px;
   border-collapse: separate;
-  // box-shadow: 0 0 2px rgba(0,0,0,0.15);
   color: $table-color;
   background: $table-background;
 
@@ -273,6 +273,7 @@ thead {
 // .emphasis - rows that need attention drawn to them
 // .emphasis2 - alt style for rows that need attention drawn to them
 // .draggable-destination - class that is added to a row on which the <code>.draggable</code> hovers
+// .dragged - this class is added to a row which is dragged. Absolute positions are to be set dynamically to follow the cursor.
 // 
 // Styleguide 3.1
 
@@ -364,6 +365,19 @@ tbody {
         border-top: solid 1px $danger;
         border-bottom: solid 1px $danger;
         background: lighten($danger, 35%);
+      }
+    }
+
+    &.dragged {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      display: block;
+      @include outer-shadow(0, 1px, 3px, rgba(0,0,0, 0.15));
+
+      td, th {
+        @include opacity(.50);
+        background: inherit;
       }
     }
   }
