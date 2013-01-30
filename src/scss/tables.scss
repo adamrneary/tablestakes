@@ -566,13 +566,35 @@ th, td {
 
     // active
     &.active {
-      // position: relative;
+      position: relative;
       // display: block;
       // width: auto;
       cursor: text;
       border: 1px solid $cell-editable-active-border-color;
-      @include box-shadow(#{1px 1px 3px rgba($cell-editable-active-shadow-color, 0.4), inset 1px 1px 3px rgba($cell-editable-active-shadow-color, 0.5)});
+      @include inner-shadow(0, 0, 6px, $grey);
       background: $cell-editable-active-background;
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        content: "";
+        color: $white;
+        background: $primary;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        @include outer-shadow(0, 1px, 1px, $secondary);
+        cursor: pointer;
+      }
+
+      &:hover {
+        background: $cell-editable-active-background;
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
 
     // changed
