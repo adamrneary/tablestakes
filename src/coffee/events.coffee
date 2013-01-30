@@ -148,6 +148,7 @@ class window.TablesStakesLib.events
             d3.event.stopPropagation()
             d3.event.preventDefault()
 
+
     # toggle nested
     click: (node,d, _, unshift) ->
         console.log 'events toggle nested click'
