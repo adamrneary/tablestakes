@@ -64,7 +64,6 @@ columns = [
 grid = new window.TablesStakes(
   columns: columns
   data: data
-  el: "#base"
+  el: "#example"
 )
 grid.render()
-$("#base").show()

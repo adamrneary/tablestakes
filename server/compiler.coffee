@@ -36,7 +36,7 @@ compileCoffeeSrc = (cb)->
             cb()
 
 compileCoffeeExamples = (cb)->
-    child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -j #{__dirname}/../examples/public/js/examples.js -cb #{__dirname}/../examples/coffee/", (err,stdout,stderr)->
+    child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -o #{__dirname}/../examples/public/js/ -cb #{__dirname}/../examples/coffee/", (err,stdout,stderr)->
         if stderr
             child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -p -cb #{__dirname}/../examples/coffee/", (err,stdout,stderr)->
                 console.log 'coffee err: ',stderr

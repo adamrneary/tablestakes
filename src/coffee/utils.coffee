@@ -5,7 +5,7 @@ class window.TablesStakesLib.utils
         @core = options.core
 
     getCurrentColumnIndex: (id) ->
-        console.log 'core getCurrentColumnIndex, id:',id
+        #console.log 'core getCurrentColumnIndex, id:',id
         currentindex = @core.columns.length
         for col, i in @core.columns
           if col.key == id
@@ -14,7 +14,7 @@ class window.TablesStakesLib.utils
         currentindex
 
     findNextNode: (d) ->
-        console.log 'core findNextNode'
+        #console.log 'core findNextNode'
         nextNodeID = null
         for leaf, i in @core.nodes
           if leaf._id == d._id
@@ -28,7 +28,7 @@ class window.TablesStakesLib.utils
         root
 
     findPrevNode: (d) ->
-        console.log 'core findPrevNode'
+        #console.log 'core findPrevNode'
         prevNodeID = null
         for leaf, i in @core.nodes
           if leaf._id == d._id

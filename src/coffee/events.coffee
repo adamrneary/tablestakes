@@ -4,104 +4,69 @@ class window.TablesStakesLib.events
     constructor: (options)->
         @core = options.core
 
-    # movement of the cells
+    # keydown editing cell
     keydown: (node,d) ->
         switch d3.event.keyCode
-            when 9
-                @key_tab node,d
-            when 38
-                @key_up node,d
-            when 40
-                @key_down node,d
-            when 13                                                                        # enter key down
+            when 9  #tab
+                currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+                if d3.event.shiftKey == false                                                  # if shiftkey is not pressed, get next
+                    if(currentindex < @core.columns.length - 1)
+                        d.activatedID = @core.columns[currentindex+1].key
+                        #console.log d.activatedID
+                    else
+                        #console.log 'here2'
+                        nextNode = @core.utils.findNextNode d, @core.nodes
+                        if nextNode isnt null
+                            nextNode.activatedID = @core.columns[0].key
+                            d.activatedID = null
+                else                                                                           # if shiftkey is not pressed, get previous
+                    if currentindex > 0
+                        d.activatedID = @core.columns[currentindex-1].key
+                    else
+                        prevNode = @core.utils.findPrevNode d, @core.nodes
+                        if prevNode isnt null
+                            prevNode.activatedID = @core.columns[@core.columns.length - 1].key
+                            d.activatedID = null
+                d3.event.preventDefault()
+                d3.event.stopPropagation()
+                @core.update()
+            when 38 #up
+                prevNode = @core.utils.findPrevNode d, @nodes
+                currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+                if prevNode != null
+                  prevNode.activatedID = @core.columns[currentindex].key
+                  d.activatedID = null 
+                @core.update()
+            when 40 #down
+                nextNode = @core.utils.findNextNode d
+                currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+                if nextNode isnt null
+                    nextNode.activatedID = @core.columns[currentindex].key
+                    d.activatedID = null
+                @core.update()
+            when 13 #enter                                                                 
                 d.activatedID = null
                 d.changed = true
                 @core.update()              
-            when 27                                                                        # escape key down
+            when 27 #escape
                 d3.select(node).node().value = d[d.activatedID]
                 d.activatedID = null
                 @core.update()
         # clavey handler enter and esc 
 
-    key_tab: (node,d)->
-        d3.event.preventDefault()
-        d3.event.stopPropagation()
-        currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-        if d3.event.shiftKey == false                                                  # if shiftkey is not pressed, get next
-            if(currentindex < @core.columns.length - 1)
-              d.activatedID = @core.columns[currentindex+1].key
-            else
-              nextNode = @core.utils.findNextNode d, @core.nodes
-              if nextNode isnt null
-                nextNode.activatedID = @core.columns[0].key
-                d.activatedID = null
-        else                                                                           # if shiftkey is not pressed, get previous
-            if currentindex > 0
-                d.activatedID = @core.columns[currentindex-1].key
-            else
-                prevNode = @core.utils.findPrevNode d, @core.nodes
-                if prevNode isnt null
-                    prevNode.activatedID = @core.columns[@core.columns.length - 1].key
-                    d.activatedID = null
-        @core.update()
-
-    key_down: (node,d)->
-        nextNode = @core.utils.findNextNode d
-        currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-        if nextNode isnt null
-            nextNode.activatedID = @core.columns[currentindex].key
-            d.activatedID = null
-        @core.update()
-
-    key_up: (node,d)->
-        prevNode = @core.utils.findPrevNode d, @nodes
-        currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-        if prevNode != null
-          prevNode.activatedID = @core.columns[currentindex].key
-          d.activatedID = null 
-        @core.update()
-
-    keyup: (node,d) ->
-        #switch d3.event.keyCode
-        #return
-
     # decrease of the selection from the active cell
     blur: (node,d, column) ->
-        cell = d3.select(node)
-        columnKey = d3.select(node)[0][0].parentNode.getAttribute("ref")
-        hz = d3.select(node)[0][0]
-        cell.text(d3.select(node).node().value)
-        d[columnKey]=d3.select(node).node().value
-        d[column.key]=d3.select('td input').node().value
+        #cell = d3.select(node)
+        #hz = d3.select(node)[0][0]
+        #cell.text(d3.select(node).node().value)
         if @core.table.isInRender == false
+            val = d3.select(node).text()
+            columnKey = d3.select(node)[0][0].getAttribute("ref")
+            d[columnKey] = val
+            d[column.key] = val
+            d[column.key] = val
             d.activatedID = null
             @core.update()
-
-    # click on the icon to deploy-fold
-    click: (node,d, _, unshift) ->
-        console.log 'events click'
-        d.activatedID = null
-        d3.event.stopPropagation()
-
-        if d3.event.shiftKey and not unshift
-            #If you shift-click, it'll toggle fold all the children, instead of itself
-            #d3.event.shiftKey = false
-            self = @
-            d.values and d.values.forEach((node) ->
-                self.click this,node, 0, true if node.values or node._values
-            )
-            return true
-        #return true  unless hasChildren(d)
-
-        # toggle fold. d.values - open, d._values - close
-        #else
-        if d.values
-            d._values = d.values
-            d.values = null
-        else
-            d.values = d._values
-            d._values = null
-        @core.update()
 
     dragstart: (node,d) ->
         console.log 'dragstart'
@@ -176,7 +141,30 @@ class window.TablesStakesLib.events
     # change row if class editable
     editable: (node,d, _, unshift)->
         console.log 'events editable'
-        @core.utils.deactivateAll @core.data[0]
-        d.activatedID = d3.select(d3.select(node).node().parentNode).attr("meta-key")
+        unless d3.select(node).classed('active')
+            @core.utils.deactivateAll @core.data[0]
+            d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
+            @core.update()
+            d3.event.stopPropagation()
+
+    # toggle nested
+    click: (node,d, _, unshift) ->
+        console.log 'events toggle nested click'
+        #d.activatedID = null
+
+        if d3.event.shiftKey and not unshift
+            #If you shift-click, it'll toggle fold all the children, instead of itself
+            #d3.event.shiftKey = false
+            self = @
+            if d.values 
+                d.values.forEach (node)->
+                    self.click this,node, 0, true if node.values or node._values
+        else
+            if d.values
+                d._values = d.values
+                d.values = null
+            else
+                d.values = d._values
+                d._values = null
         @core.update()
         d3.event.stopPropagation()

@@ -1,18 +1,19 @@
 window.TablesStakesLib = {} unless window.TablesStakesLib
-class window.TablesStakesLib.render
+class window.TablesStakesLib.core
 
     constructor: (options)->
         console.log 'core constructor'
         #console.log 'options:',options
-        @table = options.table
-        @selection = options.selection
-        @data = options.data
-        @columns = @table.get('columns')
         @utils = new window.TablesStakesLib.utils
             core: @
         @events = new window.TablesStakesLib.events
             core: @
-        @render()
+
+    set: (options)->
+        @table = options.table
+        @selection = options.selection
+        @data = options.data
+        @columns = @table.get('columns')
 
     update: ->
         @table.isInRender = true
@@ -39,20 +40,20 @@ class window.TablesStakesLib.render
         th.append("div").attr('class','resizeable-handle right').call drag
 
     filterable: ->
-        self = @
-        theadRow2 = @thead.append("tr")
-        theadRow2.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
-        @columns.forEach (column, i) =>
-            keyFiled = column.key
-            self = @
-            theadRow2.append("th").attr("meta-key", column.key).append("input").attr("type","text")
-            .on "keyup", (d) ->
-                self.table.filterCondition.set(column.key, d3.select(this).node().value)
-                self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
-                self.table.render()
-            console.log '@columns', @columns.length
-        if @table.is 'deletable' 
-            theadRow2.append("th").attr('width','15px')
+        #self = @
+        #theadRow2 = @thead.append("tr")
+        #theadRow2.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
+        #@columns.forEach (column, i) =>
+            #keyFiled = column.key
+            #self = @
+            #theadRow2.append("th").attr("meta-key", column.key).append("input").attr("type","text")
+            #.on "keyup", (d) ->
+                #self.table.filterCondition.set(column.key, d3.select(this).node().value)
+                #self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
+                #self.table.render()
+            #console.log '@columns', @columns.length
+        #if @table.is 'deletable' 
+            #theadRow2.append("th").attr('width','15px')
     deletable: (head)->
         if head
             @theadRow.append("th").attr('width','15px')
@@ -162,6 +163,8 @@ class window.TablesStakesLib.render
         , (d) ->
             d.id or (d.id is ++i)
         )
+        #console.log node
+        #try
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
@@ -229,23 +232,24 @@ class window.TablesStakesLib.render
         self = @
         column_td.each (t,i)->
                 
-            if t.activatedID == column.key 
-                d3.select(this).append("span").attr("class", d3.functor(column.classes))
-                .append("input").attr('type', 'text').attr('value', (d) -> d[column.key] or "")
-                .on "keydown", (d) -> 
-                    self.events.keydown this,d
-                .on "keyup", (a,b,c)->
-                    self.events.keyup this,a,b,c
-                .on "blur", (d) ->
-                    self.events.blur this,d, column
-                .node().focus()
-                d3.select(this).classed 'active',true
-            else
-                if t.changed
-                    d3.select(this).classed 'changed',true
-                d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
-                    if column.format then column.format(d) else (d[column.key] or "-")
-            self.editable column_td if self.table.is('editable') and column.isEditable
+            span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
+                if column.format then column.format(d) else (d[column.key] or "-")
+            self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
 
             #console.log 'renderNode end'
 
+    editable: (td,d,node,column)->
+        self = @
+        td.classed 'editable',true
+        td.on "click", (a,b,c)->
+            self.events.editable this,a,b,c 
+        if d.activatedID == column.key 
+            #console.log 'activated == colum'
+            d3.select(node).classed('active',true).attr('contentEditable',true)
+            .on "keydown", (d) -> 
+                self.events.keydown this,d
+            .on "blur", (d) ->
+                self.events.blur this,d, column
+            .node().focus()
+        else if d.changed
+            d3.select(node).classed 'changed',true
