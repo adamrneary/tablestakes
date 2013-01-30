@@ -12,7 +12,7 @@ class window.TablesStakes
 
     width : 960
     height : 500
-#  color : nv.utils.defaultColor()
+
     id : Math.floor(Math.random() * 10000)
     header : true
     noData : "No Data Available."
@@ -23,8 +23,6 @@ class window.TablesStakes
         type: "text"
     ]
     tableClassName : "class"
-    iconOpenImg : "images/grey-plus.png"
-    iconCloseImg : "images/grey-minus.png"
     dispatch : d3.dispatch("elementClick", "elementDblclick", "elementMouseover", "elementMouseout")
     columnResize : true
     gridData : []
