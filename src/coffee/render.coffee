@@ -132,8 +132,8 @@ class window.TablesStakesLib.core
 
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
-            th.attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
-            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left")).style('padding-left', '20px')
+            th.attr("width", (if column.width then column.width else "100px")).attr("ref", i)
+            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style('padding-left', '20px')
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
