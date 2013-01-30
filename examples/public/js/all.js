@@ -3,83 +3,431 @@ var grid, testColumns, testTree;
 
 testTree = [
   {
-    key: "NVD3",
-    type: "ahaha",
+    catname: "collapsible",
     values: [
       {
-        key: "Charts",
-        _values: [
-          {
-            key: "Simple Line",
-            type: "Historical"
-          }, {
-            key: "Scatter / Bubble",
-            type: "Snapshot"
-          }, {
-            key: "Stacked / Stream / Expanded Area",
-            type: "Historical"
-          }, {
-            key: "Discrete Bar",
-            type: "Snapshot"
-          }, {
-            key: "Grouped / Stacked Multi-Bar",
-            type: "Snapshot / Historical"
-          }, {
-            key: "Horizontal Grouped Bar",
-            type: "Snapshot"
-          }, {
-            key: "Line and Bar Combo",
-            type: "Historical"
-          }, {
-            key: "Cumulative Line",
-            type: "Historical"
-          }, {
-            key: "Line with View Finder",
-            type: "Historical"
-          }
-        ]
+        catname: "indent1",
+        AUG: {
+          label: "22",
+          classes: "old"
+        },
+        SEP: {
+          label: "22",
+          classes: "old"
+        },
+        OCT: {
+          label: "1,234",
+          classes: "plan"
+        },
+        NOV: {
+          label: "987",
+          classes: "plan"
+        },
+        DEC: {
+          label: "987",
+          classes: "plan"
+        },
+        JAN: {
+          label: "987",
+          classes: "plan"
+        },
+        FEB: "987",
+        MAR: "67",
+        APR: "4",
+        MAY: "456",
+        JUN: "347",
+        JUL: "14"
       }, {
-        key: "Chart Components",
+        catname: "indent2",
+        AUG: {
+          label: "22",
+          classes: "old"
+        },
+        SEP: {
+          label: "22",
+          classes: "old"
+        },
+        OCT: {
+          label: "1,234",
+          classes: "plan"
+        },
+        NOV: {
+          label: "987",
+          classes: "plan"
+        },
+        DEC: {
+          label: "987",
+          classes: "plan"
+        },
+        JAN: {
+          label: "987",
+          classes: "plan"
+        },
+        FEB: "987",
+        MAR: "67",
+        APR: "4",
+        MAY: "456",
+        JUN: "347",
+        JUL: "14"
+      }, {
+        catname: "collapsible",
         values: [
           {
-            key: "Legend",
-            type: "Universal"
+            catname: "indent2",
+            AUG: {
+              label: "22"
+            },
+            SEP: {
+              label: "22"
+            },
+            OCT: {
+              label: "1,234",
+              classes: "plan"
+            },
+            NOV: {
+              label: "987",
+              classes: "plan"
+            },
+            DEC: {
+              label: "987",
+              classes: "plan"
+            },
+            JAN: {
+              label: "987",
+              classes: "plan"
+            },
+            FEB: "987",
+            MAR: "67",
+            APR: "4",
+            MAY: "456",
+            JUN: "347",
+            JUL: "14"
           }
         ]
       }
     ]
   }, {
-    key: "New Root",
-    type: "tatata",
-    classes: "rowcustom1",
-    values: [
+    catname: "Section subtotal",
+    AUG: "1",
+    _classes: "subtotal"
+  }, {
+    catname: "",
+    _classes: "spacer"
+  }, {
+    catname: "Expandable",
+    _values: [
       {
-        key: "1",
-        type: "123",
-        classes: "rowcustom"
+        catname: "indent1"
+      }, {
+        catname: "indent2"
       }
     ]
+  }, {
+    catname: "independent row (link)",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
+  }, {
+    catname: "indy row with %",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
+  }, {
+    catname: "change",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
+  }, {
+    catname: "indy row with %",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
+  }, {
+    catname: "percent change",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
+  }, {
+    catname: "inty & editable name",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
+  }, {
+    catname: "Overall total",
+    _classes: "total",
+    AUG: {
+      label: "22"
+    },
+    SEP: {
+      label: "22"
+    },
+    OCT: {
+      label: "1,234",
+      classes: "plan"
+    },
+    NOV: {
+      label: "987",
+      classes: "plan"
+    },
+    DEC: {
+      label: "987",
+      classes: "plan"
+    },
+    JAN: {
+      label: "987",
+      classes: "plan"
+    },
+    FEB: "987",
+    MAR: "67",
+    APR: "4",
+    MAY: "456",
+    JUN: "347",
+    JUL: "14"
   }
 ];
 
 testColumns = [
   {
-    key: "key",
-    label: "Name",
+    key: "catname",
+    label: "CATEGORY NAME",
     showCount: false,
-    width: "400px",
-    type: "text",
+    width: "140px",
     isEditable: true,
-    classes: "keyfield",
-    click: function(d) {
-      return d3.select(this).html("hallo you were clicked");
-    }
+    classes: "keyfield"
   }, {
-    key: "type",
-    label: "Type",
-    width: "300px",
-    type: "text",
-    classes: "name"
+    key: "AUG",
+    label: "AUG",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "SEP",
+    label: "SEP",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "OCT",
+    label: "OCT",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "NOV",
+    label: "NOV",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "DEC",
+    label: "DEC",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "JAN",
+    label: "JAN",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "FEB",
+    label: "FEB",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "MAR",
+    label: "MAR",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "APR",
+    label: "APR",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "MAY",
+    label: "MAY",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
+  }, {
+    key: "JUN",
+    label: "JUN",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "plan"
+  }, {
+    key: "JUL",
+    label: "JUL",
+    showCount: false,
+    width: "40px",
+    isEditable: true,
+    classes: "keyfield"
   }
 ];
 

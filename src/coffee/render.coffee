@@ -167,7 +167,7 @@ class window.TablesStakesLib.core
         #try
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
-        @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
+        @nodeEnter = node.enter().append("tr").attr('class', (d)->d._classes)
         @draggable() if @table.is 'hierarchy_dragging'
         @reorder_draggable() if @table.is 'reorder_dragging'
 
@@ -269,5 +269,5 @@ class window.TablesStakesLib.core
             .on "blur", (d) ->
                 self.events.blur this,d, column
             .node().focus()
-        else if d.changed
+        else if d.changedID and d.changedID.indexOf(column.key) isnt -1
             d3.select(node).classed 'changed',true
