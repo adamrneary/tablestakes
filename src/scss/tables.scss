@@ -480,8 +480,15 @@ th, td {
     text-indent: -9999em;
     cursor: pointer;
 
+    &:hover {
+      &:before {
+        font-size: 18px;
+        text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
+      }
+    }
+
     &:before {
-      @include border-radius(200px);
+      // @include border-radius(200px);
       content: "x";
       display: inline-block;
       float: left;
@@ -491,10 +498,11 @@ th, td {
       color: $cell-deletable-color;
       background: $cell-deletable-background;
       text-align: center;
-      font-size: 10px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       text-indent: 0;
+      text-shadow: 1px 2px 2px rgba($cell-deletable-color, .50);
     }
   }
 
