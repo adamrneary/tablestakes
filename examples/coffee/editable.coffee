@@ -36,8 +36,8 @@
     type: "tatata"
   ,
     key:
-        label: "1"
-        classes: "date"
+        label: "yes"
+        classes: "boolean"
     type: "123"
   ]
   testColumns = [

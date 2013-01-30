@@ -187,6 +187,3 @@ class window.TablesStakes
             @
         else
             @isSortable
-
-
-

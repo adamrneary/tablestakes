@@ -96,7 +96,6 @@ class window.TablesStakesLib.core
         td.classed 'editable',true
         td.select("span").on "click", (a,b,c)->
             self.events.editable this,a,b,c 
-
     nested: (nodeName)->
         self = @
         nodeName.on "click", (a,b,c)->
@@ -121,6 +120,7 @@ class window.TablesStakesLib.core
         @renderHead() if @table.header
         #console.log 'core render 4'
         @renderBody()
+        
 
     renderHead: ->
         #console.log 'renderHead start'
