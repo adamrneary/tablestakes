@@ -71,6 +71,8 @@ class window.TablesStakesLib.utils
                 array[n] = child
                 n=n+1
         d.parent.values = array
+        @core.table.setID d.parent, d.parent._id
+        #@core.table.setID d.parent.values, d.parent.values._id
                 
     findNodeByID: (id) ->
         idPath = id.split "_"

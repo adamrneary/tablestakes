@@ -131,10 +131,10 @@ class window.TablesStakesLib.events
         .style("background-color", null)
         if @draggingTargetObj == null
             return;
-        parent = @core.utils.findNodeByID @draggingTargetObj
+        brother = @core.utils.findNodeByID @draggingTargetObj
         child = @core.utils.findNodeByID @draggingObj
         @core.utils.removeNode child
-        @core.utils.pastNode parent, child
+        @core.utils.pastNode brother, child
         @core.update()
 
 
