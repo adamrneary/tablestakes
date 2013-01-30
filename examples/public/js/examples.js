@@ -6,6 +6,9 @@ core = [
     shortLink: "base",
     title: "Base example"
   }, {
+    shortLink: "custom_classes",
+    title: "Custom classes"
+  }, {
     shortLink: "editable",
     title: "Editable"
   }, {
@@ -28,7 +31,7 @@ core = [
     title: "Reorder dragging"
   }, {
     shortLink: "all",
-    title: "All functions"
+    title: "Full stack"
   }
 ];
 

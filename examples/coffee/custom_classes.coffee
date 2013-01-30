@@ -1,42 +1,60 @@
 data = [
   key: "NVD3"
   type: "ahaha"
+  etc: 'etc1'
 ,
-  key: "Simple Line"
+  key: 
+      label: "Simple Line"
+      classes: "plan"
   type: "Historical"
+  etc: 'etc2'
 ,
   key: "Scatter / Bubble"
-  type: "Snapshot"
+  type: 
+      label: "Snapshot"
+      classes: "old"
+  etc: 'etc3'
 ,
   key: "Stacked / Stream / Expanded Area"
   type: "Historical"
+  etc: 'etc3'
 ,
   key: "Discrete Bar"
   type: "Snapshot"
+  etc: 'etc4'
 ,
   key: "Grouped / Stacked Multi-Bar"
   type: "Snapshot / Historical"
+  etc: 'etc5'
 ,
   key: "Horizontal Grouped Bar"
   type: "Snapshot"
+  etc: 'etc6'
 ,
   key: "Line and Bar Combo"
   type: "Historical"
+  etc: 'etc7'
 ,
   key: "Cumulative Line"
   type: "Historical"
+  etc: 'etc8'
 ,
   key: "Line with View Finder"
   type: "Historical"
+  etc: 'etc9'
 ,
   key: "Legend"
   type: "Universal"
+  etc: 'etc10'
 ,
   key: "New Root"
   type: "tatata"
+  etc: 'etc11'
 ,
   key: "1"
   type: "123"
+  etc: 'etc12'
+  _classes: "total"
 ]
 
 columns = [
@@ -49,6 +67,12 @@ columns = [
 ,
   key: "type"
   label: "Type"
+  width: "300px"
+  isEditable: false
+,
+  key: "etc"
+  label: "etc"
+  classes: "plan"
   width: "300px"
   isEditable: false
 ]
