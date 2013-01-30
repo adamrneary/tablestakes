@@ -262,7 +262,7 @@ thead {
 
 // Rows
 // 
-// These styles are applied an entire row at a time.
+// These styles are applied to an entire row at a time.
 // 
 // .subtotal - for rows showing total of a subset of rows above them
 // .subtotal2 - alt style for rows showing total of a subset of rows above them
@@ -272,7 +272,7 @@ thead {
 // .spacer - blank row to provide space
 // .emphasis - rows that need attention drawn to them
 // .emphasis2 - alt style for rows that need attention drawn to them
-// .draggable-destination - class that is added to a row on which the <code>.draggable</code> hovers
+// .draggable-destination - class that is added to a row on which the .draggable hovers
 // .dragged - this class is added to a row which is dragged. Absolute positions are to be set dynamically to follow the cursor.
 // 
 // Styleguide 3.1
@@ -408,7 +408,7 @@ tbody {
 // .draggable - indicates that the row can be moved up or down
 // .editable - indicates that the cell can be clicked on to edit
 // .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
-// .editable.active - Only editable cell can become active. SINISA: THIS IS THIS MOST IMPORTANT ONE! http://cl.ly/image/0Z420V2p2I2G is half-way there. i want activecell link color for the border and a drop shadow, but i don't want the cell to be larger or oversized. the image's gradient looks terrible. either kill or improve it--your call. finally, we do like the little blue square in the lower right. it should look as much like our logo as possible. text inside the activecell should be activecell black, not link color
+// .editable.active - Only editable cell can become active.
 // .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
 // .indent1 - for cells in a hierarchy, indented 1 space
 // .indent2 - for cells in a hierarchy, indented 2 spaces
@@ -541,26 +541,6 @@ th, td {
       border-style: solid;
       border-width: 5px 5px 0 5px;
     }
-    // text-align: left; 
-    // text-indent: -9999em;
-    // cursor: pointer;
-
-    // &:before {
-    //   @include border-radius(200px);
-    //   content: "| | |";
-    //   display: block;
-    //   float: left;
-    //   width: 16px;
-    //   height: 16px;
-    //   line-height: 16px;
-    //   color: $cell-draggable-color;
-    //   background: $cell-draggable-background;
-    //   text-align: center;
-    //   font-size: 6px;
-    //   font-weight: bold;
-    //   cursor: pointer;
-    //   text-indent: 0;
-    // }
   }
 
   // editable
@@ -575,8 +555,6 @@ th, td {
     // active
     &.active {
       position: relative;
-      // display: block;
-      // width: auto;
       cursor: text;
       border: 1px solid $cell-editable-active-border-color;
       @include inner-shadow(0, 0, 6px, $grey);
