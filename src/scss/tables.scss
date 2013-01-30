@@ -362,9 +362,11 @@ tbody {
 
     &.draggable-destination {
       th, td {
-        border-top: solid 1px $danger;
-        border-bottom: solid 1px $danger;
-        background: lighten($danger, 35%);
+        color: $row-draggable-destination-color;
+        border-top: solid 1px$row-draggable-destination-border-top-color;
+        border-bottom: solid 1px $row-draggable-destination-border-bottom-color;
+        background: $row-draggable-destination-background;
+        @include opacity(.50);
       }
     }
 
