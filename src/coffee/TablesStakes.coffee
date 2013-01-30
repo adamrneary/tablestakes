@@ -56,6 +56,7 @@ class window.TablesStakes
         @gridData = [values: @get('data')]
         @columns.forEach ( column, i) =>
           @gridData[0][column['key']] = column['key'] 
+        #console.log @gridData
         @setID @gridData[0], "0"
         @gridFilteredData = @gridData
         @setFilter @gridFilteredData[0], @filterCondition

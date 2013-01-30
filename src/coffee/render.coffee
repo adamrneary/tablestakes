@@ -231,9 +231,27 @@ class window.TablesStakesLib.core
         #console.log 'renderNode start'
         self = @
         column_td.each (t,i)->
-                
+
+            if t[column.key] and t[column.key].classes?
+                classes = t[column.key].classes.split(' ')
+                for _class in classes
+                    d3.select(this).classed _class,true
+                    
+                #console.log t[column.key].classes
+
             span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
-                if column.format then column.format(d) else (d[column.key] or "-")
+                #console.log d3.select(this)
+                #console.log d[column.key]
+                if column.format
+                    column.format(d) 
+                else 
+                    if d[column.key]
+                        if typeof d[column.key] is 'string'
+                            d[column.key]
+                        else
+                            d[column.key].label
+                    else
+                        "-"
             self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
 
             #console.log 'renderNode end'

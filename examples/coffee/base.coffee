@@ -1,15 +1,21 @@
 data = [
-  key: "NVD3"
-  type: "ahaha"
+  key: 
+      label: "NVD3"
+      classes: 'plan'
+  type: 
+      label: "ahaha"
 ,
-  key: "Simple Line"
+  key: 
+      label: "Simple Line"
   type: "Historical"
 ,
   key: "Scatter / Bubble"
   type: "Snapshot"
 ,
   key: "Stacked / Stream / Expanded Area"
-  type: "Historical"
+  type: 
+      label: "Historical"
+      classes: "plan"
 ,
   key: "Discrete Bar"
   type: "Snapshot"
@@ -18,7 +24,9 @@ data = [
   type: "Snapshot / Historical"
 ,
   key: "Horizontal Grouped Bar"
-  type: "Snapshot"
+  type: 
+      label: "Snapshot"
+      classes: "old"
 ,
   key: "Line and Bar Combo"
   type: "Historical"
@@ -29,7 +37,9 @@ data = [
   key: "Line with View Finder"
   type: "Historical"
 ,
-  key: "Legend"
+  key: 
+      label: "Legend"
+      classes: "old"
   type: "Universal"
 ,
   key: "New Root"
