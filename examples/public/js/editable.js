@@ -39,7 +39,10 @@ testTree = [
     key: "New Root",
     type: "tatata"
   }, {
-    key: "1",
+    key: {
+      label: "1",
+      classes: "date"
+    },
     type: "123"
   }
 ];
