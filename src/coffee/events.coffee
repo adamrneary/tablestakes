@@ -146,6 +146,7 @@ class window.TablesStakesLib.events
             d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
             @core.update()
             d3.event.stopPropagation()
+            d3.event.preventDefault()
 
     # toggle nested
     click: (node,d, _, unshift) ->
@@ -167,4 +168,5 @@ class window.TablesStakesLib.events
                 d.values = d._values
                 d._values = null
         @core.update()
+        d3.event.preventDefault()
         d3.event.stopPropagation()
