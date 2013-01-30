@@ -106,17 +106,18 @@ class window.TablesStakesLib.events
     dragstart: (node,d) ->
         console.log 'dragstart'
         self = @
-        targetRow = @core.table.get('el') + " tbody tr"
+        targetRow = @core.table.get('el') + " tbody tr span"
         @draggingObj = d._id
+        console.log '@draggingObj', @draggingObj
         @draggingTargetObj = null
         d3.selectAll(targetRow).on("mouseover", (d) ->
             if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
                 return
-            d3.select(this).attr("class", "draggable-destination") 
+            d3.select(this.parentNode.parentNode).attr("class", "draggable-destination")
             self.draggingTargetObj = d._id
         )
         .on("mouseout", (d) ->
-            d3.select(this).attr("class", "") 
+            d3.select(this.parentNode.parentNode).attr("class", "") 
             self.draggingTargetObj = null 
         )
     dragmove: (d) ->
@@ -133,9 +134,44 @@ class window.TablesStakesLib.events
             return;
         parent = @core.utils.findNodeByID @draggingTargetObj
         child = @core.utils.findNodeByID @draggingObj
+        console.log 'child', child
         @core.utils.removeNode child
         @core.utils.appendNode parent, child
         @core.update()
+
+    reordragstart: (node,d) ->
+        console.log 'dragstart'
+        self = @
+        targetRow = @core.table.get('el') + " tbody tr"
+        @draggingObj = d._id
+        @draggingTargetObj = null
+        d3.selectAll(targetRow).on("mouseover", (d) ->
+            if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
+                return
+            console.log 'this', this
+            d3.select(this).attr("class", "draggable-destination")
+            self.draggingTargetObj = d._id
+        )
+        .on("mouseout", (d) ->
+            d3.select(this).attr("class", "") 
+            self.draggingTargetObj = null 
+        )
+
+    reordragend: (node,d) ->
+        console.log 'dragend'
+        targetRow = @core.table.get('el') + " tbody tr"
+        d3.selectAll(targetRow)
+        .on("mouseover", null)
+        .on("mouseout", null)
+        .style("background-color", null)
+        if @draggingTargetObj == null
+            return;
+        parent = @core.utils.findNodeByID @draggingTargetObj
+        child = @core.utils.findNodeByID @draggingObj
+        @core.utils.removeNode child
+        @core.utils.pastNode parent, child
+        @core.update()
+
 
     # change row if class editable
     editable: (node,d, _, unshift)->

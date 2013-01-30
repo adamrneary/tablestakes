@@ -20,6 +20,9 @@ core = [
   shortLink: "hierarchy_dragging"
   title: "Hierarchy dragging"
 ,
+  shortLink: "reorder_dragging"
+  title: "Reorder dragging"
+,
   shortLink: "all"
   title: "All functions"
 ]

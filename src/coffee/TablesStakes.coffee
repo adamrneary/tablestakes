@@ -44,6 +44,7 @@ class window.TablesStakes
         @set 'resizable', false
         @set 'nested', false
         @set 'hierarchy_dragging', false
+        @set 'reorder_dragging', false
         if options?
             for key of options
                 @set key, options[key]

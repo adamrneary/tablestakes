@@ -61,6 +61,17 @@ class window.TablesStakesLib.utils
         @core.table.setID d, d._id
         #child.parent = d
 
+    pastNode: (d, child) ->
+        n = 0
+        array=[]
+        for index in d.parent.values
+            array[n] = index
+            n=n+1
+            if d is index
+                array[n] = child
+                n=n+1
+        d.parent.values = array
+                
     findNodeByID: (id) ->
         idPath = id.split "_"
         root = @core.table.gridFilteredData[0]
@@ -84,7 +95,6 @@ class window.TablesStakesLib.utils
 
     # change icons during deployment-folding
     icon: (d)->
-        console.log 'd', 
         if (d.depth-1) < 6
             indent = (d.depth-1)
         else

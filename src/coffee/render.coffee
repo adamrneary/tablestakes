@@ -63,11 +63,10 @@ class window.TablesStakesLib.render
                     @update() 
             )
 
-    draggableIcon: ->
-        @nodeEnter.insert("td").attr('class', 'draggable')
 
     draggable: ->
         self = @
+        @nodeEnter.insert("td").attr('class', 'draggable')
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
@@ -77,6 +76,19 @@ class window.TablesStakesLib.render
             .on "dragend", (a,b,c)->
                 self.events.dragend this,a,b,c
         @nodeEnter.call dragbehavior
+
+    reorder_draggable: ->
+        self = @
+        dragbehavior = d3.behavior.drag()
+            .origin(Object)
+            .on "dragstart", (a,b,c)->
+                self.events.reordragstart this,a,b,c
+            .on "drag", (a,b,c)->
+                self.events.dragmove this,a,b,c
+            .on "dragend", (a,b,c)->
+                self.events.reordragend this,a,b,c
+        @nodeEnter.call dragbehavior
+
 
     editable: (td)->
         self = @
@@ -119,7 +131,7 @@ class window.TablesStakesLib.render
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
             th.attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
-            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
+            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left")).style('padding-left', '20px')
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
@@ -153,14 +165,14 @@ class window.TablesStakesLib.render
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").attr('class', (d)->d.class)
-        @draggableIcon()  if @table.is 'hierarchy_dragging'
+        @draggable() if @table.is 'hierarchy_dragging'
+        @reorder_draggable() if @table.is 'reorder_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
         #console.log 'core render end'
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
-        @draggable() if @table.is 'hierarchy_dragging'
         @deletable() if @table.is 'deletable'
         #console.log 'here'
             
@@ -204,6 +216,7 @@ class window.TablesStakesLib.render
             column_td.attr("ref", column.key)
             column_td.attr('class', (d) => @utils.icon (d))
             @nested column_td if @table.is 'nested'
+            @nested column_td if @table.is 'hierarchy_dragging'
 
         @renderNodes column,column_td
 
