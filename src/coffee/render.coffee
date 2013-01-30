@@ -67,7 +67,6 @@ class window.TablesStakesLib.core
 
     draggable: ->
         self = @
-        @nodeEnter.insert("td").attr('class', 'draggable')
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
@@ -80,6 +79,7 @@ class window.TablesStakesLib.core
 
     reorder_draggable: ->
         self = @
+        @nodeEnter.insert("td").attr('class', 'draggable')
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
@@ -126,7 +126,7 @@ class window.TablesStakesLib.core
         #console.log 'renderHead start'
         @thead = @tableEnter.append("thead")
         @theadRow = @thead.append("tr")
-        @theadRow.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
+        @theadRow.append('th').attr('width','10px') if @table.is 'reorder_dragging'
         #console.log 'renderHead 1'
 
         @columns.forEach (column, i) =>
