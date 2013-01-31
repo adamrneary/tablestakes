@@ -613,6 +613,7 @@ table.tablestakes {
       &.active {
         width: auto;
         position: relative;
+        display: block;
         cursor: text;
         border: 1px solid $cell-editable-active-border-color;
         @include inner-shadow(0, 0, 6px, $grey);
@@ -622,14 +623,15 @@ table.tablestakes {
           position: absolute;
           bottom: 0;
           right: 0;
-          content: "";
+          content: " ";
           color: $white;
           background: $primary;
-          display: inline-block;
+          display: block;
           width: 8px;
           height: 8px;
           @include outer-shadow(0, 1px, 1px, $secondary);
           cursor: pointer;
+          overflow: hidden;
         }
 
         &:hover {
@@ -700,7 +702,21 @@ table.tablestakes {
     &.editable {
       &.active {
         &.select {
-          
+          select {
+            margin: 0;
+            padding: 0;
+            width: auto;
+            height: auto;
+            border: none;
+            color: $cell-editable-active-border-color;
+            background: transparent;
+            line-height: 1em;
+            outline: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            cursor: pointer;
+          }
         }
       }
     }
