@@ -18,10 +18,10 @@
 table {
   @include border-radius(4px);
   @include box-sizing(border-box);
+  position: relative;
   width: 100%;
   padding: 10px;
   border-collapse: separate;
-  // box-shadow: 0 0 2px rgba(0,0,0,0.15);
   color: $table-color;
   background: $table-background;
 
@@ -273,6 +273,7 @@ thead {
 // .emphasis - rows that need attention drawn to them
 // .emphasis2 - alt style for rows that need attention drawn to them
 // .draggable-destination - class that is added to a row on which the <code>.draggable</code> hovers
+// .dragged - this class is added to a row which is dragged. Absolute positions are to be set dynamically to follow the cursor.
 // 
 // Styleguide 3.1
 
@@ -361,9 +362,24 @@ tbody {
 
     &.draggable-destination {
       th, td {
-        border-top: solid 1px $danger;
-        border-bottom: solid 1px $danger;
-        background: lighten($danger, 35%);
+        color: $row-draggable-destination-color;
+        border-top: solid 1px$row-draggable-destination-border-top-color;
+        border-bottom: solid 1px $row-draggable-destination-border-bottom-color;
+        background: $row-draggable-destination-background;
+        @include opacity(.50);
+      }
+    }
+
+    &.dragged {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      display: block;
+      @include outer-shadow(0, 1px, 3px, rgba(0,0,0, 0.15));
+
+      td, th {
+        @include opacity(.50);
+        background: inherit;
       }
     }
   }
@@ -379,6 +395,7 @@ tbody {
 // .collapsible - for cells in a hierarchy that are currently expanded (and can be collapsed by clicking)
 // .expandable - for cells in a hierarchy that are currently collapsed (and can be expanded by clicking)
 // .deletable - indicates that the row can be deleted by clicking the 'x'
+// .deletable:hover - deletable hover state
 // .draggable - indicates that the row can be moved up or down
 // .editable - indicates that the cell can be clicked on to edit
 // .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
@@ -464,8 +481,15 @@ th, td {
     text-indent: -9999em;
     cursor: pointer;
 
+    &:hover {
+      &:before {
+        font-size: 18px;
+        text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
+      }
+    }
+
     &:before {
-      @include border-radius(200px);
+      // @include border-radius(200px);
       content: "x";
       display: inline-block;
       float: left;
@@ -475,7 +499,7 @@ th, td {
       color: $cell-deletable-color;
       background: $cell-deletable-background;
       text-align: center;
-      font-size: 10px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       text-indent: 0;
@@ -541,13 +565,35 @@ th, td {
 
     // active
     &.active {
-      // position: relative;
+      position: relative;
       // display: block;
       // width: auto;
       cursor: text;
       border: 1px solid $cell-editable-active-border-color;
-      @include box-shadow(#{1px 1px 3px rgba($cell-editable-active-shadow-color, 0.4), inset 1px 1px 3px rgba($cell-editable-active-shadow-color, 0.5)});
+      @include inner-shadow(0, 0, 6px, $grey);
       background: $cell-editable-active-background;
+
+      &:after {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        content: "";
+        color: $white;
+        background: $primary;
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        @include outer-shadow(0, 1px, 1px, $secondary);
+        cursor: pointer;
+      }
+
+      &:hover {
+        background: $cell-editable-active-background;
+      }
+
+      &:focus {
+        outline: none;
+      }
     }
 
     // changed

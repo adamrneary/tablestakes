@@ -118,84 +118,88 @@ $inverse-light:   $light-grey;
 // --------------------------------------------------
 
 //  Basic styles
-$table-color:                                 $dark-grey;
-$table-background:                            transparent;
-$table-link-color:                            $link-color;
-$th-color:                                    $white;
-$th-background:                               $secondary-light;
-$td-color:                                    $table-color;
-$td-background:                               $table-background;
+$table-color:                                     $dark-grey;
+$table-background:                                transparent;
+$table-link-color:                                $link-color;
+$th-color:                                        $white;
+$th-background:                                   $secondary-light;
+$td-color:                                        $table-color;
+$td-background:                                   $table-background;
 
 // Headers
-$header-primary-color:                        $primary;
-$header-primary-background:                   $table-background;
-$header-primary-border-color:                 $light-grey;
-$header-row-heading-color:                    $white;
-$header-row-heading-background:               $secondary-light;
-$header-total-heading-color:                  $black;
-$header-total-heading-background:             lighten($primary, 40%);
+$header-primary-color:                            $primary;
+$header-primary-background:                       $table-background;
+$header-primary-border-color:                     $light-grey;
+$header-row-heading-color:                        $white;
+$header-row-heading-background:                   $secondary-light;
+$header-total-heading-color:                      $black;
+$header-total-heading-background:                 lighten($primary, 40%);
 
 // Footers
-$footer-color:                                $table-color;
-$footer-background:                           $table-background;
+$footer-color:                                    $table-color;
+$footer-background:                               $table-background;
 
 // Columns
-$column-row-heading-color:                    $dark-grey;
-$column-row-heading-background:               $table-background;
-$column-total-color:                          $header-total-heading-color;
-$column-total-background:                     $header-total-heading-background;
-$column-light-color:                          lighten($grey, 15%);
-$column-light-background:                     $table-background;
+$column-row-heading-color:                        $dark-grey;
+$column-row-heading-background:                   $table-background;
+$column-total-color:                              $header-total-heading-color;
+$column-total-background:                         $header-total-heading-background;
+$column-light-color:                              lighten($grey, 15%);
+$column-light-background:                         $table-background;
 
 // Resizable
-$resizable-hover-color:                       $white;
-$resizable-neighbor-color:                    $primary-dark;
+$resizable-hover-color:                           $white;
+$resizable-neighbor-color:                        $primary-dark;
 
 // Sortable
-$sortable-inactive-arrows-color:               $primary-dark;
-$sortable-active-arrows-color:                 $white;
+$sortable-inactive-arrows-color:                  $primary-dark;
+$sortable-active-arrows-color:                    $white;
 
 // Rows
-$row-subtotal-color:                          $table-color;
-$row-subtotal-background:                     $table-background;
-$row-subtotal-border-top-color:               $light-grey;
-$row-subtotal2-color:                         $table-color;
-$row-subtotal2-background:                    $lighter-grey;
-$row-subtotal2-border-top-color:              $light-grey;
-$row-subtotal2-border-bottom-color:           $light-grey;
-$row-well-color:                              $table-color;
-$row-well-background:                         lighten($primary, 60%);
-$row-well-shadow-color:                       $grey;
-$row-total-color:                             $success;
-$row-total-background:                        $table-background;
-$row-total-border-top-color:                  $light-grey;
-$row-total-border-bottom-color:               $light-grey;
-$row-total2-color:                            $white;
-$row-total2-background:                       $secondary;
-$row-total2-border-top-color:                 $light-grey;
-$row-total2-border-bottom-color:              $light-grey;
-$row-emphasis-color:                          $primary;
-$row-emphasis-background:                     $table-background;
-$row-emphasis-border-bottom-color:            $light-grey;
-$row-emphasis2-color:                         $table-color;
-$row-emphasis2-background:                    $warning-light;
+$row-subtotal-color:                              $table-color;
+$row-subtotal-background:                         $table-background;
+$row-subtotal-border-top-color:                   $light-grey;
+$row-subtotal2-color:                             $table-color;
+$row-subtotal2-background:                        $lighter-grey;
+$row-subtotal2-border-top-color:                  $light-grey;
+$row-subtotal2-border-bottom-color:               $light-grey;
+$row-well-color:                                  $table-color;
+$row-well-background:                             lighten($primary, 60%);
+$row-well-shadow-color:                           $grey;
+$row-total-color:                                 $success;
+$row-total-background:                            $table-background;
+$row-total-border-top-color:                      $light-grey;
+$row-total-border-bottom-color:                   $light-grey;
+$row-total2-color:                                $white;
+$row-total2-background:                           $secondary;
+$row-total2-border-top-color:                     $light-grey;
+$row-total2-border-bottom-color:                  $light-grey;
+$row-emphasis-color:                              $primary;
+$row-emphasis-background:                         $table-background;
+$row-emphasis-border-bottom-color:                $light-grey;
+$row-emphasis2-color:                             $table-color;
+$row-emphasis2-background:                        $warning-light;
+$row-draggable-destination-color:                 $white;
+$row-draggable-destination-background:            lighten($secondary, 15%);
+$row-draggable-destination-border-top-color:      $secondary;
+$row-draggable-destination-border-bottom-color:   $secondary;
 
 // Cells
-$cell-plan-color:                             $table-color;
-$cell-plan-background:                        lighten($primary, 55%);
-$cell-old-color:                              $table-color;
-$cell-old-background:                         lighten($grey, 30%);
-$cell-collapsible-arrow-color:                $primary;
-$cell-expandable-arrow-color:                 $primary;
-$cell-deletable-color:                        $white;
-$cell-deletable-background:                   $danger;
-$cell-draggable-color:                        $white;
-$cell-draggable-background:                   $primary;
-$cell-editable-color:                         $link-color;
-$cell-editable-background:                    $table-background;
-$cell-editable-hover-color:                   lighten($primary, 55%);
-$cell-editable-active-border-color:           $primary;
-$cell-editable-active-shadow-color:           $primary;
-$cell-editable-active-background:             $lighter-grey;
-$cell-editable-changed-border-color:          $primary;
+$cell-plan-color:                                 $table-color;
+$cell-plan-background:                            lighten($primary, 55%);
+$cell-old-color:                                  $table-color;
+$cell-old-background:                             lighten($grey, 30%);
+$cell-collapsible-arrow-color:                    $primary;
+$cell-expandable-arrow-color:                     $primary;
+$cell-deletable-color:                            $danger;
+$cell-deletable-background:                       $white;
+$cell-draggable-color:                            $white;
+$cell-draggable-background:                       $primary;
+$cell-editable-color:                             $link-color;
+$cell-editable-background:                        $table-background;
+$cell-editable-hover-color:                       lighten($primary, 55%);
+$cell-editable-active-border-color:               $primary;
+$cell-editable-active-shadow-color:               $primary;
+$cell-editable-active-background:                 $lighter-grey;
+$cell-editable-changed-border-color:              $primary;
 

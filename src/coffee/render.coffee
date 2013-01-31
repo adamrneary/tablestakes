@@ -109,6 +109,7 @@ class window.TablesStakesLib.core
         @nodes = @tree.nodes(@data[0])
         #console.log 'core render 1'
 
+        # nikolay: what is this here? the nvd3 stuff seems legacy and awkward.
         wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
         wrapEnter = wrap.enter().append("div").attr("class", "nvd3 nv-wrap nv-indentedtree")
         @tableEnter = wrapEnter.append("table")
@@ -131,8 +132,8 @@ class window.TablesStakesLib.core
 
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
-            th.attr("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left"))
-            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style("text-align", (if column.type is "numeric" then "right" else "left")).style('padding-left', '20px')
+            th.attr("width", (if column.width then column.width else "100px")).attr("ref", i)
+            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style('padding-left', '20px')
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
