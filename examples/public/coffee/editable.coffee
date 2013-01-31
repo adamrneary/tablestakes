@@ -37,7 +37,7 @@
   ,
     key:
         label: "yes"
-        classes: "boolean"
+        classes: "date"
     type: "123"
   ]
   testColumns = [
@@ -53,7 +53,7 @@
     key: "type"
     label: "Type"
     type: "text"
-    classes: "type"
+    classes: "name"
     isEditable: true
   ]
   grid = undefined

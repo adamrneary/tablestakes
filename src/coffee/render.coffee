@@ -239,12 +239,15 @@ class window.TablesStakesLib.core
                 classes = t[column.key].classes.split(' ')
                 for _class in classes
                     d3.select(this).classed _class,true
-                #console.log t[column.key].classes
-            if column.classes is 'boolean'
+                g = t[column.key].classes
+                console.log g
+            console.log g
+            if column.classes is 'boolean' or g is 'boolean'
+                #console.log 'here', classes
                 span = d3.select(this).attr('height', '18px').style('width', '60px').attr('background', 'images/boolean.png').style('background-repeat', 'no-repeat').style('background-position', (d)->
                     if d[column.key]
                         if typeof d[column.key] is 'string'
-                            if d[column.key] is 'true' or d[column.key] is 'y' or d[column.key] is 'Y' or d[column.key] is 'yes' or d[column.key] is 'Yes' or d[column.key] is '+' or d[column.key] is 'good'
+                            if d[column.key] is 'true' or d[column.key] is 'y' or d[column.key] is 'Y' or d[column.key] is 'yes' or d[column.key] is 'Yes' or d[column.key] is '+' or d[column.key] is 'good' or d[column.key] is 'ok'
                                 '0px 2px'
                             else
                                 '0px -30px'
@@ -255,14 +258,10 @@ class window.TablesStakesLib.core
                                 '0px -30px').attr('class','boolean')
                 .on "click", (d) ->
                     if d3.select(this).style('background-position') is '0px -30px'
-                       console.log 'd[column.key]11', d[column.key] 
                        d[column.key] = 'true'
-                       console.log 'd[column.key]22', d[column.key] 
                        d3.select(this).style('background-position', '0px 0px')
                     else
-                       console.log 'd[column.key]11', d[column.key] 
                        d[column.key] = 'false'
-                       console.log 'd[column.key]22', d[column.key] 
                        d3.select(this).style('background-position', '0px -30px')
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->

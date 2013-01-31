@@ -14,7 +14,7 @@ data = [
   key: "Discrete Bar"
   type: "yes"
 ,
-  key: "Grouped / Stacked Multi-Bar"
+  key: 'ok'
   type: "no"
 ,
   key: "Horizontal Grouped Bar"
@@ -35,7 +35,9 @@ data = [
   key: "New Root"
   type: "true"
 ,
-  key: "1"
+  key:
+      label: "true"
+      classes: "boolean"
   type: 
       label: "true"
       classes: "boolean"
