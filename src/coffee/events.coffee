@@ -48,7 +48,7 @@ class window.TablesStakesLib.events
                 d.changedID = [] unless d.changedID
                 d.changedID.push d.activatedID
                 d.activatedID = null
-                @core.update()              
+                @core.update()
             when 27 #escape
                 d3.select(node).node().value = d[d.activatedID]
                 d.activatedID = null

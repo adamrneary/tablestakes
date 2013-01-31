@@ -266,7 +266,7 @@ class window.TablesStakesLib.core
         td.on event, (a,b,c)->
             console.log event
             self.events.editable this,a,b,c 
-        if d.activatedID == column.key 
+        if d.activatedID == column.key
             #console.log 'activated == colum'
             d3.select(node).classed('active',true).attr('contentEditable',true)
             .on "keydown", (d) -> 
