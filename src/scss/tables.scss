@@ -595,6 +595,8 @@ table.tablestakes {
 // .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
 // .editable.active - Only editable cell can become active.
 // .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
+// .editable.boolean-false - false value - these are the really simplified styles (for now) but feel free to use this class
+// .editable.boolean-true - true value - these are the really simplified styles (for now) but feel free to use this class
 // 
 // Styleguide 4.1.1
 
@@ -647,6 +649,16 @@ table.tablestakes {
       &.changed {
         font-weight: bold;
         border: 1px dotted $cell-editable-changed-border-color;
+      }
+
+      // boolean false
+      &.boolean-false {
+        background: $danger-light;
+      }
+
+      // boolean true
+      &.boolean-true {
+        background: $success;
       }
     }
   }
@@ -715,34 +727,6 @@ table.tablestakes {
             &:focus {
               outline: none;
             }
-          }
-        }
-      }
-    }
-  }
-}
-
-// Editable Boolean
-// 
-// These styles relate to cells specifically and support our particular table library functionality
-// 
-// .editable.active.boolean - Only editable cell can become active.
-// .editable.active.boolean.true - Only editable cell can become active.
-// .editable.active.boolean.false - Only editable cell can become active.
-// 
-// Styleguide 4.1.4
-
-table.tablestakes {
-  th, td {
-    &.editable {
-      &.active {
-        &.boolean {
-          &.true {
-
-          }
-
-          &.false {
-
           }
         }
       }
