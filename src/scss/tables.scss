@@ -24,6 +24,7 @@ table {
   border-collapse: separate;
   color: $table-color;
   background: $table-background;
+  border-spacing: 0;
 
   a {
     color: $table-link-color;
@@ -301,6 +302,7 @@ tbody {
     &.well {
       @include border-radius(0);
       @include inner-shadow(0, 0, 5px, $row-well-shadow-color);
+      width: 100%;
       display: block;
       padding: 0;
       margin: 0;
@@ -311,6 +313,7 @@ tbody {
         color: $grey;
         font-weight: bold;
         text-transform: capitalize;
+        border: none;
       }
     }
 
