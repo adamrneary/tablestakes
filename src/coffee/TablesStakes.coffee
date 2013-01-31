@@ -10,8 +10,6 @@ class window.TablesStakes
         left: 0
 
 
-    width : 960
-    height : 500
 
     id : Math.floor(Math.random() * 10000)
     header : true
@@ -28,8 +26,6 @@ class window.TablesStakes
     gridData : []
     gridFilteredData : []
     tableObject : null
-    minWidth : 50
-    tableWidth : 0
 
     isInRender : false
     filterCondition : []
@@ -74,12 +70,6 @@ class window.TablesStakes
 
         @isInRender = false
         @
-
-    calculateTableWidth: () ->
-        tableWidth = 0
-        @get('columns').forEach (column, index) ->
-          tableWidth += parseInt(column.width)
-        @tableWidth = tableWidth
 
     dispatchManualEvent: (target)->
         if target.dispatchEvent and document.createEvent                                       # all browsers except IE before version 9

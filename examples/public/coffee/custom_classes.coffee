@@ -61,19 +61,16 @@ columns = [
   key: "key"
   label: "Name"
   showCount: false
-  width: "400px"
   isEditable: true
   classes: "row-heading"
 ,
   key: "type"
   label: "Type"
-  width: "300px"
   isEditable: false
 ,
   key: "etc"
   label: "etc"
   classes: "plan"
-  width: "300px"
   isEditable: false
 ]
 

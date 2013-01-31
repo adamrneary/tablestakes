@@ -36,10 +36,9 @@ class window.TablesStakesLib.core
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
-        #th.append("div").attr('class','resizeable-handle left').call drag
         th.append("div").attr('class','resizeable-handle right').call drag
 
-    filterable: ->
+    #filterable: ->
         #self = @
         #theadRow2 = @thead.append("tr")
         #theadRow2.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
@@ -92,7 +91,7 @@ class window.TablesStakesLib.core
 
 
     editable: (td)->
-        self = @
+        self = 
         td.classed 'editable',true
         td.select("span").on "click", (a,b,c)->
             self.events.editable this,a,b,c 
@@ -111,12 +110,12 @@ class window.TablesStakesLib.core
 
         # nikolay: what is this here? the nvd3 stuff seems legacy and awkward.
         wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
-        wrapEnter = wrap.enter().append("div").attr("class", "nvd3 nv-wrap nv-indentedtree")
+        wrapEnter = wrap.enter().append("div")
         @tableEnter = wrapEnter.append("table")
         #console.log 'core render 2'
 
-        @table.calculateTableWidth()
-        @tableObject = wrap.select("table").attr("class", @table.tableClassName).attr("style","table-layout:fixed;").attr("width", @table.tableWidth + "px")
+
+        @tableObject = wrap.select("table").attr("class", @table.tableClassName).attr("style","table-layout:fixed;")
         #console.log 'core render 3'
         @renderHead() if @table.header
         #console.log 'core render 4'
@@ -132,14 +131,17 @@ class window.TablesStakesLib.core
 
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
-            th.attr("width", (if column.width then column.width else "100px")).attr("ref", i)
-            th.style("width", (if column.width then column.width else "100px")).attr("ref", i).style('padding-left', '20px')
+            th.attr("ref", i)
+            th.attr("ref", i).style('padding-left', '20px')
+            if column.width
+                th.style("width", column.width)
+            if column.classes is 'boolean'
+                th.style("width", '60px')
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
-        #console.log 'renderHead 2'
         @deletable true if @table.is 'deletable'
-        @filterable() if @table.is 'filterable'
+        #@filterable() if @table.is 'filterable'
         @
             
     renderBody: ->
@@ -232,28 +234,50 @@ class window.TablesStakesLib.core
         #console.log 'renderNode start'
         self = @
         column_td.each (t,i)->
-
+            #console.log t[column.key]
             if t[column.key] and t[column.key].classes?
                 classes = t[column.key].classes.split(' ')
                 for _class in classes
                     d3.select(this).classed _class,true
-                    
                 #console.log t[column.key].classes
-
-            span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
-                #console.log d3.select(this)
-                #console.log d[column.key]
-                if column.format
-                    column.format(d) 
-                else 
+            if column.classes is 'boolean'
+                span = d3.select(this).attr('height', '18px').style('width', '60px').attr('background', 'images/boolean.png').style('background-repeat', 'no-repeat').style('background-position', (d)->
                     if d[column.key]
                         if typeof d[column.key] is 'string'
-                            d[column.key]
+                            if d[column.key] is 'true' or d[column.key] is 'y' or d[column.key] is 'Y' or d[column.key] is 'yes' or d[column.key] is 'Yes' or d[column.key] is '+'
+                                '0px 0px'
+                            else
+                                '0px -30px'
                         else
-                            d[column.key].label
+                            if d[column.key].label is 'true'
+                                '0px 0px'
+                            else
+                                '0px -30px').attr('class','boolean')
+                .on "click", (d) ->
+                    if d3.select(this).style('background-position') is '0px -30px'
+                       console.log 'd[column.key]11', d[column.key] 
+                       d[column.key] = 'true'
+                       console.log 'd[column.key]22', d[column.key] 
+                       d3.select(this).style('background-position', '0px 0px')
                     else
-                        "-"
-            self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
+                       console.log 'd[column.key]11', d[column.key] 
+                       d[column.key] = 'false'
+                       console.log 'd[column.key]22', d[column.key] 
+                       d3.select(this).style('background-position', '0px -30px')
+            else
+                span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
+                    #console.log d3.select(this)
+                    if column.format
+                        column.format(d) 
+                    else 
+                        if d[column.key]
+                            if typeof d[column.key] is 'string'
+                                d[column.key]
+                            else
+                                d[column.key].label
+                        else
+                            "-"
+                self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
 
             #console.log 'renderNode end'
 

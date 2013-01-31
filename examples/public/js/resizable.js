@@ -49,7 +49,6 @@ testColumns = [
     key: "key",
     label: "Name",
     showCount: false,
-    width: "400px",
     type: "text",
     isEditable: true,
     classes: "keyfield",
@@ -59,7 +58,6 @@ testColumns = [
   }, {
     key: "type",
     label: "Type",
-    width: "300px",
     type: "text",
     classes: "name",
     isEditable: false

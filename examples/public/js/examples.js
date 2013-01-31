@@ -45,18 +45,19 @@ prepareLinks = function(route, el) {
   el.append($("<li>").append(link));
   showcaseObject.routes[route.shortLink] = route.shortLink;
   return showcaseObject[route.shortLink] = function() {
-    var script, url;
+    var script, url, urlCoffee;
     $("#example_header").text(route.title);
+    urlCoffee = "coffee/" + route.shortLink + ".coffee";
     url = "js/" + route.shortLink + ".js";
     script = $("<script>").attr("src", url);
     $("#example_view").empty().append(script);
     $("#temp").empty();
-    $.get(url, function(data) {
-      $("#example_js").text(data);
-      $(this).removeClass("rainbow");
-      return Rainbow.color();
+    $.get(urlCoffee, function(data) {
+      return $("#example_js").text(data);
     });
-    return Rainbow.color();
+    return $.get(url, function(data) {
+      return $("example_view").text(data);
+    });
   };
 };
 

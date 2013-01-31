@@ -4,43 +4,46 @@ var columns, data, grid;
 data = [
   {
     key: "NVD3",
-    type: "ahaha"
+    type: "-"
   }, {
     key: "Simple Line",
-    type: "Historical"
+    type: "+"
   }, {
     key: "Scatter / Bubble",
-    type: "Snapshot"
+    type: "Y"
   }, {
     key: "Stacked / Stream / Expanded Area",
-    type: "Historical"
+    type: "y"
   }, {
     key: "Discrete Bar",
-    type: "Snapshot"
+    type: "yes"
   }, {
     key: "Grouped / Stacked Multi-Bar",
-    type: "Snapshot / Historical"
+    type: "no"
   }, {
     key: "Horizontal Grouped Bar",
-    type: "Snapshot"
+    type: "-"
   }, {
     key: "Line and Bar Combo",
-    type: "Historical"
+    type: "n"
   }, {
     key: "Cumulative Line",
-    type: "Historical"
+    type: "N"
   }, {
     key: "Line with View Finder",
-    type: "Historical"
+    type: "Bad"
   }, {
     key: "Legend",
-    type: "Universal"
+    type: "false"
   }, {
     key: "New Root",
-    type: "tatata"
+    type: "true"
   }, {
     key: "1",
-    type: "123"
+    type: {
+      label: "true",
+      classes: "boolean"
+    }
   }
 ];
 
@@ -49,14 +52,13 @@ columns = [
     key: "key",
     label: "Name",
     showCount: false,
-    width: "400px",
     isEditable: true,
     classes: "row-heading"
   }, {
     key: "type",
     label: "Type",
-    width: "300px",
-    isEditable: false
+    isEditable: false,
+    classes: "boolean"
   }
 ];
 

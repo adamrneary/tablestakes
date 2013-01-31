@@ -37,17 +37,16 @@ prepareLinks = (route, el) ->
   showcaseObject.routes[route.shortLink] = route.shortLink
   showcaseObject[route.shortLink] = ->
     $("#example_header").text route.title
+    urlCoffee = "coffee/" + route.shortLink + ".coffee"
     url = "js/" + route.shortLink + ".js"
     script = $("<script>").attr("src", url)
     $("#example_view").empty().append script
     $("#temp").empty()
-    $.get url, (data)->
-        #console.log data
+
+    $.get urlCoffee, (data)->
         $("#example_js").text data
-        #eval data
-        $(this).removeClass "rainbow"
-        Rainbow.color()
-    Rainbow.color()
+    $.get url, (data)->
+        $("example_view").text data
 
 $(document).ready ->
   _.map core, (route) ->

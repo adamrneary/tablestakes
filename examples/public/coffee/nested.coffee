@@ -1,6 +1,3 @@
-drawGraph = undefined
-testColumns = undefined
-testTree = undefined
 testTree = [
   key: "NVD3"
   type: "ahaha"
@@ -36,17 +33,25 @@ testTree = [
     ]
   ,
     key: "Chart Components"
-    type: "Universal"
+    values: [
+      key: "Legend"
+      type: "Universal"
+    ]
   ]
 ,
   key: "New Root"
   type: "tatata"
+  classes: "rowcustom1"
+  values: [
+    key: "1"
+    type: "123"
+    classes: "rowcustom"
+  ]
 ]
 testColumns = [
   key: "key"
   label: "Name"
   showCount: false
-  width: "400px"
   type: "text"
   isEditable: true
   classes: "keyfield"
@@ -55,16 +60,12 @@ testColumns = [
 ,
   key: "type"
   label: "Type"
-  width: "300px"
   type: "text"
   classes: "name"
 ]
-grid = new window.TablesStakes(
+grid = new window.TablesStakes
   columns: testColumns
   data: testTree
   el: "#example"
-  reorder_dragging: true
   nested: true
-)
-grid.set "reorder_dragging", true
 grid.render()

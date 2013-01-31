@@ -140,13 +140,16 @@ class window.TablesStakesLib.events
 
     # change row if class editable
     editable: (node,d, _, unshift)->
+        console.log 'node', node.childNodes[0]
         console.log 'events editable'
         unless d3.select(node).classed('active')
             @core.utils.deactivateAll @core.data[0]
             d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
             @core.update()
+            #$(".active .date").datepicker()
             d3.event.stopPropagation()
             d3.event.preventDefault()
+            #console.log $(".active .date").datepicker().val
 
 
     # toggle nested
@@ -158,7 +161,7 @@ class window.TablesStakesLib.events
             #If you shift-click, it'll toggle fold all the children, instead of itself
             #d3.event.shiftKey = false
             self = @
-            if d.values 
+            if d.values
                 d.values.forEach (node)->
                     self.click this,node, 0, true if node.values or node._values
         else

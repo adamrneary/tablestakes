@@ -35,16 +35,13 @@
     key: "New Root"
     type: "tatata"
   ,
-    key:
-        label: "yes"
-        classes: "boolean"
+    key: "1"
     type: "123"
   ]
   testColumns = [
     key: "key"
     label: "Name"
     showCount: false
-    width: "400px"
     type: "text"
     isEditable: true
     classes: "keyfield"
@@ -53,16 +50,19 @@
   ,
     key: "type"
     label: "Type"
-    width: "300px"
     type: "text"
     classes: "name"
-    isEditable: true
   ]
-  grid = undefined
-  grid = new window.TablesStakes(
+
+  grid = new window.TablesStakes
     columns: testColumns
     data: testTree
     el: "#example"
-  )
-  grid.set "editable", true
+    filterable: true
+    nested: true
+
   grid.render()
+
+  keyup = -> grid.filter $(this).attr('column'), $(this).val()
+  $('<input id="filter1" column="key" type="text" value="" />').appendTo('#temp').on 'keyup', keyup
+  $('<input id="filter2" column="type" type="text" value="" />').appendTo('#temp').on 'keyup', keyup
