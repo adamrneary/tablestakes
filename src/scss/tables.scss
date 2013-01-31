@@ -710,12 +710,11 @@ table.tablestakes {
             border: none;
             color: $cell-editable-active-border-color;
             background: transparent;
-            line-height: 1em;
-            outline: none;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-            cursor: pointer;
+            // line-height: 1em;
+
+            &:focus {
+              outline: none;
+            }
           }
         }
       }
