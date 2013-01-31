@@ -581,6 +581,7 @@ th, td {
       border: 1px solid $cell-editable-active-border-color;
       @include inner-shadow(0, 0, 6px, $grey);
       background: $cell-editable-active-background;
+      box-shadow: none;
 
       &:after {
         position: absolute;

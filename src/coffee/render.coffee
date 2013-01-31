@@ -239,10 +239,8 @@ class window.TablesStakesLib.core
                 classes = t[column.key].classes.split(' ')
                 for _class in classes
                     d3.select(this).classed _class,true
-                g = t[column.key].classes
-                console.log g
-            console.log g
-            if column.classes is 'boolean' or g is 'boolean'
+                columnClass = t[column.key].classes
+            if column.classes is 'boolean' or columnClass is 'boolean'
                 #console.log 'here', classes
                 span = d3.select(this).attr('height', '18px').style('width', '60px').attr('background', 'images/boolean.png').style('background-repeat', 'no-repeat').style('background-position', (d)->
                     if d[column.key]
