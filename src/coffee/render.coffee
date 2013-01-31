@@ -244,8 +244,8 @@ class window.TablesStakesLib.core
                 span = d3.select(this).attr('height', '18px').style('width', '60px').attr('background', 'images/boolean.png').style('background-repeat', 'no-repeat').style('background-position', (d)->
                     if d[column.key]
                         if typeof d[column.key] is 'string'
-                            if d[column.key] is 'true' or d[column.key] is 'y' or d[column.key] is 'Y' or d[column.key] is 'yes' or d[column.key] is 'Yes' or d[column.key] is '+'
-                                '0px 0px'
+                            if d[column.key] is 'true' or d[column.key] is 'y' or d[column.key] is 'Y' or d[column.key] is 'yes' or d[column.key] is 'Yes' or d[column.key] is '+' or d[column.key] is 'good'
+                                '0px 2px'
                             else
                                 '0px -30px'
                         else

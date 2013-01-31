@@ -26,6 +26,9 @@ core = [
   shortLink: "reorder_dragging"
   title: "Reorder dragging"
 ,
+  shortLink: "boolean_column"
+  title: "Boolean column"
+,
   shortLink: "all"
   title: "Full stack"
 ]
