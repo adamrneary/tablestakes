@@ -15,7 +15,7 @@
 // 
 // Styleguide 1.1
 
-table {
+table.tablestakes {
   @include border-radius(4px);
   @include box-sizing(border-box);
   position: relative;
@@ -24,7 +24,7 @@ table {
   border-collapse: separate;
   color: $table-color;
   background: $table-background;
-  border-spacing: 0;
+  // border-spacing: 0;
 
   a {
     color: $table-link-color;
@@ -42,32 +42,34 @@ table {
 // 
 // Styleguide 1.2
 
-thead {
-  th, td {
-    text-transform: uppercase;
-    white-space: nowrap;
-    font-weight: normal;
-  }
+table.tablestakes {
+  thead {
+    th, td {
+      text-transform: uppercase;
+      white-space: nowrap;
+      font-weight: normal;
+    }
 
-  td {
-    color: $td-color;
-    background: $td-background;
-  }
+    td {
+      color: $td-color;
+      background: $td-background;
+    }
 
-  th {
-    color: $th-color;
-    background: $th-background;
-  }
+    th {
+      color: $th-color;
+      background: $th-background;
+    }
 
-  tr {
-    &.secondary {
-      th, td {
-        color: $header-primary-color;
-        background: $header-primary-background;
-      }
+    tr {
+      &.secondary {
+        th, td {
+          color: $header-primary-color;
+          background: $header-primary-background;
+        }
 
-      td {
-        border-bottom: solid 1px $header-primary-border-color;
+        td {
+          border-bottom: solid 1px $header-primary-border-color;
+        }
       }
     }
   }
@@ -85,19 +87,21 @@ thead {
 // 
 // Styleguide 1.2.1
 
-thead {
-  th, td {
-    &.row-heading {
-      color: $header-row-heading-color;
-      background: $header-row-heading-background;
-      text-align: left;
-      font-weight: normal;
-    }
+table.tablestakes {
+  thead {
+    th, td {
+      &.row-heading {
+        color: $header-row-heading-color;
+        background: $header-row-heading-background;
+        text-align: left;
+        font-weight: normal;
+      }
 
-    &.total {
-      color: $header-total-heading-color;
-      background: $header-total-heading-background;
-      font-weight: bold;
+      &.total {
+        color: $header-total-heading-color;
+        background: $header-total-heading-background;
+        font-weight: bold;
+      }
     }
   }
 }
@@ -108,14 +112,16 @@ thead {
 // 
 // Styleguide 1.3
 
-tfoot {
-  th, td {
-    font-size: 16px;
-    color: $footer-color;
-    background: $footer-background;
-    font-weight: 200;
-    font-style: italic;
-    text-align: left;
+table.tablestakes {
+  tfoot {
+    th, td {
+      font-size: 16px;
+      color: $footer-color;
+      background: $footer-background;
+      font-weight: 200;
+      font-style: italic;
+      text-align: left;
+    }
   }
 }
 
@@ -139,28 +145,30 @@ tfoot {
 // 
 // Styleguide 2.1
 
-tbody {
-  th, td {
-    &.row-heading {
-      color: $column-row-heading-color;
-      background: $column-row-heading-background;
-      text-transform: none;
-      text-align: left;
-    }
+table.tablestakes {
+  tbody {
+    th, td {
+      &.row-heading {
+        color: $column-row-heading-color;
+        background: $column-row-heading-background;
+        text-transform: none;
+        text-align: left;
+      }
 
-    &.total {
-      color: $column-total-color;
-      background: $column-total-background;
-      font-weight: bold;
-    }
+      &.total {
+        color: $column-total-color;
+        background: $column-total-background;
+        font-weight: bold;
+      }
 
-    &.left-aligned {
-      text-align: left;
-    }
+      &.left-aligned {
+        text-align: left;
+      }
 
-    &.light {
-      color: $column-light-color;
-      background: $column-light-background;
+      &.light {
+        color: $column-light-color;
+        background: $column-light-background;
+      }
     }
   }
 }
@@ -172,35 +180,38 @@ tbody {
 // .resizeable - allows the user to drag and drop the edges of the columns to resize
 // 
 // Styleguide 2.2
-thead {
-  // resizeable
-  .resizeable {
-    // cursor: col-resize;
-    position: relative;
 
-    .resizeable-handle {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      display: inline-block;
-      width: 3px;
-      height: 100%;
-      cursor: col-resize;
+table.tablestakes {
+  thead {
+    // resizeable
+    .resizeable {
+      // cursor: col-resize;
+      position: relative;
 
-      &:hover {
-        background: $resizable-hover-color;
-      }
+      .resizeable-handle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        display: inline-block;
+        width: 3px;
+        height: 100%;
+        cursor: col-resize;
 
-      &.neighbor {
-        background: $resizable-neighbor-color;
-      }
+        &:hover {
+          background: $resizable-hover-color;
+        }
 
-      &.left {
-        left: 0;
-      }
+        &.neighbor {
+          background: $resizable-neighbor-color;
+        }
 
-      &.right {
-        right: 0;
+        &.left {
+          left: 0;
+        }
+
+        &.right {
+          right: 0;
+        }
       }
     }
   }
@@ -216,50 +227,51 @@ thead {
 // 
 // Styleguide 2.3
 
-thead {
-  // sortable
-  .sortable {
-    position: relative;
-    padding-right: 20px;
-    cursor: pointer;
-    text-align: left;
+table.tablestakes {
+  thead {
+    // sortable
+    .sortable {
+      position: relative;
+      padding-right: 20px;
+      cursor: pointer;
+      text-align: left;
 
-    &:before, &:after {
-      position: absolute;
-      right: 5px;
-      height: 0;
-      width: 0;
-      content: "";
-    }
-
-    &:before {
-      top: 12px;
-      border-color: transparent transparent $sortable-inactive-arrows-color transparent;
-      border-style: solid;
-      border-width: 0px 5px 5px 5px; 
-    }
-
-    &:after {
-      bottom: 12px;
-      border-color: $sortable-inactive-arrows-color transparent transparent transparent;
-      border-style: solid;
-      border-width: 5px 5px 0 5px;
-    }
-
-    &.sorted-asc {
-      &:after {
-        border-color: $sortable-active-arrows-color transparent transparent transparent;
+      &:before, &:after {
+        position: absolute;
+        right: 5px;
+        height: 0;
+        width: 0;
+        content: "";
       }
-    }
 
-    &.sorted-desc {
-       &:before {
-        border-color: transparent transparent $sortable-active-arrows-color transparent;
+      &:before {
+        top: 12px;
+        border-color: transparent transparent $sortable-inactive-arrows-color transparent;
+        border-style: solid;
+        border-width: 0px 5px 5px 5px; 
+      }
+
+      &:after {
+        bottom: 12px;
+        border-color: $sortable-inactive-arrows-color transparent transparent transparent;
+        border-style: solid;
+        border-width: 5px 5px 0 5px;
+      }
+
+      &.sorted-asc {
+        &:after {
+          border-color: $sortable-active-arrows-color transparent transparent transparent;
+        }
+      }
+
+      &.sorted-desc {
+         &:before {
+          border-color: transparent transparent $sortable-active-arrows-color transparent;
+        }
       }
     }
   }
 }
-
 
 // Rows
 // 
@@ -278,125 +290,126 @@ thead {
 // 
 // Styleguide 3.1
 
-tbody {
-  tr {
-    &.subtotal {
-      th, td {
-        border-top: solid 1px $row-subtotal-border-top-color;
-        color: $row-subtotal-color;
-        background: $row-subtotal-background;
+table.tablestakes {
+  tbody {
+    tr {
+      &.subtotal {
+        th, td {
+          border-top: solid 1px $row-subtotal-border-top-color;
+          color: $row-subtotal-color;
+          background: $row-subtotal-background;
+        }
       }
-    }
 
-    &.subtotal2 {
-      th, td {
-        border-top: solid 1px $row-subtotal2-border-top-color;
-        border-bottom: solid 1px $row-subtotal2-border-bottom-color;
-        color: $row-subtotal2-color;
-        background: $row-subtotal2-background;
-        font-weight: bold;
-        text-transform: capitalize;
+      &.subtotal2 {
+        th, td {
+          border-top: solid 1px $row-subtotal2-border-top-color;
+          border-bottom: solid 1px $row-subtotal2-border-bottom-color;
+          color: $row-subtotal2-color;
+          background: $row-subtotal2-background;
+          font-weight: bold;
+          text-transform: capitalize;
+        }
       }
-    }
 
-    &.well {
-      @include border-radius(0);
-      @include inner-shadow(0, 0, 5px, $row-well-shadow-color);
-      width: 100%;
-      display: block;
-      padding: 0;
-      margin: 0;
-      color: $row-well-color;
-      background: $row-well-background;
+      &.well {
+        @include border-radius(0);
+        @include inner-shadow(0, 0, 5px, $row-well-shadow-color);
+        width: 100%;
+        display: block;
+        padding: 0;
+        margin: 0;
+        color: $row-well-color;
+        background: $row-well-background;
 
-      td, th {
-        color: $grey;
-        font-weight: bold;
-        text-transform: capitalize;
-        border: none;
+        td, th {
+          color: $grey;
+          font-weight: bold;
+          text-transform: capitalize;
+          border: none;
+        }
       }
-    }
 
-    &.total {
-      th, td {
-        border-top: solid 1px $row-total-border-top-color;
-        border-bottom: solid 1px $row-total-border-bottom-color;
-        color: $row-total-color;
-        background: $row-total-background;
-        font-weight: bold;
-        text-transform: capitalize;
+      &.total {
+        th, td {
+          border-top: solid 1px $row-total-border-top-color;
+          border-bottom: solid 1px $row-total-border-bottom-color;
+          color: $row-total-color;
+          background: $row-total-background;
+          font-weight: bold;
+          text-transform: capitalize;
+        }
       }
-    }
 
-    &.total2 {
-      th, td {
-        border-top: solid 1px $light-grey;
-        border-bottom: solid 1px $light-grey;
-        color: $white;
-        background: $secondary;
-        font-weight: bold;
-        text-transform: capitalize;
+      &.total2 {
+        th, td {
+          border-top: solid 1px $light-grey;
+          border-bottom: solid 1px $light-grey;
+          color: $white;
+          background: $secondary;
+          font-weight: bold;
+          text-transform: capitalize;
+        }
       }
-    }
 
-    &.spacer {
-      th, td {
-        text-align: left;
-        text-indent: -9999em;
+      &.spacer {
+        th, td {
+          text-align: left;
+          text-indent: -9999em;
+        }
       }
-    }
 
-    &.emphasis {
-      th, td {
-        color: $row-emphasis-color;
-        background: $row-emphasis-background;
+      &.emphasis {
+        th, td {
+          color: $row-emphasis-color;
+          background: $row-emphasis-background;
+          font-size: 100%;
+          font-weight: bold;
+          border-bottom: solid 1px $row-emphasis-border-bottom-color;
+        }
+      }
+
+      &.emphasis2 {
+        color: $row-emphasis2-color;
+        background: $row-emphasis2-background;
         font-size: 100%;
         font-weight: bold;
-        border-bottom: solid 1px $row-emphasis-border-bottom-color;
       }
-    }
 
-    &.emphasis2 {
-      color: $row-emphasis2-color;
-      background: $row-emphasis2-background;
-      font-size: 100%;
-      font-weight: bold;
-    }
-
-    &.draggable-destination {
-      th, td {
-        color: $row-draggable-destination-color;
-        border-top: solid 1px$row-draggable-destination-border-top-color;
-        border-bottom: solid 1px $row-draggable-destination-border-bottom-color;
-        background: $row-draggable-destination-background;
-        @include opacity(.50);
+      &.draggable-destination {
+        th, td {
+          color: $row-draggable-destination-color;
+          border-top: solid 1px$row-draggable-destination-border-top-color;
+          border-bottom: solid 1px $row-draggable-destination-border-bottom-color;
+          background: $row-draggable-destination-background;
+          @include opacity(.50);
+        }
       }
-    }
 
-    &.draggable-destination1 {
-      th, td {
-        color: $row-draggable-destination-color;
-        border-bottom: solid 4px $row-draggable-destination-border-bottom-color;
-        background: $row-draggable-destination-background;
-        @include opacity(.50);
+      &.draggable-destination1 {
+        th, td {
+          color: $row-draggable-destination-color;
+          border-bottom: solid 4px $row-draggable-destination-border-bottom-color;
+          background: $row-draggable-destination-background;
+          @include opacity(.50);
+        }
       }
-    }
 
-    &.dragged {
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      display: block;
-      @include outer-shadow(0, 1px, 3px, rgba(0,0,0, 0.15));
+      &.dragged {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        display: block;
+        @include outer-shadow(0, 1px, 3px, rgba(0,0,0, 0.15));
 
-      td, th {
-        @include opacity(.50);
-        background: inherit;
+        td, th {
+          @include opacity(.50);
+          background: inherit;
+        }
       }
     }
   }
 }
-
 
 // Cells
 // 
@@ -409,10 +422,6 @@ tbody {
 // .deletable - indicates that the row can be deleted by clicking the 'x'
 // .deletable:hover - deletable hover state
 // .draggable - indicates that the row can be moved up or down
-// .editable - indicates that the cell can be clicked on to edit
-// .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
-// .editable.active - Only editable cell can become active.
-// .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
 // .indent1 - for cells in a hierarchy, indented 1 space
 // .indent2 - for cells in a hierarchy, indented 2 spaces
 // .indent3 - for cells in a hierarchy, indented 3 spaces
@@ -422,210 +431,306 @@ tbody {
 // 
 // Styleguide 4.1
 
-th, td {
-  font-size: 12px;
-  text-align: right;
-  padding: 9px 8px;
+table.tablestakes {
+  th, td {
+    font-size: 12px;
+    text-align: right;
+    padding: 9px 8px;
 
-  // &:first-child {
-  //   text-transform: uppercase;
-  //   white-space: nowrap;
-  //   color: $grey;
-  // }
-
-  // plan
-  &.plan {
-    color: $cell-plan-color;
-    background: $cell-plan-background;
-    
-    &.editable:hover {
-      background: $white;
-    }
-  }
-
-  // old
-  &.old {
-    color: $cell-old-color;
-    background: $cell-old-background
-  }
-
-  // collapsible
-  &.collapsible {
-    cursor: pointer;
-    text-align: left;
-
-    &:before {
-      content: "";
-      width: 0;
-      height: 0;
-      display: inline-block;
-      margin: 0 5px 0 -5px;
-      border-color: $cell-collapsible-arrow-color transparent transparent transparent;
-      border-style: solid;
-      border-width: 5px;
-      text-indent: 0;
-      cursor: pointer;
-    }
-  }
-
-  // expandable
-  &.expandable {
-     cursor: pointer;
-     text-align: left;
-
-    &:before {
-      content: "";
-      width: 0;
-      height: 0;
-      display: inline-block;
-      margin: 0 5px 0 -5px;
-      border-color: transparent transparent transparent $cell-expandable-arrow-color;
-      border-style: solid;
-      border-width: 5px;
-      text-indent: 0;
-      cursor: pointer;
-    }
-  }
-
-  // deletable
-  &.deletable {
-    text-align: left; 
-    text-indent: -9999em;
-    cursor: pointer;
-
-    &:hover {
-      &:before {
-        font-size: 18px;
-        text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
+    // plan
+    &.plan {
+      color: $cell-plan-color;
+      background: $cell-plan-background;
+      
+      &.editable:hover {
+        background: $white;
       }
     }
 
-    &:before {
-      // @include border-radius(200px);
-      content: "x";
-      display: inline-block;
-      float: left;
-      width: 16px;
-      height: 16px;
-      line-height: 16px;
-      color: $cell-deletable-color;
-      background: $cell-deletable-background;
-      text-align: center;
-      font-size: 16px;
-      font-weight: bold;
+    // old
+    &.old {
+      color: $cell-old-color;
+      background: $cell-old-background
+    }
+
+    // collapsible
+    &.collapsible {
       cursor: pointer;
-      text-indent: 0;
-    }
-  }
+      text-align: left;
 
-  // draggable
-  &.draggable {
-    position: relative;
-    cursor: pointer;
-    padding-left: 20px;
-    &:before, &:after {
-      position: absolute;
-      left: 5px;
-      height: 0;
-      width: 0;
-      content: "";
-    }
-
-    &:before {
-      top: 12px;
-      border-color: transparent transparent $sortable-inactive-arrows-color transparent;
-      border-style: solid;
-      border-width: 0px 5px 5px 5px; 
-    }
-
-    &:after {
-      bottom: 12px;
-      border-color: $sortable-inactive-arrows-color transparent transparent transparent;
-      border-style: solid;
-      border-width: 5px 5px 0 5px;
-    }
-  }
-
-  // editable
-  &.editable {
-    color: $cell-editable-active-border-color;
-    cursor: pointer;
-
-    &:hover {
-      background: $cell-editable-hover-color;
-    }
-
-    // active
-    &.active {
-      position: relative;
-      cursor: text;
-      border: 1px solid $cell-editable-active-border-color;
-      @include inner-shadow(0, 0, 6px, $grey);
-      background: $cell-editable-active-background;
-
-      &:after {
-        position: absolute;
-        bottom: 0;
-        right: 0;
+      &:before {
         content: "";
-        color: $white;
-        background: $primary;
+        width: 0;
+        height: 0;
         display: inline-block;
-        width: 8px;
-        height: 8px;
-        @include outer-shadow(0, 1px, 1px, $secondary);
+        margin: 0 5px 0 -5px;
+        border-color: $cell-collapsible-arrow-color transparent transparent transparent;
+        border-style: solid;
+        border-width: 5px;
+        text-indent: 0;
         cursor: pointer;
       }
+    }
+
+    // expandable
+    &.expandable {
+       cursor: pointer;
+       text-align: left;
+
+      &:before {
+        content: "";
+        width: 0;
+        height: 0;
+        display: inline-block;
+        margin: 0 5px 0 -5px;
+        border-color: transparent transparent transparent $cell-expandable-arrow-color;
+        border-style: solid;
+        border-width: 5px;
+        text-indent: 0;
+        cursor: pointer;
+      }
+    }
+
+    // deletable
+    &.deletable {
+      text-align: left; 
+      text-indent: -9999em;
+      cursor: pointer;
 
       &:hover {
+        &:before {
+          font-size: 18px;
+          text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
+        }
+      }
+
+      &:before {
+        // @include border-radius(200px);
+        content: "x";
+        display: inline-block;
+        float: left;
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        color: $cell-deletable-color;
+        background: $cell-deletable-background;
+        text-align: center;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        text-indent: 0;
+      }
+    }
+
+    // draggable
+    &.draggable {
+      position: relative;
+      cursor: pointer;
+      padding-left: 20px;
+      &:before, &:after {
+        position: absolute;
+        left: 5px;
+        height: 0;
+        width: 0;
+        content: "";
+      }
+
+      &:before {
+        top: 12px;
+        border-color: transparent transparent $sortable-inactive-arrows-color transparent;
+        border-style: solid;
+        border-width: 0px 5px 5px 5px; 
+      }
+
+      &:after {
+        bottom: 12px;
+        border-color: $sortable-inactive-arrows-color transparent transparent transparent;
+        border-style: solid;
+        border-width: 5px 5px 0 5px;
+      }
+    }
+
+    // indent1
+    &.indent1 {
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    // indent2
+    &.indent2 {
+      text-align: left;
+      padding-left: 30px;
+    }
+
+    // indent3
+    &.indent3 {
+      text-align: left;
+      padding-left: 40px;
+    }
+
+    // indent4
+    &.indent4 {
+      text-align: left;
+      padding-left: 50px;
+    }
+
+    // indent5
+    &.indent5 {
+      text-align: left;
+      padding-left: 60px;
+    }
+
+    // indent5
+    &.indent6 {
+      text-align: left;
+      padding-left: 70px;
+    }
+  }
+}
+// Editable
+// 
+// These styles relate to cells specifically and support our particular table library functionality
+// 
+// .editable - indicates that the cell can be clicked on to edit
+// .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
+// .editable.active - Only editable cell can become active.
+// .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
+// 
+// Styleguide 4.1.1
+
+table.tablestakes {
+  th, td {
+    // editable
+    &.editable {
+      color: $cell-editable-active-border-color;
+      cursor: pointer;
+
+      &:hover {
+        background: $cell-editable-hover-color;
+      }
+
+      // active
+      &.active {
+        width: auto;
+        position: relative;
+        cursor: text;
+        border: 1px solid $cell-editable-active-border-color;
+        @include inner-shadow(0, 0, 6px, $grey);
         background: $cell-editable-active-background;
+
+        &:after {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+          content: "";
+          color: $white;
+          background: $primary;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          @include outer-shadow(0, 1px, 1px, $secondary);
+          cursor: pointer;
+        }
+
+        &:hover {
+          background: $cell-editable-active-background;
+        }
+
+        &:focus {
+          outline: none;
+        }
       }
 
-      &:focus {
-        outline: none;
+      // changed
+      &.changed {
+        font-weight: bold;
+        border: 1px dotted $cell-editable-changed-border-color;
       }
     }
+  }
+}
 
-    // changed
-    &.changed {
-      font-weight: bold;
-      border: 1px dotted $cell-editable-changed-border-color;
+// Editable Calendar
+// 
+// Style for calendar editable cell
+// 
+// .editable.active.calendar - Calendar can only exist in a .editable.active
+// 
+// Styleguide 4.1.2
+
+table.tablestakes {
+  th, td {
+    &.editable {
+      &.active {
+        &.calendar {
+          input {
+            width: auto;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            color: $cell-editable-active-border-color;
+            border: none;
+            background: transparent;
+            outline: none;
+            box-shadow: none;
+
+            &:focus {
+              border: none;
+              outline: none;
+              background: transparent;
+            }
+          }
+        }
+      }
     }
   }
+}
 
-  // indent1
-  &.indent1 {
-    text-align: left;
-    padding-left: 20px;
+
+// Editable Select
+// 
+// Style for editable select
+// 
+// .editable.active.select - Select can only exist in a .editable.active
+// 
+// Styleguide 4.1.3
+
+table.tablestakes {
+  th, td {
+    &.editable {
+      &.active {
+        &.select {
+          
+        }
+      }
+    }
   }
+}
 
-  // indent2
-  &.indent2 {
-    text-align: left;
-    padding-left: 30px;
-  }
+// Editable Boolean
+// 
+// These styles relate to cells specifically and support our particular table library functionality
+// 
+// .editable.active.boolean - Only editable cell can become active.
+// .editable.active.boolean.true - Only editable cell can become active.
+// .editable.active.boolean.false - Only editable cell can become active.
+// 
+// Styleguide 4.1.4
 
-  // indent3
-  &.indent3 {
-    text-align: left;
-    padding-left: 40px;
-  }
+table.tablestakes {
+  th, td {
+    &.editable {
+      &.active {
+        &.boolean {
+          &.true {
 
-  // indent4
-  &.indent4 {
-    text-align: left;
-    padding-left: 50px;
-  }
+          }
 
-  // indent5
-  &.indent5 {
-    text-align: left;
-    padding-left: 60px;
-  }
+          &.false {
 
-  // indent5
-  &.indent6 {
-    text-align: left;
-    padding-left: 70px;
+          }
+        }
+      }
+    }
   }
 }
