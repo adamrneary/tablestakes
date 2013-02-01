@@ -595,8 +595,8 @@ table.tablestakes {
 // .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
 // .editable.active - Only editable cell can become active.
 // .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
-// .editable.boolean-false - false value - these are the really simplified styles (for now) but feel free to use this class
-// .editable.boolean-true - true value - these are the really simplified styles (for now) but feel free to use this class
+// .editable.boolean-false - false value
+// .editable.boolean-true - true value
 // 
 // Styleguide 4.1.1
 
@@ -651,14 +651,62 @@ table.tablestakes {
         border: 1px dotted $cell-editable-changed-border-color;
       }
 
+      // boolean false and true
+      &.boolean-false, &.boolean-true {
+        position: relative;
+        min-width: 30px;
+        display: block;
+        text-align: left;
+        text-indent: -9999em;
+
+        &:hover {
+          background: transparent;
+        }
+
+        &:before {
+          position: absolute;
+          top: 0;
+          left: 0;
+          content: "";
+          display: block;
+          width: 100%;
+          height: 20px;
+          @include border-radius(20px)
+        }
+
+        &:after {
+          position: absolute;
+          top: -2px;
+          content: "";
+          display: block;
+          width: 24px;
+          height: 25px;
+          background: url("../images/sprite_air.png") -10px -10px no-repeat;
+        }
+      }
+
       // boolean false
       &.boolean-false {
-        background: $danger-light;
+        &:before {
+          background: $danger;
+          @include inner-shadow(0, 0, 6px, darken($danger, 30%));
+        }
+
+        &:after {
+          left: -3px;
+        }
       }
 
       // boolean true
       &.boolean-true {
-        background: $success;
+        &:before {
+          background: $success;
+          @include inner-shadow(0, 0, 6px, darken($success, 30%));
+        }
+
+        &:after {
+          right: -3px;
+        }
       }
     }
   }
