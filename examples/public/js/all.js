@@ -441,7 +441,6 @@ grid = new window.TablesStakes({
   resizable: true,
   nested: true,
   hierarchy_dragging: true,
-  editable: true,
   reorder_dragging: true
 });
 

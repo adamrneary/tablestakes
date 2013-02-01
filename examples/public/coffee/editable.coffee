@@ -45,7 +45,8 @@
     label: "Name"
     showCount: false
     type: "text"
-    isEditable: true
+    isEditable: (row) ->
+      row.key is 'Horizontal Grouped Bar'
     classes: "keyfield"
     click: (d) ->
       d3.select(this).html "hallo you were clicked"
@@ -62,5 +63,4 @@
     data: testTree
     el: "#example"
   )
-  grid.set "editable", true
   grid.render()
