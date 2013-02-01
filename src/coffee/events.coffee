@@ -4,6 +4,7 @@ class window.TablesStakesLib.events
     constructor: (options)->
         @core = options.core
 
+
     # keydown editing cell
     keydown: (node,d) ->
         switch d3.event.keyCode

@@ -1,5 +1,7 @@
   testTree = [
-    key: "NVD3"
+    key:
+      label: ['Example1', 'Example2', 'Example3']
+      classes: 'select_box'
     type: "ahaha"
   ,
     key: "Simple Line"

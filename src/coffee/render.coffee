@@ -36,7 +36,7 @@ class window.TablesStakesLib.core
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
-        th.append("div").classed('class','resizeable-handle right').call drag
+        th.append("div").classed('resizeable-handle right', true).call drag
 
     #filterable: ->
         #self = @
@@ -108,17 +108,11 @@ class window.TablesStakesLib.core
         @nodes = @tree.nodes(@data[0])
         #console.log 'core render 1'
 
-        # nikolay: what is this here? the nvd3 stuff seems legacy and awkward.
         wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
         wrapEnter = wrap.enter().append("div")
         @tableEnter = wrapEnter.append("table")
-        #console.log 'core render 2'
-
-
         @tableObject = wrap.select("table").classed(@table.tableClassName,true).attr("style","table-layout:fixed;")
-        #console.log 'core render 3'
         @renderHead() if @table.header
-        #console.log 'core render 4'
         @renderBody()
         
 
@@ -207,6 +201,7 @@ class window.TablesStakesLib.core
     renderColumn: (column,index,node)->
         #console.log 'renderColumn start',index,column
         self = @
+        #console.log 'document', document
         col_classes = ""
         col_classes += column.classes if typeof column.classes != "undefined"
 
@@ -225,6 +220,7 @@ class window.TablesStakesLib.core
 
         @renderNodes column,column_td
 
+
         if column.showCount
             td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
@@ -239,8 +235,6 @@ class window.TablesStakesLib.core
                 for _class in classes
                     d3.select(this).classed _class,true
                 columnClass = t[column.key].classes
-
-
             if column.classes is 'boolean' or columnClass is 'boolean'
                 #console.log 'here', classes
                 span = d3.select(this).attr('class', (d)->
@@ -263,7 +257,8 @@ class window.TablesStakesLib.core
                        d[column.key] = 'false'
                        d3.select(this).attr('class', 'editable boolean-false')
             else
-                span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
+                span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
+                innerSpan = span.append('span').text (d) ->
                     #console.log d3.select(this)
                     if column.format
                         column.format(d) 
@@ -273,13 +268,12 @@ class window.TablesStakesLib.core
                                 d[column.key]
                             else if d[column.key].label is 'string'
                                 d[column.key].label
-                            else
+                            else if d[column.key].classes
                                 d[column.key].label[0]
                         else
                             "-"
                 self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
 
-            #console.log 'renderNode end'
 
     editable: (td,d,node,column)->
         self = @
@@ -289,15 +283,24 @@ class window.TablesStakesLib.core
         else
             event = 'click'
         td.on event, (a,b,c)->
-            console.log event
             self.events.editable this,a,b,c 
         if d.activatedID == column.key
-            #console.log 'activated == colum'
-            d3.select(node).classed('active',true).attr('contentEditable',true)
-            .on "keydown", (d) -> 
-                self.events.keydown this,d
-            .on "blur", (d) ->
-                self.events.blur this,d, column
-            .node().focus()
+            if d[column.key].classes is 'select_box'
+                d3.select(node).classed('editable active select', true)
+                select = d3.select(node).html('<select class="expand-select"></select>').select('.expand-select')
+                
+                for label in d[column.key].label
+                    console.log 'here'
+                    option = select.append('option').style('cursor', 'pointer').text(label)
+                select.on 'change', (d) ->
+                    d3.select(node).text d3.select(d3.event.target).node().options[d3.event.target.selectedIndex].text
+                    d3.select(node).classed('active', false)
+            else
+                d3.select(node).classed('active',true).attr('contentEditable',true)
+                .on "keydown", (d) -> 
+                    self.events.keydown this,d
+                .on "blur", (d) ->
+                    self.events.blur this,d, column
+                .node().focus()
         else if d.changedID and d.changedID.indexOf(column.key) isnt -1
             d3.select(node).classed 'changed',true
