@@ -295,7 +295,7 @@ class window.TablesStakesLib.core
             #console.log 'activated == colum'
             d3.select(node).classed('active',true).attr('contentEditable',true)
             .on "keydown", (d) -> 
-                self.events.keydown this,d
+                self.events.keydown this,d,column
             .on "blur", (d) ->
                 self.events.blur this,d, column
             .node().focus()

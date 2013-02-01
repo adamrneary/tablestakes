@@ -5,7 +5,7 @@ class window.TablesStakesLib.events
         @core = options.core
 
     # keydown editing cell
-    keydown: (node,d) ->
+    keydown: (node,d,column) ->
         switch d3.event.keyCode
             when 9  #tab
                 currentindex = @core.utils.getCurrentColumnIndex d.activatedID
@@ -43,6 +43,11 @@ class window.TablesStakesLib.events
                     d.activatedID = null
                 @core.update()
             when 13 #enter
+                val = d3.select(node).text()
+                columnKey = d3.select(node)[0][0].getAttribute("ref")
+                d[columnKey] = val
+                d[column.key] = val
+                d[column.key] = val
                 d.changedID = [] unless d.changedID
                 d.changedID.push d.activatedID
                 d.activatedID = null
