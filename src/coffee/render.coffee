@@ -141,20 +141,7 @@ class window.TablesStakesLib.core
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
-        # @deletable() if @table.is 'deletable'
-        console.log 1111
-        if @table.is('deletable')
-            console.log 444
-            console.log 'boolean'
-            @deletable()
-        else if @table.is('deletable-filter')
-            # console.log 555
-            console.log 'function deletable-filter'
-            filter = @table.get('deletable-filter')
-            ok = filter(column)
-            if ok
-                @deletable()
-        #console.log 'here'
+        @deletable() if @table.is 'deletable'
 
         node.order().on("click", (d) ->
             self.table.dispatch.elementClick
