@@ -32,7 +32,7 @@ class window.TablesStakesLib.core
                 index = parseInt(d3.select(th).attr("ref"))
                 self.columns[index].width = column_newX + "px"
                 table_x = parseFloat(self.tableObject.attr("width"))
-                table_newX = table_x + (column_newX - column_x) #x + d3.event.dx 
+                table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
@@ -51,7 +51,7 @@ class window.TablesStakesLib.core
                 #self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
                 #self.table.render()
             #console.log '@columns', @columns.length
-        #if @table.is 'deletable' 
+        #if @table.is 'deletable'
             #theadRow2.append("th").attr('width','15px')
     deletable: (head)->
         if head
@@ -60,7 +60,7 @@ class window.TablesStakesLib.core
             @nodeEnter.append("td").attr('class', 'deletable').on("click", (d) =>
                 if confirm "Are you sure you are going to delete this?"
                     @utils.removeNode d
-                    @update() 
+                    @update()
             )
 
 
@@ -91,10 +91,10 @@ class window.TablesStakesLib.core
 
 
     editable: (td)->
-        self = 
-        td.classed 'editable',true
+        self =
+        td.classed 'editable', true
         td.select("span").on "click", (a,b,c)->
-            self.events.editable this,a,b,c 
+            self.events.editable this,a,b,c
     nested: (nodeName)->
         self = @
         nodeName.on "click", (a,b,c)->
@@ -120,7 +120,7 @@ class window.TablesStakesLib.core
         @renderHead() if @table.header
         #console.log 'core render 4'
         @renderBody()
-        
+
 
     renderHead: ->
         #console.log 'renderHead start'
@@ -142,7 +142,7 @@ class window.TablesStakesLib.core
         @deletable true if @table.is 'deletable'
         #@filterable() if @table.is 'filterable'
         @
-            
+
     renderBody: ->
         # generate tbody
         self = @
@@ -180,7 +180,7 @@ class window.TablesStakesLib.core
 
         @deletable() if @table.is 'deletable'
         #console.log 'here'
-            
+
         node.order().on("click", (d) ->
             self.table.dispatch.elementClick
                 row: this
@@ -228,12 +228,10 @@ class window.TablesStakesLib.core
         if column.showCount
             td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
-            
-    renderNodes: (column,column_td)->
-        #console.log 'renderNode start'
+
+    renderNodes: (column, column_td)->
         self = @
-        column_td.each (t,i)->
-            #console.log t[column.key]
+        column_td.each (t, i)->
             if t[column.key] and t[column.key].classes?
                 classes = t[column.key].classes.split(' ')
                 for _class in classes
@@ -242,7 +240,6 @@ class window.TablesStakesLib.core
 
 
             if column.classes is 'boolean' or columnClass is 'boolean'
-                #console.log 'here', classes
                 span = d3.select(this).attr('class', (d)->
                     if d[column.key]
                         if typeof d[column.key] is 'string'
@@ -266,8 +263,8 @@ class window.TablesStakesLib.core
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                     #console.log d3.select(this)
                     if column.format
-                        column.format(d) 
-                    else 
+                        column.format(d)
+                    else
                         if d[column.key]
                             if typeof d[column.key] is 'string'
                                 d[column.key]
@@ -277,11 +274,10 @@ class window.TablesStakesLib.core
                                 d[column.key].label[0]
                         else
                             "-"
-                self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
+                isEditable = if typeof column.isEditable is 'function' then column.isEditable(t) else column.isEditable
+                self.editable column_td,t,this,column if isEditable
 
-            #console.log 'renderNode end'
-
-    editable: (td,d,node,column)->
+    editable: (td, d, node, column)->
         self = @
         td.classed 'editable',true
         if @table.is 'nested'
@@ -290,11 +286,11 @@ class window.TablesStakesLib.core
             event = 'click'
         td.on event, (a,b,c)->
             console.log event
-            self.events.editable this,a,b,c 
+            self.events.editable this,a,b,c
         if d.activatedID == column.key
             #console.log 'activated == colum'
             d3.select(node).classed('active',true).attr('contentEditable',true)
-            .on "keydown", (d) -> 
+            .on "keydown", (d) ->
                 self.events.keydown this,d,column
             .on "blur", (d) ->
                 self.events.blur this,d, column

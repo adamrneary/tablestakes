@@ -9,8 +9,6 @@ class window.TablesStakes
         bottom: 0
         left: 0
 
-
-
     id : Math.floor(Math.random() * 10000)
     header : true
     noData : "No Data Available."
@@ -32,7 +30,6 @@ class window.TablesStakes
 
     constructor: (options)->
         @set 'sortable', false
-        @set 'editable', false
         @set 'deletable', false
         @set 'filterable', false
         @set 'resizable', false
@@ -49,20 +46,17 @@ class window.TablesStakes
         console.log 'Table render'
         @gridData = [values: @get('data')]
         @columns.forEach ( column, i) =>
-          @gridData[0][column['key']] = column['key'] 
-        #console.log @gridData
+          @gridData[0][column['key']] = column['key']
         @setID @gridData[0], "0"
         @gridFilteredData = @gridData
         @setFilter @gridFilteredData[0], @filterCondition
         d3.select(@get('el')).html ''
         d3.select(@get('el')).datum(@gridFilteredData).call( (selection) => @update selection )
-        #console.log 'table render end'
         @
 
-    update: (selection) -> 
-        #console.log 'table update, selection:',selection
-        selection.each (data)=> 
-            @core.set    
+    update: (selection) ->
+        selection.each (data)=>
+            @core.set
                 selection: selection
                 table: @
                 data: data
@@ -122,7 +116,7 @@ class window.TablesStakes
           return data
         if data._values and data._values.length > 0
           return data
-         
+
         matchFound = true
         for key in filter.keys()
           if data[key]
@@ -137,7 +131,7 @@ class window.TablesStakes
               matchFound = false
         #console.log 'table setFilter end'
         if matchFound
-          return data            
+          return data
         return null
 
     set: (key,value,options)->
