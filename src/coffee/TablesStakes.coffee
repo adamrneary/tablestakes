@@ -20,7 +20,7 @@ class window.TablesStakes
         label: "Name"
         type: "text"
     ]
-    tableClassName : "class"
+    tableClassName : "tablestakes"
     dispatch : d3.dispatch("elementClick", "elementDblclick", "elementMouseover", "elementMouseout")
     columnResize : true
     gridData : []

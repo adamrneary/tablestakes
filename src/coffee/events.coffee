@@ -12,9 +12,7 @@ class window.TablesStakesLib.events
                 if d3.event.shiftKey == false                                                  # if shiftkey is not pressed, get next
                     if(currentindex < @core.columns.length - 1)
                         d.activatedID = @core.columns[currentindex+1].key
-                        #console.log d.activatedID
                     else
-                        #console.log 'here2'
                         nextNode = @core.utils.findNextNode d, @core.nodes
                         if nextNode isnt null
                             nextNode.activatedID = @core.columns[0].key
@@ -44,7 +42,7 @@ class window.TablesStakesLib.events
                     nextNode.activatedID = @core.columns[currentindex].key
                     d.activatedID = null
                 @core.update()
-            when 13 #enter                                                                 
+            when 13 #enter
                 d.changedID = [] unless d.changedID
                 d.changedID.push d.activatedID
                 d.activatedID = null

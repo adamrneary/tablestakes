@@ -36,7 +36,7 @@ class window.TablesStakesLib.core
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
-        th.append("div").attr('class','resizeable-handle right').call drag
+        th.append("div").classed('class','resizeable-handle right').call drag
 
     #filterable: ->
         #self = @
@@ -78,7 +78,7 @@ class window.TablesStakesLib.core
 
     reorder_draggable: ->
         self = @
-        @nodeEnter.insert("td").attr('class', 'draggable')
+        @nodeEnter.insert("td").classed('draggable', true)
         dragbehavior = d3.behavior.drag()
             .origin(Object)
             .on "dragstart", (a,b,c)->
@@ -115,7 +115,7 @@ class window.TablesStakesLib.core
         #console.log 'core render 2'
 
 
-        @tableObject = wrap.select("table").attr("class", @table.tableClassName).attr("style","table-layout:fixed;")
+        @tableObject = wrap.select("table").classed(@table.tableClassName,true).attr("style","table-layout:fixed;")
         #console.log 'core render 3'
         @renderHead() if @table.header
         #console.log 'core render 4'
@@ -132,7 +132,6 @@ class window.TablesStakesLib.core
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
             th.attr("ref", i)
-            th.attr("ref", i).style('padding-left', '20px')
             if column.width
                 th.style("width", column.width)
             if column.classes is 'boolean'
@@ -170,7 +169,7 @@ class window.TablesStakesLib.core
         #try
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
-        @nodeEnter = node.enter().append("tr").attr('class', (d)->d._classes)
+        @nodeEnter = node.enter().append("tr").classed('class', (d)->d._classes)
         @draggable() if @table.is 'hierarchy_dragging'
         @reorder_draggable() if @table.is 'reorder_dragging'
 
@@ -240,27 +239,29 @@ class window.TablesStakesLib.core
                 for _class in classes
                     d3.select(this).classed _class,true
                 columnClass = t[column.key].classes
+
+
             if column.classes is 'boolean' or columnClass is 'boolean'
                 #console.log 'here', classes
-                span = d3.select(this).attr('height', '18px').style('width', '60px').attr('background', 'images/boolean.png').style('background-repeat', 'no-repeat').style('background-position', (d)->
+                span = d3.select(this).attr('class', (d)->
                     if d[column.key]
                         if typeof d[column.key] is 'string'
                             if d[column.key] is 'true' or d[column.key] is 'y' or d[column.key] is 'Y' or d[column.key] is 'yes' or d[column.key] is 'Yes' or d[column.key] is '+' or d[column.key] is 'good' or d[column.key] is 'ok'
-                                '0px 2px'
+                                'editable boolean-true'
                             else
-                                '0px -30px'
+                                'editable boolean-false'
                         else
                             if d[column.key].label is 'true'
-                                '0px 0px'
+                                'editable boolean-true'
                             else
-                                '0px -30px').attr('class','boolean')
+                                'editable boolean-false')
                 .on "click", (d) ->
-                    if d3.select(this).style('background-position') is '0px -30px'
+                    if d3.select(this).attr('class') is 'editable boolean-false'
                        d[column.key] = 'true'
-                       d3.select(this).style('background-position', '0px 0px')
+                       d3.select(this).attr('class', 'editable boolean-true')
                     else
                        d[column.key] = 'false'
-                       d3.select(this).style('background-position', '0px -30px')
+                       d3.select(this).attr('class', 'editable boolean-false')
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes)).text (d) ->
                     #console.log d3.select(this)
@@ -270,8 +271,10 @@ class window.TablesStakesLib.core
                         if d[column.key]
                             if typeof d[column.key] is 'string'
                                 d[column.key]
-                            else
+                            else if d[column.key].label is 'string'
                                 d[column.key].label
+                            else
+                                d[column.key].label[0]
                         else
                             "-"
                 self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
