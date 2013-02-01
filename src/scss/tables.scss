@@ -703,7 +703,7 @@ table.tablestakes {
 
 // Editable Select
 // 
-// Style for editable select
+// Style for editable select.
 // 
 // .editable.active.select - Select can only exist in a .editable.active
 // 
@@ -714,19 +714,17 @@ table.tablestakes {
     &.editable {
       &.active {
         &.select {
-          select {
-            margin: 0;
-            padding: 0;
-            width: auto;
-            height: auto;
-            border: none;
-            color: $cell-editable-active-border-color;
-            background: transparent;
-            // line-height: 1em;
+          border: none;
+          background: transparent;
+          @include inner-shadow(0, 0, 0, transparent);
 
-            &:focus {
-              outline: none;
-            }
+          select {
+            width: auto;
+            margin: 0;
+          }
+
+          &:after {
+            display: none;
           }
         }
       }
