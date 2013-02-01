@@ -3,7 +3,6 @@ class window.TablesStakesLib.core
 
     constructor: (options)->
         console.log 'core constructor'
-        #console.log 'options:',options
         @utils = new window.TablesStakesLib.utils
             core: @
         @events = new window.TablesStakesLib.events
@@ -18,7 +17,8 @@ class window.TablesStakesLib.core
     update: ->
         console.log 'here update'
         @table.isInRender = true
-        @selection.transition().call (selection) => @table.update selection
+        @selection.transition().call (selection) =>
+            @table.update selection
 
     resizable: (th)->
         self = @
@@ -39,21 +39,6 @@ class window.TablesStakesLib.core
         th.classed 'resizeable',true
         th.append("div").classed('resizeable-handle right', true).call drag
 
-    #filterable: ->
-        #self = @
-        #theadRow2 = @thead.append("tr")
-        #theadRow2.append('th').attr('width','10px') if @table.is 'hierarchy_dragging'
-        #@columns.forEach (column, i) =>
-            #keyFiled = column.key
-            #self = @
-            #theadRow2.append("th").attr("meta-key", column.key).append("input").attr("type","text")
-            #.on "keyup", (d) ->
-                #self.table.filterCondition.set(column.key, d3.select(this).node().value)
-                #self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
-                #self.table.render()
-            #console.log '@columns', @columns.length
-        #if @table.is 'deletable'
-            #theadRow2.append("th").attr('width','15px')
     deletable: (head)->
         if head
             @theadRow.append("th").attr('width','15px')
@@ -63,7 +48,6 @@ class window.TablesStakesLib.core
                     @utils.removeNode d
                     @update()
             )
-
 
     draggable: ->
         self = @
@@ -88,12 +72,6 @@ class window.TablesStakesLib.core
                 self.events.reordragend this,a,b,c
         @nodeEnter.call dragbehavior
 
-
-    #editable: (td)->
-        #self = @
-        #td.classed 'editable',true
-        #td.select("span").on "click", (a,b,c)->
-            #self.events.editable this,a,b,c
     nested: (nodeName)->
         self = @
         nodeName.on "click", (a,b,c)->
@@ -116,11 +94,9 @@ class window.TablesStakesLib.core
 
 
     renderHead: ->
-        #console.log 'renderHead start'
         @thead = @tableEnter.append("thead")
         @theadRow = @thead.append("tr")
         @theadRow.append('th').attr('width','10px') if @table.is 'reorder_dragging'
-        #console.log 'renderHead 1'
 
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
@@ -136,29 +112,25 @@ class window.TablesStakesLib.core
         @
 
     renderBody: ->
-        # generate tbody
         self = @
-        #console.log 'core render body'
         tbody = @tableObject.selectAll("tbody").data((d) ->
             d
         )
         tbody.enter().append "tbody"
+
         # calculate number of columns
         depth = d3.max(@nodes, (node) ->
             node.depth
         )
-        #console.log @table.height, depth, @table.childIndent
         @tree.size [@table.height, depth * @table.childIndent]
 
-        #console.log 'core render nodes'
         i = 0
         node = tbody.selectAll("tr").data((d) ->
             d
         , (d) ->
             d.id or (d.id is ++i)
         )
-        #console.log node
-        #try
+
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
         @nodeEnter = node.enter().append("tr").classed('class', (d)->d._classes)
@@ -166,7 +138,6 @@ class window.TablesStakesLib.core
         @reorder_draggable() if @table.is 'reorder_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
-        #console.log 'core render end'
         @columns.forEach (column, index) =>
             @renderColumn column,index,node
 
@@ -208,8 +179,7 @@ class window.TablesStakesLib.core
                 pos: [d.x, d.y]
         )
 
-    renderColumn: (column,index,node)->
-        #console.log 'renderColumn start',index,column
+    renderColumn: (column, index, node) ->
         self = @
         #console.log 'document', document
         col_classes = ""
@@ -257,12 +227,9 @@ class window.TablesStakesLib.core
             td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
 
-    renderNodes: (column,column_td)->
-        #console.log 'renderNode start'
+    renderNodes: (column, column_td)->
         self = @
-        column_td.each (t,i)->
-            #console.log t[column.key]
-
+        column_td.each (t, i)->
             if t[column.key] and t[column.key].classes?
                 classes = t[column.key].classes.split(' ')
                 for _class in classes
@@ -275,7 +242,6 @@ class window.TablesStakesLib.core
                 d3.select(this).classed(column.classes, true)
 
             if column.classes is 'boolean' or columnClass is 'boolean'
-                #console.log 'here', classes
                 span = d3.select(this).attr('class', (d)->
                     if d[column.key]
                         if typeof d[column.key] is 'string'
@@ -311,7 +277,7 @@ class window.TablesStakesLib.core
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 innerSpan = span.append('span').text (d) ->
-                    #console.log d3.select(this)
+
                     if column.format
                         column.format(d)
                     else
@@ -322,132 +288,15 @@ class window.TablesStakesLib.core
                                 d[column.key].label
                         else
                             "-"
-                console.log 'column.classes', column.classes
+            if t.changedID and (i = t.changedID.indexOf(column.key)) isnt -1
+                d3.select(this).classed 'changed', true
+                t.changedID.splice i, 1
 
-                ###console.log 3
-                console.log 'editable'
-                console.log 'table isEditable'
-                console.log self.table.is('editable')
-                console.log 'column isEditable'
-                console.log column.isEditable###
-                if self.table.is('editable') and column.isEditable
-                    # console.log 4
-                    console.log 'boolean'
-                    self.editable column_td,t,this,column
-                else if self.table.is('editable-filter')
-                    # console.log 5
-                    console.log 'function editable-filter'
-                    filter = self.table.get('editable-filter')
-                    ok = filter(column)
-                    if ok
-                        self.editable
+            isEditable = if typeof column.isEditable is 'function' then column.isEditable(t) else column.isEditable
+            self.editable column_td, t, this, column if isEditable
 
-                # if self.table.is('deletable') and column.isDeletable
-                #     # console.log 444
-                #     console.log 'boolean'
-                #     self.deletable column_td,t,this,column
-                # else if self.table.is('deletable-filter')
-                #     # console.log 555
-                #     console.log 'function deletable-filter'
-                #     filter = self.table.get('deletable-filter')
-                #     ok = filter(column)
-                #     if ok
-                #         self.deletable
-
-                # if self.table.is('nested') and column.isNested
-                #     console.log 'boolean'
-                #     self.nested column_td,t,this,column
-                # else if self.table.is('nested-filter')
-                #     console.log 'function nested-filter'
-                #     filter = self.table.get('nested-filter')
-                #     ok = filter(column)
-                #     if ok
-                #         self.nested
-
-                # if self.table.is('boolean') and column.isFilterable
-                #     console.log 'boolean'
-                #     self.boolean
-                # elseif self.table.is('boolean-filter')
-                #     console.log 'function boolean-filter'
-                #     filter = self.table.get('boolean-filter')
-                #     ok = filter(column)
-                #     if ok
-                #         self.boolean
-
-                if self.table.is('filterable') and column.isFilterable
-                    console.log 'boolean'
-                    self.filterable
-                else if self.table.is('filterable-filter')
-                    console.log 'function filterable-filter'
-                    filter = self.table.get('filterable-filter')
-                    ok = filter(column)
-                    if ok
-                        self.filterable
-
-                if self.table.is('hierarchy_dragging')
-                    console.log 'boolean'
-                    self.draggable
-                else if self.table.is('hierarchy_dragging-filter')
-                    console.log 'function hierarchy_dragging-filter'
-                    filter = self.table.get('hierarchy_dragging-filter')
-                    ok = filter(column)
-                    if ok
-                        self.draggable
-
-                if self.table.is('resizable')
-                    console.log 'boolean'
-                    self.resizable
-                else if self.table.is('resizable-filter')
-                    console.log 'function resizable-filter'
-                    filter = self.table.get('resizable-filter')
-                    ok = filter(column)
-                    if ok
-                        self.resizable
-
-                if self.table.is('reorder_dragging')
-                    console.log 'boolean'
-                    self.reorder_draggable
-                else if self.table.is('reorder_dragging-filter')
-                    console.log 'function reorder_dragging-filter'
-                    filter = self.table.get('reorder_dragging-filter')
-                    ok = filter(column)
-                    if ok
-                        self.reorder_draggable
-
-    selectBox: (node,d,column)->
-        #d3.select(node).classed('active', true)
-        #console.log '.childNodes', d3.select(node)
-        #select = d3.select(node).html('<span><select class="expand-select"></select></span>').select('.expand-select')
-        #self = @
-        #d3.select(node).classed('active', true)
-        #select = d3.select(node).html('<select class="expand-select"></select>').select('.expand-select')
-        #if @val?
-            #option = select.append('option').style('cursor', 'pointer').text(@val).style('display', 'none')
-        #for label in d[column.key].label
-            #if typeof label is 'string'
-                #option = select.append('option').text(label)
-            #else
-                #for options in label
-                    #if typeof options is 'string'
-                        #optgroup = select.append('optgroup').style('cursor', 'pointer').attr('label', options)
-                    #else
-                        #for index in options
-                            #option = optgroup.append('option').style('cursor', 'pointer').text(index)
-        #select.on 'click', (d) ->
-            #select.remove()
-            #d3.select(node).append('span').text(d3.event.target.value)
-            #self.val = d3.event.target.value
-
-    selectBox: (node,d,column)->
+    selectBox: (node, d, column)->
         self = @
-        #d3.select(node).classed('active', true)
-        #console.log '.childNodes', d3.select(node)
-        #select = d3.select(node).html('<span><select class="expand-select"></select></span>').select('.expand-select')
-
-
-
-
-
         d3.select(node).classed('active', true)
         select = d3.select(node).html('<select class="expand-select"></select>').select('.expand-select')
         if @val?
@@ -468,8 +317,7 @@ class window.TablesStakesLib.core
             self.val = d3.event.target.value
             self.update()
 
-
-    editable: (td,d,node,column)->
+    editable: (td, d, node, column)->
         self = @
         td.classed 'editable',true
         if @table.is 'nested'
@@ -480,11 +328,11 @@ class window.TablesStakesLib.core
             self.events.editable this,a,b,c,column
         if d.activatedID == column.key
             if d[column.key].classes is 'select'
-                @selectBox(node,d,column)
+                @selectBox(node, d, column)
             else
-                d3.select(node).classed('active',true).attr('contentEditable',true)
+                d3.select(node).classed('active', true).attr('contentEditable', true)
                 .on "keydown", (d)->
-                    self.events.keydown this, d
+                    self.events.keydown this, d, column
                 .on "blur", (d) ->
                     self.events.blur this, d, column
                 .node().focus()

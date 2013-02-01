@@ -2,22 +2,22 @@ testTree = [
     catname: "collapsible"
     values: [
         catname: "indent1"
-        AUG: 
+        AUG:
             label: "22"
             classes: "old"
-        SEP: 
+        SEP:
             label: "22"
             classes: "old"
-        OCT: 
+        OCT:
             label: "1,234"
             classes: "plan"
-        NOV: 
+        NOV:
             label: "987"
             classes: "plan"
-        DEC: 
+        DEC:
             label: "987"
             classes: "plan"
-        JAN: 
+        JAN:
             label: "987"
             classes: "plan"
         FEB: "987"
@@ -28,22 +28,22 @@ testTree = [
         JUL: "14"
     ,
         catname: "indent2"
-        AUG: 
+        AUG:
             label: "22"
             classes: "old"
-        SEP: 
+        SEP:
             label: "22"
             classes: "old"
-        OCT: 
+        OCT:
             label: "1,234"
             classes: "plan"
-        NOV: 
+        NOV:
             label: "987"
             classes: "plan"
-        DEC: 
+        DEC:
             label: "987"
             classes: "plan"
-        JAN: 
+        JAN:
             label: "987"
             classes: "plan"
         FEB: "987"
@@ -56,20 +56,20 @@ testTree = [
         catname: "collapsible"
         values: [
             catname: "indent2"
-            AUG: 
+            AUG:
                 label: "22"
-            SEP: 
+            SEP:
                 label: "22"
-            OCT: 
+            OCT:
                 label: "1,234"
                 classes: "plan"
-            NOV: 
+            NOV:
                 label: "987"
                 classes: "plan"
-            DEC: 
+            DEC:
                 label: "987"
                 classes: "plan"
-            JAN: 
+            JAN:
                 label: "987"
                 classes: "plan"
             FEB: "987"
@@ -96,20 +96,20 @@ testTree = [
     ]
 ,
     catname: "independent row (link)"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -120,20 +120,20 @@ testTree = [
     JUL: "14"
 ,
     catname: "indy row with %"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -144,20 +144,20 @@ testTree = [
     JUL: "14"
 ,
     catname: "change"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -168,20 +168,20 @@ testTree = [
     JUL: "14"
 ,
     catname: "indy row with %"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -192,20 +192,20 @@ testTree = [
     JUL: "14"
 ,
     catname: "percent change"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -216,20 +216,20 @@ testTree = [
     JUL: "14"
 ,
     catname: "inty & editable name"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -241,20 +241,20 @@ testTree = [
 ,
     catname: "Overall total"
     _classes: "total"
-    AUG: 
+    AUG:
         label: "22"
-    SEP: 
+    SEP:
         label: "22"
-    OCT: 
+    OCT:
         label: "1,234"
         classes: "plan"
-    NOV: 
+    NOV:
         label: "987"
         classes: "plan"
-    DEC: 
+    DEC:
         label: "987"
         classes: "plan"
-    JAN: 
+    JAN:
         label: "987"
         classes: "plan"
     FEB: "987"
@@ -370,7 +370,6 @@ grid = new window.TablesStakes(
   resizable: true
   nested: true
   hierarchy_dragging: true
-  editable: true
   reorder_dragging: true
 )
 grid.render()

@@ -59,7 +59,8 @@
     label: "Name"
     showCount: false
     type: "text"
-    isEditable: true
+    isEditable: (row) ->
+      row.key is 'Horizontal Grouped Bar'
     classes: "keyfield"
     click: (d) ->
       d3.select(this).html "hallo you were clicked"
@@ -69,6 +70,9 @@
     type: "text"
     classes: "name"
     isEditable: true
+    onEdit: (row, key, newValue) ->
+      row[key] = newValue
+      grid.render()
   ]
   grid = undefined
   grid = new window.TablesStakes(
@@ -76,12 +80,4 @@
     data: testTree
     el: "#example"
   )
-  .editable true
-  # .editable (row)->
-    # if row is 'editable-filter'
-      # row
-  #grid.set "editable", true
-  #grid.editable true
-  # grid.editable (row)->
-      #if row is something
   grid.render()

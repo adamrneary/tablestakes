@@ -6,7 +6,7 @@ class window.TablesStakesLib.events
 
 
     # keydown editing cell
-    keydown: (node,d,column) ->
+    keydown: (node, d, column) ->
         switch d3.event.keyCode
             when 9  #tab
                 currentindex = @core.utils.getCurrentColumnIndex d.activatedID
@@ -29,13 +29,15 @@ class window.TablesStakesLib.events
                 d3.event.preventDefault()
                 d3.event.stopPropagation()
                 @core.update()
+
             when 38 #up
                 prevNode = @core.utils.findPrevNode d, @nodes
                 currentindex = @core.utils.getCurrentColumnIndex d.activatedID
                 if prevNode != null
                   prevNode.activatedID = @core.columns[currentindex].key
-                  d.activatedID = null 
+                  d.activatedID = null
                 @core.update()
+
             when 40 #down
                 nextNode = @core.utils.findNextNode d
                 currentindex = @core.utils.getCurrentColumnIndex d.activatedID
@@ -43,33 +45,30 @@ class window.TablesStakesLib.events
                     nextNode.activatedID = @core.columns[currentindex].key
                     d.activatedID = null
                 @core.update()
+
             when 13 #enter
                 val = d3.select(node).text()
-                columnKey = d3.select(node)[0][0].getAttribute("ref")
-                d[columnKey] = val
-                d[column.key] = val
-                d[column.key] = val
-                d.changedID = [] unless d.changedID
-                d.changedID.push d.activatedID
+                column.onEdit(d, column.key, val) if column.onEdit
+                d.changedID ?= []
+                d.changedID.push d.activatedID if d.changedID.indexOf(d.activatedID) is -1
                 d.activatedID = null
                 @core.update()
+
             when 27 #escape
                 d3.select(node).node().value = d[d.activatedID]
                 d.activatedID = null
                 @core.update()
-        # clavey handler enter and esc 
+        # clavey handler enter and esc
 
-    # decrease of the selection from the active cell
-    blur: (node,d, column) ->
+    # removal of the selection from the active cell
+    blur: (node, d, column) ->
         if @core.table.isInRender == false
             val = d3.select(node).text()
-            columnKey = d3.select(node)[0][0].getAttribute("ref")
-            d[columnKey] = val
-            d[column.key] = val
+            column.onEdit(d, column.key, val) if column.onEdit
             d.activatedID = null
             @core.update()
 
-    dragstart: (node,d) ->
+    dragstart: (node, d) ->
         console.log 'dragstart'
         self = @
         d3.select(node).classed('dragged',true)
@@ -93,21 +92,20 @@ class window.TablesStakesLib.events
         )
         .on("mouseout", (d) ->
             console.log 'mouseout'
-            # d3.select(this).attr("class", "")
             d3.select(this).classed("draggable-destination",false)
-            self.draggingTargetObj = null 
+            self.draggingTargetObj = null
             d3.event.stopPropagation()
             d3.event.preventDefault()
         )
     dragmove: (node,d) ->
-        x = parseInt(d3.event.x)  
+        x = parseInt(d3.event.x)
         y = parseInt(d3.event.y)
         $(node).css
             left: @pos.left + x
             top: @pos.top + y
-        @core.update
-        
-    dragend: (node,d) ->
+        @core.update()
+
+    dragend: (node, d) ->
         console.log 'dragend'
         d.parent.children = @init_pos
         $(node).css
@@ -130,7 +128,7 @@ class window.TablesStakesLib.events
         @core.utils.appendNode parent, child
         @core.update()
 
-    reordragstart: (node,d) ->
+    reordragstart: (node, d) ->
         console.log 'dragstart', @core.table.get('el')
         self = @
         targetRow = @core.table.get('el') + " tbody tr .draggable"
@@ -143,8 +141,8 @@ class window.TablesStakesLib.events
             self.draggingTargetObj = d._id
         )
         .on("mouseout", (d) ->
-            d3.select(this.parentNode).attr("class", "") 
-            self.draggingTargetObj = null 
+            d3.select(this.parentNode).attr("class", "")
+            self.draggingTargetObj = null
         )
 
     reordragend: (node,d) ->
@@ -162,7 +160,6 @@ class window.TablesStakesLib.events
         @core.utils.pastNode brother, child
         @core.update()
 
-
     # change row if class editable
     editable: (node,d, _, unshift)->
         console.log 'events editable'
@@ -170,16 +167,12 @@ class window.TablesStakesLib.events
             @core.utils.deactivateAll @core.data[0]
             d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
             @core.update()
-            #$(".active .date").datepicker()
             d3.event.stopPropagation()
             d3.event.preventDefault()
-            #console.log $(".active .date").datepicker().val
-
 
     # toggle nested
     click: (node,d, _, unshift) ->
         console.log 'events toggle nested click'
-        #d.activatedID = null
 
         if d3.event.shiftKey and not unshift
             #If you shift-click, it'll toggle fold all the children, instead of itself
