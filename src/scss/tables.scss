@@ -397,13 +397,11 @@ table.tablestakes {
 
       &.dragged {
         position: absolute;
-        top: -10px;
-        left: -10px;
         display: block;
         @include outer-shadow(0, 1px, 3px, rgba(0,0,0, 0.15));
 
         td, th {
-          @include opacity(.50);
+          @include opacity(.80);
           background: inherit;
         }
       }

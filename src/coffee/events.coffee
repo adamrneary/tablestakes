@@ -75,25 +75,48 @@ class window.TablesStakesLib.events
     dragstart: (node,d) ->
         console.log 'dragstart'
         self = @
-        targetRow = @core.table.get('el') + " tbody tr"
+        d3.select(node).classed('dragged',true)
+        targetRow = @core.table.get('el') + " tbody tr:not(.dragged)"
         @draggingObj = d._id
         console.log '@draggingObj', @draggingObj
         @draggingTargetObj = null
+        @init_coord = $(node).position()
+        @init_pos = d.parent.children
+        @pos = $(node).position()
+        @pos.left += d3.event.sourceEvent.layerX
+        $(node).css
+            left: @pos.left
+            top: @pos.top
         d3.selectAll(targetRow).on("mouseover", (d) ->
-            if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
-                return
+            console.log 'mouseover'
             d3.select(this).attr("class", "draggable-destination")
             self.draggingTargetObj = d._id
+            d3.event.stopPropagation()
+            d3.event.preventDefault()
         )
         .on("mouseout", (d) ->
-            d3.select(this).attr("class", "") 
+            console.log 'mouseout'
+            # d3.select(this).attr("class", "")
+            d3.select(this).classed("draggable-destination",false)
             self.draggingTargetObj = null 
+            d3.event.stopPropagation()
+            d3.event.preventDefault()
         )
-    dragmove: (d) ->
-        #console.log 'dragmove'
+    dragmove: (node,d) ->
+        x = parseInt(d3.event.x)  
+        y = parseInt(d3.event.y)
+        $(node).css
+            left: @pos.left + x
+            top: @pos.top + y
+        @core.update
         
     dragend: (node,d) ->
         console.log 'dragend'
+        d.parent.children = @init_pos
+        $(node).css
+            left: @init_coord.left
+            top: @init_coord.top
+        d3.select(node).attr("class", "")
         targetRow = @core.table.get('el') + " tbody tr"
         d3.selectAll(targetRow)
         .on("mouseover", null)
