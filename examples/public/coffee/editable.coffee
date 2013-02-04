@@ -24,7 +24,7 @@
     type: "Snapshot / Historical"
   ,
     key: "Horizontal Grouped Bar"
-    type: 
+    type:
       label: [
           ['Example2.1',['Example2.1.1', 'Example2.1.2', 'Example2.1.3']],
           'Example2.2',

@@ -438,6 +438,36 @@ class window.TablesStakesLib.core
             #d3.select(node).append('span').text(d3.event.target.value)
             #self.val = d3.event.target.value
 
+    selectBox: (node,d,column)->
+        self = @
+        #d3.select(node).classed('active', true)
+        #console.log '.childNodes', d3.select(node)
+        #select = d3.select(node).html('<span><select class="expand-select"></select></span>').select('.expand-select')
+
+
+
+
+
+        d3.select(node).classed('active', true)
+        select = d3.select(node).html('<select class="expand-select"></select>').select('.expand-select')
+        if @val?
+            option = select.append('option').style('cursor', 'pointer').text(@val).style('display', 'none')
+        for label in d[column.key].label
+            if typeof label is 'string'
+                option = select.append('option').text(label)
+            else
+                for options in label
+                    if typeof options is 'string'
+                        optgroup = select.append('optgroup').style('cursor', 'pointer').attr('label', options)
+                    else
+                        for index in options
+                            option = optgroup.append('option').style('cursor', 'pointer').text(index)
+        select.on 'click', (d) ->
+            select.remove()
+            d3.select(node).append('span').text(d3.event.target.value)
+            self.val = d3.event.target.value
+            self.update()
+
 
     editable: (td,d,node,column)->
         self = @
