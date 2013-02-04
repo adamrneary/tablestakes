@@ -1,6 +1,10 @@
   testTree = [
     key:
-      label: ['Example1', 'Example2', 'Example3']
+      label: [
+          ['Example1',['Example1.1', 'Example1.2', 'Example1.3']],
+          'Example2',
+          'Example3'
+      ]
       classes: 'select_box'
     type: "ahaha"
   ,

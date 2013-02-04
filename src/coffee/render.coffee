@@ -256,6 +256,21 @@ class window.TablesStakesLib.core
                     else
                        d[column.key] = 'false'
                        d3.select(this).attr('class', 'editable boolean-false')
+
+            else if columnClass is 'select_box'
+                d3.select(this).classed('select', true)
+                console.log 'here'
+                select = d3.select(this).html('<select class="expand-select"></select>').select('.expand-select')
+                for label in t[column.key].label
+                    if typeof label is 'string'
+                        option = select.append('option').text(label)
+                    else
+                        for options in label
+                            if typeof options is 'string'
+                                optgroup = select.append('optgroup').style('cursor', 'pointer').attr('label', options)
+                            else
+                                for index in options
+                                    selection = optgroup.append('option').style('cursor', 'pointer').text(index)
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 innerSpan = span.append('span').text (d) ->
@@ -268,7 +283,7 @@ class window.TablesStakesLib.core
                                 d[column.key]
                             else if d[column.key].label is 'string'
                                 d[column.key].label
-                            else if d[column.key].classes
+                            else if typeof d[column.key].label[0] is 'string'
                                 d[column.key].label[0]
                         else
                             "-"
@@ -283,24 +298,13 @@ class window.TablesStakesLib.core
         else
             event = 'click'
         td.on event, (a,b,c)->
-            self.events.editable this,a,b,c 
+            self.events.editable this,a,b,c
         if d.activatedID == column.key
-            if d[column.key].classes is 'select_box'
-                d3.select(node).classed('editable active select', true)
-                select = d3.select(node).html('<select class="expand-select"></select>').select('.expand-select')
-                
-                for label in d[column.key].label
-                    console.log 'here'
-                    option = select.append('option').style('cursor', 'pointer').text(label)
-                select.on 'change', (d) ->
-                    d3.select(node).text d3.select(d3.event.target).node().options[d3.event.target.selectedIndex].text
-                    d3.select(node).classed('active', false)
-            else
-                d3.select(node).classed('active',true).attr('contentEditable',true)
-                .on "keydown", (d) -> 
-                    self.events.keydown this,d
-                .on "blur", (d) ->
-                    self.events.blur this,d, column
-                .node().focus()
+            d3.select(node).classed('active',true).attr('contentEditable',true)
+            .on "keydown", (d)->
+                self.events.keydown this, d
+            .on "blur", (d) ->
+                self.events.blur this, d, column
+            .node().focus()
         else if d.changedID and d.changedID.indexOf(column.key) isnt -1
             d3.select(node).classed 'changed',true
