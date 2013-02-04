@@ -48,7 +48,7 @@ class window.TablesStakesLib.events
 
             when 13 #enter
                 val = d3.select(node).text()
-                column.onEdit(d, column.key, val) if column.onEdit
+                column.onEdit(d.key, column.key, val) if column.onEdit
                 d.changedID ?= []
                 d.changedID.push d.activatedID if d.changedID.indexOf(d.activatedID) is -1
                 d.activatedID = null

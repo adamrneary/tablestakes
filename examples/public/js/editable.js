@@ -75,8 +75,12 @@ testColumns = [
     type: "text",
     classes: "name",
     isEditable: true,
-    onEdit: function(row, key, newValue) {
-      row[key] = newValue;
+    onEdit: function(rowKey, field, newValue) {
+      _.find(testTree, function(row) {
+        if (row.key === rowKey) {
+          return row[field] = newValue;
+        }
+      });
       return grid.render();
     }
   }

@@ -70,8 +70,9 @@
     type: "text"
     classes: "name"
     isEditable: true
-    onEdit: (row, key, newValue) ->
-      row[key] = newValue
+    onEdit: (rowKey, field, newValue) ->
+      _.find testTree, (row) ->
+        row[field] = newValue if row.key is rowKey
       grid.render()
   ]
   grid = undefined
