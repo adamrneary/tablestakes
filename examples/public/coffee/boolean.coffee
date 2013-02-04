@@ -35,12 +35,8 @@ data = [
   key: "New Root"
   type: "true"
 ,
-  key:
-      label: "true"
-      classes: "boolean"
-  type: 
-      label: "true"
-      classes: "boolean"
+  key: "true"
+  type: "true"
 ]
 
 columns = [

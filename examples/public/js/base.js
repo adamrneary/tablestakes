@@ -5,7 +5,7 @@ data = [
   {
     key: {
       label: ['Example1', 'Example2', 'Example3'],
-      classes: 'select_box'
+      classes: 'select'
     },
     type: "ahaha"
   }, {
