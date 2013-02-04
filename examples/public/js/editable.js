@@ -5,7 +5,7 @@ testTree = [
   {
     key: {
       label: [['Example1', ['Example1.1', 'Example1.2', 'Example1.3']], 'Example2', 'Example3'],
-      classes: 'select_box'
+      classes: 'select'
     },
     type: "ahaha"
   }, {
@@ -25,7 +25,10 @@ testTree = [
     type: "Snapshot / Historical"
   }, {
     key: "Horizontal Grouped Bar",
-    type: "Snapshot"
+    type: {
+      label: [['Example2.1', ['Example2.1.1', 'Example2.1.2', 'Example2.1.3']], 'Example2.2', 'Example2.3'],
+      classes: 'select'
+    }
   }, {
     key: "Line and Bar Combo",
     type: "Historical"

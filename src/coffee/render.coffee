@@ -16,6 +16,7 @@ class window.TablesStakesLib.core
         @columns = @table.get('columns')
 
     update: ->
+        console.log 'here update'
         @table.isInRender = true
         @selection.transition().call (selection) => @table.update selection
 
@@ -256,21 +257,6 @@ class window.TablesStakesLib.core
                     else
                        d[column.key] = 'false'
                        d3.select(this).attr('class', 'editable boolean-false')
-
-            else if columnClass is 'select_box'
-                d3.select(this).classed('select', true)
-                console.log 'here'
-                select = d3.select(this).html('<select class="expand-select"></select>').select('.expand-select')
-                for label in t[column.key].label
-                    if typeof label is 'string'
-                        option = select.append('option').text(label)
-                    else
-                        for options in label
-                            if typeof options is 'string'
-                                optgroup = select.append('optgroup').style('cursor', 'pointer').attr('label', options)
-                            else
-                                for index in options
-                                    selection = optgroup.append('option').style('cursor', 'pointer').text(index)
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 innerSpan = span.append('span').text (d) ->
@@ -283,11 +269,45 @@ class window.TablesStakesLib.core
                                 d[column.key]
                             else if d[column.key].label is 'string'
                                 d[column.key].label
+                            else if self.val?
+                                self.val
                             else if typeof d[column.key].label[0] is 'string'
                                 d[column.key].label[0]
+                            else
+                                d[column.key].label[0][1][0]
                         else
                             "-"
                 self.editable column_td,t,this,column if self.table.is('editable') and column.isEditable
+
+    selectBox: (node,d,column)->
+        self = @
+        #d3.select(node).classed('active', true)
+        #console.log '.childNodes', d3.select(node)
+        #select = d3.select(node).html('<span><select class="expand-select"></select></span>').select('.expand-select')
+
+
+
+
+
+        d3.select(node).classed('active', true)
+        select = d3.select(node).html('<select class="expand-select"></select>').select('.expand-select')
+        if @val?
+            option = select.append('option').style('cursor', 'pointer').text(@val).style('display', 'none')
+        for label in d[column.key].label
+            if typeof label is 'string'
+                option = select.append('option').text(label)
+            else
+                for options in label
+                    if typeof options is 'string'
+                        optgroup = select.append('optgroup').style('cursor', 'pointer').attr('label', options)
+                    else
+                        for index in options
+                            option = optgroup.append('option').style('cursor', 'pointer').text(index)
+        select.on 'click', (d) ->
+            select.remove()
+            d3.select(node).append('span').text(d3.event.target.value)
+            self.val = d3.event.target.value
+            self.update()            
 
 
     editable: (td,d,node,column)->
@@ -300,11 +320,14 @@ class window.TablesStakesLib.core
         td.on event, (a,b,c)->
             self.events.editable this,a,b,c
         if d.activatedID == column.key
-            d3.select(node).classed('active',true).attr('contentEditable',true)
-            .on "keydown", (d)->
-                self.events.keydown this, d
-            .on "blur", (d) ->
-                self.events.blur this, d, column
-            .node().focus()
+            if d[column.key].classes is 'select'
+                @selectBox(node,d,column)
+            else
+                d3.select(node).classed('active',true).attr('contentEditable',true)
+                .on "keydown", (d)->
+                    self.events.keydown this, d
+                .on "blur", (d) ->
+                    self.events.blur this, d, column
+                .node().focus()
         else if d.changedID and d.changedID.indexOf(column.key) isnt -1
             d3.select(node).classed 'changed',true

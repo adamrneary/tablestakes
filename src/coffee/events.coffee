@@ -165,7 +165,6 @@ class window.TablesStakesLib.events
 
     # change row if class editable
     editable: (node,d, _, unshift)->
-        console.log 'node', node.childNodes[0]
         console.log 'events editable'
         unless d3.select(node).classed('active')
             @core.utils.deactivateAll @core.data[0]
