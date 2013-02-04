@@ -4,6 +4,7 @@ class window.TablesStakesLib.events
     constructor: (options)->
         @core = options.core
 
+
     # keydown editing cell
     keydown: (node,d,column) ->
         switch d3.event.keyCode
@@ -60,14 +61,10 @@ class window.TablesStakesLib.events
 
     # decrease of the selection from the active cell
     blur: (node,d, column) ->
-        #cell = d3.select(node)
-        #hz = d3.select(node)[0][0]
-        #cell.text(d3.select(node).node().value)
         if @core.table.isInRender == false
             val = d3.select(node).text()
             columnKey = d3.select(node)[0][0].getAttribute("ref")
             d[columnKey] = val
-            d[column.key] = val
             d[column.key] = val
             d.activatedID = null
             @core.update()
@@ -108,18 +105,6 @@ class window.TablesStakesLib.events
         $(node).css
             left: @pos.left + x
             top: @pos.top + y
-        ###dragObj = @core.utils.findNodeByID @draggingObj
-        parent = @core.utils.findNodeByID @draggingTargetObj
-        if dragObj.children?
-            console.log(111)
-            console.log @table
-            console.log(dragObj)
-            targetRow = @core.table.get('el') + " .dragged"
-            hideElement = d3.selectAll(targetRow)
-            for childObj in dragObj.children
-                console.log(childObj._id)###
-                # $(childObj).hide()
-                # $(hideElement[0][0].childNodes).hide()
         @core.update
         
     dragend: (node,d) ->
