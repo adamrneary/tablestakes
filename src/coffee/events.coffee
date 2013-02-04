@@ -108,6 +108,18 @@ class window.TablesStakesLib.events
         $(node).css
             left: @pos.left + x
             top: @pos.top + y
+        ###dragObj = @core.utils.findNodeByID @draggingObj
+        parent = @core.utils.findNodeByID @draggingTargetObj
+        if dragObj.children?
+            console.log(111)
+            console.log @table
+            console.log(dragObj)
+            targetRow = @core.table.get('el') + " .dragged"
+            hideElement = d3.selectAll(targetRow)
+            for childObj in dragObj.children
+                console.log(childObj._id)###
+                # $(childObj).hide()
+                # $(hideElement[0][0].childNodes).hide()
         @core.update
         
     dragend: (node,d) ->
@@ -124,6 +136,8 @@ class window.TablesStakesLib.events
         .style("background-color", null)
         if @draggingTargetObj == null
             return;
+        if @draggingObj + '_0' == @draggingTargetObj
+            return
         parent = @core.utils.findNodeByID @draggingTargetObj
         child = @core.utils.findNodeByID @draggingObj
         console.log 'child', child
