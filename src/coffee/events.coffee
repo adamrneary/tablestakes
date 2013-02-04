@@ -121,7 +121,7 @@ class window.TablesStakesLib.events
         .style("background-color", null)
         if @draggingTargetObj == null
             return;
-        if @draggingObj + '_0' == @draggingTargetObj
+        if @draggingObj.substr(0,3) == @draggingTargetObj.substr(0,3)
             return
         parent = @core.utils.findNodeByID @draggingTargetObj
         child = @core.utils.findNodeByID @draggingObj
