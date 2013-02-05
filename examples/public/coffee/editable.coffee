@@ -24,7 +24,7 @@
     type: "Snapshot / Historical"
   ,
     key: "Horizontal Grouped Bar"
-    type: 
+    type:
       label: [
           ['Example2.1',['Example2.1.1', 'Example2.1.2', 'Example2.1.3']],
           'Example2.2',
@@ -59,7 +59,8 @@
     label: "Name"
     showCount: false
     type: "text"
-    isEditable: true
+    isEditable: (row) ->
+      row.key is 'Horizontal Grouped Bar'
     classes: "keyfield"
     click: (d) ->
       d3.select(this).html "hallo you were clicked"
@@ -69,6 +70,10 @@
     type: "text"
     classes: "name"
     isEditable: true
+    onEdit: (rowKey, field, newValue) ->
+      _.find testTree, (row) ->
+        row[field] = newValue if row.key is rowKey
+      grid.render()
   ]
   grid = undefined
   grid = new window.TablesStakes(
@@ -76,12 +81,4 @@
     data: testTree
     el: "#example"
   )
-  .editable true
-  # .editable (row)->
-    # if row is 'editable-filter'
-      # row
-  #grid.set "editable", true
-  #grid.editable true
-  # grid.editable (row)->
-      #if row is something
   grid.render()

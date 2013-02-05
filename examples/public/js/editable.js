@@ -62,7 +62,9 @@ testColumns = [
     label: "Name",
     showCount: false,
     type: "text",
-    isEditable: true,
+    isEditable: function(row) {
+      return row.key === 'Horizontal Grouped Bar';
+    },
     classes: "keyfield",
     click: function(d) {
       return d3.select(this).html("hallo you were clicked");
@@ -72,7 +74,15 @@ testColumns = [
     label: "Type",
     type: "text",
     classes: "name",
-    isEditable: true
+    isEditable: true,
+    onEdit: function(rowKey, field, newValue) {
+      _.find(testTree, function(row) {
+        if (row.key === rowKey) {
+          return row[field] = newValue;
+        }
+      });
+      return grid.render();
+    }
   }
 ];
 
@@ -82,6 +92,6 @@ grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
   el: "#example"
-}).editable(true);
+});
 
 grid.render();
