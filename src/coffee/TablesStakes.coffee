@@ -30,7 +30,6 @@ class window.TablesStakes
 
     constructor: (options)->
         @set 'sortable', false
-        @set 'deletable', false
         @set 'filterable', false
         @set 'resizable', false
         @set 'nested', false
@@ -153,15 +152,12 @@ class window.TablesStakes
             console.log 'set editable function'
             @set 'editable-filter', val
 
-    deletable: (val)->
-        if typeof val is 'boolean'
-            # console.log 111
-            console.log 'set deletable boolean'
-            @set 'deletable',val
+    isDeletable: (val) ->
+        if val?
+            @set 'deletable', val
+            @
         else
-            # console.log 222
-            console.log 'set deletable function'
-            @set 'deletable-filter', val
+            @get 'deletable'
 
     nested: (val)->
         if typeof val is 'boolean'
