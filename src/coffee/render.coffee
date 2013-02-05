@@ -33,7 +33,7 @@ class window.TablesStakesLib.core
                 index = parseInt(d3.select(th).attr("ref"))
                 self.columns[index].width = column_newX + "px"
                 table_x = parseFloat(self.tableObject.attr("width"))
-                table_newX = table_x + (column_newX - column_x) #x + d3.event.dx 
+                table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
                 self.tableObject.attr "width", table_newX+"px"
                 self.tableObject.style "width", table_newX+"px"
         th.classed 'resizeable',true
@@ -52,7 +52,7 @@ class window.TablesStakesLib.core
                 #self.table.setFilter self.table.gridFilteredData[0], self.table.filterCondition
                 #self.table.render()
             #console.log '@columns', @columns.length
-        #if @table.is 'deletable' 
+        #if @table.is 'deletable'
             #theadRow2.append("th").attr('width','15px')
     deletable: (head)->
         if head
@@ -61,7 +61,7 @@ class window.TablesStakesLib.core
             @nodeEnter.append("td").attr('class', 'deletable').on("click", (d) =>
                 if confirm "Are you sure you are going to delete this?"
                     @utils.removeNode d
-                    @update() 
+                    @update()
             )
 
 
@@ -93,7 +93,7 @@ class window.TablesStakesLib.core
         #self = @
         #td.classed 'editable',true
         #td.select("span").on "click", (a,b,c)->
-            #self.events.editable this,a,b,c 
+            #self.events.editable this,a,b,c
     nested: (nodeName)->
         self = @
         nodeName.on "click", (a,b,c)->
@@ -113,7 +113,7 @@ class window.TablesStakesLib.core
         @tableObject = wrap.select("table").classed(@table.tableClassName,true).attr("style","table-layout:fixed;")
         @renderHead() if @table.header
         @renderBody()
-        
+
 
     renderHead: ->
         #console.log 'renderHead start'
@@ -134,7 +134,7 @@ class window.TablesStakesLib.core
                 th.classed(column.classes, true)
         @deletable true if @table.is 'deletable'
         @
-            
+
     renderBody: ->
         # generate tbody
         self = @
@@ -184,7 +184,7 @@ class window.TablesStakesLib.core
             if ok
                 @deletable()
         #console.log 'here'
-            
+
         node.order().on("click", (d) ->
             self.table.dispatch.elementClick
                 row: this
@@ -256,7 +256,7 @@ class window.TablesStakesLib.core
         if column.showCount
             td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
-            
+
     renderNodes: (column,column_td)->
         #console.log 'renderNode start'
         self = @
@@ -268,16 +268,12 @@ class window.TablesStakesLib.core
                 for _class in classes
                     d3.select(this).classed _class,true
                 columnClass = t[column.key].classes
-<<<<<<< HEAD
 
             if columnClass?
                 d3.select(this).classed(columnClass, true)
             if column.classes?
                 d3.select(this).classed(column.classes, true)
 
-=======
-                d3.select(this).classed(columnClass, true)
->>>>>>> d657aa54ba74b98ba85263472b74ecc4d0b58793
             if column.classes is 'boolean' or columnClass is 'boolean'
                 #console.log 'here', classes
                 span = d3.select(this).attr('class', (d)->
@@ -299,7 +295,7 @@ class window.TablesStakesLib.core
                     else
                        d[column.key] = 'false'
                        d3.select(this).attr('class', 'editable boolean-false')
-<<<<<<< HEAD
+
             else if columnClass is 'select'
                 select = d3.select(this).classed('active', true).html('<select class="expand-select"></select>').select('.expand-select')
                 for label in t[column.key].label
@@ -312,18 +308,13 @@ class window.TablesStakesLib.core
                             else
                                 for index in options
                                     option = optgroup.append('option').text(index)
-
-
-=======
-                .style('display', 'table-cell')
->>>>>>> d657aa54ba74b98ba85263472b74ecc4d0b58793
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 innerSpan = span.append('span').text (d) ->
                     #console.log d3.select(this)
                     if column.format
-                        column.format(d) 
-                    else 
+                        column.format(d)
+                    else
                         if d[column.key]
                             if typeof d[column.key] is 'string'
                                 d[column.key]
