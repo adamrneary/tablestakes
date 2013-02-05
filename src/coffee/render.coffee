@@ -129,6 +129,7 @@ class window.TablesStakesLib.core
             th.attr("ref", i)
             th.style("width", column.width) if column.width
             th.style("width", '60px') if column.classes is 'boolean'
+            th.classed(column.classes, true) if column.classes
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
@@ -234,6 +235,7 @@ class window.TablesStakesLib.core
                 for _class in classes
                     d3.select(this).classed _class,true
                 columnClass = t[column.key].classes
+                d3.select(this).classed(columnClass, true)
             if column.classes is 'boolean' or columnClass is 'boolean'
                 #console.log 'here', classes
                 span = d3.select(this).attr('class', (d)->
@@ -255,6 +257,7 @@ class window.TablesStakesLib.core
                     else
                        d[column.key] = 'false'
                        d3.select(this).attr('class', 'editable boolean-false')
+                .style('display', 'table-cell')
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 innerSpan = span.append('span').text (d) ->
