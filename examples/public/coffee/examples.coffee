@@ -11,12 +11,15 @@ core = [
   shortLink: "nested"
   title: "Nested"
 ,
+  shortLink: "nested_editable"
+  title: "Nested and editable"
+,
   shortLink: "filterable"
   title: "Filterable"
 ,
   shortLink: "add-and-delete"
   title: "Add and delete"
-,    
+,
   shortLink: "resizable",
   title: "Resizable"
 ,
