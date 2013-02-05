@@ -125,10 +125,9 @@ class window.TablesStakesLib.core
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
             th.attr("ref", i)
-            if column.width
-                th.style("width", column.width)
-            if column.classes is 'boolean'
-                th.style("width", '60px')
+            th.style("width", column.width) if column.width
+            th.style("width", '60px') if column.classes is 'boolean'
+            th.classed(column.classes, true) if column.classes
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
             if column.classes?
@@ -269,12 +268,16 @@ class window.TablesStakesLib.core
                 for _class in classes
                     d3.select(this).classed _class,true
                 columnClass = t[column.key].classes
+<<<<<<< HEAD
 
             if columnClass?
                 d3.select(this).classed(columnClass, true)
             if column.classes?
                 d3.select(this).classed(column.classes, true)
 
+=======
+                d3.select(this).classed(columnClass, true)
+>>>>>>> d657aa54ba74b98ba85263472b74ecc4d0b58793
             if column.classes is 'boolean' or columnClass is 'boolean'
                 #console.log 'here', classes
                 span = d3.select(this).attr('class', (d)->
@@ -296,6 +299,7 @@ class window.TablesStakesLib.core
                     else
                        d[column.key] = 'false'
                        d3.select(this).attr('class', 'editable boolean-false')
+<<<<<<< HEAD
             else if columnClass is 'select'
                 select = d3.select(this).classed('active', true).html('<select class="expand-select"></select>').select('.expand-select')
                 for label in t[column.key].label
@@ -310,6 +314,9 @@ class window.TablesStakesLib.core
                                     option = optgroup.append('option').text(index)
 
 
+=======
+                .style('display', 'table-cell')
+>>>>>>> d657aa54ba74b98ba85263472b74ecc4d0b58793
             else
                 span = d3.select(this).append("span").attr("class", d3.functor(column.classes))
                 innerSpan = span.append('span').text (d) ->
