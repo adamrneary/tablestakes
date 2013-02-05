@@ -42,12 +42,15 @@ testTree = [
     key: "Legend",
     type: "Universal"
   }, {
-    key: "New Root",
-    type: "tatata"
+    key: "tatata",
+    type: {
+      label: "02/12/2012",
+      classes: 'calendar'
+    }
   }, {
     key: {
       label: "yes",
-      classes: "date"
+      classes: "calendar"
     },
     type: "123"
   }
@@ -79,8 +82,6 @@ grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
   el: "#example"
-});
-
-grid.set("editable", true);
+}).editable(true);
 
 grid.render();

@@ -84,8 +84,7 @@ testColumns = [
 grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
-  el: "#example",
-  nested: true
-});
+  el: "#example"
+}).nested(true);
 
 grid.render();

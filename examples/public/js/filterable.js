@@ -66,10 +66,8 @@ testColumns = [
 grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
-  el: "#example",
-  filterable: true,
-  nested: true
-});
+  el: "#example"
+}).filterable(true);
 
 grid.render();
 

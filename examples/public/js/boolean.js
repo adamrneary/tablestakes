@@ -63,6 +63,6 @@ grid = new window.TablesStakes({
   columns: columns,
   data: data,
   el: "#example"
-});
+}).boolean(true);
 
 grid.render();

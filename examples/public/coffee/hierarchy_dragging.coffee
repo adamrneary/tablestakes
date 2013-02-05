@@ -59,6 +59,10 @@
     data: testTree
     el: "#example"
   )
-  grid.set "hierarchy_dragging", true
+  # grid.set "hierarchy_dragging", true
+  .hierarchy_dragging true
+  # .hierarchy_dragging (row)->
+  #   if row is 'hierarchy_dragging-filter'
+  #     row
   grid.render()
 

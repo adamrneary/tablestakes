@@ -77,11 +77,7 @@ testColumns = [
 grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
-  el: "#example",
-  reorder_dragging: true,
-  nested: true
-});
-
-grid.set("reorder_dragging", true);
+  el: "#example"
+}).reorder_dragging(true).nested(true);
 
 grid.render();

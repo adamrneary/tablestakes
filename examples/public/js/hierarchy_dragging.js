@@ -68,8 +68,6 @@ grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
   el: "#example"
-});
-
-grid.set("hierarchy_dragging", true);
+}).hierarchy_dragging(true);
 
 grid.render();

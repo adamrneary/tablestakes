@@ -61,8 +61,13 @@ grid = new window.TablesStakes(
   columns: testColumns
   data: testTree
   el: "#example"
-  reorder_dragging: true
-  nested: true
+  # reorder_dragging: true
+  # nested: true
 )
-grid.set "reorder_dragging", true
+.reorder_dragging(true)
+.nested(true)
+# .reorder_dragging (row)->
+#   if row is 'reorder_dragging-filter'
+#     row
+# grid.set "reorder_dragging", true
 grid.render()

@@ -58,5 +58,9 @@ grid = new window.TablesStakes
     columns: testColumns
     data: testTree
     el: "#example"
-grid.set "deletable"
+.deletable true
+# .deletable (row)->
+#     if row is 'deletable-filter'
+#         row
+# grid.set "deletable"
 grid.render()

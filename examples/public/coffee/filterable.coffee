@@ -58,8 +58,16 @@
     columns: testColumns
     data: testTree
     el: "#example"
-    filterable: true
-    nested: true
+    # filterable: true
+    # nested: true
+  .filterable true
+  # .nested true
+  # .filterable (row)->
+  #   if row is 'filterable-filter'
+  #     row
+  # .nested (row)->
+  #   if row is 'nested-filter'
+  #     row
 
   grid.render()
 

@@ -149,6 +149,74 @@ class window.TablesStakes
                 #@filterCondition = d3.map([])
         @
 
+    editable: (val)->
+        if typeof val is 'boolean'
+            # console.log 1
+            console.log 'set editable boolean'
+            @set 'editable',val
+        else
+            # console.log 2
+            console.log 'set editable function'
+            @set 'editable-filter', val
+
+    deletable: (val)->
+        if typeof val is 'boolean'
+            # console.log 111
+            console.log 'set deletable boolean'
+            @set 'deletable',val
+        else
+            # console.log 222
+            console.log 'set deletable function'
+            @set 'deletable-filter', val
+
+    nested: (val)->
+        if typeof val is 'boolean'
+            console.log 'set nested boolean'
+            @set 'nested',val
+        else
+            console.log 'set nested function'
+            @set 'nested-filter', val
+
+    boolean: (val)->
+        if typeof val is 'boolean'
+            @set 'boolean',val
+        else
+            console.log 'set boolean function'
+            @set 'boolean-filter', val
+
+    filterable: (val)->
+        if typeof val is 'boolean'
+            console.log 'set filterable boolean'
+            @set 'filterable',val
+        else
+            console.log 'set filterable function'
+            @set 'filterable-filter', val
+
+    hierarchy_dragging: (val)->
+        if typeof val is 'boolean'
+            console.log 'set hierarchy_dragging boolean'
+            @set 'hierarchy_dragging',val
+        else
+            console.log 'set hierarchy_dragging function'
+            @set 'hierarchy_dragging-filter', val
+
+    resizable: (val)->
+        if typeof val is 'boolean'
+            console.log 'set resizable boolean'
+            @set 'resizable',val
+        else
+            console.log 'set resizable function'
+            @set 'resizable-filter', val
+
+    reorder_dragging: (val)->
+        if typeof val is 'boolean'
+            console.log 'set reorder_dragging boolean'
+            @set 'reorder_dragging',val
+        else
+            console.log 'set reorder_dragging function'
+            @set 'reorder_dragging-filter', val
+
+
     get: (key)->
         @attributes[key]
 

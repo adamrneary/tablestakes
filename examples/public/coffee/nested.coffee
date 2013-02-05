@@ -67,5 +67,9 @@ grid = new window.TablesStakes
   columns: testColumns
   data: testTree
   el: "#example"
-  nested: true
+  # nested: true
+.nested true
+# .nested (row)->
+#     if row is 'nested-filter'
+#       row
 grid.render()

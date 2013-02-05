@@ -67,8 +67,6 @@ grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
   el: "#example"
-});
-
-grid.set("deletable");
+}).deletable(true);
 
 grid.render();

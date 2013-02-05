@@ -57,4 +57,8 @@ grid = new window.TablesStakes(
   data: data
   el: "#example"
 )
+.boolean true
+# .boolean (row)->
+#     if row is 'boolean-filter'
+#       row
 grid.render()

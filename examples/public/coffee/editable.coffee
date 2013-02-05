@@ -31,7 +31,6 @@
           'Example2.3'
       ]
       classes: 'select'
-
   ,
     key: "Line and Bar Combo"
     type: "Historical"
@@ -45,12 +44,14 @@
     key: "Legend"
     type: "Universal"
   ,
-    key: "New Root"
-    type: "tatata"
+    key: "tatata"
+    type:
+        label: "02/12/2012"
+        classes: 'calendar'
   ,
     key:
         label: "yes"
-        classes: "date"
+        classes: "calendar"
     type: "123"
   ]
   testColumns = [
@@ -75,5 +76,12 @@
     data: testTree
     el: "#example"
   )
-  grid.set "editable", true
+  .editable true
+  # .editable (row)->
+    # if row is 'editable-filter'
+      # row
+  #grid.set "editable", true
+  #grid.editable true
+  # grid.editable (row)->
+      #if row is something
   grid.render()
