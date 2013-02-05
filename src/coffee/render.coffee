@@ -127,10 +127,8 @@ class window.TablesStakesLib.core
         @columns.forEach (column, i) =>
             th = @theadRow.append("th")
             th.attr("ref", i)
-            if column.width
-                th.style("width", column.width)
-            if column.classes is 'boolean'
-                th.style("width", '60px')
+            th.style("width", column.width) if column.width
+            th.style("width", '60px') if column.classes is 'boolean'
             th.append("span").text column.label
             @resizable th if @table.is 'resizable'
 
@@ -204,12 +202,12 @@ class window.TablesStakesLib.core
         self = @
         #console.log 'document', document
         col_classes = ""
-        col_classes += column.classes if typeof column.classes != "undefined"
+        col_classes += column.classes if (column.classes?)
 
         column_td = @nodeEnter.append("td").attr("meta-key",column.key)
         .attr("class", (d)=>
             row_classes = ""
-            row_classes = d.classes if typeof d.classes != "undefined"
+            row_classes = d.classes if (d.classes?)
             return col_classes + " " + row_classes
         )
 
@@ -307,7 +305,7 @@ class window.TablesStakesLib.core
             select.remove()
             d3.select(node).append('span').text(d3.event.target.value)
             self.val = d3.event.target.value
-            self.update()            
+            self.update()
 
 
     editable: (td,d,node,column)->
