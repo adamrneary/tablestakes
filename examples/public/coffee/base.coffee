@@ -49,8 +49,9 @@ columns = [
 ]
 
 grid = new window.TableStakes(
-  columns: columns
+  # columns: columns
   data: data
   el: "#example"
 )
-grid.render()
+.columns(columns)
+.render()

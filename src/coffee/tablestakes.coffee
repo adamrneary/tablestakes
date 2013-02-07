@@ -11,7 +11,7 @@ class window.TableStakes
   header : true
   noData : "No Data Available."
   childIndent : 20
-  columns : [
+  _columns: [
     key: "key"
     label: "Name"
     type: "text"
@@ -44,7 +44,7 @@ class window.TableStakes
   
   render: () ->
     @gridData = [values: @get('data')]
-    @columns.forEach ( column, i) =>
+    @columns().forEach ( column, i) =>
       @gridData[0][column['key']] = column['key']
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
@@ -160,6 +160,11 @@ class window.TableStakes
     return @margin unless val?
     for side in ['top','right','bottom','left']
       @margin[side] = val[side] unless typeof val[side] is "undefined"
+    @
+
+  columns: (val) -> 
+    return @_columns unless val?
+    @_columns = val
     @
   
   sortable: (val) ->

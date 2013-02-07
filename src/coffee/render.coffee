@@ -11,7 +11,7 @@ class window.TableStakesLib.Core
     @table = options.table
     @selection = options.selection
     @data = options.data
-    @columns = @table.get('columns')
+    @columns = @table.columns()
   
   update: ->
     @table.isInRender = true
