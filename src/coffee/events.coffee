@@ -72,7 +72,7 @@ class window.TableStakesLib.Events
   dragstart: (node, d) ->
     self = @
     d3.select(node).classed('dragged',true)
-    targetRow = @core.table.get('el') + " tbody tr:not(.dragged)"
+    targetRow = @core.table.el() + " tbody tr:not(.dragged)"
     @draggingObj = d._id
     @draggingTargetObj = null
     @init_coord = $(node).position()
@@ -107,7 +107,7 @@ class window.TableStakesLib.Events
       left: @init_coord.left
       top: @init_coord.top
     d3.select(node).attr("class", "")
-    targetRow = @core.table.get('el') + " tbody tr"
+    targetRow = @core.table.el() + " tbody tr"
     d3.selectAll(targetRow)
     .on("mouseover", null)
     .on("mouseout", null)
@@ -122,7 +122,7 @@ class window.TableStakesLib.Events
   
   reordragstart: (node, d) ->
     self = @
-    targetRow = @core.table.get('el') + " tbody tr .draggable"
+    targetRow = @core.table.el() + " tbody tr .draggable"
     @draggingObj = d._id
     @draggingTargetObj = null
     d3.selectAll(targetRow).on("mouseover", (d) ->
@@ -135,7 +135,7 @@ class window.TableStakesLib.Events
     )
   
   reordragend: (node,d) ->
-    targetRow = @core.table.get('el') + " tbody tr .draggable"
+    targetRow = @core.table.el() + " tbody tr .draggable"
     d3.selectAll(targetRow)
     .on("mouseover", null)
     .on("mouseout", null)

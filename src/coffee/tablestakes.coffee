@@ -16,6 +16,7 @@ class window.TableStakes
     label: "Name"
     type: "text"
   ]
+  _el: null
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
     "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
@@ -49,10 +50,10 @@ class window.TableStakes
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
     @setFilter @gridFilteredData[0], @filterCondition
-    d3.select(@get('el')).html ''
-    d3.select(@get('el')).datum(@gridFilteredData).call(
-      (selection) => @update selection
-    )
+    d3.select(@el())
+      .html('')
+      .datum(@gridFilteredData)
+      .call( (selection) => @update selection)
     @
   
   update: (selection) ->
@@ -165,6 +166,11 @@ class window.TableStakes
   columns: (val) -> 
     return @_columns unless val?
     @_columns = val
+    @
+
+  el: (val) -> 
+    return @_el unless val?
+    @_el = val
     @
   
   sortable: (val) ->

@@ -67,11 +67,14 @@ class window.TableStakesLib.Core
     @appendDeleteTH = ->
       @theadRow.append('th').attr('width', '15px')
       @appendDeleteTH = null
-    
-    wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
+    console.log @table.el()
+    wrap = d3.select(@table.el())
+      .selectAll("div")
+      .data([[@nodes]])
     wrapEnter = wrap.enter().append("div")
     @tableEnter = wrapEnter.append("table")
-    @tableObject = wrap.select("table").classed(@table.tableClassName,true)
+    @tableObject = wrap.select("table")
+      .classed(@table.tableClassName,true)
       .attr("style","table-layout:fixed;")
     @renderHead() if @table.header
     @renderBody()

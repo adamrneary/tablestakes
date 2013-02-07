@@ -56,6 +56,5 @@ columns = [
 ];
 
 grid = new window.TableStakes({
-  data: data,
-  el: "#example"
-}).columns(columns).render();
+  data: data
+}).el("#example").columns(columns).render();
