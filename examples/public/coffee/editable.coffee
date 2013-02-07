@@ -75,7 +75,7 @@
       grid.render()
   ]
   grid = undefined
-  grid = new window.TablesStakes(
+  grid = new window.TableStakes(
     columns: testColumns
     data: testTree
     el: "#example"

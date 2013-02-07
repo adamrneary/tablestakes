@@ -62,16 +62,16 @@ describe("Table: ", function() {
       isEditable: false
     }
   ];
-  grid = new window.TablesStakes({
+  grid = new window.TableStakes({
     columns: columns,
     data: data,
     el: "#example"
   });
   grid.render();
-  table = new window.TablesStakes;
+  table = new window.TableStakes;
   it('window.tablestakes is function', function(done) {
-    assert(window.TablesStakes);
-    assert(typeof window.TablesStakes === 'function');
+    assert(window.TableStakes);
+    assert(typeof window.TableStakes === 'function');
     return done();
   });
   it('constructor', function(done) {
@@ -137,7 +137,7 @@ describe("Table: ", function() {
     return done();
   });
   it('attributes deletable', function(done) {
-    grid.isDeletable(true);
+    grid.deletable(true);
     assert(table.attributes.deletable === true);
     return done();
   });
@@ -171,19 +171,13 @@ describe("Table: ", function() {
     assert(table.is('deletable') === true);
     return done();
   });
-  it('table.margin(testdata)', function(done) {
-    var testHash;
-    testHash = {
+  it('table.setMargin(testdata)', function(done) {
+    assert(table.setMargin({
       top: 40,
       right: 10,
       bottom: 30,
       left: 50
-    };
-    assert(table.margin(testHash) === table);
-    assert(table.margin()['top'] === 40);
-    assert(table.margin()['right'] === 10);
-    assert(table.margin()['bottom'] === 30);
-    assert(table.margin()['left'] === 50);
+    }));
     assert(table.margin.top === 40);
     assert(table.margin.right === 10);
     assert(table.margin.bottom === 30);
@@ -210,13 +204,13 @@ describe("Table: ", function() {
 });
 
 describe("Table: test function", function() {
-  table = new window.TablesStakes;
+  table = new window.TableStakes;
   it('editable', function(done) {
     assert(table.editable(true));
     return done();
   });
-  it('isDeletable', function(done) {
-    assert(table.isDeletable(true));
+  it('deletable', function(done) {
+    assert(table.deletable(true));
     return done();
   });
   it('nested', function(done) {
@@ -247,10 +241,10 @@ describe("Table: test function", function() {
 
 describe("Events", function() {
   var event;
-  event = window.TablesStakesLib.events;
-  it('window.TablesStakesLib.events is function', function(done) {
-    assert(typeof window.TablesStakesLib.events === 'function');
-    assert(window.TablesStakesLib.events);
+  event = window.TableStakesLib.events;
+  it('window.TableStakesLib.events is function', function(done) {
+    assert(typeof window.TableStakesLib.events === 'function');
+    assert(window.TableStakesLib.events);
     return done();
   });
   return it('events constructor', function(done) {

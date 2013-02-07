@@ -1,4 +1,4 @@
-class window.TablesStakes
+class window.TableStakes
   
   # defaults
   attributes: {}
@@ -36,7 +36,7 @@ class window.TablesStakes
     @set 'reorder_dragging', false
     @set 'deletable', false
     @set 'onDelete', null
-    @core = new window.TablesStakesLib.core
+    @core = new window.TableStakesLib.core
     @filterCondition = d3.map([])
     if options?
       for key of options

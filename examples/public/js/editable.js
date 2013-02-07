@@ -90,7 +90,7 @@ testColumns = [
 
 grid = void 0;
 
-grid = new window.TablesStakes({
+grid = new window.TableStakes({
   columns: testColumns,
   data: testTree,
   el: "#example"

@@ -1,5 +1,5 @@
-window.TablesStakesLib = {} unless window.TablesStakesLib
-class window.TablesStakesLib.events
+window.TableStakesLib = {} unless window.TableStakesLib
+class window.TableStakesLib.events
 
     constructor: (options)->
         console.log 'core', options.core

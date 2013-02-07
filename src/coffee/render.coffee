@@ -1,11 +1,11 @@
-window.TablesStakesLib = {} unless window.TablesStakesLib
-class window.TablesStakesLib.core
+window.TableStakesLib = {} unless window.TableStakesLib
+class window.TableStakesLib.core
 
     constructor: (options)->
         console.log 'core constructor'
-        @utils = new window.TablesStakesLib.utils
+        @utils = new window.TableStakesLib.utils
             core: @
-        @events = new window.TablesStakesLib.events
+        @events = new window.TableStakesLib.events
             core: @
 
     set: (options)->

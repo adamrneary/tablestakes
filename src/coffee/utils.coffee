@@ -1,5 +1,5 @@
-window.TablesStakesLib = {} unless window.TablesStakesLib
-class window.TablesStakesLib.utils
+window.TableStakesLib = {} unless window.TableStakesLib
+class window.TableStakesLib.utils
 
     constructor: (options)->
         @core = options.core

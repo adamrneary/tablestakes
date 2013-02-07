@@ -55,19 +55,19 @@ describe "Table: ", ->
       isEditable: false
     ]
 
-    grid = new window.TablesStakes(
+    grid = new window.TableStakes(
       columns: columns
       data: data
       el: "#example"
     )
     grid.render()
-    table = new window.TablesStakes
+    table = new window.TableStakes
     #$('<input id="filter1" column="key" type="text" value="S" />').appendTo('#temp')
 
 
     it 'window.tablestakes is function', (done)->
-        assert window.TablesStakes
-        assert typeof window.TablesStakes is 'function'
+        assert window.TableStakes
+        assert typeof window.TableStakes is 'function'
         done()
 
     it 'constructor', (done)->
@@ -196,7 +196,7 @@ describe "Table: ", ->
         done()
 
 describe "Table: test function", ->
-    table = new window.TablesStakes
+    table = new window.TableStakes
     it 'editable', (done)->
         assert table.editable(true)
         done()
@@ -231,11 +231,11 @@ describe "Table: test function", ->
 
 
 describe "Events", ->
-    event = window.TablesStakesLib.events
+    event = window.TableStakesLib.events
 
-    it 'window.TablesStakesLib.events is function', (done)->
-        assert typeof window.TablesStakesLib.events is 'function'
-        assert window.TablesStakesLib.events
+    it 'window.TableStakesLib.events is function', (done)->
+        assert typeof window.TableStakesLib.events is 'function'
+        assert window.TableStakesLib.events
         done()
 
     it 'events constructor', (done)->
