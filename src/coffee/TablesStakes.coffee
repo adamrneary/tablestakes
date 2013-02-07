@@ -199,14 +199,13 @@ class window.TablesStakes
   # Expose Public Variables
   #------------------------------------------------------------
   
-  setMargin: (margin) ->
-    return @margin unless margin?
+  margin: (val) ->
+    return @margin unless val?
     for side in ['top','right','bottom','left']
-      @margin[side] = margin[side] unless typeof margin[side] is "undefined"
+      @margin[side] = val[side] unless typeof val[side] is "undefined"
+    @
   
-  Sortable: (_) ->
-    if (_?)
-      @isSortable = _
-      @
-    else
-      @isSortable
+  Sortable: (val) ->
+    return @isSortable unless val?
+    @isSortable = val
+    @      

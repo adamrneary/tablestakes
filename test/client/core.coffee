@@ -130,7 +130,7 @@ describe "Table: ", ->
         done()
 
     it 'attributes deletable', (done)->
-        grid.deletable(true)
+        grid.isDeletable(true)
         assert table.attributes.deletable is true
         done()
 
@@ -161,13 +161,17 @@ describe "Table: ", ->
         done()
 
 
-    it 'table.setMargin(testdata)', (done)->
-        assert table.setMargin({
-                top: 40
-                right: 10
-                bottom: 30
-                left: 50
-        })
+    it 'table.margin(testdata)', (done) ->
+        testHash =
+          top: 40
+          right: 10
+          bottom: 30
+          left: 50
+        assert table.margin(testHash) is table
+        assert table.margin()['top'] is 40
+        assert table.margin()['right'] is 10
+        assert table.margin()['bottom'] is 30
+        assert table.margin()['left'] is 50
         assert table.margin.top is 40
         assert table.margin.right is 10
         assert table.margin.bottom is 30
@@ -197,8 +201,8 @@ describe "Table: test function", ->
         assert table.editable(true)
         done()
 
-    it 'deletable', (done)->
-        assert table.deletable(true)
+    it 'isDeletable', (done)->
+        assert table.isDeletable(true)
         done()
 
     it 'nested', (done)->

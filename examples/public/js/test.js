@@ -137,7 +137,7 @@ describe("Table: ", function() {
     return done();
   });
   it('attributes deletable', function(done) {
-    grid.deletable(true);
+    grid.isDeletable(true);
     assert(table.attributes.deletable === true);
     return done();
   });
@@ -171,13 +171,19 @@ describe("Table: ", function() {
     assert(table.is('deletable') === true);
     return done();
   });
-  it('table.setMargin(testdata)', function(done) {
-    assert(table.setMargin({
+  it('table.margin(testdata)', function(done) {
+    var testHash;
+    testHash = {
       top: 40,
       right: 10,
       bottom: 30,
       left: 50
-    }));
+    };
+    assert(table.margin(testHash) === table);
+    assert(table.margin()['top'] === 40);
+    assert(table.margin()['right'] === 10);
+    assert(table.margin()['bottom'] === 30);
+    assert(table.margin()['left'] === 50);
     assert(table.margin.top === 40);
     assert(table.margin.right === 10);
     assert(table.margin.bottom === 30);
@@ -209,8 +215,8 @@ describe("Table: test function", function() {
     assert(table.editable(true));
     return done();
   });
-  it('deletable', function(done) {
-    assert(table.deletable(true));
+  it('isDeletable', function(done) {
+    assert(table.isDeletable(true));
     return done();
   });
   it('nested', function(done) {
