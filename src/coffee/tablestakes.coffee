@@ -136,49 +136,6 @@ class window.TableStakes
       return data
     return null
   
-  editable: (val) ->
-    if typeof val is 'boolean'
-      @set 'editable',val
-    else
-      @set 'editable-filter', val
-  
-  isDeletable: (val) ->
-    if val?
-      @set 'deletable', val
-      @
-    else
-      @get 'deletable'
-  
-  nested: (val) ->
-    if typeof val is 'boolean'
-      @set 'nested',val
-    else
-      @set 'nested-filter', val
-  
-  boolean: (val) ->
-    if typeof val is 'boolean'
-      @set 'boolean',val
-    else
-      @set 'boolean-filter', val
-  
-  filterable: (val) ->
-    if typeof val is 'boolean'
-      @set 'filterable',val
-    else
-      @set 'filterable-filter', val
-  
-  hierarchy_dragging: (val) ->
-    if typeof val is 'boolean'
-      @set 'hierarchy_dragging',val
-    else
-      @set 'hierarchy_dragging-filter', val
-  
-  resizable: (val) ->
-    if typeof val is 'boolean'
-      @set 'resizable',val
-    else
-      @set 'resizable-filter', val
-  
   reorder_dragging: (val) ->
     if typeof val is 'boolean'
       @set 'reorder_dragging',val
@@ -195,9 +152,9 @@ class window.TableStakes
   is: (key) ->
     if @attributes[key] then true else false
   
-  #============================================================
+  #############################################################
   # Expose Public Variables
-  #------------------------------------------------------------
+  #############################################################
   
   margin: (val) ->
     return @margin unless val?
@@ -209,3 +166,46 @@ class window.TableStakes
     return @isSortable unless val?
     @isSortable = val
     @
+
+  editable: (val) ->
+    if typeof val is 'boolean'
+      @set 'editable',val
+    else
+      @set 'editable-filter', val
+
+  isDeletable: (val) ->
+    if val?
+      @set 'deletable', val
+      @
+    else
+      @get 'deletable'
+
+  nested: (val) ->
+    if typeof val is 'boolean'
+      @set 'nested',val
+    else
+      @set 'nested-filter', val
+
+  boolean: (val) ->
+    if typeof val is 'boolean'
+      @set 'boolean',val
+    else
+      @set 'boolean-filter', val
+
+  filterable: (val) ->
+    if typeof val is 'boolean'
+      @set 'filterable',val
+    else
+      @set 'filterable-filter', val
+
+  hierarchy_dragging: (val) ->
+    if typeof val is 'boolean'
+      @set 'hierarchy_dragging',val
+    else
+      @set 'hierarchy_dragging-filter', val
+
+  resizable: (val) ->
+    if typeof val is 'boolean'
+      @set 'resizable',val
+    else
+      @set 'resizable-filter', val
