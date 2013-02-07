@@ -17,29 +17,7 @@ class window.TableStakesLib.Core
     @table.isInRender = true
     @selection.transition().call (selection) =>
       @table.update selection
-  
-  draggable: ->
-    self = @
-    dragbehavior = d3.behavior.drag()
-      .origin(Object)
-      .on "dragstart", (a,b,c) -> self.events.dragstart this,a,b,c
-      .on "drag", (a,b,c) -> self.events.dragmove this,a,b,c
-      .on "dragend", (a,b,c) -> self.events.dragend this,a,b,c
-    @nodeEnter.call dragbehavior
-  
-  reorder_draggable: ->
-    self = @
-    @nodeEnter.insert("td").classed('draggable', true)
-    dragbehavior = d3.behavior.drag()
-      .origin(Object)
-      .on "dragstart", (a,b,c) -> self.events.reordragstart this,a,b,c
-      .on "dragend", (a,b,c) -> self.events.reordragend this,a,b,c
-    @nodeEnter.call dragbehavior
-  
-  nested: (nodeName) ->
-    self = @
-    nodeName.on "click", (a,b,c) -> self.events.click this,a,b,c
-  
+    
   # responsible for <table> and contents
   #
   # calls renderHead() for <thead> and contents
@@ -61,10 +39,10 @@ class window.TableStakesLib.Core
     @tableObject = wrap.select("table")
       .classed(@table.tableClassName,true)
       .attr("style","table-layout:fixed;")
-    @renderHead() if @table.header
-    @renderBody()
+    @_renderHead() if @table.header
+    @_renderBody()
   
-  renderHead: ->
+  _renderHead: ->
     @thead = @tableEnter.append("thead")
     @theadRow = @thead.append("tr")
     if @table.is 'reorder_dragging'
@@ -82,7 +60,7 @@ class window.TableStakesLib.Core
         th.classed(column.classes, true)
     @
   
-  renderBody: ->
+  _renderBody: ->
     self = @
     tbody = @tableObject.selectAll("tbody").data((d) -> d)
     tbody.enter().append "tbody"
@@ -324,3 +302,25 @@ class window.TableStakesLib.Core
         self.tableObject.style "width", table_newX+"px"
     th.classed 'resizeable',true
     th.append("div").classed('resizeable-handle right', true).call drag
+
+  draggable: ->
+    self = @
+    dragbehavior = d3.behavior.drag()
+      .origin(Object)
+      .on "dragstart", (a,b,c) -> self.events.dragstart this,a,b,c
+      .on "drag", (a,b,c) -> self.events.dragmove this,a,b,c
+      .on "dragend", (a,b,c) -> self.events.dragend this,a,b,c
+    @nodeEnter.call dragbehavior
+
+  reorder_draggable: ->
+    self = @
+    @nodeEnter.insert("td").classed('draggable', true)
+    dragbehavior = d3.behavior.drag()
+      .origin(Object)
+      .on "dragstart", (a,b,c) -> self.events.reordragstart this,a,b,c
+      .on "dragend", (a,b,c) -> self.events.reordragend this,a,b,c
+    @nodeEnter.call dragbehavior
+
+  nested: (nodeName) ->
+    self = @
+    nodeName.on "click", (a,b,c) -> self.events.click this,a,b,c
