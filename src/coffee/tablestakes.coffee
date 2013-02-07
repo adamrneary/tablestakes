@@ -18,6 +18,9 @@ class window.TableStakes
   ]
   _data: []
   _el: null
+  
+  _isDeleteable: false
+  
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
     "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
@@ -36,7 +39,6 @@ class window.TableStakes
     @set 'nested', false
     @set 'hierarchy_dragging', false
     @set 'reorder_dragging', false
-    @set 'deletable', false
     @set 'onDelete', null
     @core = new window.TableStakesLib.Core
     @filterCondition = d3.map([])
@@ -191,11 +193,9 @@ class window.TableStakes
       @set 'editable-filter', val
 
   isDeletable: (val) ->
-    if val?
-      @set 'deletable', val
-      @
-    else
-      @get 'deletable'
+    return @_isDeleteable unless val?
+    @_isDeleteable = val
+    @
 
   nested: (val) ->
     if typeof val is 'boolean'
