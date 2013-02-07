@@ -78,6 +78,4 @@ grid = new window.TablesStakes({
   return d.type === 'Historical' || d.type === 'Snapshot';
 });
 
-grid.set('this_should_not_be_cross_instance', true);
-
 grid.render();

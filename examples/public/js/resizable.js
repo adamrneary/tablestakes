@@ -70,6 +70,8 @@ grid = new window.TablesStakes({
   el: "#example"
 });
 
+console.log(grid);
+
 grid.set("resizable", true);
 
 grid.render();

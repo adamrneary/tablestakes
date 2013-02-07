@@ -35,6 +35,8 @@ class window.TablesStakes
         @set 'nested', false
         @set 'hierarchy_dragging', false
         @set 'reorder_dragging', false
+        @set 'deletable', false
+        @set 'onDelete', null
         @core = new window.TablesStakesLib.core
         @filterCondition = d3.map([])
         if options?
@@ -133,7 +135,7 @@ class window.TablesStakes
           return data
         return null
 
-    set: (key, value, options)->
+    set: (key, value, options) ->
         @attributes[key] = (if value? then value else true) if key?
         @
 
