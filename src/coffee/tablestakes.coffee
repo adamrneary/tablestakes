@@ -156,9 +156,10 @@ class window.TableStakes
   is: (key) ->
     if @attributes[key] then true else false
   
-  #############################################################
-  # Expose Public Variables
-  #############################################################
+  # ## Expose Public Variables
+  
+  # The following are getter/setter methods 
+  # See http://bost.ocks.org/mike/chart for more details.
   
   margin: (val) ->
     return @margin unless val?
@@ -192,6 +193,7 @@ class window.TableStakes
     else
       @set 'editable-filter', val
 
+  # Public
   isDeletable: (val) ->
     return @_isDeleteable unless val?
     @_isDeleteable = val
