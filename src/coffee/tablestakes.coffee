@@ -20,6 +20,7 @@ class window.TableStakes
   _el: null
   
   _isDeleteable: false
+  _onDelete: null
   
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
@@ -39,7 +40,6 @@ class window.TableStakes
     @set 'nested', false
     @set 'hierarchy_dragging', false
     @set 'reorder_dragging', false
-    @set 'onDelete', null
     @core = new window.TableStakesLib.Core
     @filterCondition = d3.map([])
     if options?
@@ -195,6 +195,11 @@ class window.TableStakes
   isDeletable: (val) ->
     return @_isDeleteable unless val?
     @_isDeleteable = val
+    @
+  
+  onDelete: (val) ->
+    return @_onDelete unless val?
+    @_onDelete = val
     @
 
   nested: (val) ->

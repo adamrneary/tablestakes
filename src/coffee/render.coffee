@@ -129,7 +129,7 @@ class window.TableStakesLib.Core
         'deletable'
     ).on('click', (d) =>
       if @confirmTableElementAttribute(@table.isDeletable(), d)
-        @table.get('onDelete')(d.key)
+        @table.onDelete()(d.key)
     )
     
     node.order().on("click", (d) ->

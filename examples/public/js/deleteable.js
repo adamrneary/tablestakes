@@ -55,13 +55,11 @@ columns = [
   }
 ];
 
-grid = new window.TableStakes({
-  onDelete: function(rowKey) {
-    data = _.reject(data, function(row) {
-      return row.key === rowKey;
-    });
-    return grid.data(data).render();
-  }
-}).isDeletable(function(d) {
+grid = new window.TableStakes().el("#example").columns(columns).data(data).isDeletable(function(d) {
   return d.type === 'Historical' || d.type === 'Snapshot';
-}).el("#example").columns(columns).data(data).render();
+}).onDelete(function(rowKey) {
+  data = _.reject(data, function(row) {
+    return row.key === rowKey;
+  });
+  return grid.data(data).render();
+}).render();

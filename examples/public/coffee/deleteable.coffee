@@ -47,13 +47,13 @@ columns = [
   label: "Type"
 ]
 
-grid = new window.TableStakes
-  onDelete: (rowKey) ->
-      data = _.reject(data, (row) -> row.key is rowKey)
-      grid.data(data).render()
-.isDeletable (d) ->
-  d.type is 'Historical' or d.type is 'Snapshot'
-.el("#example")
-.columns(columns)
-.data(data)
-.render()
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .isDeletable (d) ->
+    d.type is 'Historical' or d.type is 'Snapshot'
+  .onDelete (rowKey) ->
+    data = _.reject(data, (row) -> row.key is rowKey)
+    grid.data(data).render()
+  .render()
