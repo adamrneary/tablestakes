@@ -3,10 +3,7 @@ var columns, data, grid;
 
 data = [
   {
-    key: {
-      label: ['Example1', 'Example2', 'Example3'],
-      classes: 'select'
-    },
+    key: "nerds for good",
     type: "ahaha"
   }, {
     key: "Simple Line",
@@ -51,15 +48,10 @@ columns = [
   {
     key: "key",
     label: "Name",
-    showCount: false,
-    width: "400px",
-    isEditable: true,
     classes: "row-heading"
   }, {
     key: "type",
-    label: "Type",
-    width: "300px",
-    isEditable: false
+    label: "Type"
   }
 ];
 
