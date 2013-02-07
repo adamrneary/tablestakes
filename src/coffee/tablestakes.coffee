@@ -16,6 +16,7 @@ class window.TableStakes
     label: "Name"
     type: "text"
   ]
+  _data: []
   _el: null
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
@@ -44,7 +45,7 @@ class window.TableStakes
         @set key, options[key]
   
   render: () ->
-    @gridData = [values: @get('data')]
+    @gridData = [values: @data()]
     @columns().forEach ( column, i) =>
       @gridData[0][column['key']] = column['key']
     @setID @gridData[0], "0"
@@ -166,6 +167,11 @@ class window.TableStakes
   columns: (val) -> 
     return @_columns unless val?
     @_columns = val
+    @
+
+  data: (val) -> 
+    return @_data unless val?
+    @_data = val
     @
 
   el: (val) -> 

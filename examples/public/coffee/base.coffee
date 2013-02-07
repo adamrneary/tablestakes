@@ -48,9 +48,8 @@ columns = [
   label: "Type"
 ]
 
-grid = new window.TableStakes(
-  data: data
-)
-.el("#example")
-.columns(columns)
-.render()
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .render()
