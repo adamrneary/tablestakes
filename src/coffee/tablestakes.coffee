@@ -2,11 +2,6 @@ class window.TableStakes
   
   # defaults
   attributes: {}
-  margin :
-    top: 0
-    right: 0
-    bottom: 0
-    left: 0
   id : Math.floor(Math.random() * 10000)
   header : true
   noData : "No Data Available."
@@ -18,6 +13,11 @@ class window.TableStakes
   ]
   _data: []
   _el: null
+  _margin :
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
   
   _isDeleteable: false
   _onDelete: null
@@ -163,9 +163,9 @@ class window.TableStakes
   # See http://bost.ocks.org/mike/chart for more details.
   
   margin: (val) ->
-    return @margin unless val?
+    return @_margin unless val?
     for side in ['top','right','bottom','left']
-      @margin[side] = val[side] unless typeof val[side] is "undefined"
+      @_margin[side] = val[side] unless typeof val[side] is "undefined"
     @
 
   columns: (val) -> 
