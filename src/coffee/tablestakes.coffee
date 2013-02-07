@@ -106,6 +106,7 @@ class window.TableStakes
   
   setFilter: ( data, filter ) ->
     self = this
+    data or= []
     if typeof data._hiddenvalues == "undefined"
       data['_hiddenvalues'] = []
     if data.values
@@ -215,12 +216,6 @@ class window.TableStakes
       @set 'boolean',val
     else
       @set 'boolean-filter', val
-
-  filterable: (val) ->
-    if typeof val is 'boolean'
-      @set 'filterable',val
-    else
-      @set 'filterable-filter', val
 
   hierarchy_dragging: (val) ->
     if typeof val is 'boolean'
