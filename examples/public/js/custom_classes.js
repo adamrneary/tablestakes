@@ -65,23 +65,12 @@ columns = [
     classes: "row-heading"
   }, {
     key: "type",
-    label: "Type",
-    classes: function(d) {
-      if (d.type === "historical") {
-        return "total";
-      }
-    }
+    label: "Type"
   }, {
     key: "etc",
-    label: "etc",
+    label: "Etc",
     classes: "plan"
   }
 ];
 
-grid = new window.TableStakes({
-  columns: columns,
-  data: data,
-  el: "#example"
-});
-
-grid.render();
+grid = new window.TableStakes().el("#example").columns(columns).data(data).render();

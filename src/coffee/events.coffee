@@ -71,7 +71,7 @@ class window.TableStakesLib.Events
   
   dragstart: (node, d) ->
     self = @
-    d3.select(node).classed('dragged',true)
+    d3.select(node).classed 'dragged', true
     targetRow = @core.table.el() + " tbody tr:not(.dragged)"
     @draggingObj = d._id
     @draggingTargetObj = null
@@ -83,12 +83,12 @@ class window.TableStakesLib.Events
       left: @pos.left
       top: @pos.top
     d3.selectAll(targetRow).on("mouseover", (d) ->
-      d3.select(this).attr("class", "draggable-destination")
+      d3.select(this).classed "draggable-destination", true
       self.draggingTargetObj = d._id
       d3.event.stopPropagation()
       d3.event.preventDefault()
     ).on("mouseout", (d) ->
-      d3.select(this).classed("draggable-destination",false)
+      d3.select(this).classed "draggable-destination", false
       self.draggingTargetObj = null
       d3.event.stopPropagation()
       d3.event.preventDefault()
@@ -106,7 +106,7 @@ class window.TableStakesLib.Events
     $(node).css
       left: @init_coord.left
       top: @init_coord.top
-    d3.select(node).attr("class", "")
+    d3.select(node).classed 'dragged', false
     targetRow = @core.table.el() + " tbody tr"
     d3.selectAll(targetRow)
     .on("mouseover", null)
@@ -127,10 +127,10 @@ class window.TableStakesLib.Events
     @draggingTargetObj = null
     d3.selectAll(targetRow).on("mouseover", (d) ->
       return if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
-      d3.select(this.parentNode).attr("class", "draggable-destination1")
+      d3.select(this.parentNode).classed "draggable-destination1", true
       self.draggingTargetObj = d._id
     ).on("mouseout", (d) ->
-      d3.select(this.parentNode).attr("class", "")
+      d3.select(this.parentNode).classed "draggable-destination1", false
       self.draggingTargetObj = null
     )
   

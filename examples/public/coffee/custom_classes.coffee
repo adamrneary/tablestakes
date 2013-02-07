@@ -60,17 +60,16 @@ columns = [
 ,
   key: "type"
   label: "Type"
-  classes: (d) ->
-    "total" if d.type is "historical"
+  # classes: (d) ->
+  #   "total" if d.type is "historical"
 ,
   key: "etc"
-  label: "etc"
+  label: "Etc"
   classes: "plan"
 ]
 
-grid = new window.TableStakes(
-  columns: columns
-  data: data
-  el: "#example"
-)
-grid.render()
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .render()
