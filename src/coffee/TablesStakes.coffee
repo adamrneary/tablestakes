@@ -133,13 +133,8 @@ class window.TablesStakes
           return data
         return null
 
-    set: (key,value,options)->
-        @attributes[key] = value if key? and value?
-        unless value?
-            @attributes[key] = true
-        #switch key
-            #when 'columns'
-                #@filterCondition = d3.map([])
+    set: (key, value, options)->
+        @attributes[key] = (if value? then value else true) if key?
         @
 
     editable: (val)->
@@ -211,10 +206,7 @@ class window.TablesStakes
         @attributes[key]
 
     is: (key)->
-        if @attributes[key]
-            true
-        else
-            false
+        if @attributes[key] then true else false
 
     #============================================================
     # Expose Public Variables

@@ -39,16 +39,6 @@ class window.TablesStakesLib.core
         th.classed 'resizeable',true
         th.append("div").classed('resizeable-handle right', true).call drag
 
-    deletable: (head)->
-        if head
-            @theadRow.append("th").attr('width','15px')
-        else
-            @nodeEnter.append("td").attr('class', 'deletable').on("click", (d) =>
-                if confirm "Are you sure you are going to delete this?"
-                    @utils.removeNode d
-                    @update()
-            )
-
     draggable: ->
         self = @
         dragbehavior = d3.behavior.drag()
@@ -77,13 +67,15 @@ class window.TablesStakesLib.core
         nodeName.on "click", (a,b,c)->
            self.events.click this,a,b,c
 
+    appendDeleteTH: ->
+        @theadRow.append('th').attr('width', '15px')
+        @appendDeleteTH = null
+
     render: ->
         self = @
-        #console.log 'core render start'
         @data[0] = key: @table.noData unless @data[0]
         @tree = d3.layout.tree().children (d) -> d.values
         @nodes = @tree.nodes(@data[0])
-        #console.log 'core render 1'
 
         wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
         wrapEnter = wrap.enter().append("div")
@@ -91,7 +83,6 @@ class window.TablesStakesLib.core
         @tableObject = wrap.select("table").classed(@table.tableClassName,true).attr("style","table-layout:fixed;")
         @renderHead() if @table.header
         @renderBody()
-
 
     renderHead: ->
         @thead = @tableEnter.append("thead")
@@ -108,7 +99,6 @@ class window.TablesStakesLib.core
             @resizable th if @table.is 'resizable'
             if column.classes?
                 th.classed(column.classes, true)
-        @deletable true if @table.is 'deletable'
         @
 
     renderBody: ->
@@ -133,15 +123,22 @@ class window.TablesStakesLib.core
 
         node.exit().remove()
         node.select(".expandable").classed "folded", @utils.folded
-        @nodeEnter = node.enter().append("tr").classed('class', (d)->d._classes)
+        @nodeEnter = node.enter().append("tr").classed('class', (d) -> d._classes)
         @draggable() if @table.is 'hierarchy_dragging'
         @reorder_draggable() if @table.is 'reorder_dragging'
 
         d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
         @columns.forEach (column, index) =>
-            @renderColumn column,index,node
+            @renderColumn column, index, node
 
-        @deletable() if @table.is 'deletable'
+        @nodeEnter.append('td').attr('class', (d) =>
+            if @confirmTableElementAttribute(@table.isDeletable(), d)
+                @appendDeleteTH() if typeof @appendDeleteTH is 'function'
+                'deletable'
+        ).on('click', (d) =>
+            if @confirmTableElementAttribute(@table.isDeletable(), d) and confirm 'Are you sure you are going to delete this?'
+                @table.get('onDelete')(d.key)
+        )
 
         node.order().on("click", (d) ->
             self.table.dispatch.elementClick
@@ -168,7 +165,6 @@ class window.TablesStakesLib.core
 
     renderColumn: (column, index, node) ->
         self = @
-        #console.log 'document', document
         col_classes = ""
         col_classes += column.classes if typeof column.classes != "undefined"
 
@@ -182,46 +178,33 @@ class window.TablesStakesLib.core
         if index is 0
             column_td.attr("ref", column.key)
             column_td.attr('class', (d) => @utils.icon (d))
-            # @nested column_td if @table.is 'nested'
-            console.log 222
+
             if @table.is('nested')
-                console.log 888
-                console.log 'boolean'
                 @nested column_td
             else if @.table.is('nested-filter')
-                console.log 'function nested-filter'
                 filter = @.table.get('nested-filter')
-                ok = filter(column)
-                if ok
-                    @nested column_td
-            # @nested column_td if @table.is 'hierarchy_dragging'
+                @nested column_td if filter(column)
+
             if @table.is('nested')
-                console.log 999
-                console.log 'boolean'
                 @nested column_td
             else if @table.is('nested-filter')
-                console.log 'function nested-filter'
                 filter = @table.get('nested-filter')
-                ok = filter(column)
-                if ok
-                    @nested column_td
+                @nested column_td if filter(column)
 
-        @renderNodes column,column_td
+        @renderNodes column, column_td
 
-            #if column.classes?
-                #th.classed(column.classes, true)
         if column.showCount
             td.append("span").attr("class", "nv-childrenCount").text (d) ->
                 (if ((d.values and d.values.length) or (d._values and d._values.length)) then "(" + ((d.values and d.values.length) or (d._values and d._values.length)) + ")" else "")
 
     renderNodes: (column, column_td)->
         self = @
-        column_td.each (t, i)->
-            if t[column.key] and t[column.key].classes?
-                classes = t[column.key].classes.split(' ')
+        column_td.each (td, i)->
+            if td[column.key] and td[column.key].classes?
+                classes = td[column.key].classes.split(' ')
                 for _class in classes
                     d3.select(this).classed _class,true
-                columnClass = t[column.key].classes
+                columnClass = td[column.key].classes
 
             if columnClass?
                 d3.select(this).classed(columnClass, true)
@@ -251,7 +234,7 @@ class window.TablesStakesLib.core
 
             else if columnClass is 'select'
                 select = d3.select(this).classed('active', true).html('<select class="expand-select"></select>').select('.expand-select')
-                for label in t[column.key].label
+                for label in td[column.key].label
                     if typeof label is 'string'
                         option = select.append('option').text(label)
                     else
@@ -275,12 +258,17 @@ class window.TablesStakesLib.core
                                 d[column.key].label
                         else
                             "-"
-            if t.changedID and (i = t.changedID.indexOf(column.key)) isnt -1
+            if td.changedID and (i = td.changedID.indexOf(column.key)) isnt -1
                 d3.select(this).classed 'changed', true
-                t.changedID.splice i, 1
+                td.changedID.splice i, 1
 
-            isEditable = if typeof column.isEditable is 'function' then column.isEditable(t) else column.isEditable
-            self.editable column_td, t, this, column if isEditable
+            self.editable column_td, td, this, column if self.confirmTableElementAttribute column.isEditable, td
+
+    confirmTableElementAttribute: (attr, element) ->
+        if typeof attr is 'function'
+            attr(element)
+        else
+            attr
 
     selectBox: (node, d, column)->
         self = @

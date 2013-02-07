@@ -66,7 +66,18 @@ testColumns = [
 grid = new window.TablesStakes({
   columns: testColumns,
   data: testTree,
-  el: "#example"
-}).isDeletable(true);
+  el: "#example",
+  onDelete: function(rowKey) {
+    testTree = _.reject(testTree, function(row) {
+      return row.key === rowKey;
+    });
+    grid.set('data', testTree);
+    return grid.render();
+  }
+}).isDeletable(function(d) {
+  return d.type === 'Historical' || d.type === 'Snapshot';
+});
+
+grid.set('this_should_not_be_cross_instance', true);
 
 grid.render();
