@@ -5,7 +5,7 @@ class window.TableStakesLib.core
         console.log 'core constructor'
         @utils = new window.TableStakesLib.Utils
             core: @
-        @events = new window.TableStakesLib.events
+        @events = new window.TableStakesLib.Events
             core: @
 
     set: (options)->

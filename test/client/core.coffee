@@ -231,11 +231,11 @@ describe "Table: test function", ->
 
 
 describe "Events", ->
-    event = window.TableStakesLib.events
+    event = window.TableStakesLib.Events
 
-    it 'window.TableStakesLib.events is function', (done)->
-        assert typeof window.TableStakesLib.events is 'function'
-        assert window.TableStakesLib.events
+    it 'window.TableStakesLib.Events is function', (done)->
+        assert typeof window.TableStakesLib.Events is 'function'
+        assert window.TableStakesLib.Events
         done()
 
     it 'events constructor', (done)->
