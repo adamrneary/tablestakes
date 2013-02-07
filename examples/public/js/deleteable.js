@@ -57,12 +57,10 @@ columns = [
 
 grid = new window.TableStakes({
   onDelete: function(rowKey) {
-    var testTree;
-    testTree = _.reject(testTree, function(row) {
+    data = _.reject(data, function(row) {
       return row.key === rowKey;
     });
-    grid.set('data', testTree);
-    return grid.render();
+    return grid.data(data).render();
   }
 }).isDeletable(function(d) {
   return d.type === 'Historical' || d.type === 'Snapshot';

@@ -49,9 +49,8 @@ columns = [
 
 grid = new window.TableStakes
   onDelete: (rowKey) ->
-      testTree = _.reject(testTree, (row) -> row.key is rowKey)
-      grid.set 'data', testTree
-      grid.render()
+      data = _.reject(data, (row) -> row.key is rowKey)
+      grid.data(data).render()
 .isDeletable (d) ->
   d.type is 'Historical' or d.type is 'Snapshot'
 .el("#example")
