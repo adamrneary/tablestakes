@@ -114,7 +114,7 @@ class window.TablesStakesLib.utils
         else
             if d._values and d._values.length
                 'expandable'
-            else 
+            else
                 if d.values and d.values.length
                     'collapsible'
                 else

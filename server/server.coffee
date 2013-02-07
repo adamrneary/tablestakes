@@ -9,6 +9,7 @@ modules =
     path: require 'path'
     kss: require 'kss'
     jade: require 'jade'
+    coffeelint: require 'coffeelint'
     #async: require 'async'
 
 app = express()
@@ -54,7 +55,7 @@ app.get '/', (req,res)->
         res.render 'index'
             page: 'index'
 
-app.get '/mocha', (req,res)->
+app.get '/test', (req,res)->
     compile ->
         res.render 'mocha'
             page: 'mocha'
@@ -82,6 +83,40 @@ app.get "/css/#{name}.css", (req,res)->
     res.setHeader 'Content-Type', 'text/css'
     res.setHeader 'Content-Length', style.length
     res.end style
+
+app.get '/lint', (req, res)->
+    #getLintParser = (path)->
+        #errors = {}
+        #files = modules.fs.readdirSync path
+        #for file in files
+            #errors[file] = modules.coffeelint.lint modules.fs.readFileSync path + file, 'utf-8' 
+        #errors
+
+    compile ->
+        errors = {}
+        pathes = {}
+        #pathes = ["#{__dirname}/../src/coffee/", "#{__dirname}/../examples/public/coffee/", "#{__dirname}/../server/"]
+        #for path in pathes
+            #errors.push getLintParser(path)
+        #console.log errors
+        path = "#{__dirname}/../src/coffee/"
+        files = modules.fs.readdirSync path
+        for f in files
+            errors[f] = modules.coffeelint.lint modules.fs.readFileSync path + f, 'utf-8' 
+
+        path2="#{__dirname}/../examples/public/coffee/"
+        files2 = modules.fs.readdirSync path2
+        for t in files2
+            errors[t] = modules.coffeelint.lint modules.fs.readFileSync path2 + t, 'utf-8' 
+
+        path3="#{__dirname}/../server/"
+        files3 = modules.fs.readdirSync path3
+        for d in files3
+            errors[d] = modules.coffeelint.lint modules.fs.readFileSync path3 + d, 'utf-8' 
+
+        res.render 'lint'
+            errors: errors
+            page: 'lint'
 
 modules.http.createServer(app).listen port, ->
     console.log  'server start on port '+port

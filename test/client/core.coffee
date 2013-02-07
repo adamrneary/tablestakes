@@ -72,12 +72,6 @@ describe "Table: ", ->
 
     it 'constructor', (done)->
         assert table
-        assert table.get('reorder_dragging') is false
-        assert table.get('deletable') is false
-        #assert table.get ('filterable') is false
-        #assert table.get ('nested') is false
-        assert table.get('resizable') is false
-        #assert table.get ('sortable') is false
         done()
 
     it 'table options', (done)->
@@ -187,7 +181,7 @@ describe "Table: ", ->
 
     it 'setFilter', (done)->
         assert typeof table.setFilter is 'function'
-        assert grid.setFilter 
+        assert grid.setFilter grid.gridFilteredData[0], grid.filterCondition
         done()
 
     it 'filter', (done)->
@@ -196,12 +190,6 @@ describe "Table: ", ->
         assert grid.filter 'key', 'S' 
         assert grid.filterCondition.get('key') is 'S'
         done()
-
-
-    #it 'filter', (done)->
-        #console.log 'column', column.key
-        #assert table.filter 'key', 'S'
-
 
 describe "Table: test function", ->
     table = new window.TablesStakes
@@ -249,4 +237,5 @@ describe "Events", ->
     it 'events constructor', (done)->
         assert event
         done()
+#console.log 'cofeelint', coffeelint.lint("")
 

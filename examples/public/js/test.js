@@ -76,9 +76,6 @@ describe("Table: ", function() {
   });
   it('constructor', function(done) {
     assert(table);
-    assert(table.get('reorder_dragging') === false);
-    assert(table.get('deletable') === false);
-    assert(table.get('resizable') === false);
     return done();
   });
   it('table options', function(done) {
@@ -194,7 +191,7 @@ describe("Table: ", function() {
   });
   it('setFilter', function(done) {
     assert(typeof table.setFilter === 'function');
-    assert(grid.setFilter);
+    assert(grid.setFilter(grid.gridFilteredData[0], grid.filterCondition));
     return done();
   });
   return it('filter', function(done) {

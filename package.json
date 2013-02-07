@@ -17,6 +17,7 @@
         "node-sass": "",
         "kss": "",
         "mocha": "",
-        "request": ""
+        "request": "",
+        "coffeelint": ""
     }
 }
