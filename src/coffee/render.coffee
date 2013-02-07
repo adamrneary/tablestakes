@@ -18,24 +18,6 @@ class window.TableStakesLib.Core
     @selection.transition().call (selection) =>
       @table.update selection
   
-  resizable: (th) ->
-    self = @
-    drag = d3.behavior.drag().on "drag", (d, i) ->
-      th = d3.select(this).node().parentNode
-      column_x = parseFloat(d3.select(th).attr("width"))
-      column_newX = d3.event.x # x + d3.event.dx
-      if self.table.minWidth < column_newX
-        d3.select(th).attr("width", column_newX + "px")
-        d3.select(th).style("width", column_newX + "px")
-        index = parseInt(d3.select(th).attr("ref"))
-        self.columns[index].width = column_newX + "px"
-        table_x = parseFloat(self.tableObject.attr("width"))
-        table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
-        self.tableObject.attr "width", table_newX+"px"
-        self.tableObject.style "width", table_newX+"px"
-    th.classed 'resizeable',true
-    th.append("div").classed('resizeable-handle right', true).call drag
-  
   draggable: ->
     self = @
     dragbehavior = d3.behavior.drag()
@@ -58,6 +40,10 @@ class window.TableStakesLib.Core
     self = @
     nodeName.on "click", (a,b,c) -> self.events.click this,a,b,c
   
+  # responsible for <table> and contents
+  #
+  # calls renderHead() for <thead> and contents
+  # calls renderBody() for <tbody and contents
   render: ->
     self = @
     @data[0] = key: @table.noData unless @data[0]
@@ -67,7 +53,6 @@ class window.TableStakesLib.Core
     @appendDeleteTH = ->
       @theadRow.append('th').attr('width', '15px')
       @appendDeleteTH = null
-    console.log @table.el()
     wrap = d3.select(@table.el())
       .selectAll("div")
       .data([[@nodes]])
@@ -92,7 +77,7 @@ class window.TableStakesLib.Core
       th.style("width", '60px') if column.classes is 'boolean'
       th.classed(column.classes, true) if column.classes
       th.append("span").text column.label
-      @resizable th if @table.is 'resizable'
+      @_makeResizable(th) if @table.isResizable()
       if column.classes?
         th.classed(column.classes, true)
     @
@@ -321,3 +306,21 @@ class window.TableStakesLib.Core
         .node().focus()
     else if d.changedID and d.changedID.indexOf(column.key) isnt -1
       d3.select(node).classed 'changed',true
+        
+  _makeResizable: (th) ->
+    self = @
+    drag = d3.behavior.drag().on "drag", (d, i) ->
+      th = d3.select(this).node().parentNode
+      column_x = parseFloat(d3.select(th).attr("width"))
+      column_newX = d3.event.x # x + d3.event.dx
+      if self.table.minWidth < column_newX
+        d3.select(th).attr("width", column_newX + "px")
+        d3.select(th).style("width", column_newX + "px")
+        index = parseInt(d3.select(th).attr("ref"))
+        self.columns[index].width = column_newX + "px"
+        table_x = parseFloat(self.tableObject.attr("width"))
+        table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
+        self.tableObject.attr "width", table_newX+"px"
+        self.tableObject.style "width", table_newX+"px"
+    th.classed 'resizeable',true
+    th.append("div").classed('resizeable-handle right', true).call drag

@@ -21,12 +21,12 @@ class window.TableStakes
   
   _isDeleteable: false
   _onDelete: null
+  _isResizable: true
   
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
     "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
   )
-  columnResize : true
   gridData : []
   gridFilteredData : []
   tableObject : null
@@ -36,7 +36,6 @@ class window.TableStakes
   constructor: (options) ->
     @set 'sortable', false
     @set 'filterable', false
-    @set 'resizable', false
     @set 'nested', false
     @set 'hierarchy_dragging', false
     @set 'reorder_dragging', false
@@ -194,7 +193,6 @@ class window.TableStakes
     else
       @set 'editable-filter', val
 
-  # Public
   isDeletable: (val) ->
     return @_isDeleteable unless val?
     @_isDeleteable = val
@@ -203,6 +201,11 @@ class window.TableStakes
   onDelete: (val) ->
     return @_onDelete unless val?
     @_onDelete = val
+    @
+
+  isResizable: (val) ->
+    return @_isResizable unless val?
+    @_isResizable = val
     @
 
   nested: (val) ->
@@ -223,8 +226,3 @@ class window.TableStakes
     else
       @set 'hierarchy_dragging-filter', val
 
-  resizable: (val) ->
-    if typeof val is 'boolean'
-      @set 'resizable',val
-    else
-      @set 'resizable-filter', val
