@@ -136,10 +136,6 @@ class window.TableStakes
       return data
     return null
   
-  set: (key, value, options) ->
-    @attributes[key] = (if value? then value else true) if key?
-    @
-  
   editable: (val) ->
     if typeof val is 'boolean'
       @set 'editable',val
@@ -192,6 +188,10 @@ class window.TableStakes
   get: (key) ->
     @attributes[key]
   
+  set: (key, value, options) ->
+    @attributes[key] = (if value? then value else true) if key?
+    @
+
   is: (key) ->
     if @attributes[key] then true else false
   
@@ -205,7 +205,7 @@ class window.TableStakes
       @margin[side] = val[side] unless typeof val[side] is "undefined"
     @
   
-  Sortable: (val) ->
+  sortable: (val) ->
     return @isSortable unless val?
     @isSortable = val
-    @      
+    @

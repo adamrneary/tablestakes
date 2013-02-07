@@ -178,9 +178,9 @@ describe "Table: ", ->
         assert table.margin.left is 50
         done()
 
-    it 'table.Sortable is true', (done)->
-        assert typeof table.Sortable is 'function'
-        assert table.Sortable(true)
+    it 'table.sortable is true', (done)->
+        assert typeof table.sortable is 'function'
+        assert table.sortable(true)
         done()
 
     it 'setFilter', (done)->
