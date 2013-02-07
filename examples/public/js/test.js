@@ -190,9 +190,9 @@ describe("Table: ", function() {
     assert(table.margin.left === 50);
     return done();
   });
-  it('table.Sortable is true', function(done) {
-    assert(typeof table.Sortable === 'function');
-    assert(table.Sortable(true));
+  it('table.sortable is true', function(done) {
+    assert(typeof table.sortable === 'function');
+    assert(table.sortable(true));
     return done();
   });
   it('setFilter', function(done) {
@@ -247,10 +247,10 @@ describe("Table: test function", function() {
 
 describe("Events", function() {
   var event;
-  event = window.TableStakesLib.events;
-  it('window.TableStakesLib.events is function', function(done) {
-    assert(typeof window.TableStakesLib.events === 'function');
-    assert(window.TableStakesLib.events);
+  event = window.TableStakesLib.Events;
+  it('window.TableStakesLib.Events is function', function(done) {
+    assert(typeof window.TableStakesLib.Events === 'function');
+    assert(window.TableStakesLib.Events);
     return done();
   });
   return it('events constructor', function(done) {
