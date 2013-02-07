@@ -50,44 +50,6 @@ describe("Tablestakes API ", function() {
     assert(table.setID);
     return done();
   });
-  it('attributes options', function(done) {
-    assert(typeof table.attributes === 'object');
-    assert(table.attributes.reorder_dragging === false);
-    assert(table.attributes.nested === false);
-    assert(table.attributes.resizable === false);
-    assert(table.attributes.sortable === false);
-    return done();
-  });
-  it('attributes reorder_dragging', function(done) {
-    table.reorder_dragging(true);
-    assert(table.attributes.reorder_dragging === true);
-    return done();
-  });
-  it('attributes nested', function(done) {
-    table.nested(true);
-    assert(table.attributes.nested === true);
-    return done();
-  });
-  it('attributes resizable', function(done) {
-    table.resizable(true);
-    assert(table.attributes.resizable === true);
-    return done();
-  });
-  it('table.set(testdata) and table.get(testdata)', function(done) {
-    table.attributes = {
-      resizable: false
-    };
-    assert(table.set('resizable', true));
-    assert(table.get('resizable') === true);
-    return done();
-  });
-  it('table.is(testdata)', function(done) {
-    table.attributes = {
-      resizable: true
-    };
-    assert(table.is('resizable') === true);
-    return done();
-  });
   it('table.margin(testdata)', function(done) {
     var testHash;
     testHash = {

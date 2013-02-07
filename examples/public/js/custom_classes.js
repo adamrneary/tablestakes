@@ -7,18 +7,12 @@ data = [
     type: "ahaha",
     etc: 'etc1'
   }, {
-    key: {
-      label: "Simple Line",
-      classes: "plan"
-    },
+    key: "Simple Line",
     type: "Historical",
     etc: 'etc2'
   }, {
     key: "Scatter / Bubble",
-    type: {
-      label: "Snapshot",
-      classes: "old"
-    },
+    type: "Snapshot",
     etc: 'etc3'
   }, {
     key: "Stacked / Stream / Expanded Area",
@@ -60,7 +54,7 @@ data = [
     key: "1",
     type: "123",
     etc: 'etc12',
-    _classes: "total"
+    classes: "total"
   }
 ];
 
@@ -68,18 +62,19 @@ columns = [
   {
     key: "key",
     label: "Name",
-    showCount: false,
-    isEditable: true,
     classes: "row-heading"
   }, {
     key: "type",
     label: "Type",
-    isEditable: false
+    classes: function(d) {
+      if (d.type === "historical") {
+        return "total";
+      }
+    }
   }, {
     key: "etc",
     label: "etc",
-    classes: "plan",
-    isEditable: false
+    classes: "plan"
   }
 ];
 
