@@ -62,8 +62,8 @@ testColumns = [
     label: "Name",
     showCount: false,
     type: "text",
-    isEditable: function(row) {
-      return row.key === 'Horizontal Grouped Bar';
+    isEditable: function(d) {
+      return d.key === 'Horizontal Grouped Bar';
     },
     classes: "keyfield",
     click: function(d) {
@@ -76,11 +76,13 @@ testColumns = [
     classes: "name",
     isEditable: true,
     onEdit: function(rowKey, field, newValue) {
-      _.find(testTree, function(row) {
+      var row, _i, _len;
+      for (_i = 0, _len = testTree.length; _i < _len; _i++) {
+        row = testTree[_i];
         if (row.key === rowKey) {
-          return row[field] = newValue;
+          row[field] = newValue;
         }
-      });
+      }
       return grid.render();
     }
   }

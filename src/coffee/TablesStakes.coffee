@@ -30,12 +30,13 @@ class window.TablesStakes
 
     constructor: (options)->
         @set 'sortable', false
-        @set 'deletable', false
         @set 'filterable', false
         @set 'resizable', false
         @set 'nested', false
         @set 'hierarchy_dragging', false
         @set 'reorder_dragging', false
+        @set 'deletable', false
+        @set 'onDelete', null
         @core = new window.TablesStakesLib.core
         @filterCondition = d3.map([])
         if options?
@@ -134,13 +135,8 @@ class window.TablesStakes
           return data
         return null
 
-    set: (key,value,options)->
-        @attributes[key] = value if key? and value?
-        unless value?
-            @attributes[key] = true
-        #switch key
-            #when 'columns'
-                #@filterCondition = d3.map([])
+    set: (key, value, options) ->
+        @attributes[key] = (if value? then value else true) if key?
         @
 
     editable: (val)->
@@ -153,15 +149,12 @@ class window.TablesStakes
             console.log 'set editable function'
             @set 'editable-filter', val
 
-    deletable: (val)->
-        if typeof val is 'boolean'
-            # console.log 111
-            console.log 'set deletable boolean'
-            @set 'deletable',val
+    isDeletable: (val) ->
+        if val?
+            @set 'deletable', val
+            @
         else
-            # console.log 222
-            console.log 'set deletable function'
-            @set 'deletable-filter', val
+            @get 'deletable'
 
     nested: (val)->
         if typeof val is 'boolean'
@@ -215,10 +208,7 @@ class window.TablesStakes
         @attributes[key]
 
     is: (key)->
-        if @attributes[key]
-            true
-        else
-            false
+        if @attributes[key] then true else false
 
     #============================================================
     # Expose Public Variables

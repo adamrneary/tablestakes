@@ -58,9 +58,10 @@ grid = new window.TablesStakes
     columns: testColumns
     data: testTree
     el: "#example"
-.deletable true
-# .deletable (row)->
-#     if row is 'deletable-filter'
-#         row
-# grid.set "deletable"
+    onDelete: (rowKey) ->
+        testTree = _.reject(testTree, (row) -> row.key is rowKey)
+        grid.set 'data', testTree
+        grid.render()
+.isDeletable (d) ->
+    d.type is 'Historical' or d.type is 'Snapshot'
 grid.render()
