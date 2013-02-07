@@ -67,15 +67,15 @@ class window.TablesStakesLib.core
         nodeName.on "click", (a,b,c)->
            self.events.click this,a,b,c
 
-    appendDeleteTH: ->
-        @theadRow.append('th').attr('width', '15px')
-        @appendDeleteTH = null
-
     render: ->
         self = @
         @data[0] = key: @table.noData unless @data[0]
         @tree = d3.layout.tree().children (d) -> d.values
         @nodes = @tree.nodes(@data[0])
+
+        @appendDeleteTH = ->
+            @theadRow.append('th').attr('width', '15px')
+            @appendDeleteTH = null
 
         wrap = d3.select(@table.get('el')).selectAll("div").data([[@nodes]])
         wrapEnter = wrap.enter().append("div")
