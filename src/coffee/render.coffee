@@ -3,7 +3,7 @@ class window.TableStakesLib.core
 
     constructor: (options)->
         console.log 'core constructor'
-        @utils = new window.TableStakesLib.utils
+        @utils = new window.TableStakesLib.Utils
             core: @
         @events = new window.TableStakesLib.events
             core: @
