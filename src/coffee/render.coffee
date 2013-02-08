@@ -1,32 +1,32 @@
 window.TableStakesLib = {} unless window.TableStakesLib
 class window.TableStakesLib.Core
-  
+
   constructor: (options) ->
     @utils = new window.TableStakesLib.Utils
       core: @
     @events = new window.TableStakesLib.Events
       core: @
-  
+
   set: (options) ->
     @table = options.table
     @selection = options.selection
     @data = options.data
     @columns = @table.columns()
-  
+
   update: ->
     @table.isInRender = true
     @selection.transition().call (selection) =>
       @table.update selection
-    
+
   # responsible for <table> and contents
   #
   # calls renderHead() for <thead> and contents
   # calls renderBody() for <tbody and contents
   render: ->
-    @data[0] = key: @table.noData unless @data[0]
+    @data[0] = id: @table.noData unless @data[0]
     @tree = d3.layout.tree().children (d) -> d.values
     @nodes = @tree.nodes(@data[0])
-    
+
     wrap = d3.select(@table.el())
       .selectAll("div")
       .data([[@nodes]])
@@ -35,6 +35,7 @@ class window.TableStakesLib.Core
     @tableObject = wrap.select("table")
       .classed(@table.tableClassName,true)
       .attr("style","table-layout:fixed;")
+
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
   
@@ -64,28 +65,28 @@ class window.TableStakesLib.Core
 
     # add space for optional functional columns
     unless @table.isDeletable() is false
-      theadRow.append('th').attr('width', '15px')  
+      theadRow.append('th').attr('width', '15px')
     if @table.is('reorder_dragging')
       theadRow.append('th').attr('width', '10px')
-    
+
     @
   
   _renderBody: (tableObject) ->
     self = @
     tbody = @tableObject.selectAll("tbody").data((d) -> d)
     tbody.enter().append "tbody"
-    
+
     # calculate number of columns
     depth = d3.max(@nodes, (node) -> node.depth)
     @tree.size [@table.height, depth * @table.childIndent]
-    
+
     i = 0
     node = tbody.selectAll("tr").data((d) ->
       d
     , (d) ->
       d.id or (d.id is ++i)
     )
-    
+
     @nodeEnter = node
       .enter()
         .append("tr")
@@ -97,11 +98,11 @@ class window.TableStakesLib.Core
     # columns added before data columns
     @draggable() if @table.is 'hierarchy_dragging'
     @reorder_draggable() if @table.is 'reorder_dragging'
-    
+
     # data columns
     @columns.forEach (column, index) =>
       @_renderColumn column, index, node
-    
+
     # columns added after data columns
     @nodeEnter.append('td')
       .classed('deletable', (d) =>
@@ -109,9 +110,9 @@ class window.TableStakesLib.Core
       )
       .on('click', (d) =>
         if @confirmTableElementAttribute(@table.isDeletable(), d)
-          @table.onDelete()(d.key)
+          @table.onDelete()(d.id)
       )
-    
+
     node
       .order()
       .on("click", (d) -> self.table.dispatch.elementClick(
@@ -135,13 +136,12 @@ class window.TableStakesLib.Core
         pos: [d.x, d.y]
       ))
       .exit().remove()
-  
+
     node.select(".expandable").classed "folded", @utils.folded
-  
-  
+
+
   _renderColumn: (column, index, node) ->
     self = @
-    
     column_td = @nodeEnter.append("td")
       .attr("meta-key",column.key)
       .classed(self._cellClasses(), true)
@@ -153,13 +153,13 @@ class window.TableStakesLib.Core
   _renderFirstColumn: (column, column_td) =>
     column_td.attr("ref", column.key)
     column_td.attr('class', (d) => @utils.icon (d))
-    
+
     if @table.is('nested')
       @nested column_td
     else if @.table.is('nested-filter')
       filter = @.table.get('nested-filter')
       @nested column_td if filter(column)
-    
+
     if @table.is('nested')
       @nested column_td
     else if @table.is('nested-filter')
@@ -172,7 +172,7 @@ class window.TableStakesLib.Core
       .text (d) ->
         count = d.values?.length or d._values?.length
         if count then "(" + count + ")" else ""
-    
+
   _renderNodes: (column, column_td) ->
     self = @
     column_td.each (td, i) ->
@@ -181,12 +181,12 @@ class window.TableStakesLib.Core
         for _class in classes
           d3.select(this).classed _class,true
         columnClass = td[column.key].classes
-      
+
       if columnClass?
         d3.select(this).classed(columnClass, true)
       if column.classes?
         d3.select(this).classed(column.classes, true)
-      
+
       if column.classes is 'boolean' or columnClass is 'boolean'
         span = d3.select(this).attr('class', (d) ->
           if d[column.key]
@@ -235,10 +235,10 @@ class window.TableStakesLib.Core
       if td.changedID and (i = td.changedID.indexOf(column.key)) isnt -1
         d3.select(this).classed 'changed'
         td.changedID.splice i, 1
-      
+
       if self.confirmTableElementAttribute column.isEditable, td
         self.editable column_td, td, this, column
-  
+
   _toggleBoolean: (context) ->
     if d3.select(context).attr('class') is 'editable boolean-false'
       d[column.key] = 'true'
@@ -246,7 +246,7 @@ class window.TableStakesLib.Core
     else
       d[column.key] = 'false'
       d3.select(context).attr('class', 'editable boolean-false')
-  
+
   confirmTableElementAttribute: (attr, element) ->
     if typeof attr is 'function'
       attr(element)
@@ -285,7 +285,7 @@ class window.TableStakesLib.Core
       # col_classes = ""
       # col_classes += column.classes if typeof column.classes != "undefined"
 
-  
+
   selectBox: (node, d, column) ->
     self = @
     d3.select(node).classed('active', true)
@@ -316,7 +316,7 @@ class window.TableStakesLib.Core
       d3.select(node).append('span').text(d3.event.target.value)
       self.val = d3.event.target.value
       self.update()
-  
+
   editable: (td, d, node, column) ->
     self = @
     td.classed 'editable'

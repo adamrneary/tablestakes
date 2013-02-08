@@ -1,45 +1,45 @@
 data = [
-  key: "NVD3"
+  id: "NVD3"
   type: "ahaha"
 ,
-  key: "Simple Line"
+  id: "Simple Line"
   type: "Historical"
 ,
-  key: "Scatter / Bubble"
+  id: "Scatter / Bubble"
   type: "Snapshot"
 ,
-  key: "Stacked / Stream / Expanded Area"
+  id: "Stacked / Stream / Expanded Area"
   type: "Historical"
 ,
-  key: "Discrete Bar"
+  id: "Discrete Bar"
   type: "Snapshot"
 ,
-  key: "Grouped / Stacked Multi-Bar"
+  id: "Grouped / Stacked Multi-Bar"
   type: "Snapshot / Historical"
 ,
-  key: "Horizontal Grouped Bar"
+  id: "Horizontal Grouped Bar"
   type: "Snapshot"
 ,
-  key: "Line and Bar Combo"
+  id: "Line and Bar Combo"
   type: "Historical"
 ,
-  key: "Cumulative Line"
+  id: "Cumulative Line"
   type: "Historical"
 ,
-  key: "Line with View Finder"
+  id: "Line with View Finder"
   type: "Historical"
 ,
-  key: "Legend"
+  id: "Legend"
   type: "Universal"
 ,
-  key: "New Root"
+  id: "New Root"
   type: "tatata"
 ,
-  key: "1"
+  id: "1"
   type: "123"
 ]
 columns = [
-  key: "key"
+  key: "id"
   label: "Name"
   classes: "row-heading"
 ,
@@ -53,7 +53,7 @@ grid = new window.TableStakes()
   .data(data)
   .isDeletable (d) ->
     d.type is 'Historical' or d.type is 'Snapshot'
-  .onDelete (rowKey) ->
-    data = _.reject(data, (row) -> row.key is rowKey)
+  .onDelete (id) ->
+    data = _.reject(data, (row) -> row.id is id)
     grid.data(data).render()
   .render()

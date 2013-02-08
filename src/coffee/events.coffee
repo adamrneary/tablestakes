@@ -49,7 +49,7 @@ class window.TableStakesLib.Events
       
       when 13 #enter
         val = d3.select(node).text()
-        column.onEdit(d.key, column.key, val) if column.onEdit
+        column.onEdit(d.id, column.key, val) if column.onEdit
         d.changedID ?= []
         if d.changedID.indexOf(d.activatedID) is -1
           d.changedID.push d.activatedID
@@ -65,7 +65,7 @@ class window.TableStakesLib.Events
   blur: (node, d, column) ->
     unless @core.table.isInRender
       val = d3.select(node).text()
-      column.onEdit(d, column.key, val) if column.onEdit
+      column.onEdit(d.id, column.key, val) if column.onEdit
       d.activatedID = null
       @core.update()
   
@@ -153,7 +153,7 @@ class window.TableStakesLib.Events
     column_newX = d3.event.x # x + d3.event.dx
     d3.select(th).attr("width", column_newX + "px")
     d3.select(th).style("width", column_newX + "px")
-
+    
     # TODO: re-implement old approach
     # if context.table.minWidth < column_newX
       # d3.select(th).attr("width", column_newX + "px")
@@ -163,7 +163,7 @@ class window.TableStakesLib.Events
       # table_x = parseFloat(context.tableObject.attr("width"))
       # table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
       # context.tableObject.attr "width", table_newX+"px"
-      # context.tableObject.style "width", table_newX+"px"    
+      # context.tableObject.style "width", table_newX+"px"
   
   # change row if class editable
   editable: (node,d, _, unshift) ->
