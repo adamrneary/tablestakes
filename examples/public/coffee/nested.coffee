@@ -1,4 +1,4 @@
-testTree = [
+data = [
   key: "NVD3"
   type: "ahaha"
   values: [
@@ -48,28 +48,17 @@ testTree = [
     classes: "rowcustom"
   ]
 ]
-testColumns = [
+columns = [
   key: "key"
   label: "Name"
-  showCount: false
-  type: "text"
-  isEditable: true
-  classes: "keyfield"
-  click: (d) ->
-    d3.select(this).html "hallo you were clicked"
+  classes: "row-heading"
 ,
   key: "type"
   label: "Type"
-  type: "text"
-  classes: "name"
 ]
-grid = new window.TableStakes
-  columns: testColumns
-  data: testTree
-  el: "#example"
-  # nested: true
-.nested true
-# .nested (row)->
-#     if row is 'nested-filter'
-#       row
-grid.render()
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .nested(true)
+  .render()
