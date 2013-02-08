@@ -166,8 +166,8 @@ class window.TableStakesLib.Events
       # context.tableObject.style "width", table_newX+"px"
 
   # change row if class editable
-  editable: (node,d, _, unshift) ->
-    unless d3.select(node).classed('active', true)
+  editable: (node, d, _, unshift) ->
+    unless d3.select(node).classed('active')
       @core.utils.deactivateAll @core.data[0]
       d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
       @core.update()

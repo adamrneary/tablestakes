@@ -1,4 +1,4 @@
-testTree = [
+data = [
   id: "NVD3"
   type: "ahaha"
   values: [
@@ -48,7 +48,7 @@ testTree = [
     classes: "rowcustom"
   ]
 ]
-testColumns = [
+columns = [
   key: "id"
   label: "Name"
   showCount: false
@@ -64,9 +64,9 @@ testColumns = [
   isEditable: true
   classes: "name"
 ]
-grid = new window.TableStakes
-  columns: testColumns
-  data: testTree
-  el: "#example"
-  nested: true
-grid.render()
+grid = new window.TableStakes()
+  .el('#example')
+  .columns(columns)
+  .data(data)
+  .nested(true)
+  .render()
