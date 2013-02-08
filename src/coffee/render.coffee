@@ -28,9 +28,6 @@ class window.TableStakesLib.Core
     @tree = d3.layout.tree().children (d) -> d.values
     @nodes = @tree.nodes(@data[0])
     
-    @appendDeleteTH = ->
-      @theadRow.append('th').attr('width', '15px')
-      @appendDeleteTH = null
     wrap = d3.select(@table.el())
       .selectAll("div")
       .data([[@nodes]])
@@ -42,22 +39,27 @@ class window.TableStakesLib.Core
     @_renderHead() if @table.header
     @_renderBody()
   
+  # responsible for <thead> and contents
   _renderHead: ->
-    @thead = @tableEnter.append("thead")
-    @theadRow = @thead.append("tr")
-    if @table.is 'reorder_dragging'
-      @theadRow.append('th').attr('width','10px')
-    
+    @theadRow = @tableEnter
+      .append("thead")
+      .append("tr")
+
+    # append a <th> for each column
     @columns.forEach (column, i) =>
       th = @theadRow.append("th")
-      th.attr("ref", i)
+        .attr("ref", i)
+        .text(column.label)
+      th.classed(@_columnClasses(column), true) if @_columnClasses(column)?
       th.style("width", column.width) if column.width
-      th.style("width", '60px') if column.classes is 'boolean'
-      th.classed(column.classes, true) if column.classes
-      th.append("span").text column.label
       @_makeResizable(th) if @table.isResizable()
-      if column.classes?
-        th.classed(column.classes, true)
+
+    # add space for optional functional columns
+    unless @table.isDeletable() is false
+      @theadRow.append('th').attr('width', '15px')  
+    if @table.is('reorder_dragging')
+      @theadRow.append('th').attr('width', '10px')
+    
     @
   
   _renderBody: ->
@@ -86,14 +88,14 @@ class window.TableStakesLib.Core
     @columns.forEach (column, index) =>
       @renderColumn column, index, node
     
-    @nodeEnter.append('td').attr('class', (d) =>
-      if @confirmTableElementAttribute(@table.isDeletable(), d)
-        @appendDeleteTH() if typeof @appendDeleteTH is 'function'
-        'deletable'
-    ).on('click', (d) =>
-      if @confirmTableElementAttribute(@table.isDeletable(), d)
-        @table.onDelete()(d.key)
-    )
+    @nodeEnter.append('td')
+      .classed('deletable', (d) =>
+        @confirmTableElementAttribute(@table.isDeletable(), d)
+      )
+      .on('click', (d) =>
+        if @confirmTableElementAttribute(@table.isDeletable(), d)
+          @table.onDelete()(d.key)
+      )
     
     node.order().on("click", (d) ->
       self.table.dispatch.elementClick
@@ -233,6 +235,12 @@ class window.TableStakesLib.Core
       attr(element)
     else
       attr
+  
+  # responsible for <th> classes
+  # functions in column classes only to <td> nodes below, not <th> nodes
+  _columnClasses: (column) ->
+    if column.classes?
+      column.classes unless typeof column.classes is 'function'
   
   selectBox: (node, d, column) ->
     self = @
