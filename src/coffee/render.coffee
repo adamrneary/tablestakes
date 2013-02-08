@@ -170,12 +170,6 @@ class window.TableStakesLib.Core
       filter = @.table.get('nested-filter')
       @nested column_td if filter(column)
 
-    if @table.is('nested')
-      @nested column_td
-    else if @table.is('nested-filter')
-      filter = @table.get('nested-filter')
-      @nested column_td if filter(column)
-
   _appendCount: (column_td) ->
     column_td.append("span")
       .classed("childrenCount",true)
