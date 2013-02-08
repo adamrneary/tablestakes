@@ -344,7 +344,7 @@ class window.TableStakesLib.Core
     dragBehavior = d3.behavior.drag()
       .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
     th.classed('resizeable',true)
-    th.append("div")
+      .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
 
