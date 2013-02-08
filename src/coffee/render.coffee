@@ -134,7 +134,7 @@ class window.TableStakesLib.Core
               row_classes = d.classes if typeof d.classes != "undefined"
               return col_classes + " " + row_classes
       )
-    @_renderFirstColum(column, column_td) if index is 0
+    @_renderFirstColumn(column, column_td) if index is 0
     @_renderNodes column, column_td
     
     if column.showCount
@@ -142,7 +142,7 @@ class window.TableStakesLib.Core
         count = d.values?.length or d._values?.length
         if count then "(" + count + ")" else ""
 
-  _renderFirstColum: (column, column_td) ->
+  _renderFirstColumn: (column, column_td) ->
     column_td.attr("ref", column.key)
     column_td.attr('class', (d) => @utils.icon (d))
     
