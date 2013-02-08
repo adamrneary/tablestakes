@@ -46,6 +46,7 @@ class window.TableStakesLib.Core
       .append("tr")
 
     # append a <th> for each column
+    # TODO: replace forEach with d3 join
     @columns.forEach (column, i) =>
       th = theadRow.append("th")
         .attr("ref", i)
@@ -86,7 +87,7 @@ class window.TableStakesLib.Core
     
     d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
     @columns.forEach (column, index) =>
-      @renderColumn column, index, node
+      @_renderColumn column, index, node
     
     @nodeEnter.append('td')
       .classed('deletable', (d) =>
@@ -97,30 +98,30 @@ class window.TableStakesLib.Core
           @table.onDelete()(d.key)
       )
     
-    node.order().on("click", (d) ->
-      self.table.dispatch.elementClick
+    node
+      .order()
+      .on("click", (d) -> self.table.dispatch.elementClick(
         row: this
         data: d
         pos: [d.x, d.y]
-    
-    ).on("dblclick", (d) ->
-      self.table.dispatch.elementDblclick
+      ))
+      .on("dblclick", (d) -> self.table.dispatch.elementDblclick(
         row: this
         data: d
         pos: [d.x, d.y]
-    ).on("mouseover", (d) ->
-      self.table.dispatch.elementMouseover
+      ))
+      .on("mouseover", (d) -> self.table.dispatch.elementMouseover(
         row: this
         data: d
         pos: [d.x, d.y]
-    ).on("mouseout", (d) ->
-      self.table.dispatch.elementMouseout
+      ))
+      .on("mouseout", (d) -> self.table.dispatch.elementMouseout(
         row: this
         data: d
         pos: [d.x, d.y]
-    )
+      ))
   
-  renderColumn: (column, index, node) ->
+  _renderColumn: (column, index, node) ->
     self = @
     col_classes = ""
     col_classes += column.classes if typeof column.classes != "undefined"
@@ -133,30 +134,31 @@ class window.TableStakesLib.Core
               row_classes = d.classes if typeof d.classes != "undefined"
               return col_classes + " " + row_classes
       )
-    if index is 0
-      column_td.attr("ref", column.key)
-      column_td.attr('class', (d) => @utils.icon (d))
-      
-      if @table.is('nested')
-        @nested column_td
-      else if @.table.is('nested-filter')
-        filter = @.table.get('nested-filter')
-        @nested column_td if filter(column)
-      
-      if @table.is('nested')
-        @nested column_td
-      else if @table.is('nested-filter')
-        filter = @table.get('nested-filter')
-        @nested column_td if filter(column)
-    
-    @renderNodes column, column_td
+    @_renderFirstColum(column, column_td) if index is 0
+    @_renderNodes column, column_td
     
     if column.showCount
       td.append("span").attr("class", "nv-childrenCount").text (d) ->
         count = d.values?.length or d._values?.length
         if count then "(" + count + ")" else ""
-  
-  renderNodes: (column, column_td) ->
+
+  _renderFirstColum: (column, column_td) ->
+    column_td.attr("ref", column.key)
+    column_td.attr('class', (d) => @utils.icon (d))
+    
+    if @table.is('nested')
+      @nested column_td
+    else if @.table.is('nested-filter')
+      filter = @.table.get('nested-filter')
+      @nested column_td if filter(column)
+    
+    if @table.is('nested')
+      @nested column_td
+    else if @table.is('nested-filter')
+      filter = @table.get('nested-filter')
+      @nested column_td if filter(column)
+
+  _renderNodes: (column, column_td) ->
     self = @
     column_td.each (td, i) ->
       if td[column.key] and td[column.key].classes?
