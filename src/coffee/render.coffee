@@ -106,24 +106,10 @@ class window.TableStakesLib.Core
     # hide marker row
     d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
 
-    # columns added before data columns
-    @draggable() if @table.is 'hierarchy_dragging'
-    @reorder_draggable() if @table.is 'reorder_dragging'
-
     # data columns
-    @columns.forEach (column, index) =>
-      @_renderColumn column, index, node
+    @_renderColumns(@nodeEnter)
 
-    # columns added after data columns
-    @nodeEnter.append('td')
-      .classed('deletable', (d) =>
-        @confirmTableElementAttribute(@table.isDeletable(), d)
-      )
-      .on('click', (d) =>
-        if @confirmTableElementAttribute(@table.isDeletable(), d)
-          @table.onDelete()(d.id)
-      )
-
+    # order rows nodes, attach row-level event handling, and handle exit
     node
       .order()
       .on("click", (d) -> self.table.dispatch.elementClick(
@@ -146,11 +132,31 @@ class window.TableStakesLib.Core
         data: d
         pos: [d.x, d.y]
       ))
-      .exit().remove()
+      .exit()
+        .remove()
+      .select(".expandable")
+        .classed "folded", @utils.folded
 
-    node.select(".expandable").classed "folded", @utils.folded
+  _renderColumns: (nodeEnter) ->
+    # columns added before data columns
+    @draggable() if @table.is 'hierarchy_dragging'
+    @reorder_draggable() if @table.is 'reorder_dragging'
 
-  _renderColumn: (column, index, node) ->
+    # data columns
+    @columns.forEach (column, index) =>
+      @_renderColumn column, index
+      
+    # columns added after data columns
+    nodeEnter.append('td')
+      .classed('deletable', (d) =>
+        @confirmTableElementAttribute(@table.isDeletable(), d)
+      )
+      .on('click', (d) =>
+        if @confirmTableElementAttribute(@table.isDeletable(), d)
+          @table.onDelete()(d.id)
+      )
+
+  _renderColumn: (column, index) ->
     self = @
     column_td = @nodeEnter.append("td")
       .attr("meta-key",column.key)
