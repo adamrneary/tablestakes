@@ -1,5 +1,5 @@
 class window.TableStakes
-  
+
   # defaults
   attributes: {}
   id : Math.floor(Math.random() * 10000)
@@ -7,7 +7,7 @@ class window.TableStakes
   noData : "No Data Available."
   childIndent : 20
   _columns: [
-    key: "key"
+    key: "id"
     label: "Name"
     type: "text"
   ]
@@ -18,11 +18,11 @@ class window.TableStakes
     right: 0
     bottom: 0
     left: 0
-  
+
   _isDeleteable: false
   _onDelete: null
   _isResizable: true
-  
+
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
     "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
@@ -32,7 +32,7 @@ class window.TableStakes
   tableObject : null
   isInRender : false
   filterCondition : []
-  
+
   constructor: (options) ->
     @set 'sortable', false
     @set 'filterable', false
@@ -44,7 +44,7 @@ class window.TableStakes
     if options?
       for key of options
         @set key, options[key]
-  
+
   render: () ->
     @gridData = [values: @data()]
     @columns().forEach ( column, i) =>
@@ -57,7 +57,7 @@ class window.TableStakes
       .datum(@gridFilteredData)
       .call( (selection) => @update selection)
     @
-  
+
   update: (selection) ->
     selection.each (data) =>
       @core.set
@@ -65,10 +65,10 @@ class window.TableStakes
         table: @
         data: data
       @core.render()
-    
+
     @isInRender = false
     @
-  
+
   dispatchManualEvent: (target) ->
     # all browsers except IE before version 9
     if target.dispatchEvent and document.createEvent
@@ -86,7 +86,7 @@ class window.TableStakes
         mousedownEvent.button = 1
         target.fireEvent("dblclick", mousedownEvent)
     return
-  
+
   setID : (node, prefix) ->
     node['_id'] = prefix
     if node.values
@@ -95,14 +95,14 @@ class window.TableStakes
     if node._values
       node._values.forEach (subnode, i) =>
         @setID subnode, prefix+"_"+i
-  
-  filter: (key,value) ->
+
+  filter: (key, value) ->
     value = value or ''
     value = value.toString().toUpperCase()
     @filterCondition.set key, value
     @setFilter @gridFilteredData[0], @filterCondition
     @render()
-  
+
   setFilter: ( data, filter ) ->
     self = this
     data or= []
@@ -120,12 +120,12 @@ class window.TableStakes
       for i in [data._values.length-1..0] by -1
         if @setFilter(data._values[i], filter) == null
           data._hiddenvalues.push(data._values.splice(i, 1)[0])
-    
+
     if data.values and data.values.length > 0
       return data
     if data._values and data._values.length > 0
       return data
-    
+
     matchFound = true
     for key in filter.keys()
       if data[key]
@@ -139,49 +139,49 @@ class window.TableStakes
     if matchFound
       return data
     return null
-  
+
   reorder_dragging: (val) ->
     if typeof val is 'boolean'
       @set 'reorder_dragging',val
     else
       @set 'reorder_dragging-filter', val
-  
+
   get: (key) ->
     @attributes[key]
-  
+
   set: (key, value, options) ->
     @attributes[key] = (if value? then value else true) if key?
     @
 
   is: (key) ->
     if @attributes[key] then true else false
-  
+
   # ## Expose Public Variables
-  
-  # The following are getter/setter methods 
+
+  # The following are getter/setter methods
   # See http://bost.ocks.org/mike/chart for more details.
-  
+
   margin: (val) ->
     return @_margin unless val?
     for side in ['top','right','bottom','left']
       @_margin[side] = val[side] unless typeof val[side] is "undefined"
     @
 
-  columns: (val) -> 
+  columns: (val) ->
     return @_columns unless val?
     @_columns = val
     @
 
-  data: (val) -> 
+  data: (val) ->
     return @_data unless val?
     @_data = val
     @
 
-  el: (val) -> 
+  el: (val) ->
     return @_el unless val?
     @_el = val
     @
-  
+
   sortable: (val) ->
     return @isSortable unless val?
     @isSortable = val
@@ -197,7 +197,7 @@ class window.TableStakes
     return @_isDeleteable unless val?
     @_isDeleteable = val
     @
-  
+
   onDelete: (val) ->
     return @_onDelete unless val?
     @_onDelete = val

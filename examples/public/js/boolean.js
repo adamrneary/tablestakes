@@ -3,50 +3,50 @@ var columns, data, grid;
 
 data = [
   {
-    key: "NVD3",
+    id: "NVD3",
     type: "-"
   }, {
-    key: "Simple Line",
+    id: "Simple Line",
     type: "+"
   }, {
-    key: "Scatter / Bubble",
+    id: "Scatter / Bubble",
     type: "Y"
   }, {
-    key: "Stacked / Stream / Expanded Area",
+    id: "Stacked / Stream / Expanded Area",
     type: "y"
   }, {
-    key: "Discrete Bar",
+    id: "Discrete Bar",
     type: "yes"
   }, {
-    key: 'ok',
+    id: 'ok',
     type: "no"
   }, {
-    key: "Horizontal Grouped Bar",
+    id: "Horizontal Grouped Bar",
     type: "-"
   }, {
-    key: "Line and Bar Combo",
+    id: "Line and Bar Combo",
     type: "n"
   }, {
-    key: "Cumulative Line",
+    id: "Cumulative Line",
     type: "N"
   }, {
-    key: "Line with View Finder",
+    id: "Line with View Finder",
     type: "Bad"
   }, {
-    key: "Legend",
+    id: "Legend",
     type: "false"
   }, {
-    key: "New Root",
+    id: "New Root",
     type: "true"
   }, {
-    key: "true",
+    id: "true",
     type: "true"
   }
 ];
 
 columns = [
   {
-    key: "key",
+    key: "id",
     label: "Name",
     showCount: false,
     isEditable: true,
