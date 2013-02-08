@@ -1,9 +1,9 @@
 window.TableStakesLib = {} unless window.TableStakesLib
 class window.TableStakesLib.Events
-  
+
   constructor: (options) ->
     @core = options.core
-  
+
   # keydown editing cell
   keydown: (node, d, column) ->
     switch d3.event.keyCode
@@ -30,7 +30,7 @@ class window.TableStakesLib.Events
         d3.event.preventDefault()
         d3.event.stopPropagation()
         @core.update()
-      
+
       when 38 #up
         prevNode = @core.utils.findPrevNode d, @nodes
         currentindex = @core.utils.getCurrentColumnIndex d.activatedID
@@ -38,7 +38,7 @@ class window.TableStakesLib.Events
           prevNode.activatedID = @core.columns[currentindex].key
           d.activatedID = null
         @core.update()
-      
+
       when 40 #down
         nextNode = @core.utils.findNextNode d
         currentindex = @core.utils.getCurrentColumnIndex d.activatedID
@@ -46,29 +46,29 @@ class window.TableStakesLib.Events
           nextNode.activatedID = @core.columns[currentindex].key
           d.activatedID = null
         @core.update()
-      
+
       when 13 #enter
         val = d3.select(node).text()
-        column.onEdit(d.key, column.key, val) if column.onEdit
+        column.onEdit(d.id, column.key, val) if column.onEdit
         d.changedID ?= []
         if d.changedID.indexOf(d.activatedID) is -1
           d.changedID.push d.activatedID
         d.activatedID = null
         @core.update()
-      
+
       when 27 #escape
         d3.select(node).node().value = d[d.activatedID]
         d.activatedID = null
         @core.update()
-  
+
   # removal of the selection from the active cell
   blur: (node, d, column) ->
     unless @core.table.isInRender
       val = d3.select(node).text()
-      column.onEdit(d, column.key, val) if column.onEdit
+      column.onEdit(d.id, column.key, val) if column.onEdit
       d.activatedID = null
       @core.update()
-  
+
   dragstart: (node, d) ->
     self = @
     d3.select(node).classed 'dragged', true
@@ -100,7 +100,7 @@ class window.TableStakesLib.Events
       left: @pos.left + x
       top: @pos.top + y
     @core.update()
-  
+
   dragend: (node, d) ->
     d.parent.children = @init_pos
     $(node).css
@@ -119,7 +119,7 @@ class window.TableStakesLib.Events
     @core.utils.removeNode child
     @core.utils.appendNode parent, child
     @core.update()
-  
+
   reordragstart: (node, d) ->
     self = @
     targetRow = @core.table.el() + " tbody tr .draggable"
@@ -133,7 +133,7 @@ class window.TableStakesLib.Events
       d3.select(this.parentNode).classed "draggable-destination1", false
       self.draggingTargetObj = null
     )
-  
+
   reordragend: (node,d) ->
     targetRow = @core.table.el() + " tbody tr .draggable"
     d3.selectAll(targetRow)
@@ -146,7 +146,7 @@ class window.TableStakesLib.Events
     @core.utils.removeNode child
     @core.utils.pastNode brother, child
     @core.update()
-  
+
   # change row if class editable
   editable: (node,d, _, unshift) ->
     unless d3.select(node).classed('active')
@@ -155,7 +155,7 @@ class window.TableStakesLib.Events
       @core.update()
       d3.event.stopPropagation()
       d3.event.preventDefault()
-  
+
   # toggle nested
   click: (node,d, _, unshift) ->
     if d3.event.shiftKey and not unshift

@@ -1,54 +1,54 @@
 data = [
-  key: "nerds for good"
+  id: "nerds for good"
   type: "ahaha"
 ,
-  key: "Simple Line"
+  id: "Simple Line"
   type: "Historical"
 ,
-  key: "Scatter / Bubble"
+  id: "Scatter / Bubble"
   type: "Snapshot"
 ,
-  key: "Stacked / Stream / Expanded Area"
+  id: "Stacked / Stream / Expanded Area"
   type: "Historical"
 ,
-  key: "Discrete Bar"
+  id: "Discrete Bar"
   type: "Snapshot"
 ,
-  key: "Grouped / Stacked Multi-Bar"
+  id: "Grouped / Stacked Multi-Bar"
   type: "Snapshot / Historical"
 ,
-  key: "Horizontal Grouped Bar"
+  id: "Horizontal Grouped Bar"
   type: "Snapshot"
 ,
-  key: "Line and Bar Combo"
+  id: "Line and Bar Combo"
   type: "Historical"
 ,
-  key: "Cumulative Line"
+  id: "Cumulative Line"
   type: "Historical"
 ,
-  key: "Line with View Finder"
+  id: "Line with View Finder"
   type: "Historical"
 ,
-  key: "Legend"
+  id: "Legend"
   type: "Universal"
 ,
-  key: "New Root"
+  id: "New Root"
   type: "tatata"
 ,
-  key: "1"
+  id: "1"
   type: "123"
 ]
 
-editHandler = (rowKey, field, newValue) ->
-  (row[field] = newValue if row.key is rowKey) for row in data
+editHandler = (id, field, newValue) ->
+  (row[field] = newValue if row.id is id) for row in data
   grid.data(data).render()
 
 columns = [
-  key: "key"
+  key: "id"
   label: "Name"
   classes: "row-heading"
   isEditable: (d) ->
-    d.key is 'Horizontal Grouped Bar'    
+    d.id is 'Horizontal Grouped Bar'
   onEdit: editHandler
 ,
   key: "type"
