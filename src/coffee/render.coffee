@@ -85,6 +85,11 @@ class window.TableStakesLib.Core
       .data((d) -> d)
     tbody.enter().append "tbody"
 
+    @_renderRows(tbody)
+
+  _renderRows: (tbody) ->
+    self = @
+    
     # define uniqueness method for data
     i = 0
     dataUniqueness = (d) -> d.id or (d.id is ++i)
