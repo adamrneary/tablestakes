@@ -59,8 +59,8 @@
     label: "Name"
     showCount: false
     type: "text"
-    isEditable: (row) ->
-      row.key is 'Horizontal Grouped Bar'
+    isEditable: (d) ->
+      d.key is 'Horizontal Grouped Bar'
     classes: "keyfield"
     click: (d) ->
       d3.select(this).html "hallo you were clicked"
@@ -71,12 +71,11 @@
     classes: "name"
     isEditable: true
     onEdit: (rowKey, field, newValue) ->
-      _.find testTree, (row) ->
-        row[field] = newValue if row.key is rowKey
+      (row[field] = newValue if row.key is rowKey) for row in testTree
       grid.render()
   ]
   grid = undefined
-  grid = new window.TablesStakes(
+  grid = new window.TableStakes(
     columns: testColumns
     data: testTree
     el: "#example"

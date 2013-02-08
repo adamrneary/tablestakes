@@ -1,5 +1,5 @@
 data = [
-  key: "nerds for good"
+  key: "NVD3"
   type: "ahaha"
 ,
   key: "Simple Line"
@@ -38,7 +38,6 @@ data = [
   key: "1"
   type: "123"
 ]
-
 columns = [
   key: "key"
   label: "Name"
@@ -52,4 +51,9 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
+  .isDeletable (d) ->
+    d.type is 'Historical' or d.type is 'Snapshot'
+  .onDelete (rowKey) ->
+    data = _.reject(data, (row) -> row.key is rowKey)
+    grid.data(data).render()
   .render()

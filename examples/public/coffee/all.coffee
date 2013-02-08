@@ -360,16 +360,15 @@ testColumns = [
 
 
 
-grid = new window.TablesStakes(
+grid = new window.TableStakes(
   columns: testColumns
   data: testTree
   el: "#example"
   sortable: true
-  deletable: true
   filterable: true
   resizable: true
   nested: true
   hierarchy_dragging: true
   reorder_dragging: true
-)
+).isDeletable(true)
 grid.render()

@@ -59,7 +59,7 @@ columns = [
   }
 ];
 
-grid = new window.TablesStakes({
+grid = new window.TableStakes({
   columns: columns,
   data: data,
   el: "#example"

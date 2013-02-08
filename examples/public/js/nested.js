@@ -81,7 +81,7 @@ testColumns = [
   }
 ];
 
-grid = new window.TablesStakes({
+grid = new window.TableStakes({
   columns: testColumns,
   data: testTree,
   el: "#example"

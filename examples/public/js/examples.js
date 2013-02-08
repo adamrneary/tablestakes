@@ -21,8 +21,8 @@ core = [
     shortLink: "filterable",
     title: "Filterable"
   }, {
-    shortLink: "add-and-delete",
-    title: "Add and delete"
+    shortLink: "deleteable",
+    title: "Deleteable"
   }, {
     shortLink: "resizable",
     title: "Resizable"

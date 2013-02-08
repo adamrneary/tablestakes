@@ -2,6 +2,6 @@
 
 describe("Table: ", function() {
   return it('Table object has all fields', function() {
-    return expect(window.TablesStakes).toEqual(jasmine.any(Function));
+    return expect(window.TableStakes).toEqual(jasmine.any(Function));
   });
 });

@@ -3,10 +3,7 @@ var columns, data, grid;
 
 data = [
   {
-    key: {
-      label: ['Example1', 'Example2', 'Example3'],
-      classes: 'select'
-    },
+    key: "nerds for good",
     type: "ahaha"
   }, {
     key: "Simple Line",
@@ -51,22 +48,11 @@ columns = [
   {
     key: "key",
     label: "Name",
-    showCount: false,
-    width: "400px",
-    isEditable: true,
     classes: "row-heading"
   }, {
     key: "type",
-    label: "Type",
-    width: "300px",
-    isEditable: false
+    label: "Type"
   }
 ];
 
-grid = new window.TablesStakes({
-  columns: columns,
-  data: data,
-  el: "#example"
-});
-
-grid.render();
+grid = new window.TableStakes().el("#example").columns(columns).data(data).render();

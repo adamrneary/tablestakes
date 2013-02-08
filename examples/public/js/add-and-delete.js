@@ -63,10 +63,19 @@ testColumns = [
   }
 ];
 
-grid = new window.TablesStakes({
+grid = new window.TableStakes({
   columns: testColumns,
   data: testTree,
-  el: "#example"
-}).deletable(true);
+  el: "#example",
+  onDelete: function(rowKey) {
+    testTree = _.reject(testTree, function(row) {
+      return row.key === rowKey;
+    });
+    grid.set('data', testTree);
+    return grid.render();
+  }
+}).isDeletable(function(d) {
+  return d.type === 'Historical' || d.type === 'Snapshot';
+});
 
 grid.render();
