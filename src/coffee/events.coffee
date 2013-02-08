@@ -147,9 +147,27 @@ class window.TableStakesLib.Events
     @core.utils.pastNode brother, child
     @core.update()
   
+  resizeDrag: (context,node,d, _, unshift) ->
+    th = node.parentNode
+    column_x = parseFloat(d3.select(th).attr("width"))
+    column_newX = d3.event.x # x + d3.event.dx
+    d3.select(th).attr("width", column_newX + "px")
+    d3.select(th).style("width", column_newX + "px")
+
+    # TODO: re-implement old approach
+    # if context.table.minWidth < column_newX
+      # d3.select(th).attr("width", column_newX + "px")
+      # d3.select(th).style("width", column_newX + "px")
+      # index = parseInt(d3.select(th).attr("ref"))
+      # context.columns[index].width = column_newX + "px"
+      # table_x = parseFloat(context.tableObject.attr("width"))
+      # table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
+      # context.tableObject.attr "width", table_newX+"px"
+      # context.tableObject.style "width", table_newX+"px"    
+  
   # change row if class editable
   editable: (node,d, _, unshift) ->
-    unless d3.select(node).classed('active')
+    unless d3.select(node).classed('active', true)
       @core.utils.deactivateAll @core.data[0]
       d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
       @core.update()

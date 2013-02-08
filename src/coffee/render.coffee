@@ -40,13 +40,10 @@ class window.TableStakesLib.Core
   
   # responsible for <thead> and contents
   _renderHead: (tableObject) ->
-    
-    console.log @_columnClasses('column')
-    
     self = @
     
     # create table header and row
-    theadRow = @tableObject.selectAll("thead")
+    theadRow = tableObject.selectAll("thead")
       .data((d) -> d)
       .enter()
         .append("thead")
@@ -62,8 +59,8 @@ class window.TableStakesLib.Core
           .attr("class", (d) => @_columnClasses(d))
           .style('width', (d) -> d.width)
     
-    # if @table.isResizable()
-    #   theadRow.selectAll("th").each( (d) => @_makeResizable(d) )
+    # for now, either all columns are resizable or none, set in table config
+    theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
 
     # add space for optional functional columns
     unless @table.isDeletable() is false
@@ -340,31 +337,24 @@ class window.TableStakesLib.Core
     else if d.changedID and d.changedID.indexOf(column.key) isnt -1
       d3.select(node).classed 'changed',true
         
-  _makeResizable: (th) ->
+  # ## "Event methods" add classes and event handling to d3 selections
+  
+  _makeResizable: (th) =>
     self = @
-    drag = d3.behavior.drag().on "drag", (d, i) ->
-      th = d3.select(this).node().parentNode
-      column_x = parseFloat(d3.select(th).attr("width"))
-      column_newX = d3.event.x # x + d3.event.dx
-      if self.table.minWidth < column_newX
-        d3.select(th).attr("width", column_newX + "px")
-        d3.select(th).style("width", column_newX + "px")
-        index = parseInt(d3.select(th).attr("ref"))
-        self.columns[index].width = column_newX + "px"
-        table_x = parseFloat(self.tableObject.attr("width"))
-        table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
-        self.tableObject.attr "width", table_newX+"px"
-        self.tableObject.style "width", table_newX+"px"
-    th.classed 'resizeable',true
-    th.append("div").classed('resizeable-handle right', true).call drag
+    dragBehavior = d3.behavior.drag()
+      .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
+    th.classed('resizeable',true)
+    th.append("div")
+      .classed('resizeable-handle right', true)
+      .call dragBehavior
 
   draggable: ->
     self = @
     dragbehavior = d3.behavior.drag()
       .origin(Object)
-      .on "dragstart", (a,b,c) -> self.events.dragstart this,a,b,c
-      .on "drag", (a,b,c) -> self.events.dragmove this,a,b,c
-      .on "dragend", (a,b,c) -> self.events.dragend this,a,b,c
+      .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
+      .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
+      .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
     @nodeEnter.call dragbehavior
 
   reorder_draggable: ->
@@ -372,10 +362,10 @@ class window.TableStakesLib.Core
     @nodeEnter.insert("td").classed('draggable', true)
     dragbehavior = d3.behavior.drag()
       .origin(Object)
-      .on "dragstart", (a,b,c) -> self.events.reordragstart this,a,b,c
-      .on "dragend", (a,b,c) -> self.events.reordragend this,a,b,c
+      .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
+      .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
     @nodeEnter.call dragbehavior
 
   nested: (nodeName) ->
     self = @
-    nodeName.on "click", (a,b,c) -> self.events.click this,a,b,c
+    nodeName.on("click", (a,b,c) -> self.events.click(this,a,b,c))
