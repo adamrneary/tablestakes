@@ -233,7 +233,7 @@ class window.TableStakesLib.Core
         d3.select(this).classed 'changed'
         td.changedID.splice i, 1
 
-      if self.confirmTableElementAttribute column.isEditable, td
+      if self._ourFunctor column.isEditable, td
         self.editable column_td, td, this, column
 
   _toggleBoolean: (context) ->
@@ -244,7 +244,7 @@ class window.TableStakesLib.Core
       d[column.key] = 'false'
       d3.select(context).attr('class', 'editable boolean-false')
 
-  confirmTableElementAttribute: (attr, element) ->
+  _ourFunctor: (attr, element) ->
     if typeof attr is 'function'
       attr(element)
     else
@@ -353,12 +353,9 @@ class window.TableStakesLib.Core
     
     # add deletable <td>
     @nodeEnter.append('td')
-      .classed('deletable', (d) =>
-        @confirmTableElementAttribute(@table.isDeletable(), d)
-      )
-      .on('click', (d) =>
-        if @confirmTableElementAttribute(@table.isDeletable(), d)
-          @table.onDelete()(d.id)
+      .classed('deletable', (d) => @_ourFunctor(@table.isDeletable(), d))
+      .on('click', (d) =>        
+        @table.onDelete()(d.id) if @_ourFunctor(@table.isDeletable(), d)
       )
 
   draggable: ->
