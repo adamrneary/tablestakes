@@ -23,10 +23,7 @@ class window.TableStakesLib.Core
   # calls renderHead() for <thead> and contents
   # calls renderBody() for <tbody and contents
   render: ->
-    @data[0] = id: @table.noData unless @data[0]
-    @tree = d3.layout.tree().children (d) -> d.values
-    @nodes = @tree.nodes(@data[0])
-
+    @_buildData()
     wrap = d3.select(@table.el())
       .selectAll("div")
       .data([[@nodes]])
@@ -39,6 +36,15 @@ class window.TableStakesLib.Core
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
   
+  _buildData: ->
+    @data[0] = id: @table.noData unless @data[0]
+    @tree = d3.layout.tree().children (d) -> d.values
+    @nodes = @tree.nodes(@data[0])
+    
+    # calculate number of columns
+    depth = d3.max(@nodes, (node) -> node.depth)
+    @tree.size [@table.height, depth * @table.childIndent]
+    
   # responsible for <thead> and contents
   _renderHead: (tableObject) ->
     self = @
@@ -73,19 +79,19 @@ class window.TableStakesLib.Core
   
   _renderBody: (tableObject) ->
     self = @
-    tbody = @tableObject.selectAll("tbody").data((d) -> d)
+    
+    # create table body and link
+    tbody = tableObject.selectAll("tbody")
+      .data((d) -> d)
     tbody.enter().append "tbody"
 
-    # calculate number of columns
-    depth = d3.max(@nodes, (node) -> node.depth)
-    @tree.size [@table.height, depth * @table.childIndent]
-
+    # define uniqueness method for data
     i = 0
-    node = tbody.selectAll("tr").data((d) ->
-      d
-    , (d) ->
-      d.id or (d.id is ++i)
-    )
+    dataUniqueness = (d) -> d.id or (d.id is ++i)
+  
+    # create rows
+    node = tbody.selectAll("tr")
+      .data(((d) -> d), dataUniqueness)
 
     @nodeEnter = node
       .enter()
@@ -138,7 +144,6 @@ class window.TableStakesLib.Core
       .exit().remove()
 
     node.select(".expandable").classed "folded", @utils.folded
-
 
   _renderColumn: (column, index, node) ->
     self = @
