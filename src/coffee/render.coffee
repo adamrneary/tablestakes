@@ -45,7 +45,7 @@ class window.TableStakesLib.Core
     # calculate number of columns
     depth = d3.max(@nodes, (node) -> node.depth)
     @tree.size [@table.height, depth * @table.childIndent]
-    
+
   # responsible for <thead> and contents
   _renderHead: (tableObject) ->
     self = @
@@ -100,7 +100,7 @@ class window.TableStakesLib.Core
     @nodeEnter = node
       .enter()
         .append("tr")
-        .classed(self._rowClasses(), true)
+        .attr("class", (d) => @_rowClasses(d))
 
     # hide marker row
     d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
@@ -145,16 +145,17 @@ class window.TableStakesLib.Core
     # TODO: remove forEach loop in favor of d3 joins
     @columns.forEach (column, index) =>
       column_td = @nodeEnter.append("td")
-        .attr("meta-key",column.key)
-        .classed(@_cellClasses(), true)
+        .attr("meta-key", column.key)
+        .attr("class", (d) => @_cellClasses(d))
 
       @_renderFirstColumn(column, column_td) if index is 0
       @_renderNodes(column, column_td)
       @_appendCount(column_td) if column.showCount
 
-  _renderFirstColumn: (column, column_td) =>
+  _renderFirstColumn: (column, column_td) ->
+    self = @
     column_td.attr("ref", column.key)
-    column_td.attr('class', (d) => @utils.icon (d))
+    column_td.attr('class', (d) -> self.utils.icon(d))
 
     if @table.is('nested')
       @nested column_td
@@ -173,68 +174,51 @@ class window.TableStakesLib.Core
     self = @
     # TODO: remove forEach loop in favor of d3 joins
     column_td.each (td, i) ->
-      if td[column.key] and td[column.key].classes?
-        classes = td[column.key].classes.split(' ')
-        for _class in classes
-          d3.select(this).classed _class,true
-        columnClass = td[column.key].classes
 
-      if columnClass?
-        d3.select(this).classed(columnClass, true)
-      if column.classes?
-        d3.select(this).classed(column.classes, true)
-
-      if column.classes is 'boolean' or columnClass is 'boolean'
-        span = d3.select(this).attr('class', (d) ->
-          if d[column.key]
-            if typeof d[column.key] is 'string'
-              truthies = ['true','y','Y','yes','Yes','+','good','ok']
-              if _.includes(truthies, d[column.key])
-                'editable boolean-true'
-              else
-                'editable boolean-false'
-            else
-              if d[column.key].label is 'true'
-                'editable boolean-true'
-              else
-                'editable boolean-false').style('display', 'table-cell'
-        ).on "click", @_toggleBoolean(this)
-      else if columnClass is 'select'
-        select = d3.select(this)
-          .classed('active', true)
-          .html('<select class="expand-select"></select>')
-          .select('.expand-select')
-        for label in td[column.key].label
-          if typeof label is 'string'
-            option = select.append('option').text(label)
-          else
-            for options in label
-              if typeof options is 'string'
-                optgroup = select.append('optgroup').attr('label', options)
-              else
-                for index in options
-                  option = optgroup.append('option').text(index)
-      else
-        span = d3.select(this)
-          .append("span")
-          .attr("class", d3.functor(column.classes))
-        innerSpan = span.append('span').text (d) ->
-          if column.format
-            column.format(d)
-          else
-            if d[column.key]
-              if typeof d[column.key] is 'string'
-                d[column.key]
-              else if typeof d[column.key].label is 'string'
-                d[column.key].label
-            else
-              "-"
+      # if column.classes is 'boolean' or columnClass is 'boolean'
+      #   span = d3.select(this).attr('class', (d) ->
+      #     if d[column.key]
+      #       if typeof d[column.key] is 'string'
+      #         truthies = ['true','y','Y','yes','Yes','+','good','ok']
+      #         if _.includes(truthies, d[column.key])
+      #           'editable boolean-true'
+      #         else
+      #           'editable boolean-false'
+      #       else
+      #         if d[column.key].label is 'true'
+      #           'editable boolean-true'
+      #         else
+      #           'editable boolean-false').style('display', 'table-cell'
+      #   ).on "click", @_toggleBoolean(this)
+      # else if columnClass is 'select'
+      #   select = d3.select(this)
+      #     .classed('active', true)
+      #     .html('<select class="expand-select"></select>')
+      #     .select('.expand-select')
+      #   for label in td[column.key].label
+      #     if typeof label is 'string'
+      #       option = select.append('option').text(label)
+      #     else
+      #       for options in label
+      #         if typeof options is 'string'
+      #           optgroup = select.append('optgroup').attr('label', options)
+      #         else
+      #           for index in options
+      #             option = optgroup.append('option').text(index)
+      # else
+      self._renderString(this, column)
+        
       if td.changedID and (i = td.changedID.indexOf(column.key)) isnt -1
         d3.select(this).classed 'changed'
         td.changedID.splice i, 1
 
       if self._ourFunctor column.isEditable, td
         self.editable column_td, td, this, column
+  
+  _renderString: (context, column) ->
+    d3.select(context)
+      .text (d) -> d[column.key] or '-'
+
 
   _toggleBoolean: (context) ->
     if d3.select(context).attr('class') is 'editable boolean-false'
@@ -244,6 +228,10 @@ class window.TableStakesLib.Core
       d[column.key] = 'false'
       d3.select(context).attr('class', 'editable boolean-false')
 
+  # similar in spirit to d3.functor() 
+  # https://github.com/mbostock/d3/wiki/Internals
+  #
+  # TODO: move to utils
   _ourFunctor: (attr, element) ->
     if typeof attr is 'function'
       attr(element)
@@ -257,16 +245,12 @@ class window.TableStakesLib.Core
   # responsible for <th> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
   _columnClasses: (column) ->
-    "columnClasses"
-    # if column.classes?
-    #   column.classes unless typeof column.classes is 'function'
+    column.classes unless typeof column.classes is 'function'
 
   # responsible for <tr> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
-  _rowClasses: (column) ->
-    "rowClasses"
-    # if column.classes?
-    #   column.classes unless typeof column.classes is 'function'
+  _rowClasses: (d) ->
+    @table.rowClasses()(d) if @table.rowClasses()?
 
   # responsible for <td> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
@@ -281,7 +265,18 @@ class window.TableStakesLib.Core
       # )
       # col_classes = ""
       # col_classes += column.classes if typeof column.classes != "undefined"
-
+      # .attr("class", d3.functor(column.classes))
+        # if td[column.key] and td[column.key].classes?
+        #   classes = td[column.key].classes.split(' ')
+        #   for _class in classes
+        #     d3.select(this).classed _class,true
+        #   columnClass = td[column.key].classes
+        # 
+        # if columnClass?
+        #   d3.select(this).classed(columnClass, true)
+        # if column.classes?
+        #   d3.select(this).classed(column.classes, true)
+        
 
   selectBox: (node, d, column) ->
     self = @

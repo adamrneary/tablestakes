@@ -18,7 +18,8 @@ class window.TableStakes
     right: 0
     bottom: 0
     left: 0
-
+  _rowClasses: null
+    
   _isDeleteable: false
   _onDelete: null
   _isResizable: true
@@ -180,6 +181,11 @@ class window.TableStakes
   el: (val) ->
     return @_el unless val?
     @_el = val
+    @
+    
+  rowClasses: (val) ->
+    return @_rowClasses unless val?
+    @_rowClasses = d3.functor(val)
     @
 
   sortable: (val) ->

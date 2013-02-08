@@ -72,4 +72,6 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
+  .rowClasses (d) ->
+    "total2" if d.etc is 'etc6'
   .render()

@@ -73,4 +73,8 @@ columns = [
   }
 ];
 
-grid = new window.TableStakes().el("#example").columns(columns).data(data).render();
+grid = new window.TableStakes().el("#example").columns(columns).data(data).rowClasses(function(d) {
+  if (d.etc === 'etc6') {
+    return "total2";
+  }
+}).render();
