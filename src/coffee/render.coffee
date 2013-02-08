@@ -35,6 +35,7 @@ class window.TableStakesLib.Core
 
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
+    @_makeDeletable(@tableObject) unless @table.isDeletable() is false
   
   _buildData: ->
     @data[0] = id: @table.noData unless @data[0]
@@ -69,9 +70,7 @@ class window.TableStakesLib.Core
     # for now, either all columns are resizable or none, set in table config
     theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
 
-    # add space for optional functional columns
-    unless @table.isDeletable() is false
-      theadRow.append('th').attr('width', '15px')
+    # todo: move this down
     if @table.is('reorder_dragging')
       theadRow.append('th').attr('width', '10px')
 
@@ -152,16 +151,6 @@ class window.TableStakesLib.Core
       @_renderFirstColumn(column, column_td) if index is 0
       @_renderNodes(column, column_td)
       @_appendCount(column_td) if column.showCount
-      
-    # columns added after data columns
-    nodeEnter.append('td')
-      .classed('deletable', (d) =>
-        @confirmTableElementAttribute(@table.isDeletable(), d)
-      )
-      .on('click', (d) =>
-        if @confirmTableElementAttribute(@table.isDeletable(), d)
-          @table.onDelete()(d.id)
-      )
 
   _renderFirstColumn: (column, column_td) =>
     column_td.attr("ref", column.key)
@@ -355,6 +344,22 @@ class window.TableStakesLib.Core
       .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
+      
+  _makeDeletable: (table) =>
+    # add space in the table header
+    table.selectAll("thead tr")
+      .append('th')
+        .attr('width', '15px')
+    
+    # add deletable <td>
+    @nodeEnter.append('td')
+      .classed('deletable', (d) =>
+        @confirmTableElementAttribute(@table.isDeletable(), d)
+      )
+      .on('click', (d) =>
+        if @confirmTableElementAttribute(@table.isDeletable(), d)
+          @table.onDelete()(d.id)
+      )
 
   draggable: ->
     self = @
