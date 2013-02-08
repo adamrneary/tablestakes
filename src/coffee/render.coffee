@@ -144,7 +144,13 @@ class window.TableStakesLib.Core
 
     # data columns
     @columns.forEach (column, index) =>
-      @_renderColumn column, index
+      column_td = @nodeEnter.append("td")
+        .attr("meta-key",column.key)
+        .classed(@_cellClasses(), true)
+
+      @_renderFirstColumn(column, column_td) if index is 0
+      @_renderNodes(column, column_td)
+      @_appendCount(column_td) if column.showCount
       
     # columns added after data columns
     nodeEnter.append('td')
@@ -155,16 +161,6 @@ class window.TableStakesLib.Core
         if @confirmTableElementAttribute(@table.isDeletable(), d)
           @table.onDelete()(d.id)
       )
-
-  _renderColumn: (column, index) ->
-    self = @
-    column_td = @nodeEnter.append("td")
-      .attr("meta-key",column.key)
-      .classed(self._cellClasses(), true)
-
-    @_renderFirstColumn(column, column_td) if index is 0
-    @_renderNodes(column, column_td)
-    @_appendCount(column_td) if column.showCount
 
   _renderFirstColumn: (column, column_td) =>
     column_td.attr("ref", column.key)
