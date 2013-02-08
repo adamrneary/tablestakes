@@ -79,19 +79,23 @@ class window.TableStakesLib.Core
       d.id or (d.id is ++i)
     )
     
-    node.exit().remove()
-    node.select(".expandable").classed "folded", @utils.folded
     @nodeEnter = node
       .enter()
         .append("tr")
         .classed(self._rowClasses(), true)
+
+    # hide marker row
+    d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
+
+    # columns added before data columns
     @draggable() if @table.is 'hierarchy_dragging'
     @reorder_draggable() if @table.is 'reorder_dragging'
     
-    d3.select(@nodeEnter[0][0]).style("display", "none") if @nodeEnter[0][0]
+    # data columns
     @columns.forEach (column, index) =>
       @_renderColumn column, index, node
     
+    # columns added after data columns
     @nodeEnter.append('td')
       .classed('deletable', (d) =>
         @confirmTableElementAttribute(@table.isDeletable(), d)
@@ -123,6 +127,10 @@ class window.TableStakesLib.Core
         data: d
         pos: [d.x, d.y]
       ))
+      .exit().remove()
+  
+    node.select(".expandable").classed "folded", @utils.folded
+  
   
   _renderColumn: (column, index, node) ->
     self = @
