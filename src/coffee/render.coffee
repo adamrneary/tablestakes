@@ -23,7 +23,6 @@ class window.TableStakesLib.Core
   # calls renderHead() for <thead> and contents
   # calls renderBody() for <tbody and contents
   render: ->
-    self = @
     @data[0] = key: @table.noData unless @data[0]
     @tree = d3.layout.tree().children (d) -> d.values
     @nodes = @tree.nodes(@data[0])
@@ -36,24 +35,35 @@ class window.TableStakesLib.Core
     @tableObject = wrap.select("table")
       .classed(@table.tableClassName,true)
       .attr("style","table-layout:fixed;")
-    @_renderHead() if @table.header
-    @_renderBody()
+    @_renderHead(@tableObject) if @table.header
+    @_renderBody(@tableObject)
   
   # responsible for <thead> and contents
-  _renderHead: ->
-    theadRow = @tableEnter
-      .append("thead")
-      .append("tr")
+  _renderHead: (tableObject) ->
+    
+    console.log @_columnClasses('column')
+    
+    self = @
+    
+    # create table header and row
+    theadRow = @tableObject.selectAll("thead")
+      .data((d) -> d)
+      .enter()
+        .append("thead")
+        .append("tr")
 
     # append a <th> for each column
-    # TODO: replace forEach with d3 join
-    @columns.forEach (column, i) =>
-      th = theadRow.append("th")
-        .attr("ref", i)
-        .text(column.label)
-      th.classed(@_columnClasses(column), true) if @_columnClasses(column)?
-      th.style("width", column.width) if column.width
-      @_makeResizable(th) if @table.isResizable()
+    th = theadRow.selectAll("th")
+      .data(@columns)
+      .enter()
+        .append("th")
+          .text((d) -> d.label)
+          .attr("ref", (d,i) -> i)
+          .attr("class", (d) => @_columnClasses(d))
+          .style('width', (d) -> d.width)
+    
+    # if @table.isResizable()
+    #   theadRow.selectAll("th").each( (d) => @_makeResizable(d) )
 
     # add space for optional functional columns
     unless @table.isDeletable() is false
@@ -63,7 +73,7 @@ class window.TableStakesLib.Core
     
     @
   
-  _renderBody: ->
+  _renderBody: (tableObject) ->
     self = @
     tbody = @tableObject.selectAll("tbody").data((d) -> d)
     tbody.enter().append "tbody"
