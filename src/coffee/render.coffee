@@ -146,7 +146,7 @@ class window.TableStakesLib.Core
     @columns.forEach (column, index) =>
       column_td = @nodeEnter.append("td")
         .attr("meta-key", column.key)
-        .attr("class", (d) => @_cellClasses(d))
+        .attr("class", (d) => @_cellClasses(d, column))
 
       @_renderFirstColumn(column, column_td) if index is 0
       @_renderNodes(column, column_td)
@@ -254,29 +254,21 @@ class window.TableStakesLib.Core
 
   # responsible for <td> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
-  _cellClasses: (column) ->
-    "cellClasses"
-    # if column.classes?
-    #   column.classes unless typeof column.classes is 'function'
-      #       (d) =>
-      #         row_classes = ""
-      #         row_classes = d.classes if typeof d.classes != "undefined"
-      #         return col_classes + " " + row_classes
-      # )
-      # col_classes = ""
-      # col_classes += column.classes if typeof column.classes != "undefined"
-      # .attr("class", d3.functor(column.classes))
-        # if td[column.key] and td[column.key].classes?
-        #   classes = td[column.key].classes.split(' ')
-        #   for _class in classes
-        #     d3.select(this).classed _class,true
-        #   columnClass = td[column.key].classes
-        # 
-        # if columnClass?
-        #   d3.select(this).classed(columnClass, true)
-        # if column.classes?
-        #   d3.select(this).classed(column.classes, true)
-        
+  _cellClasses: (d, column) ->
+    val = []
+    
+    #retrieve classes specific to the column
+    val.push if column.classes?
+      if typeof column.classes is 'function'
+        column.classes(d)
+      else
+        column.classes
+    
+    # retrieve classes specified in data itself
+    val.push d.classes if d.classes?    
+    
+    # return string split by spaces
+    val.join(' ')
 
   selectBox: (node, d, column) ->
     self = @

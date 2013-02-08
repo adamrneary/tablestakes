@@ -65,7 +65,12 @@ columns = [
     classes: "row-heading"
   }, {
     key: "type",
-    label: "Type"
+    label: "Type",
+    classes: function(d) {
+      if (d.type === "historical") {
+        return "total";
+      }
+    }
   }, {
     key: "etc",
     label: "Etc",

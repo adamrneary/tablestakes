@@ -60,8 +60,8 @@ columns = [
 ,
   key: "type"
   label: "Type"
-  # classes: (d) ->
-  #   "total" if d.type is "historical"
+  classes: (d) ->
+    "total" if d.type is "historical"
 ,
   key: "etc"
   label: "Etc"
