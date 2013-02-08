@@ -143,6 +143,7 @@ class window.TableStakesLib.Core
     @reorder_draggable() if @table.is 'reorder_dragging'
 
     # data columns
+    # TODO: remove forEach loop in favor of d3 joins
     @columns.forEach (column, index) =>
       column_td = @nodeEnter.append("td")
         .attr("meta-key",column.key)
@@ -181,6 +182,7 @@ class window.TableStakesLib.Core
 
   _renderNodes: (column, column_td) ->
     self = @
+    # TODO: remove forEach loop in favor of d3 joins
     column_td.each (td, i) ->
       if td[column.key] and td[column.key].classes?
         classes = td[column.key].classes.split(' ')
