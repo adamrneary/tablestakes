@@ -134,19 +134,13 @@ class window.TableStakesLib.Core
   
   _renderColumn: (column, index, node) ->
     self = @
-    col_classes = ""
-    col_classes += column.classes if typeof column.classes != "undefined"
     
     column_td = @nodeEnter.append("td")
       .attr("meta-key",column.key)
-      .classed(
-            (d) =>
-              row_classes = ""
-              row_classes = d.classes if typeof d.classes != "undefined"
-              return col_classes + " " + row_classes
-      )
+      .classed(self._cellClasses(), true)
+
     @_renderFirstColumn(column, column_td) if index is 0
-    @_renderNodes column, column_td
+    @_renderNodes(column, column_td)
     @_appendCount(column_td) if column.showCount
 
   _renderFirstColumn: (column, column_td) =>
@@ -252,6 +246,10 @@ class window.TableStakesLib.Core
     else
       attr
   
+  # ## "Class methods" (tongue in cheek) define classes to be applied to tags
+  # Note: There are other methods that add/remove classes but these are the 
+  # primary points of contact
+  
   # responsible for <th> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
   _columnClasses: (column) ->
@@ -272,6 +270,13 @@ class window.TableStakesLib.Core
     "cellClasses"
     # if column.classes?
     #   column.classes unless typeof column.classes is 'function'
+      #       (d) =>
+      #         row_classes = ""
+      #         row_classes = d.classes if typeof d.classes != "undefined"
+      #         return col_classes + " " + row_classes
+      # )
+      # col_classes = ""
+      # col_classes += column.classes if typeof column.classes != "undefined"
 
   
   selectBox: (node, d, column) ->
