@@ -136,13 +136,9 @@ class window.TableStakesLib.Core
       )
     @_renderFirstColumn(column, column_td) if index is 0
     @_renderNodes column, column_td
-    
-    if column.showCount
-      td.append("span").attr("class", "nv-childrenCount").text (d) ->
-        count = d.values?.length or d._values?.length
-        if count then "(" + count + ")" else ""
+    @_appendCount(column_td) if column.showCount
 
-  _renderFirstColumn: (column, column_td) ->
+  _renderFirstColumn: (column, column_td) =>
     column_td.attr("ref", column.key)
     column_td.attr('class', (d) => @utils.icon (d))
     
@@ -158,6 +154,13 @@ class window.TableStakesLib.Core
       filter = @table.get('nested-filter')
       @nested column_td if filter(column)
 
+  _appendCount: (column_td) ->
+    column_td.append("span")
+      .classed("childrenCount",true)
+      .text (d) ->
+        count = d.values?.length or d._values?.length
+        if count then "(" + count + ")" else ""
+    
   _renderNodes: (column, column_td) ->
     self = @
     column_td.each (td, i) ->
@@ -241,8 +244,24 @@ class window.TableStakesLib.Core
   # responsible for <th> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
   _columnClasses: (column) ->
-    if column.classes?
-      column.classes unless typeof column.classes is 'function'
+    "columnClasses"
+    # if column.classes?
+    #   column.classes unless typeof column.classes is 'function'
+
+  # responsible for <tr> classes
+  # functions in column classes only to <td> nodes below, not <th> nodes
+  _rowClasses: (column) ->
+    "rowClasses"
+    # if column.classes?
+    #   column.classes unless typeof column.classes is 'function'
+
+  # responsible for <td> classes
+  # functions in column classes only to <td> nodes below, not <th> nodes
+  _cellClasses: (column) ->
+    "cellClasses"
+    # if column.classes?
+    #   column.classes unless typeof column.classes is 'function'
+
   
   selectBox: (node, d, column) ->
     self = @
