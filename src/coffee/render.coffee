@@ -81,7 +81,10 @@ class window.TableStakesLib.Core
     
     node.exit().remove()
     node.select(".expandable").classed "folded", @utils.folded
-    @nodeEnter = node.enter().append("tr").classed('class', (d) -> d._classes)
+    @nodeEnter = node
+      .enter()
+        .append("tr")
+        .classed(self._rowClasses(), true)
     @draggable() if @table.is 'hierarchy_dragging'
     @reorder_draggable() if @table.is 'reorder_dragging'
     
