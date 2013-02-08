@@ -41,13 +41,13 @@ class window.TableStakesLib.Core
   
   # responsible for <thead> and contents
   _renderHead: ->
-    @theadRow = @tableEnter
+    theadRow = @tableEnter
       .append("thead")
       .append("tr")
 
     # append a <th> for each column
     @columns.forEach (column, i) =>
-      th = @theadRow.append("th")
+      th = theadRow.append("th")
         .attr("ref", i)
         .text(column.label)
       th.classed(@_columnClasses(column), true) if @_columnClasses(column)?
@@ -56,9 +56,9 @@ class window.TableStakesLib.Core
 
     # add space for optional functional columns
     unless @table.isDeletable() is false
-      @theadRow.append('th').attr('width', '15px')  
+      theadRow.append('th').attr('width', '15px')  
     if @table.is('reorder_dragging')
-      @theadRow.append('th').attr('width', '10px')
+      theadRow.append('th').attr('width', '10px')
     
     @
   
