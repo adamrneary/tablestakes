@@ -6,11 +6,8 @@ class window.TableStakes
   header : true
   noData : "No Data Available."
   childIndent : 20
-  _columns: [
-    key: "id"
-    label: "Name"
-    type: "text"
-  ]
+
+  _columns: []
   _data: []
   _el: null
   _margin :
@@ -170,7 +167,11 @@ class window.TableStakes
 
   columns: (val) ->
     return @_columns unless val?
-    @_columns = val
+    @_columns = []
+    val = [val] unless _.isArray(val)
+    _.each val, (column) =>
+      c = new window.TableStakesLib.Column(column)
+      @_columns.push c
     @
 
   data: (val) ->
