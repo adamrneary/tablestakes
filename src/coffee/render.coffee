@@ -36,12 +36,12 @@ class window.TableStakesLib.Core
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
-  
+
   _buildData: ->
     @data[0] = id: @table.noData unless @data[0]
     @tree = d3.layout.tree().children (d) -> d.values
     @nodes = @tree.nodes(@data[0])
-    
+
     # calculate number of columns
     depth = d3.max(@nodes, (node) -> node.depth)
     @tree.size [@table.height, depth * @table.childIndent]
@@ -49,7 +49,7 @@ class window.TableStakesLib.Core
   # responsible for <thead> and contents
   _renderHead: (tableObject) ->
     self = @
-    
+
     # create table header and row
     theadRow = tableObject.selectAll("thead")
       .data((d) -> d)
@@ -66,7 +66,7 @@ class window.TableStakesLib.Core
           .attr("ref", (d,i) -> i)
           .attr("class", (d) => @_columnClasses(d))
           .style('width', (d) -> d.width)
-    
+
     # for now, either all columns are resizable or none, set in table config
     theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
 
@@ -75,10 +75,10 @@ class window.TableStakesLib.Core
       theadRow.append('th').attr('width', '10px')
 
     @
-  
+
   _renderBody: (tableObject) ->
     self = @
-    
+
     # create table body and link
     tbody = tableObject.selectAll("tbody")
       .data((d) -> d)
@@ -88,11 +88,11 @@ class window.TableStakesLib.Core
 
   _renderRows: (tbody) ->
     self = @
-    
+
     # define uniqueness method for data
     i = 0
     dataUniqueness = (d) -> d.id or (d.id is ++i)
-  
+
     # create rows
     node = tbody.selectAll("tr")
       .data(((d) -> d), dataUniqueness)
@@ -148,6 +148,7 @@ class window.TableStakesLib.Core
         .attr("meta-key", column.key)
         .attr("class", (d) => @_cellClasses(d, column))
 
+      @_makeNested(column_td) unless column.isNested? is false
       @_renderFirstColumn(column, column_td) if index is 0
       @_renderNodes(column, column_td)
       @_appendCount(column_td) if column.showCount
@@ -155,13 +156,6 @@ class window.TableStakesLib.Core
   _renderFirstColumn: (column, column_td) ->
     self = @
     column_td.attr("ref", column.key)
-    column_td.attr('class', (d) -> self.utils.icon(d))
-
-    if @table.is('nested')
-      @nested column_td
-    else if @.table.is('nested-filter')
-      filter = @.table.get('nested-filter')
-      @nested column_td if filter(column)
 
   _appendCount: (column_td) ->
     column_td.append("span")
@@ -207,14 +201,14 @@ class window.TableStakesLib.Core
       #             option = optgroup.append('option').text(index)
       # else
       self._renderString(this, column)
-        
+
       if td.changedID and (i = td.changedID.indexOf(column.key)) isnt -1
         d3.select(this).classed 'changed'
         td.changedID.splice i, 1
 
       if self._ourFunctor column.isEditable, td
         self.editable column_td, td, this, column
-  
+
   _renderString: (context, column) ->
     d3.select(context)
       .text (d) -> d[column.key] or '-'
@@ -228,7 +222,7 @@ class window.TableStakesLib.Core
       d[column.key] = 'false'
       d3.select(context).attr('class', 'editable boolean-false')
 
-  # similar in spirit to d3.functor() 
+  # similar in spirit to d3.functor()
   # https://github.com/mbostock/d3/wiki/Internals
   #
   # TODO: move to utils
@@ -237,11 +231,11 @@ class window.TableStakesLib.Core
       attr(element)
     else
       attr
-  
+
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
-  # Note: There are other methods that add/remove classes but these are the 
+  # Note: There are other methods that add/remove classes but these are the
   # primary points of contact
-  
+
   # responsible for <th> classes
   # functions in column classes only to <td> nodes below, not <th> nodes
   _columnClasses: (column) ->
@@ -256,17 +250,17 @@ class window.TableStakesLib.Core
   # functions in column classes only to <td> nodes below, not <th> nodes
   _cellClasses: (d, column) ->
     val = []
-    
+
     #retrieve classes specific to the column
     val.push if column.classes?
       if typeof column.classes is 'function'
         column.classes(d)
       else
         column.classes
-    
+
     # retrieve classes specified in data itself
-    val.push d.classes if d.classes?    
-    
+    val.push d.classes if d.classes?
+
     # return string split by spaces
     val.join(' ')
 
@@ -320,9 +314,10 @@ class window.TableStakesLib.Core
         .node().focus()
     else if d.changedID and d.changedID.indexOf(column.key) isnt -1
       d3.select(node).classed 'changed',true
-        
+
   # ## "Event methods" add classes and event handling to d3 selections
-  
+
+
   _makeResizable: (th) =>
     self = @
     dragBehavior = d3.behavior.drag()
@@ -331,19 +326,25 @@ class window.TableStakesLib.Core
       .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
-      
+
   _makeDeletable: (table) =>
     # add space in the table header
     table.selectAll("thead tr")
       .append('th')
         .attr('width', '15px')
-    
+
     # add deletable <td>
     @nodeEnter.append('td')
       .classed('deletable', (d) => @_ourFunctor(@table.isDeletable(), d))
-      .on('click', (d) =>        
+      .on('click', (d) =>
         @table.onDelete()(d.id) if @_ourFunctor(@table.isDeletable(), d)
       )
+
+  _makeNested: (column_td) =>
+    self = @
+    column_td
+      .attr('class', (d) -> self.utils.nestedIcons(d))
+      .on("click", (a,b,c) -> self.events.nestedClick(this,a,b,c))
 
   draggable: ->
     self = @
@@ -362,7 +363,3 @@ class window.TableStakesLib.Core
       .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
       .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
     @nodeEnter.call dragbehavior
-
-  nested: (nodeName) ->
-    self = @
-    nodeName.on("click", (a,b,c) -> self.events.click(this,a,b,c))

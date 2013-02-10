@@ -93,7 +93,7 @@ class window.TableStakesLib.Utils
     d._values and d._values.length
 
   # change icons during deployment-folding
-  icon: (d)->
+  nestedIcons: (d)->
     if d.depth isnt 1
       if (d.depth-1) < 6
         indent = (d.depth-1)

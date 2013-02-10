@@ -52,6 +52,7 @@ columns = [
   key: "id"
   label: "Name"
   classes: "row-heading"
+  isNested: true
 ,
   key: "type"
   label: "Type"
@@ -60,5 +61,4 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
-  .nested(true)
   .render()

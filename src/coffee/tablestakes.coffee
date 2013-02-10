@@ -34,7 +34,6 @@ class window.TableStakes
   constructor: (options) ->
     @set 'sortable', false
     @set 'filterable', false
-    @set 'nested', false
     @set 'hierarchy_dragging', false
     @set 'reorder_dragging', false
     @core = new window.TableStakesLib.Core
@@ -214,12 +213,6 @@ class window.TableStakes
     return @_isResizable unless val?
     @_isResizable = val
     @
-
-  nested: (val) ->
-    if typeof val is 'boolean'
-      @set 'nested',val
-    else
-      @set 'nested-filter', val
 
   boolean: (val) ->
     if typeof val is 'boolean'
