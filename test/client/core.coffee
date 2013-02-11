@@ -82,64 +82,64 @@ describe "Tablestakes API ", ->
   #   assert table.is('resizable') is true
   #   done()
 
-  it 'table.margin(testdata)', (done) ->
-    testHash =
-      top: 40
-      right: 10
-      bottom: 30
-      left: 50
-    assert table.margin(testHash) is table
-    assert table.margin()['top'] is 40
-    assert table.margin()['right'] is 10
-    assert table.margin()['bottom'] is 30
-    assert table.margin()['left'] is 50
-    done()
+  #it 'table.margin(testdata)', (done) ->
+    #testHash =
+      #top: 40
+      #right: 10
+      #bottom: 30
+      #left: 50
+    #assert table.margin(testHash) is table
+    #assert table.margin()['top'] is 40
+    #assert table.margin()['right'] is 10
+    #assert table.margin()['bottom'] is 30
+    #assert table.margin()['left'] is 50
+    #done()
 
-  it 'table.sortable is true', (done) ->
-    assert typeof table.sortable is 'function'
-    assert table.sortable(true)
-    done()
+  #it 'table.sortable is true', (done) ->
+    #assert typeof table.sortable is 'function'
+    #assert table.sortable(true)
+    #done()
 
-  it 'setFilter', (done) ->
-    assert typeof table.setFilter is 'function'
-    assert table.setFilter table.gridFilteredData[0], table.filterCondition
-    done()
+  #it 'setFilter', (done) ->
+    #assert typeof table.setFilter is 'function'
+    #assert table.setFilter table.gridFilteredData[0], table.filterCondition
+    #done()
 
-  it 'filter', (done) ->
-    assert typeof table.filter is 'function'
-    assert table.filter 'key', 'S' 
-    assert table.filterCondition.get('key') is 'S'
-    done()
+  #it 'filter', (done) ->
+    #assert typeof table.filter is 'function'
+    #assert table.filter 'key', 'S' 
+    #assert table.filterCondition.get('key') is 'S'
+    #done()
 
-describe "Table: test function", ->
-  table = new window.TableStakes
-  it 'editable', (done)->
-    assert table.editable(true)
-    done()
+#describe "Table: test function", ->
+  #table = new window.TableStakes
+  #it 'editable', (done)->
+    #assert table.editable(true)
+    #done()
 
-  it 'isDeletable', (done)->
-    assert table.isDeletable(true)
-    done()
+  #it 'isDeletable', (done)->
+    #assert table.isDeletable(true)
+    #done()
 
-  it 'nested', (done)->
-    assert table.nested(true)
-    done()
+  #it 'nested', (done)->
+    #assert table.nested(true)
+    #done()
 
-  it 'boolean', (done)->
-    assert table.boolean(true)
-    done()
+  #it 'boolean', (done)->
+    #assert table.boolean(true)
+    #done()
 
-  it 'hierarchy_dragging', (done)->
-    assert table.hierarchy_dragging(true)
-    done()
+  #it 'hierarchy_dragging', (done)->
+    #assert table.hierarchy_dragging(true)
+    #done()
 
-  it 'resizable', (done)->
-    assert table.resizable(true)
-    done()
+  #it 'resizable', (done)->
+    #assert table.resizable(true)
+    #done()
 
-  it 'reorder_dragging', (done)->
-    assert table.reorder_dragging(true)
-    done()
+  #it 'reorder_dragging', (done)->
+    #assert table.reorder_dragging(true)
+    #done()
 
 describe "Events", ->
   event = window.TableStakesLib.Events

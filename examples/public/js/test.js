@@ -45,73 +45,9 @@ describe("Tablestakes API ", function() {
     assert(table.dispatchManualEvent);
     return done();
   });
-  it('setID', function(done) {
+  return it('setID', function(done) {
     assert(typeof table.setID === 'function');
     assert(table.setID);
-    return done();
-  });
-  it('table.margin(testdata)', function(done) {
-    var testHash;
-    testHash = {
-      top: 40,
-      right: 10,
-      bottom: 30,
-      left: 50
-    };
-    assert(table.margin(testHash) === table);
-    assert(table.margin()['top'] === 40);
-    assert(table.margin()['right'] === 10);
-    assert(table.margin()['bottom'] === 30);
-    assert(table.margin()['left'] === 50);
-    return done();
-  });
-  it('table.sortable is true', function(done) {
-    assert(typeof table.sortable === 'function');
-    assert(table.sortable(true));
-    return done();
-  });
-  it('setFilter', function(done) {
-    assert(typeof table.setFilter === 'function');
-    assert(table.setFilter(table.gridFilteredData[0], table.filterCondition));
-    return done();
-  });
-  return it('filter', function(done) {
-    assert(typeof table.filter === 'function');
-    assert(table.filter('key', 'S'));
-    assert(table.filterCondition.get('key') === 'S');
-    return done();
-  });
-});
-
-describe("Table: test function", function() {
-  var table;
-  table = new window.TableStakes;
-  it('editable', function(done) {
-    assert(table.editable(true));
-    return done();
-  });
-  it('isDeletable', function(done) {
-    assert(table.isDeletable(true));
-    return done();
-  });
-  it('nested', function(done) {
-    assert(table.nested(true));
-    return done();
-  });
-  it('boolean', function(done) {
-    assert(table.boolean(true));
-    return done();
-  });
-  it('hierarchy_dragging', function(done) {
-    assert(table.hierarchy_dragging(true));
-    return done();
-  });
-  it('resizable', function(done) {
-    assert(table.resizable(true));
-    return done();
-  });
-  return it('reorder_dragging', function(done) {
-    assert(table.reorder_dragging(true));
     return done();
   });
 });
