@@ -34,7 +34,8 @@ html
                 .styleguide-element.styleguide-modifier
                   span.styleguide-modifier-name #{modifier.name()}
                   section!= modifier.data.example
-              pre.styleguide-code= section.data.example
+              pre.styleguide-code
+                code(data-language='html')= section.data.example
     script(type='text/javascript')
       $(function() {
         $("[data-original-title]").tooltip();

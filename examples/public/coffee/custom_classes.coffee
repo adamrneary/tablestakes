@@ -1,67 +1,67 @@
 data = [
-  key: "NVD3"
+  id: "NVD3"
   type: "ahaha"
   etc: 'etc1'
 ,
-  key: "Simple Line"
+  id: "Simple Line"
   type: "Historical"
   etc: 'etc2'
 ,
-  key: "Scatter / Bubble"
+  id: "Scatter / Bubble"
   type: "Snapshot"
   etc: 'etc3'
 ,
-  key: "Stacked / Stream / Expanded Area"
+  id: "Stacked / Stream / Expanded Area"
   type: "Historical"
   etc: 'etc3'
 ,
-  key: "Discrete Bar"
+  id: "Discrete Bar"
   type: "Snapshot"
   etc: 'etc4'
 ,
-  key: "Grouped / Stacked Multi-Bar"
+  id: "Grouped / Stacked Multi-Bar"
   type: "Snapshot / Historical"
   etc: 'etc5'
 ,
-  key: "Horizontal Grouped Bar"
+  id: "Horizontal Grouped Bar"
   type: "Snapshot"
   etc: 'etc6'
 ,
-  key: "Line and Bar Combo"
+  id: "Line and Bar Combo"
   type: "Historical"
   etc: 'etc7'
 ,
-  key: "Cumulative Line"
+  id: "Cumulative Line"
   type: "Historical"
   etc: 'etc8'
 ,
-  key: "Line with View Finder"
+  id: "Line with View Finder"
   type: "Historical"
   etc: 'etc9'
 ,
-  key: "Legend"
+  id: "Legend"
   type: "Universal"
   etc: 'etc10'
 ,
-  key: "New Root"
+  id: "New Root"
   type: "tatata"
   etc: 'etc11'
 ,
-  key: "1"
+  id: "1"
   type: "123"
   etc: 'etc12'
   classes: "total"
 ]
 
 columns = [
-  key: "key"
+  key: "id"
   label: "Name"
   classes: "row-heading"
 ,
   key: "type"
   label: "Type"
-  # classes: (d) ->
-  #   "total" if d.type is "historical"
+  classes: (d) ->
+    "total" if d.type is "historical"
 ,
   key: "etc"
   label: "Etc"
@@ -72,4 +72,6 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
+  .rowClasses (d) ->
+    "total2" if d.etc is 'etc6'
   .render()

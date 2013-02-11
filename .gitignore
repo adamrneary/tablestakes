@@ -13,3 +13,5 @@ examples/js/tablestakes.js
 .powrc
 .log
 *.orig
+.tddium*
+.tddium
