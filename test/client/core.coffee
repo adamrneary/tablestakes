@@ -141,7 +141,6 @@ describe "Table: test function", ->
     assert table.reorder_dragging(true)
     done()
 
-
 describe "Events", ->
   event = window.TableStakesLib.Events
 
@@ -154,4 +153,3 @@ describe "Events", ->
     assert event
     done()
 #console.log 'cofeelint', coffeelint.lint("")
-
