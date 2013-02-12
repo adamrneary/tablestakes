@@ -8,7 +8,7 @@ class window.TableStakesLib.Events
   keydown: (node, d, column) ->
     switch d3.event.keyCode
       when 9  then @_handleTab(node, d, column)
-      when 38 then @_handleDown(node, d, column)
+      when 38 then @_handleUp(node, d, column)
       when 40 then @_handleDown(node, d, column)
       when 13 then @_handleEnter(node, d, column)
       when 27 then @_handleEscape(node, d, column)
@@ -190,8 +190,7 @@ class window.TableStakesLib.Events
   # toggle nested
   nestedClick: (node,d, _, unshift) ->
     if d3.event.shiftKey and not unshift
-      #If you shift-click, it'll toggle fold all the children, instead of itself
-      #d3.event.shiftKey = false
+      # Shift-click to toggle fold all children, instead of itself
       self = @
       if d.values
         d.values.forEach (node) ->
