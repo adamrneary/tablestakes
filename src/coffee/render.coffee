@@ -160,13 +160,7 @@ class window.TableStakesLib.Core
     @_makeNested(td) if @_ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if @_ourFunctor(column.isEditable, d)
     @_makeChanged(d, td, column)
-
-    if column.showCount
-      d3.select(td).append('span')
-        .classed('childrenCount', true)
-        .text (d) ->
-          count = d.values?.length or d._values?.length
-          if count then '(' + count + ')' else ''
+    @_addShowCount(d, td, column) if column.showCount
 
   _toggleBoolean: (context) ->
     if d3.select(context).attr('class') is 'editable boolean-false'
@@ -305,6 +299,13 @@ class window.TableStakesLib.Core
     if d.changedID and (i = d.changedID.indexOf(column.key)) isnt -1
       d3.select(td).classed('changed', true)
       d.changedID.splice i, 1
+
+  _addShowCount: (d, td, column) ->
+    d3.select(td).append('span')
+      .classed('childrenCount', true)
+      .text (d) ->
+        count = d.values?.length or d._values?.length
+        if count then '(' + count + ')' else ''
 
   draggable: ->
     self = @
