@@ -2,9 +2,9 @@
 @import "mixins";
 
 // Basic styles
-// 
+//
 // <strong>List of supported table HTML elements and how they should be used.</strong>
-// 
+//
 // <code>&lt;table&gt;</code> Wrapping element for displaying data in a tabular format.
 // <code>&lt;thead&gt;</code> Container element for table header rows <code>&lt;tr&gt;</code> to label table columns
 // <code>&lt;tbody&gt;</code> Container element for table rows <code>&lt;tr&gt;</code> in the body of the table
@@ -12,7 +12,7 @@
 // <code>&lt;td&gt;</code> Default table cell
 // <code>&lt;th&gt;</code> Special table cell for column (or row, depending on scope and placement) labels Must be used within a <code>&lt;thead&gt;</code>
 // <code>&lt;caption&gt;</code> Description or summary of what the table holds, especially useful for screen readers
-// 
+//
 // Styleguide 1.1
 
 table.tablestakes {
@@ -32,14 +32,14 @@ table.tablestakes {
 }
 
 // Headers
-// 
-// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong> 
+//
+// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong>
 //
 // <code>&lt;th&gt;</code> should be used where we have content
 // <code>&lt;td&gt;</code> should be used where we have gaps (see .secondary)
-// 
+//
 // .secondary - (row-level) used above normal header (for nested table headers)
-// 
+//
 // Styleguide 1.2
 
 table.tablestakes {
@@ -77,15 +77,15 @@ table.tablestakes {
 
 
 // .row-heading and .total
-// 
-// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong> 
+//
+// <strong>Defining styles for and within <code>&lt;thead&gt;</code>.</strong>
 //
 // <code>&lt;th&gt;</code> should be used where we have content
 // <code>&lt;td&gt;</code> should be used where we have gaps (see .secondary)
-// 
+//
 // .row-heading - (cell-level) first 1-2 columns describing the content of the row
 // .total - (cell-level) ending column summing prior cells
-// 
+//
 // Styleguide 1.2.1
 
 table.tablestakes {
@@ -108,9 +108,9 @@ table.tablestakes {
 }
 
 // Footers
-// 
+//
 // Currently, we only use footers for explanatory notes
-// 
+//
 // Styleguide 1.3
 
 table.tablestakes {
@@ -127,23 +127,23 @@ table.tablestakes {
 }
 
 // Full stack table example
-// 
+//
 // Example of all styles
-// 
+//
 // Styleguide 1.4
 
 
 
 
 // Columns
-// 
+//
 // These styles are actually cell styles, but they apply to an entire column at a time.
-// 
+//
 // .row-heading - for first 1-2 columns that describe the content of the row
 // .total - for columns at the end of the table showing row totals
 // .left-aligned - for numeric columns (default is right-aligned)
 // .light - to de-emphasize less important columns
-// 
+//
 // Styleguide 2.1
 
 table.tablestakes {
@@ -175,11 +175,11 @@ table.tablestakes {
 }
 
 // Resizable
-// 
+//
 // <div class="alert alert-info">When <code>.resizeable-handle</code> is active <code>:hover</code>, <code>.neighbor</code> class should be added to the sibling cells <code>.resizeable-handle</code>, via javascript</div>
-// 
+//
 // .resizeable - allows the user to drag and drop the edges of the columns to resize
-// 
+//
 // Styleguide 2.2
 
 table.tablestakes {
@@ -219,13 +219,13 @@ table.tablestakes {
 }
 
 // Sortable
-// 
+//
 // TODO: write descriptions
-// 
+//
 // .sortable - for columns not currently sorted, informing the user that the column can be sorted
 // .sortable.sorted-asc - for column currently sorted ascending
 // .sortable.sorted-desc - for column currently sorted descending
-// 
+//
 // Styleguide 2.3
 
 table.tablestakes {
@@ -249,7 +249,7 @@ table.tablestakes {
         top: 12px;
         border-color: transparent transparent $sortable-inactive-arrows-color transparent;
         border-style: solid;
-        border-width: 0px 5px 5px 5px; 
+        border-width: 0px 5px 5px 5px;
       }
 
       &:after {
@@ -275,9 +275,9 @@ table.tablestakes {
 }
 
 // Rows
-// 
+//
 // These styles are applied to an entire row at a time.
-// 
+//
 // .subtotal - for rows showing total of a subset of rows above them
 // .subtotal2 - alt style for rows showing total of a subset of rows above them
 // .well - alt style for rows showing total of a subset of rows above them
@@ -288,7 +288,7 @@ table.tablestakes {
 // .emphasis2 - alt style for rows that need attention drawn to them
 // .draggable-destination - class that is added to a row on which the .draggable hovers
 // .dragged - this class is added to a row which is dragged. Absolute positions are to be set dynamically to follow the cursor.
-// 
+//
 // Styleguide 3.1
 
 table.tablestakes {
@@ -411,9 +411,9 @@ table.tablestakes {
 }
 
 // Cells
-// 
+//
 // These styles relate to cells specifically and support our particular table library functionality
-// 
+//
 // .plan - for columns in the future
 // .old - for columns in the past
 // .collapsible - for cells in a hierarchy that are currently expanded (and can be collapsed by clicking)
@@ -427,7 +427,9 @@ table.tablestakes {
 // .indent4 - for cells in a hierarchy, indented 4 spaces
 // .indent5 - for cells in a hierarchy, indented 5 spaces
 // .indent6 - for cells in a hierarchy, indented 6 spaces
-// 
+// .boolean-false - false value
+// .boolean-true - true value
+//
 // Styleguide 4.1
 
 table.tablestakes {
@@ -440,7 +442,7 @@ table.tablestakes {
     &.plan {
       color: $cell-plan-color;
       background: $cell-plan-background;
-      
+
       &.editable:hover {
         background: $white;
       }
@@ -492,7 +494,7 @@ table.tablestakes {
 
     // deletable
     &.deletable {
-      text-align: left; 
+      text-align: left;
       text-indent: -9999em;
       cursor: pointer;
 
@@ -538,7 +540,7 @@ table.tablestakes {
         top: 12px;
         border-color: transparent transparent $sortable-inactive-arrows-color transparent;
         border-style: solid;
-        border-width: 0px 5px 5px 5px; 
+        border-width: 0px 5px 5px 5px;
       }
 
       &:after {
@@ -584,19 +586,77 @@ table.tablestakes {
       text-align: left;
       padding-left: 70px;
     }
+
+    // boolean false and true
+    &.boolean-false, &.boolean-true {
+      position: relative;
+      min-width: 30px;
+      margin-left: 5px;
+      margin-right: 5px;
+      display: block;
+      text-align: left;
+      text-indent: -9999em;
+
+      &:hover {
+        background: transparent;
+      }
+
+      &:before {
+        position: absolute;
+        top: 7px;
+        left: 0;
+        content: "";
+        display: block;
+        width: 100%;
+        height: 20px;
+        @include border-radius(20px)
+      }
+
+      &:after {
+        position: absolute;
+        top: 5px;
+        content: "";
+        display: block;
+        width: 24px;
+        height: 25px;
+        background: url("../images/sprite_air.png") -10px -10px no-repeat;
+      }
+    }
+
+    // boolean false
+    &.boolean-false {
+      &:before {
+        background: $danger;
+        @include inner-shadow(0, 0, 6px, darken($danger, 30%));
+      }
+
+      &:after {
+        left: -3px;
+      }
+    }
+
+    // boolean true
+    &.boolean-true {
+      &:before {
+        background: $success;
+        @include inner-shadow(0, 0, 6px, darken($success, 30%));
+      }
+
+      &:after {
+        right: -3px;
+      }
+    }
   }
 }
 // Editable
-// 
+//
 // These styles relate to cells specifically and support our particular table library functionality
-// 
+//
 // .editable - indicates that the cell can be clicked on to edit
 // .editable:hover - indicates that the cell can be clicked on to edit and currently has hover
 // .editable.active - Only editable cell can become active.
 // .editable.changed - changed/dirty cell pending confirmation of save (at which point it reverts to editable)
-// .editable.boolean-false - false value
-// .editable.boolean-true - true value
-// 
+//
 // Styleguide 4.1.1
 
 table.tablestakes {
@@ -650,73 +710,16 @@ table.tablestakes {
         border: 1px dotted $cell-editable-changed-border-color;
       }
 
-      // boolean false and true
-      &.boolean-false, &.boolean-true {
-        position: relative;
-        min-width: 30px;
-        display: block;
-        text-align: left;
-        text-indent: -9999em;
-
-        &:hover {
-          background: transparent;
-        }
-
-        &:before {
-          position: absolute;
-          top: 7px;
-          left: 0;
-          content: "";
-          display: block;
-          width: 100%;
-          height: 20px;
-          @include border-radius(20px)
-        }
-
-        &:after {
-          position: absolute;
-          top: 5px;
-          content: "";
-          display: block;
-          width: 24px;
-          height: 25px;
-          background: url("../images/sprite_air.png") -10px -10px no-repeat;
-        }
-      }
-
-      // boolean false
-      &.boolean-false {
-        &:before {
-          background: $danger;
-          @include inner-shadow(0, 0, 6px, darken($danger, 30%));
-        }
-
-        &:after {
-          left: -3px;
-        }
-      }
-
-      // boolean true
-      &.boolean-true {
-        &:before {
-          background: $success;
-          @include inner-shadow(0, 0, 6px, darken($success, 30%));
-        }
-
-        &:after {
-          right: -3px;
-        }
-      }
     }
   }
 }
 
 // Editable Calendar
-// 
+//
 // Style for calendar editable cell
-// 
+//
 // .editable.active.calendar - Calendar can only exist in a .editable.active
-// 
+//
 // Styleguide 4.1.2
 
 table.tablestakes {
@@ -749,11 +752,11 @@ table.tablestakes {
 
 
 // Editable Select
-// 
+//
 // Style for editable select.
-// 
+//
 // .editable.active.select - Select can only exist in a .editable.active
-// 
+//
 // Styleguide 4.1.3
 
 table.tablestakes {

@@ -52,27 +52,35 @@ data = [
 
 categories = ['engineering', 'design', 'qa']
 
+editHandler = (id, field, newValue) ->
+  (row[field] = newValue if row.id is id) for row in data
+  grid.data(data).render()
+
 columns = [
   id: "id"
   label: "Task"
   classes: "row-heading"
   isEditable: true
+  onEdit: editHandler
 ,
   id: "category"
   label: "Task category"
   isEditable: true
   editor: 'select'
   selectOptions: categories
+  onEdit: editHandler
 ,
   id: "date"
   label: "Date due"
   isEditable: true
   editor: 'calendar'
+  onEdit: editHandler
 ,
   id: "complete"
   label: "Is complete"
   isEditable: true
   editor: 'boolean'
+  onEdit: editHandler
 ]
 
 grid = new window.TableStakes()

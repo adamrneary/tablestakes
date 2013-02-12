@@ -154,15 +154,16 @@ class window.TableStakesLib.Core
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
     @_makeChanged(d, td, column)
+    @_makeBoolean(d, td, column) if column.editor is 'boolean'
     @_addShowCount(d, td, column) if column.showCount
 
-  _toggleBoolean: (context) ->
-    if d3.select(context).attr('class') is 'editable boolean-false'
-      d[column.id] = 'true'
-      d3.select(context).attr('class', 'editable boolean-true')
-    else
-      d[column.id] = 'false'
-      d3.select(context).attr('class', 'editable boolean-false')
+  # _toggleBoolean: (context) ->
+  #   if d3.select(context).attr('class') is 'editable boolean-false'
+  #     d[column.id] = 'true'
+  #     d3.select(context).attr('class', 'editable boolean-true')
+  #   else
+  #     d[column.id] = 'false'
+  #     d3.select(context).attr('class', 'editable boolean-false')
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
@@ -283,6 +284,12 @@ class window.TableStakesLib.Core
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
       d3.select(td).classed('changed', true)
       d.changedID.splice i, 1
+
+  _makeBoolean: (d, td, column) ->
+    d3.select(td)
+      .classed('boolean-true', d[column.id])
+      .classed('boolean-false', not d[column.id])
+      .on('click', (a,b,c) => @events.toggleBoolean(@,a,b,c,column))
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length

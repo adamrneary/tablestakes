@@ -69,7 +69,7 @@ class window.TableStakesLib.Events
   # record change and deactivate
   blur: (node, d, column) ->
     unless @core.table.isInRender
-      val = d3.select(node).node().value
+      val = d3.select(node).text()
       unless val is d[d.activatedID]
         @_applyChangedState(d)
         column.onEdit(d.id, column.id, val) if column.onEdit
@@ -204,3 +204,6 @@ class window.TableStakesLib.Events
     @core.update()
     d3.event.preventDefault()
     d3.event.stopPropagation()
+
+  toggleBoolean: (node,d, _, unshift) ->
+    console.log node,d, _, unshift
