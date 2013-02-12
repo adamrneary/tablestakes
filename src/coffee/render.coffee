@@ -284,7 +284,7 @@ class window.TableStakesLib.Core
 
     d3.select(td).classed('editable', true)
 
-    eventType = if @table.is 'nested' then 'dblclick' else 'click'
+    eventType = if column.isNested then 'dblclick' else 'click'
     d3.select(td).on(eventType, (a,b,c) -> self.events.editable(this,a,b,c,column))
 
     if d.activatedID is column.key
