@@ -1,4 +1,4 @@
-testTree = [
+data = [
   id: "NVD3"
   type: "ahaha"
   values: [
@@ -48,25 +48,34 @@ testTree = [
     classes: "rowcustom"
   ]
 ]
-testColumns = [
+
+setNewTreeValue = (tree, id, field, newValue) ->
+  for node in tree
+    if node.id is id
+      node[field] = newValue
+    else if node.values?
+      setNewTreeValue(node.values, id, field, newValue)
+
+editHandler = (id, field, newValue) ->
+  setNewTreeValue data, id, field, newValue
+  grid.data(data).render()
+
+columns = [
   key: "id"
   label: "Name"
-  showCount: false
-  type: "text"
+  classes: 'row-heading'
   isEditable: true
-  classes: "keyfield"
-  click: (d) ->
-    d3.select(this).html "hallo you were clicked"
+  isNested: true
+  onEdit: editHandler
 ,
   key: "type"
   label: "Type"
-  type: "text"
   isEditable: true
-  classes: "name"
+  onEdit: editHandler
 ]
-grid = new window.TableStakes
-  columns: testColumns
-  data: testTree
-  el: "#example"
-  nested: true
-grid.render()
+
+grid = new window.TableStakes()
+  .el('#example')
+  .columns(columns)
+  .data(data)
+  .render()

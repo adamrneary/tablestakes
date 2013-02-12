@@ -16,7 +16,7 @@ class window.TableStakes
     bottom: 0
     left: 0
   _rowClasses: null
-    
+
   _isDeleteable: false
   _onDelete: null
   _isResizable: true
@@ -182,7 +182,7 @@ class window.TableStakes
     return @_el unless val?
     @_el = val
     @
-    
+
   rowClasses: (val) ->
     return @_rowClasses unless val?
     @_rowClasses = d3.functor(val)
@@ -192,12 +192,6 @@ class window.TableStakes
     return @isSortable unless val?
     @isSortable = val
     @
-
-  editable: (val) ->
-    if typeof val is 'boolean'
-      @set 'editable',val
-    else
-      @set 'editable-filter', val
 
   isDeletable: (val) ->
     return @_isDeleteable unless val?
