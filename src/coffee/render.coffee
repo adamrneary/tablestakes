@@ -69,10 +69,6 @@ class window.TableStakesLib.Core
 
     # for now, either all columns are resizable or none, set in table config
     theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
-
-    # todo: move this down
-    theadRow.append('th').attr('width', '10px') if @table.dragMode() is 'reorder'
-
     @
 
   # responsible for <tbody> and contents
@@ -237,6 +233,9 @@ class window.TableStakesLib.Core
       .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
+
+  _makeDraggable: (table) ->
+    table.selectAll('th').attr('width', '10px') if @table.dragMode() is 'reorder'
 
   _makeDeletable: (table) ->
     # add space in the table header

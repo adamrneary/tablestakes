@@ -176,8 +176,8 @@ class window.TableStakes
     @
 
   _synthesize: (hash) ->
-    for key in _.keys(hash)
-      @['_' + key] = hash[key]
+    _.each hash, (value, key) =>
+      @['_' + key] = value
       func = (key) =>
         @[key] = (val) ->
           return @['_' + key] unless val?
