@@ -151,8 +151,8 @@ class window.TableStakesLib.Core
       .attr('class', (d) => @_cellClasses(d, column))
       .text((d) -> d[column.key] or '-')
 
-    @_makeNested(td) if @_ourFunctor(column.isNested, d)
-    @_makeEditable(d, td, column) if @_ourFunctor(column.isEditable, d)
+    @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
+    @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
     @_makeChanged(d, td, column)
     @_addShowCount(d, td, column) if column.showCount
 
@@ -163,16 +163,6 @@ class window.TableStakesLib.Core
     else
       d[column.key] = 'false'
       d3.select(context).attr('class', 'editable boolean-false')
-
-  # similar in spirit to d3.functor()
-  # https://github.com/mbostock/d3/wiki/Internals
-  #
-  # TODO: move to utils
-  _ourFunctor: (attr, element) ->
-    if typeof attr is 'function'
-      attr(element)
-    else
-      attr
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
@@ -240,6 +230,7 @@ class window.TableStakesLib.Core
       self.update()
 
   _makeResizable: (th) =>
+    # todo: clean up contexts
     self = @
     dragBehavior = d3.behavior.drag()
       .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
@@ -248,7 +239,7 @@ class window.TableStakesLib.Core
       .classed('resizeable-handle right', true)
       .call dragBehavior
 
-  _makeDeletable: (table) =>
+  _makeDeletable: (table) ->
     # add space in the table header
     table.selectAll("thead tr")
       .append('th')
@@ -256,15 +247,14 @@ class window.TableStakesLib.Core
 
     # add deletable <td>
     @updateRows.append('td')
-      .classed('deletable', (d) => @_ourFunctor(@table.isDeletable(), d))
+      .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',
-        (d) => @table.onDelete()(d.id) if @_ourFunctor(@table.isDeletable(), d)
+        (d) => @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
-  _makeNested: (td) =>
-    self = @
+  _makeNested: (td) ->
     d3.select(td)
-      .attr('class', (d) -> self.utils.nestedIcons(d))
-      .on('click', (a,b,c) -> self.events.nestedClick(this,a,b,c))
+      .attr('class', (d) => @utils.nestedIcons(d))
+      .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))
 
   _makeEditable: (d, td, column) ->
     self = @

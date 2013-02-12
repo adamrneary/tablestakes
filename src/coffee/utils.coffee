@@ -116,3 +116,11 @@ class window.TableStakesLib.Utils
           'collapsible'
         else
           'indent1'
+
+  # similar in spirit to d3.functor()
+  # https://github.com/mbostock/d3/wiki/Internals
+  ourFunctor: (attr, element) ->
+    if typeof attr is 'function'
+      attr(element)
+    else
+      attr
