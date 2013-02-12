@@ -5,7 +5,7 @@ sass = require 'node-sass'
 module.exports.css = 'less'
 module.exports.name = 'dist'
 
-coffeePath = "#{coffeePath}"
+coffeePath = "#{__dirname}/../node_modules/coffee-script/bin/coffee"
 
 module.exports.compile = (cb) ->
   compileCoffeeSrc ->
