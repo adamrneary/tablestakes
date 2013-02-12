@@ -257,9 +257,8 @@ class window.TableStakesLib.Core
     # add deletable <td>
     @updateRows.append('td')
       .classed('deletable', (d) => @_ourFunctor(@table.isDeletable(), d))
-      .on('click', (d) =>
-        @table.onDelete()(d.id) if @_ourFunctor(@table.isDeletable(), d)
-      )
+      .on 'click',
+        (d) => @table.onDelete()(d.id) if @_ourFunctor(@table.isDeletable(), d)
 
   _makeNested: (td) =>
     self = @
@@ -273,7 +272,8 @@ class window.TableStakesLib.Core
     d3.select(td).classed('editable', true)
 
     eventType = if column.isNested then 'dblclick' else 'click'
-    d3.select(td).on(eventType, (a,b,c) -> self.events.editable(this,a,b,c,column))
+    d3.select(td)
+      .on(eventType, (a,b,c) -> self.events.editable(this,a,b,c,column))
 
     if d.activatedID is column.key
       if d[column.key].classes is 'select'
@@ -295,11 +295,10 @@ class window.TableStakesLib.Core
       d.changedID.splice i, 1
 
   _addShowCount: (d, td, column) ->
+    count = d.values?.length or d._values?.length
     d3.select(td).append('span')
       .classed('childrenCount', true)
-      .text (d) ->
-        count = d.values?.length or d._values?.length
-        if count then '(' + count + ')' else ''
+      .text (d) -> if count then '(' + count + ')' else ''
 
   draggable: ->
     self = @
