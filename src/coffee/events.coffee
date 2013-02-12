@@ -205,6 +205,12 @@ class window.TableStakesLib.Events
     d3.event.preventDefault()
     d3.event.stopPropagation()
 
-  toggleBoolean: (node,d, _, unshift, column) ->
+  toggleBoolean: (node, d, _, unshift, column) ->
     column.onEdit(d.id, column.id, not d[column.id]) if column.onEdit
+    @core.update()
+
+  selectClick: (node, d, _, unshift, column) ->
+    val = d3.event.target.value
+    unless val is d[column.id]
+      column.onEdit(d.id, column.id, val) if column.onEdit
     @core.update()

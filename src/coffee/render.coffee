@@ -155,6 +155,7 @@ class window.TableStakesLib.Core
     @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
     @_makeChanged(d, td, column)
     @_makeBoolean(d, td, column) if column.editor is 'boolean'
+    @_makeSelect(d, td, column) if column.editor is 'select'
     @_addShowCount(d, td, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
@@ -191,37 +192,11 @@ class window.TableStakesLib.Core
     # return string split by spaces
     val.join(' ')
 
-  selectBox: (node, d, column) ->
-    self = @
-    d3.select(node).classed('active', true)
-    select = d3.select(node)
-      .html('<select class="expand-select"></select>')
-      .select('.expand-select')
-    if @val?
-      option = select.append('option')
-        .style('cursor', 'pointer')
-        .text(@val)
-        .style('display', 'none')
-    for label in d[column.id].label
-      if typeof label is 'string'
-        option = select.append('option').text(label)
-      else
-        for options in label
-          if typeof options is 'string'
-            optgroup = select.append('optgroup')
-              .style('cursor', 'pointer')
-              .attr('label', options)
-          else
-            for index in options
-              option = optgroup.append('option')
-                .style('cursor', 'pointer')
-                .text(index)
-    select.on 'click', (d) ->
-      select.remove()
-      d3.select(node).append('span').text(d3.event.target.value)
-      self.val = d3.event.target.value
-      self.update()
 
+  # ## "Transform methods" apply optional behaviors and classes based on config
+
+
+  #
   _makeResizable: (th) =>
     # todo: clean up contexts
     self = @
@@ -250,6 +225,8 @@ class window.TableStakesLib.Core
       .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))
 
   _makeEditable: (d, td, column) ->
+    return if _.contains ['boolean', 'select'], column.editor
+
     self = @
 
     d3.select(td).classed('editable', true)
@@ -259,8 +236,8 @@ class window.TableStakesLib.Core
       .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
 
     if d.activatedID is column.id
-      if d[column.id].classes is 'select'
-        @selectBox(td, d, column)
+      if column.editor is 'calendar'
+        @_makeCalendar(d, td, column)
       else
         d3.select(td)
           .classed('active', true)
@@ -276,6 +253,27 @@ class window.TableStakesLib.Core
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
       d3.select(td).classed('changed', true)
       d.changedID.splice i, 1
+
+  _makeSelect: (d, td, column) ->
+    select = d3.select(td)
+      .html('<select class="expand-select"></select>')
+      .select('.expand-select')
+
+    # add current value
+    select.append('option')
+      .style('cursor', 'pointer')
+      .text(d[column.id])
+
+    # add other options
+    group = select.append('optgroup').style('cursor', 'pointer')
+    _.each _.without(column.selectOptions, d[column.id]), (item) =>
+      group.append('option')
+        .style('cursor', 'pointer')
+        .text(item)
+
+    select.on('change', (a,b,c) => @events.selectClick(@,a,b,c,column))
+
+  _makeCalendar: (d, td, column) ->
 
   _makeBoolean: (d, td, column) ->
     d3.select(td)
