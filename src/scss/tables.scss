@@ -755,37 +755,20 @@ table.tablestakes {
 //
 // Style for editable select.
 //
-// .editable.active.select - Select can only exist in a .editable.active
+// .select - Select can only exist in a .editable.active
 //
 // Styleguide 4.1.3
 
 table.tablestakes {
   th, td {
-    &.editable {
-      &.active {
-        &.select {
-          border: none;
-          background: transparent;
-          @include inner-shadow(0, 0, 0, transparent);
-
-          select {
-            padding: 0;
-            width: auto;
-            margin: 0;
-            height: auto;
-            border: none;
-            color: $cell-editable-active-border-color;
-            background: transparent;
-            // line-height: 1em;
-          }
-            &:focus {
-              outline: none;
-            }
-          &:after {
-            display: none;
-          }
-        }
-      }
+    select {
+      padding: 0;
+      width: 100%;
+      margin: 0;
+      height: auto;
+      color: $cell-editable-active-border-color;
+      background: transparent;
+      // line-height: 1em;
     }
   }
 }
