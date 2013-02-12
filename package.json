@@ -18,6 +18,7 @@
         "kss": "",
         "mocha": "",
         "request": "",
-        "coffeelint": ""
+        "coffeelint": "",
+        "coffeestand": ""
     }
 }

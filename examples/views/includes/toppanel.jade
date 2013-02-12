@@ -12,6 +12,10 @@
             a(href='/')
               i.icon-white.icon-home
               |  Home
+          li(class="#{page == 'documentation'? 'active': ''}")
+            a(href='/documentation')
+              i.icon-white.icon-list-alt
+              |  Documentation
           li(class="#{page == 'test'? 'active': ''}")
             a(href='/test')
               i.icon-white.icon-ok

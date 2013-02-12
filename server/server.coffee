@@ -55,6 +55,10 @@ app.get '/', (req,res)->
         res.render 'index'
             page: 'index'
 
+app.get '/documentation', (req,res)->
+    res.render 'documentation'
+        page: 'documentation'
+
 app.get '/test', (req,res)->
     compile ->
         errors = {}
@@ -78,7 +82,6 @@ app.get '/test', (req,res)->
         res.render 'mocha'
             errors: errors
             page: 'mocha'
-
 
 app.get '/styleguide', (req,res)->
     compile ->
