@@ -39,8 +39,6 @@ class window.TableStakes
   constructor: (options) ->
     @set 'sortable', false
     @set 'filterable', false
-    @set 'hierarchy_dragging', false
-    @set 'reorder_dragging', false
     @core = new window.TableStakesLib.Core
     @filterCondition = d3.map([])
     if options?
@@ -49,7 +47,7 @@ class window.TableStakes
 
   render: () ->
     @gridData = [values: @data()]
-    @columns().forEach ( column, i) =>
+    @columns().forEach (column, i) =>
       @gridData[0][column['id']] = column['id']
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
@@ -142,12 +140,6 @@ class window.TableStakes
       return data
     return null
 
-  reorder_dragging: (val) ->
-    if typeof val is 'boolean'
-      @set 'reorder_dragging',val
-    else
-      @set 'reorder_dragging-filter', val
-
   get: (key) ->
     @attributes[key]
 
@@ -223,10 +215,4 @@ class window.TableStakes
       @set 'boolean',val
     else
       @set 'boolean-filter', val
-
-  hierarchy_dragging: (val) ->
-    if typeof val is 'boolean'
-      @set 'hierarchy_dragging',val
-    else
-      @set 'hierarchy_dragging-filter', val
 

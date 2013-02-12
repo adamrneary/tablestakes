@@ -368,7 +368,5 @@ grid = new window.TableStakes(
   filterable: true
   resizable: true
   nested: true
-  hierarchy_dragging: true
-  reorder_dragging: true
 ).isDeletable(true)
 grid.render()

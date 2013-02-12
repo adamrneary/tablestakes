@@ -126,8 +126,8 @@ class window.TableStakesLib.Core
     @_exitRows()
 
     # columns added before data columns
-    @draggable() if @table.is 'hierarchy_dragging'
-    @reorder_draggable() if @table.is 'reorder_dragging'
+    @hierarchy_draggable() if @table.dragMode() is 'hierarchy'
+    @reorder_draggable() if @table.dragMode() is 'reorder'
 
     d3.select(@enterRows[0][0]).style("display", "none") if @enterRows[0][0]
 
@@ -290,21 +290,23 @@ class window.TableStakesLib.Core
       .classed('childrenCount', true)
       .text (d) -> if count then '(' + count + ')' else ''
 
-  draggable: ->
-    self = @
-    dragbehavior = d3.behavior.drag()
-      .origin(Object)
-      .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
-      .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
-      .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
-    @updateRows.call dragbehavior
+  hierarchy_draggable: ->
+    console.log 'hierarchy draggable'
+    # self = @
+    # dragbehavior = d3.behavior.drag()
+    #   .origin(Object)
+    #   .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
+    #   .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
+    #   .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
+    # @updateRows.call dragbehavior
 
   reorder_draggable: ->
-    self = @
-    @updateRows.insert("td").classed('draggable', true)
-    dragbehavior = d3.behavior.drag()
-      .origin(Object)
-      .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
-      .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
-    @updateRows.call dragbehavior
+    console.log 'reorder draggable'
+    # self = @
+    # @updateRows.insert("td").classed('draggable', true)
+    # dragbehavior = d3.behavior.drag()
+    #   .origin(Object)
+    #   .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
+    #   .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
+    # @updateRows.call dragbehavior
 
