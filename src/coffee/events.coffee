@@ -205,5 +205,6 @@ class window.TableStakesLib.Events
     d3.event.preventDefault()
     d3.event.stopPropagation()
 
-  toggleBoolean: (node,d, _, unshift) ->
-    console.log node,d, _, unshift
+  toggleBoolean: (node,d, _, unshift, column) ->
+    column.onEdit(d.id, column.id, not d[column.id]) if column.onEdit
+    @core.update()
