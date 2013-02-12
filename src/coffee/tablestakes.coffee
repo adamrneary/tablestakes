@@ -8,25 +8,12 @@ class window.TableStakes
   childIndent : 20
 
   _columns: []
-  _data: []
-  _el: null
   _margin :
     top: 0
     right: 0
     bottom: 0
     left: 0
   _rowClasses: null
-
-  _isDeleteable: false
-  _onDelete: null
-
-  _isResizable: true
-  _isSortable: false
-
-  _dragMode: null
-  _isDraggable: false
-  _onDrag: null
-  _isDragDestination: false
 
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
@@ -39,8 +26,20 @@ class window.TableStakes
   filterCondition : []
 
   constructor: (options) ->
-    @set 'filterable', false
     @core = new window.TableStakesLib.Core
+
+    @_synthesize
+      data: []
+      el: null
+      isDeletable: false
+      onDelete: null
+      isResizable: true
+      isSortable: false
+      dragMode: null
+      isDraggable: false
+      onDrag: null
+      isDragDestination: false
+
     @filterCondition = d3.map([])
     if options?
       for key of options
@@ -171,60 +170,20 @@ class window.TableStakes
       @_columns.push c
     @
 
-  data: (val) ->
-    return @_data unless val?
-    @_data = val
-    @
-
-  el: (val) ->
-    return @_el unless val?
-    @_el = val
-    @
-
   rowClasses: (val) ->
     return @_rowClasses unless val?
     @_rowClasses = d3.functor(val)
     @
 
-  isSortable: (val) ->
-    return @_isSortable unless val?
-    @_isSortable = val
-    @
-
-  dragMode: (val) ->
-    return @_dragMode unless val?
-    @_dragMode = val
-    @
-
-  isDraggable: (val) ->
-    return @_isDraggable unless val?
-    @_isDraggable = val
-    @
-
-  isDragDestination: (val) ->
-    return @_isDragDestination unless val?
-    @_isDragDestination = val
-    @
-
-  onDrag: (val) ->
-    return @_onDrag unless val?
-    @_onDrag = val
-    @
-
-  isDeletable: (val) ->
-    return @_isDeleteable unless val?
-    @_isDeleteable = val
-    @
-
-  onDelete: (val) ->
-    return @_onDelete unless val?
-    @_onDelete = val
-    @
-
-  isResizable: (val) ->
-    return @_isResizable unless val?
-    @_isResizable = val
-    @
+  _synthesize: (hash) ->
+    for key in _.keys(hash)
+      @['_' + key] = hash[key]
+      func = (key) =>
+        @[key] = (val) ->
+          return @['_' + key] unless val?
+          @['_' + key] = val
+          @
+      func(key)
 
   boolean: (val) ->
     if typeof val is 'boolean'
