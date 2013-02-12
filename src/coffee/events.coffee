@@ -7,67 +7,80 @@ class window.TableStakesLib.Events
   # keydown editing cell
   keydown: (node, d, column) ->
     switch d3.event.keyCode
-      when 9  #tab
-        currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-        # if shiftkey is not pressed, get next
-        if d3.event.shiftKey is false
-          if(currentindex < @core.columns.length - 1)
-            d.activatedID = @core.columns[currentindex+1].key
-          else
-            nextNode = @core.utils.findNextNode d, @core.nodes
-            if nextNode isnt null
-              nextNode.activatedID = @core.columns[0].key
-              d.activatedID = null
-        # if shiftkey is not pressed, get previous
-        else
-          if currentindex > 0
-            d.activatedID = @core.columns[currentindex-1].key
-          else
-            prevNode = @core.utils.findPrevNode d, @core.nodes
-            if prevNode isnt null
-              prevNode.activatedID = @core.columns[@core.columns.length - 1].key
-              d.activatedID = null
-        d3.event.preventDefault()
-        d3.event.stopPropagation()
-        @core.update()
+      when 9  then @_handleTab(node, d, column)
+      when 38 then @_handleDown(node, d, column)
+      when 40 then @_handleDown(node, d, column)
+      when 13 then @_handleEnter(node, d, column)
+      when 27 then @_handleEscape(node, d, column)
 
-      when 38 #up
-        prevNode = @core.utils.findPrevNode d, @nodes
-        currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-        if prevNode != null
-          prevNode.activatedID = @core.columns[currentindex].key
-          d.activatedID = null
-        @core.update()
-
-      when 40 #down
-        nextNode = @core.utils.findNextNode d
-        currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+  # move active cell left or right
+  _handleTab: (node, d, column) ->
+    console.log node, d, column
+    currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+    # if shiftkey is not pressed, get next
+    if d3.event.shiftKey is false
+      if(currentindex < @core.columns.length - 1)
+        d.activatedID = @core.columns[currentindex+1].key
+      else
+        nextNode = @core.utils.findNextNode d, @core.nodes
         if nextNode isnt null
-          nextNode.activatedID = @core.columns[currentindex].key
+          nextNode.activatedID = @core.columns[0].key
           d.activatedID = null
-        @core.update()
+    # if shiftkey is not pressed, get previous
+    else
+      if currentindex > 0
+        d.activatedID = @core.columns[currentindex-1].key
+      else
+        prevNode = @core.utils.findPrevNode d, @core.nodes
+        if prevNode isnt null
+          prevNode.activatedID = @core.columns[@core.columns.length - 1].key
+          d.activatedID = null
+    d3.event.preventDefault()
+    d3.event.stopPropagation()
+    @core.update()
 
-      when 13 #enter
-        val = d3.select(node).text()
-        column.onEdit(d.id, column.key, val) if column.onEdit
-        d.changedID ?= []
-        if d.changedID.indexOf(d.activatedID) is -1
-          d.changedID.push d.activatedID
-        d.activatedID = null
-        @core.update()
+  # move active cell to next cell above
+  _handleUp: (node, d, column) ->
+    prevNode = @core.utils.findPrevNode d, @nodes
+    currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+    if prevNode != null
+      prevNode.activatedID = @core.columns[currentindex].key
+      d.activatedID = null
+    @core.update()
 
-      when 27 #escape
-        d3.select(node).node().value = d[d.activatedID]
-        d.activatedID = null
-        @core.update()
+  # move active cell to next cell below
+  _handleDown: (node, d, column) ->
+    nextNode = @core.utils.findNextNode d
+    currentindex = @core.utils.getCurrentColumnIndex d.activatedID
+    if nextNode isnt null
+      nextNode.activatedID = @core.columns[currentindex].key
+      d.activatedID = null
+    @core.update()
 
-  # removal of the selection from the active cell
+  # record change and deactivate
+  _handleEnter: (node, d, column) ->
+    @blur(node, d, column)
+
+  # reset value and deactivate
+  _handleEscape: (node, d, column) ->
+    d3.select(node).node().value = d[d.activatedID]
+    d.activatedID = null
+    @core.update()
+
+  # record change and deactivate
   blur: (node, d, column) ->
     unless @core.table.isInRender
-      val = d3.select(node).text()
-      column.onEdit(d.id, column.key, val) if column.onEdit
+      val = d3.select(node).node().value
+      unless val is d[d.activatedID]
+        @_applyChangedState(d)
+        column.onEdit(d.id, column.key, val) if column.onEdit
       d.activatedID = null
       @core.update()
+
+  _applyChangedState: (d) ->
+    d.changedID ?= []
+    if d.changedID.indexOf(d.activatedID) is -1
+      d.changedID.push d.activatedID
 
   dragstart: (node, d) ->
     self = @
@@ -147,7 +160,7 @@ class window.TableStakesLib.Events
     @core.utils.pastNode brother, child
     @core.update()
 
-  resizeDrag: (context,node,d, _, unshift) ->
+  resizeDrag: (context, node, d, _, unshift) ->
     th = node.parentNode
     column_x = parseFloat(d3.select(th).attr("width"))
     column_newX = d3.event.x # x + d3.event.dx
