@@ -138,13 +138,11 @@ class window.TableStakesLib.Core
 
   _renderEnterRows: ->
     self = @
-
     @columns.forEach (column, column_index) =>
       @enterRows.append('td').each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
-
     @updateRows.selectAll('td').each (d, i) -> self._renderCell(self.columns[i], d, @)
 
   _renderCell: (column, d, td) ->
@@ -214,8 +212,7 @@ class window.TableStakesLib.Core
       else
         column.classes
 
-    if column is @columns[0]
-      val.push @utils.icon(d)
+    val.push @utils.nestedIcons(d) if column is @columns[0]
 
     # retrieve classes specified in data itself
     val.push d.classes if d.classes?
