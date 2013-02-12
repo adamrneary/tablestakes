@@ -92,31 +92,25 @@ class window.TableStakesLib.Core
   _updateRows: ->
     self = @
 
-    @updateRows = @rows
-      .order()
-      .on("click", (d) -> self.table.dispatch.elementClick(
-        row: @
-        data: d
-        pos: [d.x, d.y]
-      ))
-      .on("dblclick", (d) -> self.table.dispatch.elementDblclick(
-        row: @
-        data: d
-        pos: [d.x, d.y]
-      ))
-      .on("mouseover", (d) -> self.table.dispatch.elementMouseover(
-        row: @
-        data: d
-        pos: [d.x, d.y]
-      ))
-      .on("mouseout", (d) -> self.table.dispatch.elementMouseout(
-        row: @
-        data: d
-        pos: [d.x, d.y]
-      ))
+    @updateRows = @rows.order()
+    @_addRowEventHandling()
+    @updateRows.select('.expandable')
+      .classed('folded', @utils.folded)
 
-      @updateRows.select('.expandable')
-        .classed('folded', @utils.folded)
+  _addRowEventHandling: ->
+    events =
+      click: 'elementClick'
+      dblclick: 'elementDblclick'
+      mouseover: 'elementMouseover'
+      mouseout: 'elementMouseout'
+
+    addEvent = (key, value) =>
+      @updateRows.on key, (d) -> self.table.dispatch.elementClick
+        row: @
+        data: d
+        pos: [d.x, d.y]
+
+    _.each events, (value, key) -> addEvent(key, value)
 
   _exitRows: ->
     @rows
