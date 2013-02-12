@@ -47,13 +47,17 @@ columns = [
   label: "Type"
 ]
 
+deleteCheck = (d) ->
+  d.type is 'Historical' or d.type is 'Snapshot'
+
+deleteHandler = (id) ->
+  data = _.reject(data, (row) -> row.id is id)
+  grid.data(data).render()
+
 grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
-  .isDeletable (d) ->
-    d.type is 'Historical' or d.type is 'Snapshot'
-  .onDelete (id) ->
-    data = _.reject(data, (row) -> row.id is id)
-    grid.data(data).render()
+  .isDeletable(deleteCheck)
+  .onDelete(deleteHandler)
   .render()

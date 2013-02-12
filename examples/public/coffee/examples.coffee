@@ -49,10 +49,10 @@ prepareLinks = (route, el) ->
     $("#example_view").empty().append script
     $("#temp").empty()
 
-    $.get urlCoffee, (data)->
-        $("#example_js").text data
-    $.get url, (data)->
-        $("example_view").text data
+    $.get urlCoffee, (data) ->
+      $("#example_js").text data
+    $.get url, (data) ->
+      $("example_view").text data
 
 $(document).ready ->
   _.map core, (route) ->
