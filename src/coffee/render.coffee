@@ -275,7 +275,7 @@ class window.TableStakesLib.Core
 
   _makeNested: (td) =>
     self = @
-    td
+    d3.select(td)
       .attr('class', (d) -> self.utils.nestedIcons(d))
       .on('click', (a,b,c) -> self.events.nestedClick(this,a,b,c))
 
