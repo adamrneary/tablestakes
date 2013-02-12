@@ -114,7 +114,8 @@ class window.TableStakesLib.Core
         data: d
         pos: [d.x, d.y]
       ))
-      .select('.expandable')
+
+      @updateRows.select('.expandable')
         .classed('folded', @utils.folded)
 
   _exitRows: ->
@@ -123,7 +124,6 @@ class window.TableStakesLib.Core
         .remove()
 
   _renderRows: ->
-
     @rows = @tbody.selectAll("tr")
       .data(((d) -> d), (d) -> d.id)
 
@@ -143,11 +143,13 @@ class window.TableStakesLib.Core
   _renderEnterRows: ->
     self = @
     @columns.forEach (column, column_index) =>
-      @enterRows.append('td').each (d, i) -> self._renderCell(column, d, @)
+      @enterRows.append('td')
+        .each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
-    @updateRows.selectAll('td').each (d, i) -> self._renderCell(self.columns[i], d, @)
+    @updateRows.selectAll('td')
+      .each (d, i) -> self._renderCell(self.columns[i], d, @)
 
   _renderCell: (column, d, td) ->
     if column is @columns[0]
