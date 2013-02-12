@@ -21,6 +21,11 @@ class window.TableStakes
   _onDelete: null
   _isResizable: true
 
+  _dragMode: null
+  _isDraggable: false
+  _onDrag: null
+  _isDragDestination: false
+
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
     "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
@@ -191,6 +196,11 @@ class window.TableStakes
   sortable: (val) ->
     return @isSortable unless val?
     @isSortable = val
+    @
+
+  dragMode: (val) ->
+    return @_dragMode unless val?
+    @_dragMode = val
     @
 
   isDeletable: (val) ->
