@@ -26,6 +26,7 @@ compileCoffeeTests = (cb)->
         else
             cb()
 
+
 compileCoffeeSrc = (cb)->
     child_process.exec "#{__dirname}/../node_modules/coffee-script/bin/coffee -j #{__dirname}/../dist/#{module.exports.name}.js -cb #{__dirname}/../src/coffee/", (err,stdout,stderr)->
         if stderr
@@ -33,6 +34,7 @@ compileCoffeeSrc = (cb)->
                 console.log 'coffee err: ',stderr
                 cb()
         else
+            child_process.exec "#{__dirname}/../node_modules/docco/bin/docco #{__dirname}/../src/coffee/*.coffee -o #{__dirname}/../test/docs"
             cb()
 
 compileCoffeeExamples = (cb)->

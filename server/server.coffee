@@ -55,9 +55,22 @@ app.get '/', (req,res)->
         res.render 'index'
             page: 'index'
 
-app.get '/documentation', (req,res)->
-    res.render 'documentation'
-        page: 'documentation'
+ app.get '/documentation', (req,res)->
+    compile ->
+        docs = {}
+        docsPath = "#{__dirname}/../test/docs/"
+        docFiles = modules.fs.readdirSync docsPath
+        for docFile in docFiles
+            if docFile.substr(docFile.length-4) == 'html'
+                htmlBody = modules.fs.readFileSync docsPath + docFile, 'utf-8'
+                jsReg = /<body>([\s\S]*?)<\/body>/gi
+                container = jsReg.exec(htmlBody)
+                docs[docFile] = container[1]
+
+        res.render 'documentation'
+            docs: docs
+            page: 'documentation'
+
 
 app.get '/test', (req,res)->
     compile ->

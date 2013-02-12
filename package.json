@@ -19,6 +19,7 @@
         "mocha": "",
         "request": "",
         "coffeelint": "",
-        "coffeestand": ""
+        "coffeestand": "",
+        "docco":""
     }
 }
