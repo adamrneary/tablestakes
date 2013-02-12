@@ -53,14 +53,14 @@ data = [
 ]
 
 columns = [
-  key: "id"
+  id: "id"
   label: "Name"
   classes: "row-heading"
 ,
-  key: "type"
+  id: "type"
   label: "Type"
 ,
-  key: "etc"
+  id: "etc"
   label: "Etc"
 ]
 

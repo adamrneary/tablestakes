@@ -49,12 +49,12 @@ data = [
   ]
 ]
 columns = [
-  key: "id"
+  id: "id"
   label: "Name"
   classes: "row-heading"
   isNested: true
 ,
-  key: "type"
+  id: "type"
   label: "Type"
 ]
 grid = new window.TableStakes()

@@ -44,14 +44,14 @@ editHandler = (id, field, newValue) ->
   grid.data(data).render()
 
 columns = [
-  key: "id"
+  id: "id"
   label: "Name"
   classes: "row-heading"
   isEditable: (d) ->
     d.id is 'Horizontal Grouped Bar'
   onEdit: editHandler
 ,
-  key: "type"
+  id: "type"
   label: "Type"
   isEditable: true
   onEdit: editHandler

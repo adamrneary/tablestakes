@@ -54,16 +54,16 @@ data = [
 ]
 
 columns = [
-  key: "id"
+  id: "id"
   label: "Name"
   classes: "row-heading"
 ,
-  key: "type"
+  id: "type"
   label: "Type"
   classes: (d) ->
     "total" if d.type is "historical"
 ,
-  key: "etc"
+  id: "etc"
   label: "Etc"
   classes: "plan"
 ]

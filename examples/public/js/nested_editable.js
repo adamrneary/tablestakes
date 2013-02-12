@@ -85,14 +85,14 @@ editHandler = function(id, field, newValue) {
 
 columns = [
   {
-    key: "id",
+    id: "id",
     label: "Name",
     classes: 'row-heading',
     isEditable: true,
     isNested: true,
     onEdit: editHandler
   }, {
-    key: "type",
+    id: "type",
     label: "Type",
     isEditable: true,
     onEdit: editHandler

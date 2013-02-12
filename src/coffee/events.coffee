@@ -20,20 +20,20 @@ class window.TableStakesLib.Events
     # if shiftkey is not pressed, get next
     if d3.event.shiftKey is false
       if(currentindex < @core.columns.length - 1)
-        d.activatedID = @core.columns[currentindex+1].key
+        d.activatedID = @core.columns[currentindex+1].id
       else
         nextNode = @core.utils.findNextNode d, @core.nodes
         if nextNode isnt null
-          nextNode.activatedID = @core.columns[0].key
+          nextNode.activatedID = @core.columns[0].id
           d.activatedID = null
     # if shiftkey is not pressed, get previous
     else
       if currentindex > 0
-        d.activatedID = @core.columns[currentindex-1].key
+        d.activatedID = @core.columns[currentindex-1].id
       else
         prevNode = @core.utils.findPrevNode d, @core.nodes
         if prevNode isnt null
-          prevNode.activatedID = @core.columns[@core.columns.length - 1].key
+          prevNode.activatedID = @core.columns[@core.columns.length - 1].id
           d.activatedID = null
     d3.event.preventDefault()
     d3.event.stopPropagation()
@@ -44,7 +44,7 @@ class window.TableStakesLib.Events
     prevNode = @core.utils.findPrevNode d, @nodes
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
     if prevNode != null
-      prevNode.activatedID = @core.columns[currentindex].key
+      prevNode.activatedID = @core.columns[currentindex].id
       d.activatedID = null
     @core.update()
 
@@ -53,7 +53,7 @@ class window.TableStakesLib.Events
     nextNode = @core.utils.findNextNode d
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
     if nextNode isnt null
-      nextNode.activatedID = @core.columns[currentindex].key
+      nextNode.activatedID = @core.columns[currentindex].id
       d.activatedID = null
     @core.update()
 
@@ -73,7 +73,7 @@ class window.TableStakesLib.Events
       val = d3.select(node).node().value
       unless val is d[d.activatedID]
         @_applyChangedState(d)
-        column.onEdit(d.id, column.key, val) if column.onEdit
+        column.onEdit(d.id, column.id, val) if column.onEdit
       d.activatedID = null
       @core.update()
 

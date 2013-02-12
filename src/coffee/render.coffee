@@ -105,12 +105,12 @@ class window.TableStakesLib.Core
       mouseout: 'elementMouseout'
 
     addEvent = (key, value) =>
-      @updateRows.on key, (d) -> self.table.dispatch.elementClick
+      @updateRows.on key, (d) => @table.dispatch.elementClick
         row: @
         data: d
         pos: [d.x, d.y]
 
-    _.each events, (value, key) -> addEvent(key, value)
+    _.each events, (value, key) => addEvent(key, value)
 
   _exitRows: ->
     @rows
@@ -147,9 +147,9 @@ class window.TableStakesLib.Core
 
   _renderCell: (column, d, td) ->
     d3.select(td)
-      .attr('meta-key', column.key)
+      .attr('meta-key', column.id)
       .attr('class', (d) => @_cellClasses(d, column))
-      .text((d) -> d[column.key] or '-')
+      .text((d) -> d[column.id] or '-')
 
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
@@ -158,10 +158,10 @@ class window.TableStakesLib.Core
 
   _toggleBoolean: (context) ->
     if d3.select(context).attr('class') is 'editable boolean-false'
-      d[column.key] = 'true'
+      d[column.id] = 'true'
       d3.select(context).attr('class', 'editable boolean-true')
     else
-      d[column.key] = 'false'
+      d[column.id] = 'false'
       d3.select(context).attr('class', 'editable boolean-false')
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
@@ -209,7 +209,7 @@ class window.TableStakesLib.Core
         .style('cursor', 'pointer')
         .text(@val)
         .style('display', 'none')
-    for label in d[column.key].label
+    for label in d[column.id].label
       if typeof label is 'string'
         option = select.append('option').text(label)
       else
@@ -265,8 +265,8 @@ class window.TableStakesLib.Core
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editable(this,a,b,c,column))
 
-    if d.activatedID is column.key
-      if d[column.key].classes is 'select'
+    if d.activatedID is column.id
+      if d[column.id].classes is 'select'
         @selectBox(td, d, column)
       else
         d3.select(td)
@@ -276,11 +276,11 @@ class window.TableStakesLib.Core
           .on('blur', (d) -> self.events.blur(this, d, column))
           .node()
             .focus()
-    else if d.changedID and d.changedID.indexOf(column.key) isnt -1
+    else if d.changedID and d.changedID.indexOf(column.id) isnt -1
       d3.select(td).classed('changed', true)
 
   _makeChanged: (d, td, column) ->
-    if d.changedID and (i = d.changedID.indexOf(column.key)) isnt -1
+    if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
       d3.select(td).classed('changed', true)
       d.changedID.splice i, 1
 
