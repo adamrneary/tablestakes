@@ -152,9 +152,6 @@ class window.TableStakesLib.Core
       .each (d, i) -> self._renderCell(self.columns[i], d, @)
 
   _renderCell: (column, d, td) ->
-    if column is @columns[0]
-      d3.select(td).attr('ref', column.key)
-
     d3.select(td)
       .attr('meta-key', column.key)
       .attr('class', (d) => @_cellClasses(d, column))
