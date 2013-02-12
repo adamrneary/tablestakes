@@ -71,8 +71,7 @@ class window.TableStakesLib.Core
     theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
 
     # todo: move this down
-    if @table.is('reorder_dragging')
-      theadRow.append('th').attr('width', '10px')
+    theadRow.append('th').attr('width', '10px') if @table.dragMode() is 'reorder'
 
     @
 

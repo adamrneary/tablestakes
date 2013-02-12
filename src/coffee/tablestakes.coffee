@@ -19,7 +19,9 @@ class window.TableStakes
 
   _isDeleteable: false
   _onDelete: null
+
   _isResizable: true
+  _isSortable: false
 
   _dragMode: null
   _isDraggable: false
@@ -37,7 +39,6 @@ class window.TableStakes
   filterCondition : []
 
   constructor: (options) ->
-    @set 'sortable', false
     @set 'filterable', false
     @core = new window.TableStakesLib.Core
     @filterCondition = d3.map([])
@@ -185,14 +186,29 @@ class window.TableStakes
     @_rowClasses = d3.functor(val)
     @
 
-  sortable: (val) ->
-    return @isSortable unless val?
-    @isSortable = val
+  isSortable: (val) ->
+    return @_isSortable unless val?
+    @_isSortable = val
     @
 
   dragMode: (val) ->
     return @_dragMode unless val?
     @_dragMode = val
+    @
+
+  isDraggable: (val) ->
+    return @_isDraggable unless val?
+    @_isDraggable = val
+    @
+
+  isDragDestination: (val) ->
+    return @_isDragDestination unless val?
+    @_isDragDestination = val
+    @
+
+  onDrag: (val) ->
+    return @_onDrag unless val?
+    @_onDrag = val
     @
 
   isDeletable: (val) ->
@@ -212,7 +228,7 @@ class window.TableStakes
 
   boolean: (val) ->
     if typeof val is 'boolean'
-      @set 'boolean',val
+      @set 'boolean', val
     else
       @set 'boolean-filter', val
 
