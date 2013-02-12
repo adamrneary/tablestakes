@@ -159,10 +159,7 @@ class window.TableStakesLib.Core
 
     @_makeNested(td) if @_ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if @_ourFunctor(column.isEditable, d)
-
-    if d.changedID and (i = d.changedID.indexOf(column.key)) isnt -1
-      d3.select(td).classed 'changed'
-      d.changedID.splice i, 1
+    @_makeChanged(d, td, column)
 
     if column.showCount
       d3.select(td).append('span')
@@ -303,6 +300,11 @@ class window.TableStakesLib.Core
             .focus()
     else if d.changedID and d.changedID.indexOf(column.key) isnt -1
       d3.select(td).classed('changed', true)
+
+  _makeChanged: (d, td, column) ->
+    if d.changedID and (i = d.changedID.indexOf(column.key)) isnt -1
+      d3.select(td).classed('changed', true)
+      d.changedID.splice i, 1
 
   draggable: ->
     self = @
