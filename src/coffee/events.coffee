@@ -182,7 +182,7 @@ class window.TableStakesLib.Events
       self = @
       if d.values
         d.values.forEach (node) ->
-          self.click this,node, 0, true if node.values or node._values
+          self.nestedClick(this, node, 0, true) if node.values or node._values
     else
       if d.values
         d._values = d.values
