@@ -1,64 +1,76 @@
 data = [
-  id: "NVD3"
-  type: "-"
+  id: "task 1"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Simple Line"
-  type: "+"
+  id: "task 2"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Scatter / Bubble"
-  type: "Y"
+  id: "task 3"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Stacked / Stream / Expanded Area"
-  type: "y"
+  id: "task 4"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Discrete Bar"
-  type: "yes"
+  id: "task 5"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: 'ok'
-  type: "no"
+  id: "task 6"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Horizontal Grouped Bar"
-  type: "-"
+  id: "task 7"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Line and Bar Combo"
-  type: "n"
+  id: "task 8"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Cumulative Line"
-  type: "N"
+  id: "task 9"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ,
-  id: "Line with View Finder"
-  type: "Bad"
-,
-  id: "Legend"
-  type: "false"
-,
-  id: "New Root"
-  type: "true"
-,
-  id: "true"
-  type: "true"
+  id: "task 10"
+  category: "engineering"
+  date: '2013-01-01'
+  complete: true
 ]
 
 columns = [
-  key: "id"
-  label: "Name"
-  showCount: false
-  isEditable: true
+  id: "id"
+  label: "Task"
   classes: "row-heading"
+  isEditable: true
 ,
-  key: "type"
-  label: "Type"
-  isEditable: false
-  classes: "boolean"
+  id: "category"
+  label: "Date due"
+  isEditable: true
+,
+  id: "date"
+  label: "Date due"
+  isEditable: true
+,
+  id: "complete"
+  label: "Is complete"
+  isEditable: true
 ]
 
-grid = new window.TableStakes(
-  columns: columns
-  data: data
-  el: "#example"
-)
-.boolean true
-# .boolean (row)->
-#     if row is 'boolean-filter'
-#       row
-grid.render()
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .render()

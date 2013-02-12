@@ -15,7 +15,6 @@ class window.TableStakesLib.Events
 
   # move active cell left or right
   _handleTab: (node, d, column) ->
-    console.log node, d, column
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
     # if shiftkey is not pressed, get next
     if d3.event.shiftKey is false
