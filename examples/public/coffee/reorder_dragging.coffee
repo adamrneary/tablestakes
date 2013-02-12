@@ -48,9 +48,15 @@ columns = [
     label: "Type"
   ]
 
+onDragHandler = (d) ->
+  console.log 'handling reorder onDrag'
+
 grid = new window.TableStakes()
   .el('#example')
   .columns(columns)
   .data(data)
+  .isDraggable(true)
   .dragMode('reorder')
+  .isDragDestination(true) # TODO build a more comprehensive example
+  .onDrag(onDragHandler)
   .render()

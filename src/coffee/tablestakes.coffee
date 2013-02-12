@@ -28,6 +28,7 @@ class window.TableStakes
   constructor: (options) ->
     @core = new window.TableStakesLib.Core
 
+    # building getter/setter methods (initialized with defaults)
     @_synthesize
       data: []
       el: null
