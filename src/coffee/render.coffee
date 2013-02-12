@@ -157,14 +157,6 @@ class window.TableStakesLib.Core
     @_makeBoolean(d, td, column) if column.editor is 'boolean'
     @_addShowCount(d, td, column) if column.showCount
 
-  # _toggleBoolean: (context) ->
-  #   if d3.select(context).attr('class') is 'editable boolean-false'
-  #     d[column.id] = 'true'
-  #     d3.select(context).attr('class', 'editable boolean-true')
-  #   else
-  #     d[column.id] = 'false'
-  #     d3.select(context).attr('class', 'editable boolean-false')
-
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
   # primary points of contact
