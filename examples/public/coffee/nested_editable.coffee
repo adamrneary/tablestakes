@@ -71,7 +71,6 @@ columns = [
   key: "type"
   label: "Type"
   isEditable: true
-  classes: "name"
   onEdit: editHandler
 ]
 
