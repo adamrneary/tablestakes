@@ -54,6 +54,7 @@ columns = [
   showCount: false
   type: "text"
   isEditable: true
+  isNested: true
   classes: "keyfield"
   click: (d) ->
     d3.select(this).html "hallo you were clicked"
@@ -68,5 +69,4 @@ grid = new window.TableStakes()
   .el('#example')
   .columns(columns)
   .data(data)
-  .nested(true)
   .render()

@@ -69,6 +69,7 @@ columns = [
     showCount: false,
     type: "text",
     isEditable: true,
+    isNested: true,
     classes: "keyfield",
     click: function(d) {
       return d3.select(this).html("hallo you were clicked");
@@ -82,4 +83,4 @@ columns = [
   }
 ];
 
-grid = new window.TableStakes().el('#example').columns(columns).data(data).nested(true).render();
+grid = new window.TableStakes().el('#example').columns(columns).data(data).render();
