@@ -225,29 +225,29 @@ class window.TableStakesLib.Core
       .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))
 
   _makeEditable: (d, td, column) ->
-    return if _.contains ['boolean', 'select'], column.editor
-
     self = @
 
+    return if _.contains ['boolean', 'select'], column.editor
     d3.select(td).classed('editable', true)
+    d3.select(td).classed('calendar', true) if column.editor is 'calendar'
+    # TODO: enable datepicker
+    # $('.editable.calendar').datepicker()
 
     eventType = if column.isNested then 'dblclick' else 'click'
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
 
-    if d.activatedID is column.id
-      if column.editor is 'calendar'
-        @_makeCalendar(d, td, column)
-      else
-        d3.select(td)
-          .classed('active', true)
-          .attr('contentEditable', true)
-          .on('keydown', (d) -> self.events.keydown(this, d, column))
-          .on('blur', (d) -> self.events.blur(this, d, column))
-          .node()
-            .focus()
-    else if d.changedID and d.changedID.indexOf(column.id) isnt -1
-      d3.select(td).classed('changed', true)
+    @_makeActive(d, td, column) if d.activatedID is column.id
+
+  _makeActive: (d, td, column) ->
+    self = @
+    d3.select(td)
+      .classed('active', true)
+      .attr('contentEditable', true)
+      .on('keydown', (d) -> self.events.keydown(this, d, column))
+      .on('blur', (d) -> self.events.blur(this, d, column))
+      .node()
+        .focus()
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
@@ -272,8 +272,6 @@ class window.TableStakesLib.Core
         .text(item)
 
     select.on('change', (a,b,c) => @events.selectClick(@,a,b,c,column))
-
-  _makeCalendar: (d, td, column) ->
 
   _makeBoolean: (d, td, column) ->
     d3.select(td)
