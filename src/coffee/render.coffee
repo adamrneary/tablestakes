@@ -76,21 +76,23 @@ class window.TableStakesLib.Core
 
     @
 
+  # responsible for <tbody> and contents
   _renderBody: (tableObject) ->
     @tbody = tableObject.selectAll("tbody").data((d) -> d)
     @tbody.enter().append "tbody"
 
-    @_updateRows()
-    @_enterRows()
-    @_exitRows()
-
     @_renderRows()
+
+  _enterRows: ->
+    @enterRows = @rows
+      .enter()
+        .append("tr")
+        .attr("class", (d) => @_rowClasses(d))
 
   _updateRows: ->
     self = @
 
-    @updateRows = @tbody.selectAll("tr")
-      .data(((d) -> d), (d) -> d.id)
+    @updateRows = @rows
       .order()
       .on("click", (d) -> self.table.dispatch.elementClick(
         row: @
@@ -112,21 +114,23 @@ class window.TableStakesLib.Core
         data: d
         pos: [d.x, d.y]
       ))
-
-  _enterRows: ->
-    @enterRows = @updateRows
-      .enter()
-        .append("tr")
-        .attr("class", (d) => @_rowClasses(d))
+      .select('.expandable')
+        .classed('folded', @utils.folded)
 
   _exitRows: ->
-    @updateRows
+    @rows
       .exit()
         .remove()
-      .select('.expandable')
-      .classed('folded', @utils.folded)
 
   _renderRows: ->
+
+    @rows = @tbody.selectAll("tr")
+      .data(((d) -> d), (d) -> d.id)
+
+    @_enterRows()
+    @_updateRows()
+    @_exitRows()
+
     # columns added before data columns
     @draggable() if @table.is 'hierarchy_dragging'
     @reorder_draggable() if @table.is 'reorder_dragging'
