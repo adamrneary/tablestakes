@@ -28,7 +28,7 @@ class window.TableStakes
   constructor: (options) ->
     @core = new window.TableStakesLib.Core
 
-    # building getter/setter methods (initialized with defaults)
+    # builds getter/setter methods (initialized with defaults)
     @_synthesize
       data: []
       el: null
@@ -176,6 +176,7 @@ class window.TableStakes
     @_rowClasses = d3.functor(val)
     @
 
+  # builds getter/setter methods (initialized with defaults)
   _synthesize: (hash) ->
     _.each hash, (value, key) =>
       @['_' + key] = value
@@ -185,10 +186,3 @@ class window.TableStakes
           @['_' + key] = val
           @
       func(key)
-
-  boolean: (val) ->
-    if typeof val is 'boolean'
-      @set 'boolean', val
-    else
-      @set 'boolean-filter', val
-
