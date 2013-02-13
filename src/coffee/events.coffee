@@ -138,21 +138,20 @@ class window.TableStakesLib.Events
     @draggingObj = d._id
     @draggingTargetObj = null
     d3.selectAll(targetRow).on("mouseover", (d) ->
-      return if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
-      d3.select(this.parentNode).classed "draggable-destination1", true
+      return if(self.draggingObj is d._id.substring(0, self.draggingObj.length))
+      d3.select(@parentNode).classed("draggable-destination1", true)
       self.draggingTargetObj = d._id
     ).on("mouseout", (d) ->
-      d3.select(this.parentNode).classed "draggable-destination1", false
+      d3.select(@parentNode).classed("draggable-destination1", false)
       self.draggingTargetObj = null
     )
 
   reordragend: (node,d) ->
     targetRow = @core.table.el() + " tbody tr .draggable"
     d3.selectAll(targetRow)
-    .on("mouseover", null)
-    .on("mouseout", null)
-    .style("background-color", null)
-    return if @draggingTargetObj == null
+      .on("mouseover", null)
+      .on("mouseout", null)
+    return if @draggingTargetObj is null
     brother = @core.utils.findNodeByID @draggingTargetObj
     child = @core.utils.findNodeByID @draggingObj
     @core.utils.removeNode child
