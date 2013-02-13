@@ -49,9 +49,9 @@ columns = [
   ]
 
 onDragHandler = (objectId, index) ->
-  console.log objectId, index
-  # TODO: find and record objectId's node as obj
-  # TODO: data = _without(data, obj).splice(index,0, obj)
+  obj = _.find(data, (d) -> d.id is objectId)
+  data = _.without(data, obj)
+  data.splice(index,0,obj)
   grid.data(data).render()
 
 grid = new window.TableStakes()
@@ -60,6 +60,5 @@ grid = new window.TableStakes()
   .data(data)
   .isDraggable(true)
   .dragMode('reorder')
-  .isDragDestination(true) # TODO build a more comprehensive example
   .onDrag(onDragHandler)
   .render()

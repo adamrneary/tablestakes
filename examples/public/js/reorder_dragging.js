@@ -55,8 +55,13 @@ columns = [
 ];
 
 onDragHandler = function(objectId, index) {
-  console.log(objectId, index);
+  var obj;
+  obj = _.find(data, function(d) {
+    return d.id === objectId;
+  });
+  data = _.without(data, obj);
+  data.splice(index, 0, obj);
   return grid.data(data).render();
 };
 
-grid = new window.TableStakes().el('#example').columns(columns).data(data).isDraggable(true).dragMode('reorder').isDragDestination(true).onDrag(onDragHandler).render();
+grid = new window.TableStakes().el('#example').columns(columns).data(data).isDraggable(true).dragMode('reorder').onDrag(onDragHandler).render();
