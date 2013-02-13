@@ -83,7 +83,7 @@ class window.TableStakesLib.Events
 
   dragstart: (node, d) ->
     self = @
-    d3.select(node).classed 'dragged', true
+    d3.select(node).classed('dragged', true)
     targetRow = @core.table.el() + " tbody tr:not(.dragged)"
     @draggingObj = d._id
     @draggingTargetObj = null
@@ -95,16 +95,17 @@ class window.TableStakesLib.Events
       left: @pos.left
       top: @pos.top
     d3.selectAll(targetRow).on("mouseover", (d) ->
-      d3.select(this).classed "draggable-destination", true
+      d3.select(@).classed("draggable-destination", true)
       self.draggingTargetObj = d._id
       d3.event.stopPropagation()
       d3.event.preventDefault()
     ).on("mouseout", (d) ->
-      d3.select(this).classed "draggable-destination", false
+      d3.select(this).classed("draggable-destination", false)
       self.draggingTargetObj = null
       d3.event.stopPropagation()
       d3.event.preventDefault()
     )
+
   dragmove: (node,d) ->
     x = parseInt(d3.event.x)
     y = parseInt(d3.event.y)
@@ -118,14 +119,13 @@ class window.TableStakesLib.Events
     $(node).css
       left: @init_coord.left
       top: @init_coord.top
-    d3.select(node).classed 'dragged', false
+    d3.select(node).classed('dragged', false)
     targetRow = @core.table.el() + " tbody tr"
     d3.selectAll(targetRow)
-    .on("mouseover", null)
-    .on("mouseout", null)
-    .style("background-color", null)
-    return if @draggingTargetObj == null
-    return if @draggingObj.substr(0,3) == @draggingTargetObj.substr(0,3)
+      .on("mouseover", null)
+      .on("mouseout", null)
+    return if @draggingTargetObj is null
+    return if @draggingObj.substr(0,3) is @draggingTargetObj.substr(0,3)
     parent = @core.utils.findNodeByID @draggingTargetObj
     child = @core.utils.findNodeByID @draggingObj
     @core.utils.removeNode child
