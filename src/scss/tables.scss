@@ -674,7 +674,6 @@ table.tablestakes {
       &.active {
         width: auto;
         position: relative;
-        display: block;
         cursor: text;
         border: 1px solid $cell-editable-active-border-color;
         @include inner-shadow(0, 0, 6px, $grey);
