@@ -62,6 +62,6 @@ grid = new window.TableStakes()
   .data(data)
   .isDraggable(true)
   .dragMode('hierarchy')
-  .isDragDestination(true) # TODO build a more comprehensive example
+  .isDragDestination(true)
   .onDrag(onDragHandler)
   .render()

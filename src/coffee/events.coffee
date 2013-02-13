@@ -81,7 +81,18 @@ class window.TableStakesLib.Events
     if d.changedID.indexOf(d.activatedID) is -1
       d.changedID.push d.activatedID
 
-  dragstart: (node, d) ->
+  dragStart: (tr, d) ->
+    @_makeRowDraggable(tr)
+    @initPosition = $(tr).position()
+
+  _makeRowDraggable: (tr) ->
+    rowWidth = $(tr).width()
+    cellWidths = _.map $(tr).find('td'), (td) -> $(td).width()
+    d3.select(tr).classed('dragged', true)
+    $(tr).width(rowWidth)
+    _.each $(tr).find('td'), (td, i) -> $(td).width(cellWidths[i])
+
+  OLD_dragStart: (node, d) ->
     self = @
     @draggingObj = d.id
     @draggingTargetObj = null
@@ -106,14 +117,26 @@ class window.TableStakesLib.Events
         d3.event.stopPropagation()
         d3.event.preventDefault()
 
-  dragmove: (node,d) ->
+  dragMove: (tr, d, x, y) ->
+    $(tr).css
+      left: @initPosition.left + d3.event.x
+      top: @initPosition.top + d3.event.y
+
+  OLD_dragMove: (tr, d) ->
     # TODO: i commented this out because it's breaking the mouseover/out above
     # $(node).css
     #   left: @pos.left + parseInt(d3.event.x)
     #   top: @pos.top + parseInt(d3.event.y)
     # @core.update()
 
-  dragend: (node, d) ->
+  dragEnd: (tr, d) ->
+    d3.select(tr).classed('dragged', false)
+    d3.selectAll(@core.table.el() + " tbody tr")
+      .classed("draggable-destination", false)
+      .on("mouseover", null)
+      .on("mouseout", null)
+
+  OLD_dragEnd: (node, d) ->
     d3.select(node).classed('dragged', false)
     d3.selectAll(@core.table.el() + " tbody tr")
       .classed("draggable-destination", false)

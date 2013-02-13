@@ -205,20 +205,21 @@ class window.TableStakesLib.Core
 
   _hierarchyDraggable: ->
     self = @
-    dragbehavior = d3.behavior.drag()
+    dragBehavior = d3.behavior.drag()
       .origin(Object)
-      .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
-      .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
-      .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
-    @updateRows.call dragbehavior
+      .on('dragstart', (a,b,c) -> self.events.dragStart(this,a,b,c))
+      .on('drag',      (a,b,c) -> self.events.dragMove(this,a,b,c))
+      .on('dragend',   (a,b,c) -> self.events.dragEnd(this,a,b,c))
+    @updateRows.call dragBehavior
 
   _reorderDraggable: ->
     self = @
-    dragbehavior = d3.behavior.drag()
+    dragBehavior = d3.behavior.drag()
       .origin(Object)
-      .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
-      .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
-    @updateRows.call dragbehavior
+      .on('dragstart', (a,b,c) -> self.events.dragStart(this,a,b,c))
+      .on('drag',      (a,b,c) -> self.events.dragMove(this,a,b,c))
+      .on('dragend',   (a,b,c) -> self.events.dragEnd(this,a,b,c))
+    @updateRows.call dragBehavior
 
   _makeDeletable: (table) ->
     # add space in the table header
