@@ -49,8 +49,12 @@ columns = [
   label: "Type"
 ]
 
-onDragHandler = (d) ->
-  console.log 'handling hierarchy onDrag'
+onDragHandler = (objectId, targetId) ->
+  console.log objectId, targetId
+  # TODO: find and record objectId's node (with children)
+  # TODO: remove objectId's node from objectId's parent node
+  # TODO: find targetId's node and add objectId's node (with children)
+  grid.data(data).render()
 
 grid = new window.TableStakes()
   .el('#example')

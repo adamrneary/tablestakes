@@ -83,54 +83,48 @@ class window.TableStakesLib.Events
 
   dragstart: (node, d) ->
     self = @
-    d3.select(node).classed('dragged', true)
-    targetRow = @core.table.el() + " tbody tr:not(.dragged)"
-    @draggingObj = d._id
+    @draggingObj = d.id
     @draggingTargetObj = null
     @init_coord = $(node).position()
     @init_pos = d.parent.children
     @pos = $(node).position()
     @pos.left += d3.event.sourceEvent.layerX
+
     $(node).css
       left: @pos.left
       top: @pos.top
-    d3.selectAll(targetRow).on("mouseover", (d) ->
-      d3.select(@).classed("draggable-destination", true)
-      self.draggingTargetObj = d._id
-      d3.event.stopPropagation()
-      d3.event.preventDefault()
-    ).on("mouseout", (d) ->
-      d3.select(this).classed("draggable-destination", false)
-      self.draggingTargetObj = null
-      d3.event.stopPropagation()
-      d3.event.preventDefault()
-    )
+    d3.select(node).classed('dragged', true)
+    d3.selectAll(@core.table.el() + " tbody tr:not(.dragged)")
+      .on "mouseover", (d) ->
+        d3.select(@).classed("draggable-destination", true)
+        self.draggingTargetObj = d.id
+        d3.event.stopPropagation()
+        d3.event.preventDefault()
+      .on "mouseout", (d) ->
+        d3.select(this).classed("draggable-destination", false)
+        self.draggingTargetObj = null
+        d3.event.stopPropagation()
+        d3.event.preventDefault()
 
   dragmove: (node,d) ->
-    x = parseInt(d3.event.x)
-    y = parseInt(d3.event.y)
-    $(node).css
-      left: @pos.left + x
-      top: @pos.top + y
-    @core.update()
+    # TODO: i commented this out because it's breaking the mouseover/out above
+    # $(node).css
+    #   left: @pos.left + parseInt(d3.event.x)
+    #   top: @pos.top + parseInt(d3.event.y)
+    # @core.update()
 
   dragend: (node, d) ->
-    d.parent.children = @init_pos
-    $(node).css
-      left: @init_coord.left
-      top: @init_coord.top
     d3.select(node).classed('dragged', false)
-    targetRow = @core.table.el() + " tbody tr"
-    d3.selectAll(targetRow)
+    d3.selectAll(@core.table.el() + " tbody tr")
+      .classed("draggable-destination", false)
       .on("mouseover", null)
       .on("mouseout", null)
+
     return if @draggingTargetObj is null
-    return if @draggingObj.substr(0,3) is @draggingTargetObj.substr(0,3)
-    parent = @core.utils.findNodeByID @draggingTargetObj
-    child = @core.utils.findNodeByID @draggingObj
-    @core.utils.removeNode child
-    @core.utils.appendNode parent, child
-    @core.update()
+    # TODO: i think the commented line below prevents remapping to your own parent?
+    # return if @draggingObj.substr(0,3) is @draggingTargetObj.substr(0,3)
+
+    @core.table.onDrag()(@draggingObj, @draggingTargetObj) if @core.table.onDrag
 
   reordragstart: (node, d) ->
     self = @

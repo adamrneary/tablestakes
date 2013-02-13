@@ -60,8 +60,9 @@ columns = [
   }
 ];
 
-onDragHandler = function(d) {
-  return console.log('handling hierarchy onDrag');
+onDragHandler = function(objectId, targetId) {
+  console.log(objectId, targetId);
+  return grid.data(data).render();
 };
 
 grid = new window.TableStakes().el('#example').columns(columns).data(data).isDraggable(true).dragMode('hierarchy').isDragDestination(true).onDrag(onDragHandler).render();
