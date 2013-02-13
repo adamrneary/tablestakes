@@ -15,7 +15,6 @@ class window.TableStakesLib.Events
 
   # move active cell left or right
   _handleTab: (node, d, column) ->
-    console.log node, d, column
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
     # if shiftkey is not pressed, get next
     if d3.event.shiftKey is false
@@ -70,7 +69,7 @@ class window.TableStakesLib.Events
   # record change and deactivate
   blur: (node, d, column) ->
     unless @core.table.isInRender
-      val = d3.select(node).node().value
+      val = d3.select(node).text()
       unless val is d[d.activatedID]
         @_applyChangedState(d)
         column.onEdit(d.id, column.id, val) if column.onEdit
@@ -179,7 +178,7 @@ class window.TableStakesLib.Events
       # context.tableObject.style "width", table_newX+"px"
 
   # change row if class editable
-  editable: (node, d, _, unshift) ->
+  editableClick: (node, d, _, unshift) ->
     unless d3.select(node).classed('active')
       @core.utils.deactivateAll @core.data[0]
       d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
@@ -205,3 +204,13 @@ class window.TableStakesLib.Events
     @core.update()
     d3.event.preventDefault()
     d3.event.stopPropagation()
+
+  toggleBoolean: (node, d, _, unshift, column) ->
+    column.onEdit(d.id, column.id, not d[column.id]) if column.onEdit
+    @core.update()
+
+  selectClick: (node, d, _, unshift, column) ->
+    val = d3.event.target.value
+    unless val is d[column.id]
+      column.onEdit(d.id, column.id, val) if column.onEdit
+    @core.update()

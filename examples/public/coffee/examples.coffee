@@ -29,8 +29,8 @@ core = [
   shortLink: "reorder_dragging"
   title: "Reorder dragging"
 ,
-  shortLink: "boolean"
-  title: "Boolean"
+  shortLink: "editors"
+  title: "Custom editors"
 ,
   shortLink: "all"
   title: "Full stack"

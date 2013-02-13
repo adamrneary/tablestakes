@@ -149,15 +149,9 @@ class window.TableStakesLib.Core
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
     @_makeChanged(d, td, column)
+    @_makeBoolean(d, td, column) if column.editor is 'boolean'
+    @_makeSelect(d, td, column) if column.editor is 'select'
     @_addShowCount(d, td, column) if column.showCount
-
-  _toggleBoolean: (context) ->
-    if d3.select(context).attr('class') is 'editable boolean-false'
-      d[column.id] = 'true'
-      d3.select(context).attr('class', 'editable boolean-true')
-    else
-      d[column.id] = 'false'
-      d3.select(context).attr('class', 'editable boolean-false')
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
@@ -193,37 +187,11 @@ class window.TableStakesLib.Core
     # return string split by spaces
     val.join(' ')
 
-  selectBox: (node, d, column) ->
-    self = @
-    d3.select(node).classed('active', true)
-    select = d3.select(node)
-      .html('<select class="expand-select"></select>')
-      .select('.expand-select')
-    if @val?
-      option = select.append('option')
-        .style('cursor', 'pointer')
-        .text(@val)
-        .style('display', 'none')
-    for label in d[column.id].label
-      if typeof label is 'string'
-        option = select.append('option').text(label)
-      else
-        for options in label
-          if typeof options is 'string'
-            optgroup = select.append('optgroup')
-              .style('cursor', 'pointer')
-              .attr('label', options)
-          else
-            for index in options
-              option = optgroup.append('option')
-                .style('cursor', 'pointer')
-                .text(index)
-    select.on 'click', (d) ->
-      select.remove()
-      d3.select(node).append('span').text(d3.event.target.value)
-      self.val = d3.event.target.value
-      self.update()
 
+  # ## "Transform methods" apply optional behaviors and classes based on config
+
+
+  #
   _makeResizable: (th) =>
     # todo: clean up contexts
     self = @
@@ -257,30 +225,57 @@ class window.TableStakesLib.Core
   _makeEditable: (d, td, column) ->
     self = @
 
+    return if _.contains ['boolean', 'select'], column.editor
     d3.select(td).classed('editable', true)
+    d3.select(td).classed('calendar', true) if column.editor is 'calendar'
+    # TODO: enable datepicker
+    # $('.editable.calendar').datepicker()
 
     eventType = if column.isNested then 'dblclick' else 'click'
     d3.select(td)
-      .on(eventType, (a,b,c) -> self.events.editable(this,a,b,c,column))
+      .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
 
-    if d.activatedID is column.id
-      if d[column.id].classes is 'select'
-        @selectBox(td, d, column)
-      else
-        d3.select(td)
-          .classed('active', true)
-          .attr('contentEditable', true)
-          .on('keydown', (d) -> self.events.keydown(this, d, column))
-          .on('blur', (d) -> self.events.blur(this, d, column))
-          .node()
-            .focus()
-    else if d.changedID and d.changedID.indexOf(column.id) isnt -1
-      d3.select(td).classed('changed', true)
+    @_makeActive(d, td, column) if d.activatedID is column.id
+
+  _makeActive: (d, td, column) ->
+    self = @
+    d3.select(td)
+      .classed('active', true)
+      .attr('contentEditable', true)
+      .on('keydown', (d) -> self.events.keydown(this, d, column))
+      .on('blur', (d) -> self.events.blur(this, d, column))
+      .node()
+        .focus()
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
       d3.select(td).classed('changed', true)
       d.changedID.splice i, 1
+
+  _makeSelect: (d, td, column) ->
+    select = d3.select(td)
+      .html('<select class="expand-select"></select>')
+      .select('.expand-select')
+
+    # add current value
+    select.append('option')
+      .style('cursor', 'pointer')
+      .text(d[column.id])
+
+    # add other options
+    group = select.append('optgroup').style('cursor', 'pointer')
+    _.each _.without(column.selectOptions, d[column.id]), (item) =>
+      group.append('option')
+        .style('cursor', 'pointer')
+        .text(item)
+
+    select.on('change', (a,b,c) => @events.selectClick(@,a,b,c,column))
+
+  _makeBoolean: (d, td, column) ->
+    d3.select(td)
+      .classed('boolean-true', d[column.id])
+      .classed('boolean-false', not d[column.id])
+      .on('click', (a,b,c) => @events.toggleBoolean(@,a,b,c,column))
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length
