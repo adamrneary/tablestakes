@@ -48,8 +48,11 @@ columns = [
     label: "Type"
   ]
 
-onDragHandler = (d) ->
-  console.log 'handling reorder onDrag'
+onDragHandler = (objectId, index) ->
+  console.log objectId, index
+  # TODO: find and record objectId's node as obj
+  # TODO: data = _without(data, obj).splice(index,0, obj)
+  grid.data(data).render()
 
 grid = new window.TableStakes()
   .el('#example')

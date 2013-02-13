@@ -128,29 +128,47 @@ class window.TableStakesLib.Events
 
   reordragstart: (node, d) ->
     self = @
-    targetRow = @core.table.el() + " tbody tr .draggable"
-    @draggingObj = d._id
-    @draggingTargetObj = null
-    d3.selectAll(targetRow).on("mouseover", (d) ->
-      return if(self.draggingObj is d._id.substring(0, self.draggingObj.length))
-      d3.select(@parentNode).classed("draggable-destination1", true)
-      self.draggingTargetObj = d._id
-    ).on("mouseout", (d) ->
-      d3.select(@parentNode).classed("draggable-destination1", false)
-      self.draggingTargetObj = null
-    )
+    @draggingObj = d.id
+    d3.select(node).classed('draggable-destination', true)
+
+    # TODO: the below is silly. is there an easier way to handle this?
+    #       as I drag the object node up and down, it should change index position
+    #       within the list. I added the draggable-destination class so that the
+    #       user could see it easily as it moves up and down.
+
+
+    # targetRow = @core.table.el() + " tbody tr .draggable"
+    # @draggingTargetObj = null
+    # d3.selectAll(targetRow).on("mouseover", (d) ->
+    #   return if(self.draggingObj is d._id.substring(0, self.draggingObj.length))
+    #   d3.select(@parentNode).classed("draggable-destination1", true)
+    #   self.draggingTargetObj = d._id
+    # ).on("mouseout", (d) ->
+    #   d3.select(@parentNode).classed("draggable-destination1", false)
+    #   self.draggingTargetObj = null
+    # )
 
   reordragend: (node,d) ->
-    targetRow = @core.table.el() + " tbody tr .draggable"
-    d3.selectAll(targetRow)
-      .on("mouseover", null)
-      .on("mouseout", null)
-    return if @draggingTargetObj is null
-    brother = @core.utils.findNodeByID @draggingTargetObj
-    child = @core.utils.findNodeByID @draggingObj
-    @core.utils.removeNode child
-    @core.utils.pastNode brother, child
-    @core.update()
+    d3.select(node).classed('draggable-destination', false)
+    index = 1
+
+    # TODO: the below is a bit silly. if we make the changes above, on drop we
+    #       should just need to grab the index of the object node and pass it
+    #       back. done and done.
+
+
+    # targetRow = @core.table.el() + " tbody tr .draggable"
+    # d3.selectAll(targetRow)
+    #   .on("mouseover", null)
+    #   .on("mouseout", null)
+    # return if @draggingTargetObj is null
+    # brother = @core.utils.findNodeByID @draggingTargetObj
+    # child = @core.utils.findNodeByID @draggingObj
+    # @core.utils.removeNode child
+    # @core.utils.pastNode brother, child
+    # @core.update()
+
+    @core.table.onDrag()(@draggingObj, index) if @core.table.onDrag
 
   resizeDrag: (context, node, d, _, unshift) ->
     th = node.parentNode

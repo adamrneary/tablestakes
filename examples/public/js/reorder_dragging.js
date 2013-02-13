@@ -54,8 +54,9 @@ columns = [
   }
 ];
 
-onDragHandler = function(d) {
-  return console.log('handling reorder onDrag');
+onDragHandler = function(objectId, index) {
+  console.log(objectId, index);
+  return grid.data(data).render();
 };
 
 grid = new window.TableStakes().el('#example').columns(columns).data(data).isDraggable(true).dragMode('reorder').isDragDestination(true).onDrag(onDragHandler).render();
