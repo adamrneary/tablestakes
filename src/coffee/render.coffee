@@ -35,6 +35,7 @@ class window.TableStakesLib.Core
 
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
+    @_makeDraggable(@tableObject) unless @table.isDraggable() is false
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
 
   _buildData: ->
@@ -115,17 +116,12 @@ class window.TableStakesLib.Core
   _renderRows: ->
     @rows = @tbody.selectAll("tr")
       .data(((d) -> d), (d) -> d.id)
-
     @_enterRows()
     @_updateRows()
     @_exitRows()
 
-    # columns added before data columns
-    @hierarchy_draggable() if @table.dragMode() is 'hierarchy'
-    @reorder_draggable() if @table.dragMode() is 'reorder'
-
-    d3.select(@enterRows[0][0]).style("display", "none") if @enterRows[0][0]
-
+    d3.select(@enterRows[0][0])
+      .style("display", "none") if @enterRows[0][0]
     @_renderEnterRows()
     @_renderUpdateRows()
 
@@ -190,20 +186,41 @@ class window.TableStakesLib.Core
 
   # ## "Transform methods" apply optional behaviors and classes based on config
 
+  # ### Table-level transform methods
 
   #
-  _makeResizable: (th) =>
-    # todo: clean up contexts
-    self = @
-    dragBehavior = d3.behavior.drag()
-      .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
-    th.classed('resizeable',true)
-      .append("div")
-      .classed('resizeable-handle right', true)
-      .call dragBehavior
-
   _makeDraggable: (table) ->
-    table.selectAll('th').attr('width', '10px') if @table.dragMode() is 'reorder'
+    # add space in the table header
+    table.selectAll("thead tr")
+      .append('th')
+        .attr('width', '15px')
+
+    # add draggable <td>
+    @updateRows.append('td')
+      .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
+
+    switch @table.dragMode()
+      when 'hierarchy' then @_hierarchyDraggable()
+      when 'reorder' then @_reorderDraggable()
+
+  _hierarchyDraggable: ->
+    self = @
+    dragbehavior = d3.behavior.drag()
+      .origin(Object)
+      .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
+      .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
+      .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
+    @updateRows.call dragbehavior
+
+  _reorderDraggable: ->
+    console.log 'reorder draggable'
+    # self = @
+    # @updateRows.insert("td").classed('draggable', true)
+    # dragbehavior = d3.behavior.drag()
+    #   .origin(Object)
+    #   .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
+    #   .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
+    # @updateRows.call dragbehavior
 
   _makeDeletable: (table) ->
     # add space in the table header
@@ -217,6 +234,20 @@ class window.TableStakesLib.Core
       .on 'click',
         (d) => @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
+  #
+  _makeResizable: (th) =>
+    # todo: clean up contexts
+    self = @
+    dragBehavior = d3.behavior.drag()
+      .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
+    th.classed('resizeable',true)
+      .append("div")
+      .classed('resizeable-handle right', true)
+      .call dragBehavior
+
+  # ### Cell-level transform methods
+
+  #
   _makeNested: (td) ->
     d3.select(td)
       .attr('class', (d) => @utils.nestedIcons(d))
@@ -282,24 +313,4 @@ class window.TableStakesLib.Core
     d3.select(td).append('span')
       .classed('childrenCount', true)
       .text (d) -> if count then '(' + count + ')' else ''
-
-  hierarchy_draggable: ->
-    console.log 'hierarchy draggable'
-    # self = @
-    # dragbehavior = d3.behavior.drag()
-    #   .origin(Object)
-    #   .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
-    #   .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
-    #   .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
-    # @updateRows.call dragbehavior
-
-  reorder_draggable: ->
-    console.log 'reorder draggable'
-    # self = @
-    # @updateRows.insert("td").classed('draggable', true)
-    # dragbehavior = d3.behavior.drag()
-    #   .origin(Object)
-    #   .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
-    #   .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
-    # @updateRows.call dragbehavior
 
