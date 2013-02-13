@@ -213,14 +213,12 @@ class window.TableStakesLib.Core
     @updateRows.call dragbehavior
 
   _reorderDraggable: ->
-    console.log 'reorder draggable'
-    # self = @
-    # @updateRows.insert("td").classed('draggable', true)
-    # dragbehavior = d3.behavior.drag()
-    #   .origin(Object)
-    #   .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
-    #   .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
-    # @updateRows.call dragbehavior
+    self = @
+    dragbehavior = d3.behavior.drag()
+      .origin(Object)
+      .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
+      .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
+    @updateRows.call dragbehavior
 
   _makeDeletable: (table) ->
     # add space in the table header
