@@ -22,6 +22,7 @@
         "coffeestand": "",
         "docco":"",
         "pygments":"",
-        "zombie":""
+        "zombie":"",
+        "chai":""
     }
 }

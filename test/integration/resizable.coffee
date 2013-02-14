@@ -1,9 +1,9 @@
-describe 'editable cells', ->
+describe 'resizable columns', ->
   $ = null
   window = null
   browser = null
   before (done) ->
-    glob.zombie.visit glob.url+"#editable", (err, _browser) ->
+    glob.zombie.visit glob.url+"#resizable", (err, _browser) ->
       browser = _browser
       window = browser.window
       $ = window.$
@@ -11,7 +11,7 @@ describe 'editable cells', ->
 
   it 'renders example page', (done) ->
     header = $('#example_header').text()
-    assert header is 'Editable', 'example-header '+header
+    assert header is 'Resizable', 'example-header '+header
     done()
 
   it 'renders table', (done) ->
@@ -19,8 +19,6 @@ describe 'editable cells', ->
     assert $('table.tablestakes tr').length > 1
     done()
 
-  it 'click to node', (done) ->
-    selector = browser.query('td.editable:first')
-    browser.fire 'click', selector, ->
-      assert $('td.editable:first').hasClass('active')
-      done()
+  it 'contains "Simple" in one row', (done) ->
+    assert $("table.tablestakes tr:contains('Simple')").length is 1
+    done()

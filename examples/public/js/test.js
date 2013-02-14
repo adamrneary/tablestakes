@@ -46,7 +46,7 @@ describe("Tablestakes API ", function() {
       return done();
     });
   });
-  it('window.tablestakes is function', function(done) {
+  it('window.TableStakes is function', function(done) {
     assert(window.TableStakes);
     assert(typeof window.TableStakes === 'function');
     return done();

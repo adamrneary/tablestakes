@@ -1,4 +1,5 @@
 global.assert = require 'assert'
+global.should = require('chai').should()
 global.glob = {}
 glob.server = {}
 glob.config = {}

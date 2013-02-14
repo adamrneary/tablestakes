@@ -10,6 +10,7 @@ modules =
   kss: require 'kss'
   jade: require 'jade'
   coffeelint: require 'coffeelint'
+  chai: require 'chai'
   #async: require 'async'
 
 app = express()

@@ -1,9 +1,9 @@
-describe 'nested rows', ->
+describe 'nested rows with editable cells', ->
   $ = null
   window = null
   browser = null
-  before (done)->
-    glob.zombie.visit glob.url+"#nested", (e, _browser) ->
+  before (done) ->
+    glob.zombie.visit glob.url+"#nested_editable", (err, _browser) ->
       browser = _browser
       window = browser.window
       $ = window.$
@@ -11,7 +11,7 @@ describe 'nested rows', ->
 
   it 'renders example page', (done) ->
     header = $('#example_header').text()
-    assert header is 'Nested', 'example-header '+header
+    assert header is 'Nested and editable', 'example-header '+header
     done()
 
   it 'renders table', (done) ->
