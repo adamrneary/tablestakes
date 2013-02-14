@@ -1,4 +1,4 @@
-describe 'table nested', ->
+describe 'nested table', ->
   $ = null
   window = null
   browser = null
@@ -9,12 +9,12 @@ describe 'table nested', ->
       $ = window.$
       done()
 
-  it 'page rendered', (done) ->
+  it 'renders example page', (done) ->
     header = $('#example_header').text()
     assert header is 'Nested', 'example-header '+header
     done()
 
-  it 'table rendered', (done) ->
+  it 'renders table', (done) ->
     assert $('table.tablestakes')
     assert $('table.tablestakes tr').length > 1
     done()

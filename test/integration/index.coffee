@@ -1,3 +1,4 @@
 describe 'integration', ->
-    require './nested'
-    require './editable'
+  # require './base'
+  require './nested'
+  require './editable'

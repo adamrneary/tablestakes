@@ -8,6 +8,7 @@ glob.zombie = require 'zombie'
 
 require './server'
 require './integration'
+# require './unit'
 
 after (done)->
     glob.server.kill()

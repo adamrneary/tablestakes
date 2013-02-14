@@ -9,7 +9,7 @@ describe 'editable table', ->
       $ = window.$
       done()
 
-  it 'example page renders', (done) ->
+  it 'renders example page', (done) ->
     header = $('#example_header').text()
     assert header is 'Editable', 'example-header '+header
     done()
