@@ -11,6 +11,7 @@ glob.zombie = require 'zombie'
 require './server'
 require './unit'
 require './integration'
+require './lint'
 
 after (done)->
     glob.server.kill()
