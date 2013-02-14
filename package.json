@@ -21,6 +21,7 @@
         "coffeelint": "",
         "coffeestand": "",
         "docco":"",
-        "pygments":""
+        "pygments":"",
+        "zombie":""
     }
 }
