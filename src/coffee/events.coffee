@@ -86,68 +86,38 @@ class window.TableStakesLib.Events
     @initPosition = $(tr).position()
 
   _makeRowDraggable: (tr) ->
+    self = @
+
     rowWidth = $(tr).width()
     cellWidths = _.map $(tr).find('td'), (td) -> $(td).width()
     d3.select(tr).classed('dragged', true)
     $(tr).width(rowWidth)
     _.each $(tr).find('td'), (td, i) -> $(td).width(cellWidths[i])
 
-  OLD_dragStart: (node, d) ->
-    self = @
-    @draggingObj = d.id
-    @draggingTargetObj = null
-    @init_coord = $(node).position()
-    @init_pos = d.parent.children
-    @pos = $(node).position()
-    @pos.left += d3.event.sourceEvent.layerX
-
-    $(node).css
-      left: @pos.left
-      top: @pos.top
-    d3.select(node).classed('dragged', true)
-    d3.selectAll(@core.table.el() + " tbody tr:not(.dragged)")
-      .on "mouseover", (d) ->
-        d3.select(@).classed("draggable-destination", true)
-        self.draggingTargetObj = d.id
-        d3.event.stopPropagation()
-        d3.event.preventDefault()
-      .on "mouseout", (d) ->
-        d3.select(this).classed("draggable-destination", false)
-        self.draggingTargetObj = null
-        d3.event.stopPropagation()
-        d3.event.preventDefault()
+    # FIXME pointer-events: none; does not work in IE -> need a workaround
+    tableEl = @core.table.el()
+    d3.selectAll(tableEl + ' tbody tr:not(.dragged), ' + tableEl + ' thead tr')
+      .on 'mouseover', (d, i) ->
+        i -= 1 if i > 0
+        self.insertAtIndex = i
+        d3.select(@).classed('draggable-destination', true)
+      .on 'mouseout', (d) ->
+        d3.select(@).classed('draggable-destination', false)
 
   dragMove: (tr, d, x, y) ->
     $(tr).css
       left: @initPosition.left + d3.event.x
       top: @initPosition.top + d3.event.y
 
-  OLD_dragMove: (tr, d) ->
-    # TODO: i commented this out because it's breaking the mouseover/out above
-    # $(node).css
-    #   left: @pos.left + parseInt(d3.event.x)
-    #   top: @pos.top + parseInt(d3.event.y)
-    # @core.update()
-
   dragEnd: (tr, d) ->
     d3.select(tr).classed('dragged', false)
-    d3.selectAll(@core.table.el() + " tbody tr")
-      .classed("draggable-destination", false)
-      .on("mouseover", null)
-      .on("mouseout", null)
+    tableEl = @core.table.el()
+    d3.selectAll(tableEl + ' tbody tr, ' + tableEl + ' thead tr')
+      .classed('draggable-destination', false)
+      .on('mouseover', null)
+      .on('mouseout', null)
 
-  OLD_dragEnd: (node, d) ->
-    d3.select(node).classed('dragged', false)
-    d3.selectAll(@core.table.el() + " tbody tr")
-      .classed("draggable-destination", false)
-      .on("mouseover", null)
-      .on("mouseout", null)
-
-    return if @draggingTargetObj is null
-    # TODO: i think the commented line below prevents remapping to your own parent?
-    # return if @draggingObj.substr(0,3) is @draggingTargetObj.substr(0,3)
-
-    @core.table.onDrag()(@draggingObj, @draggingTargetObj) if @core.table.onDrag
+    @core.table.onDrag()(d.id, @insertAtIndex) if @core.table.onDrag
 
   reordragstart: (node, d) ->
     self = @
