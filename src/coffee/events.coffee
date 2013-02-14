@@ -81,83 +81,43 @@ class window.TableStakesLib.Events
     if d.changedID.indexOf(d.activatedID) is -1
       d.changedID.push d.activatedID
 
-  dragstart: (node, d) ->
+  dragStart: (tr, d) ->
+    @_makeRowDraggable(tr)
+    @initPosition = $(tr).position()
+
+  _makeRowDraggable: (tr) ->
     self = @
-    d3.select(node).classed 'dragged', true
-    targetRow = @core.table.el() + " tbody tr:not(.dragged)"
-    @draggingObj = d._id
-    @draggingTargetObj = null
-    @init_coord = $(node).position()
-    @init_pos = d.parent.children
-    @pos = $(node).position()
-    @pos.left += d3.event.sourceEvent.layerX
-    $(node).css
-      left: @pos.left
-      top: @pos.top
-    d3.selectAll(targetRow).on("mouseover", (d) ->
-      d3.select(this).classed "draggable-destination", true
-      self.draggingTargetObj = d._id
-      d3.event.stopPropagation()
-      d3.event.preventDefault()
-    ).on("mouseout", (d) ->
-      d3.select(this).classed "draggable-destination", false
-      self.draggingTargetObj = null
-      d3.event.stopPropagation()
-      d3.event.preventDefault()
-    )
-  dragmove: (node,d) ->
-    x = parseInt(d3.event.x)
-    y = parseInt(d3.event.y)
-    $(node).css
-      left: @pos.left + x
-      top: @pos.top + y
-    @core.update()
 
-  dragend: (node, d) ->
-    d.parent.children = @init_pos
-    $(node).css
-      left: @init_coord.left
-      top: @init_coord.top
-    d3.select(node).classed 'dragged', false
-    targetRow = @core.table.el() + " tbody tr"
-    d3.selectAll(targetRow)
-    .on("mouseover", null)
-    .on("mouseout", null)
-    .style("background-color", null)
-    return if @draggingTargetObj == null
-    return if @draggingObj.substr(0,3) == @draggingTargetObj.substr(0,3)
-    parent = @core.utils.findNodeByID @draggingTargetObj
-    child = @core.utils.findNodeByID @draggingObj
-    @core.utils.removeNode child
-    @core.utils.appendNode parent, child
-    @core.update()
+    rowWidth = $(tr).width()
+    cellWidths = _.map $(tr).find('td'), (td) -> $(td).width()
+    d3.select(tr).classed('dragged', true)
+    $(tr).width(rowWidth)
+    _.each $(tr).find('td'), (td, i) -> $(td).width(cellWidths[i])
 
-  reordragstart: (node, d) ->
-    self = @
-    targetRow = @core.table.el() + " tbody tr .draggable"
-    @draggingObj = d._id
-    @draggingTargetObj = null
-    d3.selectAll(targetRow).on("mouseover", (d) ->
-      return if(self.draggingObj == d._id.substring(0, self.draggingObj.length))
-      d3.select(this.parentNode).classed "draggable-destination1", true
-      self.draggingTargetObj = d._id
-    ).on("mouseout", (d) ->
-      d3.select(this.parentNode).classed "draggable-destination1", false
-      self.draggingTargetObj = null
-    )
+    # FIXME pointer-events: none; does not work in IE -> need a workaround
+    tableEl = @core.table.el()
+    d3.selectAll(tableEl + ' tbody tr:not(.dragged), ' + tableEl + ' thead tr')
+      .on 'mouseover', (d, i) ->
+        i -= 1 if i > 0
+        self.insertAtIndex = i
+        d3.select(@).classed('draggable-destination', true)
+      .on 'mouseout', (d) ->
+        d3.select(@).classed('draggable-destination', false)
 
-  reordragend: (node,d) ->
-    targetRow = @core.table.el() + " tbody tr .draggable"
-    d3.selectAll(targetRow)
-    .on("mouseover", null)
-    .on("mouseout", null)
-    .style("background-color", null)
-    return if @draggingTargetObj == null
-    brother = @core.utils.findNodeByID @draggingTargetObj
-    child = @core.utils.findNodeByID @draggingObj
-    @core.utils.removeNode child
-    @core.utils.pastNode brother, child
-    @core.update()
+  dragMove: (tr, d, x, y) ->
+    $(tr).css
+      left: @initPosition.left + d3.event.x
+      top: @initPosition.top + d3.event.y
+
+  dragEnd: (tr, d) ->
+    d3.select(tr).classed('dragged', false)
+    tableEl = @core.table.el()
+    d3.selectAll(tableEl + ' tbody tr, ' + tableEl + ' thead tr')
+      .classed('draggable-destination', false)
+      .on('mouseover', null)
+      .on('mouseout', null)
+
+    @core.table.onDrag()(d.id, @insertAtIndex) if @core.table.onDrag
 
   resizeDrag: (context, node, d, _, unshift) ->
     th = node.parentNode
