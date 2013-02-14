@@ -22,3 +22,9 @@ describe 'deletable rows', ->
   it 'contains "Simple" in one row', (done) ->
     assert $("table.tablestakes tr:contains('Simple')").length is 1
     done()
+
+  it 'removes "Simple Line" on user delete', (done) ->
+    selector = browser.query("table.tablestakes tr:contains('Simple') td:last")
+    browser.fire 'click', selector, ->
+      assert $("table.tablestakes tr:contains('Simple')").length is 0
+      done()

@@ -22,3 +22,5 @@ describe 'dragging hierarchy rows', ->
   it 'contains "New Root" in one row', (done) ->
     assert $("table.tablestakes tr:contains('New Root')").length is 1
     done()
+
+  it 'wishes we could test drag and drop!'

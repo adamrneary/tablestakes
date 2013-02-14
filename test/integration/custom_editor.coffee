@@ -22,3 +22,19 @@ describe 'Custom cell editors', ->
   it 'contains "task 5" in one row', (done) ->
     assert $("table.tablestakes tr:contains('task 5')").length is 1
     done()
+
+  it 'displays a dropdown menu as requested'
+  # it 'displays a dropdown menu as requested', (done) ->
+  #   assert $("table.tablestakes select").length > 0
+  #
+  it 'toggles boolean fields on click'
+  # it 'toggles boolean fields on click', (done) ->
+  #   selector = $("table.tablestakes tr:contains('task 1') td:last")
+  #   assert selector.hasClass('boolean-false')
+  #   browser.fire 'click', selector, =>
+  #     assert selector.hasClass('boolean-true')
+  #     browser.fire 'click', selector, =>
+  #       assert selector.hasClass('boolean-false')
+  #       browser.fire 'click', selector, =>
+  #         assert selector.hasClass('boolean-true')
+  #         done()

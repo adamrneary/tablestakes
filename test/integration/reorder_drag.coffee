@@ -22,3 +22,5 @@ describe 'dragging rows to reorder', ->
   it 'contains "Simple" in one row', (done) ->
     assert $("table.tablestakes tr:contains('Simple')").length is 1
     done()
+
+  it 'wishes we could test drag and drop!'

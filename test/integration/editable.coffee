@@ -19,8 +19,10 @@ describe 'editable cells', ->
     assert $('table.tablestakes tr').length > 1
     done()
 
-  it 'click to node', (done) ->
+  it 'becomes active on click', (done) ->
     selector = browser.query('td.editable:first')
     browser.fire 'click', selector, ->
       assert $('td.editable:first').hasClass('active')
       done()
+
+  it 'records change to editable cell'

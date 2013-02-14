@@ -23,18 +23,22 @@ describe 'nested rows', ->
     assert $("table.tablestakes tr:contains('New Root')").length is 1
     done()
 
-  it 'open first node and children visible', (done) ->
+  it 'opens first node and children are visible', (done) ->
     td = $('td.expandable:first')
     selector = browser.query('td.expandable')
+    assert $("table.tablestakes tr:contains('Simple')").length is 0
     browser.fire 'click', selector, ->
       assert td.hasClass('collapsible')
       assert td.parent().next().find('.indent3').length is 1
+      assert $("table.tablestakes tr:contains('Simple')").length is 1
       done()
 
-  it 'fold first node and children hide', (done) ->
+  it 'folds first node and children hide', (done) ->
     td = $('td.collapsible:first')
     selector = browser.query('td.collapsible')
+    assert $("table.tablestakes tr:contains('Chart Components')").length is 1
     browser.fire 'click', selector, ->
       assert td.hasClass('expandable')
       assert td.parent().next().find('.indent3').length is 0
+      assert $("table.tablestakes tr:contains('Chart Components')").length is 0
       done()
