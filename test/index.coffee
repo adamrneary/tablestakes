@@ -6,9 +6,11 @@ glob.url = "http://localhost:5000/"
 glob.request = require 'request'
 glob.zombie = require 'zombie'
 
+# note: in current setup, server must be required first to support
+#   unit/integration testing to follow
 require './server'
+require './unit'
 require './integration'
-# require './unit'
 
 after (done)->
     glob.server.kill()

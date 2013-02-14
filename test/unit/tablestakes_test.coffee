@@ -1,6 +1,15 @@
 describe "Tablestakes API ", ->
-
-  table = new window.TableStakes
+  $ = null
+  window = null
+  browser = null
+  table = null
+  before (done)->
+    glob.zombie.visit glob.url+"#base", (e, _browser) ->
+      browser = _browser
+      window = browser.window
+      $ = window.$
+      table = new window.TableStakes
+      done()
 
   it 'window.tablestakes is function', (done) ->
     assert window.TableStakes
@@ -32,11 +41,11 @@ describe "Tablestakes API ", ->
     assert table.update
     done()
 
-  it 'update with argument', (done) ->
-    d3.select(table.get('el'))
-      .datum(table.gridFilteredData)
-      .call( (selection) => assert table.update selection )
-    done()
+  # it 'update with argument', (done) ->
+  #   $(table.el())
+  #     .datum(table.gridFilteredData)
+  #     .call( (selection) => assert table.update selection )
+  #   done()
 
   it 'dispatchManualEvent', (done) ->
     assert typeof table.dispatchManualEvent is 'function'
@@ -55,28 +64,28 @@ describe "Tablestakes API ", ->
   #   assert table.attributes.resizable is false
   #   assert table.attributes.sortable is false
   #   done()
-  # 
+  #
   # it 'attributes reorder_dragging', (done) ->
   #   table.reorder_dragging(true)
   #   assert table.attributes.reorder_dragging is true
   #   done()
-  # 
+  #
   # it 'attributes nested', (done) ->
   #   table.nested(true)
   #   assert table.attributes.nested is true
   #   done()
-  # 
+  #
   # it 'attributes resizable', (done) ->
   #   table.resizable(true)
   #   assert table.attributes.resizable is true
   #   done()
-  # 
+  #
   # it 'table.set(testdata) and table.get(testdata)', (done) ->
   #   table.attributes = {resizable: false}
-  #   assert table.set('resizable', true) 
+  #   assert table.set('resizable', true)
   #   assert table.get('resizable') is true
   #   done()
-  # 
+  #
   # it 'table.is(testdata)', (done) ->
   #   table.attributes = {resizable: true}
   #   assert table.is('resizable') is true
@@ -107,7 +116,7 @@ describe "Tablestakes API ", ->
 
   #it 'filter', (done) ->
     #assert typeof table.filter is 'function'
-    #assert table.filter 'key', 'S' 
+    #assert table.filter 'key', 'S'
     #assert table.filterCondition.get('key') is 'S'
     #done()
 
@@ -141,15 +150,5 @@ describe "Tablestakes API ", ->
     #assert table.reorder_dragging(true)
     #done()
 
-describe "Events", ->
-  event = window.TableStakesLib.Events
 
-  it 'window.TableStakesLib.Events is function', (done)->
-    assert typeof window.TableStakesLib.Events is 'function'
-    assert window.TableStakesLib.Events
-    done()
-
-  it 'events constructor', (done)->
-    assert event
-    done()
 #console.log 'cofeelint', coffeelint.lint("")
