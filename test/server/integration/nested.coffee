@@ -19,10 +19,18 @@ describe 'table nested', ->
         assert $('table.tablestakes tr').length > 1
         done()
 
-    it 'fold first node', (done)->
+    it 'open first node and children visible', (done)->
+        td = $('td.expandable:first')
+        selector = browser.query('td.expandable')
+        browser.fire 'click', selector, ->
+            assert td.hasClass('collapsible')
+            assert td.parent().next().find('.indent3').length is 1
+            done()
+
+    it 'fold first node and children hide', (done)->
         td = $('td.collapsible:first')
         selector = browser.query('td.collapsible')
         browser.fire 'click', selector, ->
             assert td.hasClass('expandable')
+            assert td.parent().next().find('.indent3').length is 0
             done()
-
