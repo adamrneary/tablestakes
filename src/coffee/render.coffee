@@ -35,6 +35,7 @@ class window.TableStakesLib.Core
 
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
+    @_makeDraggable(@tableObject) unless @table.isDraggable() is false
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
 
   _buildData: ->
@@ -69,11 +70,6 @@ class window.TableStakesLib.Core
 
     # for now, either all columns are resizable or none, set in table config
     theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
-
-    # todo: move this down
-    if @table.is('reorder_dragging')
-      theadRow.append('th').attr('width', '10px')
-
     @
 
   # responsible for <tbody> and contents
@@ -120,17 +116,12 @@ class window.TableStakesLib.Core
   _renderRows: ->
     @rows = @tbody.selectAll("tr")
       .data(((d) -> d), (d) -> d.id)
-
     @_enterRows()
     @_updateRows()
     @_exitRows()
 
-    # columns added before data columns
-    @draggable() if @table.is 'hierarchy_dragging'
-    @reorder_draggable() if @table.is 'reorder_dragging'
-
-    d3.select(@enterRows[0][0]).style("display", "none") if @enterRows[0][0]
-
+    d3.select(@enterRows[0][0])
+      .style("display", "none") if @enterRows[0][0]
     @_renderEnterRows()
     @_renderUpdateRows()
 
@@ -143,7 +134,7 @@ class window.TableStakesLib.Core
   _renderUpdateRows: ->
     self = @
     @updateRows.selectAll('td')
-      .each (d, i) -> self._renderCell(self.columns[i], d, @)
+      .each (d, i) -> self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
     d3.select(td)
@@ -195,6 +186,57 @@ class window.TableStakesLib.Core
 
   # ## "Transform methods" apply optional behaviors and classes based on config
 
+  # ### Table-level transform methods
+
+  #
+  _makeDraggable: (table) ->
+    self = @
+
+    # add space in the table header
+    if table.selectAll('th.draggable-head')[0].length is 0
+      table.selectAll("thead tr")
+        .append('th')
+          .attr('width', '15px')
+          .classed('draggable-head', true)
+
+    # add draggable <td>
+    @enterRows.append('td')
+      .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
+
+    @updateRows.selectAll('td.draggable')
+      .on 'mouseover', (d) ->
+        self._setDragBehavior()
+      .on 'mouseout', (d) ->
+        self._clearDragBehavior()
+
+  _setDragBehavior: ->
+    self = @
+    dragBehavior = d3.behavior.drag()
+      .origin(Object)
+      .on('dragstart', (d, x, y) -> self.events.dragStart(@, d, x, y))
+      .on('drag',      (d, x, y) -> self.events.dragMove(@, d, x, y))
+      .on('dragend',   (d, x, y) -> self.events.dragEnd(@, d, x, y))
+    self.updateRows.call dragBehavior
+
+  _clearDragBehavior: ->
+    @updateRows
+      .on('dragstart', null)
+      .on('drag', null)
+      .on('dragend', null)
+
+  _makeDeletable: (table) ->
+    # add space in the table header
+    if table.selectAll('th.deletable-head')[0].length is 0
+      table.selectAll("thead tr")
+        .append('th')
+          .attr('width', '15px')
+          .classed('deletable-head', true)
+
+    # add deletable <td>
+    @updateRows.append('td')
+      .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
+      .on 'click',
+        (d) => @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
   _makeResizable: (th) =>
@@ -207,18 +249,9 @@ class window.TableStakesLib.Core
       .classed('resizeable-handle right', true)
       .call dragBehavior
 
-  _makeDeletable: (table) ->
-    # add space in the table header
-    table.selectAll("thead tr")
-      .append('th')
-        .attr('width', '15px')
+  # ### Cell-level transform methods
 
-    # add deletable <td>
-    @updateRows.append('td')
-      .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
-      .on 'click',
-        (d) => @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
-
+  #
   _makeNested: (td) ->
     d3.select(td)
       .attr('class', (d) => @utils.nestedIcons(d))
@@ -284,22 +317,4 @@ class window.TableStakesLib.Core
     d3.select(td).append('span')
       .classed('childrenCount', true)
       .text (d) -> if count then '(' + count + ')' else ''
-
-  draggable: ->
-    self = @
-    dragbehavior = d3.behavior.drag()
-      .origin(Object)
-      .on("dragstart", (a,b,c) -> self.events.dragstart(this,a,b,c))
-      .on("drag",      (a,b,c) -> self.events.dragmove(this,a,b,c))
-      .on("dragend",   (a,b,c) -> self.events.dragend(this,a,b,c))
-    @updateRows.call dragbehavior
-
-  reorder_draggable: ->
-    self = @
-    @updateRows.insert("td").classed('draggable', true)
-    dragbehavior = d3.behavior.drag()
-      .origin(Object)
-      .on("dragstart", (a,b,c) -> self.events.reordragstart(this,a,b,c))
-      .on("dragend",   (a,b,c) -> self.events.reordragend(this,a,b,c))
-    @updateRows.call dragbehavior
 

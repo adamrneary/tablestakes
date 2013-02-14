@@ -8,18 +8,12 @@ class window.TableStakes
   childIndent : 20
 
   _columns: []
-  _data: []
-  _el: null
   _margin :
     top: 0
     right: 0
     bottom: 0
     left: 0
   _rowClasses: null
-
-  _isDeleteable: false
-  _onDelete: null
-  _isResizable: true
 
   tableClassName : "tablestakes"
   dispatch : d3.dispatch(
@@ -32,11 +26,21 @@ class window.TableStakes
   filterCondition : []
 
   constructor: (options) ->
-    @set 'sortable', false
-    @set 'filterable', false
-    @set 'hierarchy_dragging', false
-    @set 'reorder_dragging', false
     @core = new window.TableStakesLib.Core
+
+    # builds getter/setter methods (initialized with defaults)
+    @_synthesize
+      data: []
+      el: null
+      isDeletable: false
+      onDelete: null
+      isResizable: true
+      isSortable: false
+      dragMode: null
+      isDraggable: false
+      onDrag: null
+      isDragDestination: false
+
     @filterCondition = d3.map([])
     if options?
       for key of options
@@ -44,7 +48,7 @@ class window.TableStakes
 
   render: () ->
     @gridData = [values: @data()]
-    @columns().forEach ( column, i) =>
+    @columns().forEach (column, i) =>
       @gridData[0][column['id']] = column['id']
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
@@ -137,12 +141,6 @@ class window.TableStakes
       return data
     return null
 
-  reorder_dragging: (val) ->
-    if typeof val is 'boolean'
-      @set 'reorder_dragging',val
-    else
-      @set 'reorder_dragging-filter', val
-
   get: (key) ->
     @attributes[key]
 
@@ -173,50 +171,18 @@ class window.TableStakes
       @_columns.push c
     @
 
-  data: (val) ->
-    return @_data unless val?
-    @_data = val
-    @
-
-  el: (val) ->
-    return @_el unless val?
-    @_el = val
-    @
-
   rowClasses: (val) ->
     return @_rowClasses unless val?
     @_rowClasses = d3.functor(val)
     @
 
-  sortable: (val) ->
-    return @isSortable unless val?
-    @isSortable = val
-    @
-
-  isDeletable: (val) ->
-    return @_isDeleteable unless val?
-    @_isDeleteable = val
-    @
-
-  onDelete: (val) ->
-    return @_onDelete unless val?
-    @_onDelete = val
-    @
-
-  isResizable: (val) ->
-    return @_isResizable unless val?
-    @_isResizable = val
-    @
-
-  boolean: (val) ->
-    if typeof val is 'boolean'
-      @set 'boolean',val
-    else
-      @set 'boolean-filter', val
-
-  hierarchy_dragging: (val) ->
-    if typeof val is 'boolean'
-      @set 'hierarchy_dragging',val
-    else
-      @set 'hierarchy_dragging-filter', val
-
+  # builds getter/setter methods (initialized with defaults)
+  _synthesize: (hash) ->
+    _.each hash, (value, key) =>
+      @['_' + key] = value
+      func = (key) =>
+        @[key] = (val) ->
+          return @['_' + key] unless val?
+          @['_' + key] = val
+          @
+      func(key)

@@ -292,6 +292,15 @@ table.tablestakes {
 // Styleguide 3.1
 
 table.tablestakes {
+  thead {
+    tr {
+      &.draggable-destination {
+        th, td {
+          border-bottom: solid 2px $row-draggable-destination-border-top-color;
+        }
+      }
+    }
+  }
   tbody {
     tr {
       &.subtotal {
@@ -379,11 +388,7 @@ table.tablestakes {
 
       &.draggable-destination {
         th, td {
-          color: $row-draggable-destination-color;
-          border-top: solid 1px$row-draggable-destination-border-top-color;
-          border-bottom: solid 1px $row-draggable-destination-border-bottom-color;
-          background: $row-draggable-destination-background;
-          @include opacity(.50);
+          border-bottom: solid 2px $row-draggable-destination-border-top-color;
         }
       }
 
@@ -397,11 +402,13 @@ table.tablestakes {
       }
 
       &.dragged {
+        pointer-events: none;
         position: absolute;
         display: block;
         @include outer-shadow(0, 1px, 3px, rgba(0,0,0, 0.15));
 
         td, th {
+          pointer-events: none;
           @include opacity(.50);
           background: inherit;
         }
@@ -674,7 +681,6 @@ table.tablestakes {
       &.active {
         width: auto;
         position: relative;
-        display: block;
         cursor: text;
         border: 1px solid $cell-editable-active-border-color;
         @include inner-shadow(0, 0, 6px, $grey);
