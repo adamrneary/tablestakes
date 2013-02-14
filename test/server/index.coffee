@@ -1,14 +1,28 @@
-global.assert = require 'assert'
-global.glob = {}
-glob.server = {}
-glob.config = {}
-glob.url = "http://localhost:5000/"
-glob.request = require 'request'
-glob.zombie = require 'zombie'
+describe 'webserver', ->
 
-require './webserver'
-require './integration'
+    it 'run', (done)->
+        glob.server = require('child_process').spawn 'node', ['run.js']
+        glob.server.stdout.on 'data', (data)->
+            data = data.toString()
+            process.stdout.write data
+            if data is 'server start on port 5000\n'
+                done()
+        glob.server.stderr.on 'data', (data)->
+            process.stdout.write data.toString()
 
-after (done)->
-    glob.server.kill()
-    done()
+    it "test #{glob.url}", (done)->
+        glob.request.get glob.url, (err,res,body)->
+            assert body
+            done()
+
+
+    it "test #{glob.url}styleguide", (done)->
+        glob.request.get glob.url+"styleguide", (err,res,body)->
+            assert body
+            done()
+
+    it "test #{glob.url}mocha", (done)->
+        glob.request.get glob.url+"mocha", (err,res,body)->
+            assert body
+            done()
+
