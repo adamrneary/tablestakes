@@ -134,7 +134,7 @@ class window.TableStakesLib.Core
   _renderUpdateRows: ->
     self = @
     @updateRows.selectAll('td')
-      .each (d, i) -> self._renderCell(self.columns[i], d, @)
+      .each (d, i) -> self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
     d3.select(td)
@@ -190,42 +190,47 @@ class window.TableStakesLib.Core
 
   #
   _makeDraggable: (table) ->
+    self = @
+
     # add space in the table header
-    table.selectAll("thead tr")
-      .append('th')
-        .attr('width', '15px')
+    if table.selectAll('th.draggable-head')[0].length is 0
+      table.selectAll("thead tr")
+        .append('th')
+          .attr('width', '15px')
+          .classed('draggable-head', true)
 
     # add draggable <td>
-    @updateRows.append('td')
+    @enterRows.append('td')
       .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
 
-    switch @table.dragMode()
-      when 'hierarchy' then @_hierarchyDraggable()
-      when 'reorder' then @_reorderDraggable()
+    @updateRows.selectAll('td.draggable')
+      .on 'mouseover', (d) ->
+        self._setDragBehavior()
+      .on 'mouseout', (d) ->
+        self._clearDragBehavior()
 
-  _hierarchyDraggable: ->
+  _setDragBehavior: ->
     self = @
     dragBehavior = d3.behavior.drag()
       .origin(Object)
-      .on('dragstart', (a,b,c) -> self.events.dragStart(this,a,b,c))
-      .on('drag',      (a,b,c) -> self.events.dragMove(this,a,b,c))
-      .on('dragend',   (a,b,c) -> self.events.dragEnd(this,a,b,c))
-    @updateRows.call dragBehavior
+      .on('dragstart', (d, x, y) -> self.events.dragStart(@, d, x, y))
+      .on('drag',      (d, x, y) -> self.events.dragMove(@, d, x, y))
+      .on('dragend',   (d, x, y) -> self.events.dragEnd(@, d, x, y))
+    self.updateRows.call dragBehavior
 
-  _reorderDraggable: ->
-    self = @
-    dragBehavior = d3.behavior.drag()
-      .origin(Object)
-      .on('dragstart', (a,b,c) -> self.events.dragStart(this,a,b,c))
-      .on('drag',      (a,b,c) -> self.events.dragMove(this,a,b,c))
-      .on('dragend',   (a,b,c) -> self.events.dragEnd(this,a,b,c))
-    @updateRows.call dragBehavior
+  _clearDragBehavior: ->
+    @updateRows
+      .on('dragstart', null)
+      .on('drag', null)
+      .on('dragend', null)
 
   _makeDeletable: (table) ->
     # add space in the table header
-    table.selectAll("thead tr")
-      .append('th')
-        .attr('width', '15px')
+    if table.selectAll('th.deletable-head')[0].length is 0
+      table.selectAll("thead tr")
+        .append('th')
+          .attr('width', '15px')
+          .classed('deletable-head', true)
 
     # add deletable <td>
     @updateRows.append('td')

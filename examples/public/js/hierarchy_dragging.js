@@ -61,7 +61,6 @@ columns = [
 ];
 
 onDragHandler = function(objectId, targetId) {
-  console.log(objectId, targetId);
   return grid.data(data).render();
 };
 

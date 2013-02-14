@@ -50,7 +50,6 @@ columns = [
 ]
 
 onDragHandler = (objectId, targetId) ->
-  console.log objectId, targetId
   # TODO: find and record objectId's node (with children)
   # TODO: remove objectId's node from objectId's parent node
   # TODO: find targetId's node and add objectId's node (with children)
