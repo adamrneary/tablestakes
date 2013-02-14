@@ -11,7 +11,7 @@ describe "Tablestakes API ", ->
       table = new window.TableStakes
       done()
 
-  it 'window.tablestakes is function', (done) ->
+  it 'window.TableStakes is function', (done) ->
     assert window.TableStakes
     assert typeof window.TableStakes is 'function'
     done()
