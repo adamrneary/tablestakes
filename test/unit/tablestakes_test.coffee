@@ -1,17 +1,5 @@
 describe "Tablestakes API ", ->
-  $ = null
-  window = null
-  browser = null
   table = null
-  _ = null
-  before (done)->
-    glob.zombie.visit glob.url+"#base", (e, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      _ = window._
-      table = new window.TableStakes
-      done()
 
   it 'is a function', (done) ->
     assert window.TableStakes
@@ -19,6 +7,7 @@ describe "Tablestakes API ", ->
     done()
 
   it 'has a basic constructor', (done) ->
+    table = new window.TableStakes
     assert table
     done()
 

@@ -4,7 +4,8 @@ sass = require 'node-sass'
 
 coffeePath = "#{__dirname}/../node_modules/coffee-script/bin/coffee"
 
-module.exports = (cb) ->
+module.exports.compile = (cb) ->
+  console.log 'compile'
   compileCoffeeSrc ->
     compileCoffeeTests ->
       compileCoffeeExamples ->

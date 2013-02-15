@@ -12,9 +12,9 @@ Run tests to ensure that all pass:
 
     npm test
     
-Run the project locally:
+Run the project locally (with tests and watcher):
 
-    foreman start
+    npm start
 
 Then navigate to the [showcase](http://localhost:5000).
 

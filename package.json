@@ -3,8 +3,8 @@
     "version": "0.0.9",
     "private": true,
     "scripts": {
-        "test": "node test/watcher.js",
-        "start": "node run"
+        "test": "node test/test.js",
+        "start": "node test/watcher.js"
     },
     "engines": {
         "node": "0.8.x",
@@ -23,6 +23,7 @@
         "docco":"",
         "pygments":"",
         "zombie":"",
-        "chai":""
+        "chai":"",
+        "jscoverage": ""
     }
 }

@@ -1,4 +1,3 @@
-
 data = [
     id: "NVD3"
     type: "ahaha"
@@ -38,7 +37,7 @@ data = [
   ,
     id: "1"
     type: "123"
-  ]
+]
 
 columns = [
     id: "id"
@@ -46,7 +45,7 @@ columns = [
   ,
     id: "type"
     label: "Type"
-  ]
+]
 
 onDragHandler = (objectId, index) ->
   obj = _.find(data, (d) -> d.id is objectId)

@@ -48,13 +48,13 @@ glob.getSections = (sections, cb) ->
   cb sections
 
 require './router'
-compile = require('./compiler')
+compile = require('./compiler').compile
 
-if process.env.NODE_ENV isnt 'testing'
+if process.env.NODE_ENV isnt 'testing' and process.env.NODE_ENV isnt 'development'
   compile ->
     glob.modules.http.createServer(app).listen glob.config.port, ->
       console.log  'server start on port '+glob.config.port
 else
-    glob.modules.http.createServer(app).listen glob.config.port, ->
-      console.log  'server start on port '+glob.config.port
+  glob.modules.http.createServer(app).listen glob.config.port, ->
+    console.log  'server start on port '+glob.config.port
 

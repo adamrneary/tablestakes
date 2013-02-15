@@ -4,12 +4,13 @@ global.assert = require 'assert'
 global.should = require('chai').should()
 global.glob = {}
 glob.server = {}
+glob.report = process.env.REPORT
 glob.config = require '../server/config'
 glob.url = "http://localhost:#{glob.config.port}/"
 glob.request = require 'request'
 glob.zombie = require 'zombie'
 
-compile = require('../server/compiler')
+compile = require('../server/compiler').compile
 
 # kill test server, if exist
 before (done)->
@@ -24,21 +25,24 @@ before (done)->
 
 # run server in test mode
 before (done)->
-    glob.server = require('child_process').spawn 'node', ['run.js'], { env: process.env } 
+    glob.server = require('child_process').spawn 'node', [__dirname+'/../server/run.js'], { env: process.env } 
     glob.server.stdout.on 'data', (data) ->
       data = data.toString()
-      process.stdout.write data
+      #process.stdout.write data
       if data is "server start on port #{glob.config.port}\n"
         done()
     glob.server.stderr.on 'data', (data) ->
-      process.stdout.write data.toString()
+      #process.stdout.write data.toString()
 
-# compile src
-#before (done)->
-  #compile ->
-    #done()
+if glob.report
+  require './unit'
+else
+  require './server'
+  require './unit'
+  require './integration'
+  require './lint'
 
-require './server'
-require './unit'
-require './integration'
-require './lint'
+after (done)->
+  if glob.report
+    glob.server.kill()
+  done()

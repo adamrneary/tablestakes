@@ -2,11 +2,10 @@ name = glob.config.name
 app = glob.app
 modules = glob.modules
 
-
 app.get '/pid', (req,res)->
   if req.query.secret is glob.config.secret
-    res.send 
-        pid: process.pid
+    res.send
+      pid: process.pid
   else
     res.send 401
 
@@ -51,9 +50,22 @@ app.get '/test', (req,res)->
     contents = modules.fs.readFileSync path3 + d, 'utf-8'
     errors[d] = modules.coffeelint.lint contents
 
-  res.render 'mocha'
+  try
+    spec = glob.modules.fs.readFileSync __dirname+'/../test/report/spec.txt'
+
+  res.render 'test'
     errors: errors
     page: 'mocha'
+    spec: spec
+
+app.get '/coverage', (req,res)->
+
+  report = ''
+  try
+    report = glob.modules.fs.readFileSync __dirname+'/../test/reports/coverage.html'
+  res.setHeader 'Content-Type', 'text/html'
+  res.setHeader 'Content-Length', report.length
+  res.end report
 
 app.get '/styleguide', (req,res)->
   options =

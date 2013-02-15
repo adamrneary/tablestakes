@@ -1,6 +1,9 @@
 describe 'coffeelint', ->
   it 'exec', (done)->
-    glob.lint = require('child_process').spawn 'coffeelint', ['-r',
+    glob.lint = require('child_process').spawn 'coffeelint', [
+      '-f',
+      './coffeelint.json',
+      '-r',
       './examples'
       './server'
       './src'
@@ -8,6 +11,6 @@ describe 'coffeelint', ->
     ]
     glob.lint.stdout.on 'data', (data) ->
       data = data.toString()
-      process.stdout.write data
+      #process.stdout.write data
     glob.lint.on 'exit', ->
       done()
