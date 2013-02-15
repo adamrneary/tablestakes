@@ -49,10 +49,22 @@ columns = [
   label: "Type"
 ]
 
-onDragHandler = (objectId, targetId) ->
-  # TODO: find and record objectId's node (with children)
-  # TODO: remove objectId's node from objectId's parent node
-  # TODO: find targetId's node and add objectId's node (with children)
+findByID = (data, id, removeElement) ->
+  result = null
+  _.each data, (d, i) ->
+    if d.id is id
+      data.splice(i, 1) if removeElement
+      result = d
+    values = d.values or d._values
+    obj = findByID(values, id, removeElement) if values?
+    result = obj if obj?
+  result
+
+onDragHandler = (objectID, targetID) ->
+  target = findByID(data, targetID, false)
+  draggedObject = findByID(data, objectID, true)
+  values = target.values or target._values? or (target.values = [])
+  values.push(draggedObject)
   grid.data(data).render()
 
 grid = new window.TableStakes()

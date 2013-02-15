@@ -94,15 +94,32 @@ class window.TableStakesLib.Events
     $(tr).width(rowWidth)
     _.each $(tr).find('td'), (td, i) -> $(td).width(cellWidths[i])
 
-    # FIXME pointer-events: none; does not work in IE -> need a workaround
+    onMouseOver = (d, i) ->
+      i -= 1 if i > 0
+      self.destinationIndex = i
+      self.destinationID = d.id
+      d3.select(@).classed(self._draggableDestinationClass(), true)
+
+    onMouseOut = (d) ->
+      d3.select(@).classed(self._draggableDestinationClass(), false)
+
+    # FIXME pointer-events: none; does not work in IE -> needs a workaround
     tableEl = @core.table.el()
-    d3.selectAll(tableEl + ' tbody tr:not(.dragged), ' + tableEl + ' thead tr')
-      .on 'mouseover', (d, i) ->
-        i -= 1 if i > 0
-        self.insertAtIndex = i
-        d3.select(@).classed('draggable-destination', true)
-      .on 'mouseout', (d) ->
-        d3.select(@).classed('draggable-destination', false)
+    d3.selectAll(tableEl + ' tbody tr:not(.dragged)')
+      .on('mouseover', onMouseOver)
+      .on('mouseout', onMouseOut)
+
+    if @core.table.dragMode() is 'reorder'
+      d3.selectAll(tableEl + ' thead tr')
+        .on('mouseover', onMouseOver)
+        .on('mouseout', onMouseOut)
+
+  _draggableDestinationClass: ->
+    dragMode = @core.table.dragMode()
+    if dragMode?
+      dragMode + '-draggable-destination'
+    else
+      ''
 
   dragMove: (tr, d, x, y) ->
     $(tr).css
@@ -113,11 +130,15 @@ class window.TableStakesLib.Events
     d3.select(tr).classed('dragged', false)
     tableEl = @core.table.el()
     d3.selectAll(tableEl + ' tbody tr, ' + tableEl + ' thead tr')
-      .classed('draggable-destination', false)
+      .classed(@_draggableDestinationClass(), false)
       .on('mouseover', null)
       .on('mouseout', null)
 
-    @core.table.onDrag()(d.id, @insertAtIndex) if @core.table.onDrag
+    if @core.table.onDrag
+      onDrag = @core.table.onDrag()
+      switch @core.table.dragMode()
+        when 'reorder' then onDrag(d.id, @destinationIndex)
+        when 'hierarchy' then onDrag(d.id, @destinationID)
 
   resizeDrag: (context, node, d, _, unshift) ->
     th = node.parentNode

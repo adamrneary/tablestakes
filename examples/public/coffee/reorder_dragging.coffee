@@ -47,8 +47,8 @@ columns = [
     label: "Type"
 ]
 
-onDragHandler = (objectId, index) ->
-  obj = _.find(data, (d) -> d.id is objectId)
+onDragHandler = (objectID, index) ->
+  obj = _.find(data, (d) -> d.id is objectID)
   data = _.without(data, obj)
   data.splice(index, 0, obj)
   grid.data(data).render()

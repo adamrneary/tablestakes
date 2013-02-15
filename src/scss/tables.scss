@@ -294,7 +294,7 @@ table.tablestakes {
 table.tablestakes {
   thead {
     tr {
-      &.draggable-destination {
+      &.reorder-draggable-destination {
         th, td {
           border-bottom: solid 2px $row-draggable-destination-border-top-color;
         }
@@ -386,18 +386,18 @@ table.tablestakes {
         font-weight: bold;
       }
 
-      &.draggable-destination {
+      &.reorder-draggable-destination {
         th, td {
           border-bottom: solid 2px $row-draggable-destination-border-top-color;
         }
       }
 
-      &.draggable-destination1 {
+      &.hierarchy-draggable-destination {
         th, td {
           color: $row-draggable-destination-color;
-          border-bottom: solid 4px $row-draggable-destination-border-bottom-color;
+          /*border-bottom: solid 4px $row-draggable-destination-border-bottom-color;*/
           background: $row-draggable-destination-background;
-          @include opacity(.50);
+          /*@include opacity(.50);*/
         }
       }
 
