@@ -3,4 +3,4 @@ describe 'unit tests', ->
   # require './column_test'
   # require './render_test'
   require './events_test'
-  # require './utils_test'
+  require './utils_test'
