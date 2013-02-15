@@ -95,7 +95,6 @@ class window.TableStakesLib.Events
     _.each $(tr).find('td'), (td, i) -> $(td).width(cellWidths[i])
 
     onMouseOver = (d, i) ->
-      i -= 1 if i > 0
       self.destinationIndex = i
       self.destinationID = d.id
       d3.select(@).classed(self._draggableDestinationClass(), true)
