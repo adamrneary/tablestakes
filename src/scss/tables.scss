@@ -286,7 +286,8 @@ table.tablestakes {
 // .spacer - blank row to provide space
 // .emphasis - rows that need attention drawn to them
 // .emphasis2 - alt style for rows that need attention drawn to them
-// .draggable-destination - class that is added to a row on which the .draggable hovers
+// .reorder-draggable-destination - added to a row on which the .draggable hovers (line shows insert AFTER the element)
+// .hierarchy-draggable-destination - added to a row on which the .draggable hovers (potential parent node for hierarchy dragging)
 // .dragged - this class is added to a row which is dragged. Absolute positions are to be set dynamically to follow the cursor.
 //
 // Styleguide 3.1
