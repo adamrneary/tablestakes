@@ -62,7 +62,8 @@ app.get '/coverage', (req,res)->
 
   report = ''
   try
-    report = glob.modules.fs.readFileSync __dirname+'/../test/reports/coverage.html'
+    destDir = __dirname+'/../test/reports/coverage.html'
+    report = glob.modules.fs.readFileSync destDir
   res.setHeader 'Content-Type', 'text/html'
   res.setHeader 'Content-Length', report.length
   res.end report

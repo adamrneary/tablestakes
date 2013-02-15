@@ -35,7 +35,8 @@ glob.getSections = (sections, cb) ->
     section.data.description = section.data.description.replace(/\n/g, "<br />")
     jade = null
     try
-      jade = glob.modules.fs.readFileSync "#{jadeDir}#{section.reference()}.jade"
+      jadePath = "#{jadeDir}#{section.reference()}.jade"
+      jade = glob.modules.fs.readFileSync jadePath
     if jade
       locals =
         section: section

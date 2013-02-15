@@ -8,7 +8,7 @@ describe "Events", ->
 
   it 'events constructor', (done)->
     event = new window.TableStakesLib.Events
-        core: {}
+      core: {}
     assert event
     done()
 

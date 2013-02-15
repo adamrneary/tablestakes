@@ -17,7 +17,8 @@ describe "Tablestakes API ", ->
 
       attributes = [
         'data', 'isDeletable', 'onDelete', 'isResizable', 'isSortable',
-        'dragMode', 'isDraggable', 'onDrag', 'isDragDestination', 'el', 'rowClasses'
+        'dragMode', 'isDraggable', 'onDrag', 'isDragDestination', 'el',
+        'rowClasses'
       ]
       _.each attributes, (attribute) ->
         testVal = Math.random()

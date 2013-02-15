@@ -14,7 +14,8 @@ compile = require('../server/compiler').compile
 
 # kill test server, if exist
 before (done)->
-  glob.request.get "#{glob.url}pid?secret=#{glob.config.secret}", {json: true}, (err,res,body) ->
+  url = "#{glob.url}pid?secret=#{glob.config.secret}"
+  glob.request.get url, {json: true}, (err,res,body) ->
     if !err
       if res.statusCode is 200 and body
         pid = body.pid
@@ -25,7 +26,11 @@ before (done)->
 
 # run server in test mode
 before (done)->
-    glob.server = require('child_process').spawn 'node', [__dirname+'/../server/run.js'], { env: process.env } 
+    glob.server = require('child_process').spawn(
+      'node'
+      [__dirname+'/../server/run.js']
+      { env: process.env }
+    )
     glob.server.stdout.on 'data', (data) ->
       data = data.toString()
       #process.stdout.write data
