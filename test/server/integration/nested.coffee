@@ -20,6 +20,7 @@ describe 'table nested', ->
         done()
 
     it 'open first node and children visible', (done)->
+        console.log 'test work'
         td = $('td.expandable:first')
         selector = browser.query('td.expandable')
         browser.fire 'click', selector, ->
