@@ -16,3 +16,4 @@ describe "Events", ->
     assert event.resizeDrag
     done()
 
+

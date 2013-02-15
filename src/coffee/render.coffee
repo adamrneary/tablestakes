@@ -18,10 +18,10 @@ class window.TableStakesLib.Core
     @selection.transition().call (selection) =>
       @table.update selection
 
-  # responsible for <table> and contents
+  # responsible for &lt;table&gt; and contents
   #
-  # calls renderHead() for <thead> and contents
-  # calls renderBody() for <tbody and contents
+  # calls renderHead() for &lt;thead&gt; and contents
+  # calls renderBody() for &lt;tbody&gt; and contents
   render: ->
     @_buildData()
     wrap = d3.select(@table.el())
@@ -47,7 +47,7 @@ class window.TableStakesLib.Core
     depth = d3.max(@nodes, (node) -> node.depth)
     @tree.size [@table.height, depth * @table.childIndent]
 
-  # responsible for <thead> and contents
+  # responsible for &lt;thead&gt; and contents
   _renderHead: (tableObject) ->
     self = @
 
@@ -58,7 +58,7 @@ class window.TableStakesLib.Core
         .append("thead")
         .append("tr")
 
-    # append a <th> for each column
+    # append a &lt;th&gt; for each column
     th = theadRow.selectAll("th")
       .data(@columns)
       .enter()
@@ -72,7 +72,7 @@ class window.TableStakesLib.Core
     theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
     @
 
-  # responsible for <tbody> and contents
+  # responsible for &lt;tbody&gt; and contents
   _renderBody: (tableObject) ->
     @tbody = tableObject.selectAll("tbody").data((d) -> d)
     @tbody.enter().append "tbody"
@@ -153,18 +153,18 @@ class window.TableStakesLib.Core
   # Note: There are other methods that add/remove classes but these are the
   # primary points of contact
 
-  # responsible for <th> classes
-  # functions in column classes only to <td> nodes below, not <th> nodes
+  # responsible for &lt;th&gt; classes
+  # functions in column classes only to &lt;td&gt; nodes below, not &lt;th&gt; nodes
   _columnClasses: (column) ->
     column.classes unless typeof column.classes is 'function'
 
-  # responsible for <tr> classes
-  # functions in column classes only to <td> nodes below, not <th> nodes
+  # responsible for &lt;tr&gt; classes
+  # functions in column classes only to &lt;td&gt; nodes below, not &lt;th&gt; nodes
   _rowClasses: (d) ->
     @table.rowClasses()(d) if @table.rowClasses()?
 
-  # responsible for <td> classes
-  # functions in column classes only to <td> nodes below, not <th> nodes
+  # responsible for &lt;td&gt; classes
+  # functions in column classes only to &lt;td&gt; nodes below, not &lt;th&gt; nodes
   _cellClasses: (d, column) ->
     val = []
 
@@ -199,7 +199,7 @@ class window.TableStakesLib.Core
           .attr('width', '15px')
           .classed('draggable-head', true)
 
-    # add draggable <td>
+    # add draggable &lt;td&gt;
     @enterRows.append('td')
       .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
 
@@ -232,7 +232,7 @@ class window.TableStakesLib.Core
           .attr('width', '15px')
           .classed('deletable-head', true)
 
-    # add deletable <td>
+    # add deletable &lt;td&gt;
     @updateRows.append('td')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',

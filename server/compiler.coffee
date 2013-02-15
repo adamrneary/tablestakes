@@ -5,17 +5,16 @@ sass = require 'node-sass'
 coffeePath = "#{__dirname}/../node_modules/coffee-script/bin/coffee"
 
 module.exports.compile = (cb) ->
-  console.log 'compile'
   compileCoffeeSrc ->
-    compileCoffeeTests ->
-      compileCoffeeExamples ->
-        switch glob.config.css
-          when 'less'
-            compileLess ->
-              cb()
-          when 'scss'
-            compileScss ->
-              cb()
+    #compileCoffeeTests ->
+    compileCoffeeExamples ->
+      switch glob.config.css
+        when 'less'
+          compileLess ->
+            cb()
+        when 'scss'
+          compileScss ->
+            cb()
 
 compileCoffeeTests = (cb) ->
   testDest = "#{__dirname}/../examples/public/js/test.js"

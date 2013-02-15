@@ -56,54 +56,42 @@ describe "Tablestakes API ", ->
   describe "columns", ->
     it 'returns table on set and an array of Columns on get'
 
+    it 'table options', (done) ->
+      typeof table.filterCondition is 'object'
+      table.filterCondition is 'd3_Map'
+      typeof table.core is 'object'
+      table.core is 'core'
+      typeof table.events is 'object'
+      table.events is 'events'
+      typeof table.utils is 'object'
+      table.utils is 'utils'
+      done()
 
+    it 'render', (done) ->
+      assert typeof table.render is 'function'
+      assert table.render
+      done()
 
+    it 'update', (done) ->
+      assert typeof table.update is 'function'
+      assert table.update
+      done()
 
+    # it 'update with argument', (done) ->
+    #   $(table.el())
+    #     .datum(table.gridFilteredData)
+    #     .call( (selection) => assert table.update selection )
+    #   done()
 
+    it 'dispatchManualEvent', (done) ->
+      assert typeof table.dispatchManualEvent is 'function'
+      assert table.dispatchManualEvent
+      done()
 
-
-
-
-
-
-
-
-  it 'table options', (done) ->
-    typeof table.filterCondition is 'object'
-    table.filterCondition is 'd3_Map'
-    typeof table.core is 'object'
-    table.core is 'core'
-    typeof table.events is 'object'
-    table.events is 'events'
-    typeof table.utils is 'object'
-    table.utils is 'utils'
-    done()
-
-  it 'render', (done) ->
-    assert typeof table.render is 'function'
-    assert table.render
-    done()
-
-  it 'update', (done) ->
-    assert typeof table.update is 'function'
-    assert table.update
-    done()
-
-  # it 'update with argument', (done) ->
-  #   $(table.el())
-  #     .datum(table.gridFilteredData)
-  #     .call( (selection) => assert table.update selection )
-  #   done()
-
-  it 'dispatchManualEvent', (done) ->
-    assert typeof table.dispatchManualEvent is 'function'
-    assert table.dispatchManualEvent
-    done()
-
-  it 'setID', (done) ->
-    assert typeof table.setID is 'function'
-    assert table.setID
-    done()
+    it 'setID', (done) ->
+      assert typeof table.setID is 'function'
+      assert table.setID
+      done()
 
   # it 'attributes options', (done) ->
   #   assert typeof table.attributes is 'object'
