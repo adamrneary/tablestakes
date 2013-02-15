@@ -3,22 +3,81 @@ describe "Tablestakes API ", ->
   window = null
   browser = null
   table = null
+  _ = null
   before (done)->
     glob.zombie.visit glob.url+"#base", (e, _browser) ->
       browser = _browser
       window = browser.window
       $ = window.$
+      _ = window._
       table = new window.TableStakes
       done()
 
-  it 'window.TableStakes is function', (done) ->
+  it 'is a function', (done) ->
     assert window.TableStakes
     assert typeof window.TableStakes is 'function'
     done()
 
-  it 'constructor', (done) ->
+  it 'has a basic constructor', (done) ->
     assert table
     done()
+
+  describe "chainable getter/setter methods for most internal attributes", ->
+
+    it 'should return the value set by the same method', ->
+
+      attributes = [
+        'data', 'isDeletable', 'onDelete', 'isResizable', 'isSortable',
+        'dragMode', 'isDraggable', 'onDrag', 'isDragDestination', 'el', 'rowClasses'
+      ]
+      _.each attributes, (attribute) ->
+        testVal = Math.random()
+        assert table[attribute](testVal) is table
+        assert table[attribute]() is testVal
+
+  describe "margin", ->
+    it 'can set all margin attributes at once', (done) ->
+      testHash =
+        top: 40
+        right: 10
+        bottom: 30
+        left: 50
+      assert table.margin(testHash) is table
+      assert table.margin()['top'] is 40
+      assert table.margin()['right'] is 10
+      assert table.margin()['bottom'] is 30
+      assert table.margin()['left'] is 50
+      done()
+
+    it 'can set 1-2 margin attributes at a time', (done) ->
+      testHash =
+        top: 40
+        right: 10
+        bottom: 30
+        left: 50
+      assert table.margin(testHash) is table
+      assert table.margin({top: 100}) is table
+      assert table.margin({left: 200, right: 300}) is table
+      assert table.margin()['top'] is 100
+      assert table.margin()['right'] is 300
+      assert table.margin()['bottom'] is 30
+      assert table.margin()['left'] is 200
+      done()
+
+  describe "columns", ->
+    it 'returns table on set and an array of Columns on get'
+
+
+
+
+
+
+
+
+
+
+
+
 
   it 'table options', (done) ->
     typeof table.filterCondition is 'object'
@@ -91,18 +150,6 @@ describe "Tablestakes API ", ->
   #   assert table.is('resizable') is true
   #   done()
 
-  #it 'table.margin(testdata)', (done) ->
-    #testHash =
-      #top: 40
-      #right: 10
-      #bottom: 30
-      #left: 50
-    #assert table.margin(testHash) is table
-    #assert table.margin()['top'] is 40
-    #assert table.margin()['right'] is 10
-    #assert table.margin()['bottom'] is 30
-    #assert table.margin()['left'] is 50
-    #done()
 
   #it 'table.sortable is true', (done) ->
     #assert typeof table.sortable is 'function'

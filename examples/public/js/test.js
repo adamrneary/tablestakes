@@ -32,28 +32,84 @@ describe('unit tests', function() {
 });
 
 describe("Tablestakes API ", function() {
-  var $, browser, table, window;
+  var $, browser, table, window, _;
   $ = null;
   window = null;
   browser = null;
   table = null;
+  _ = null;
   before(function(done) {
     return glob.zombie.visit(glob.url + "#base", function(e, _browser) {
       browser = _browser;
       window = browser.window;
       $ = window.$;
+      _ = window._;
       table = new window.TableStakes;
       return done();
     });
   });
-  it('window.TableStakes is function', function(done) {
+  it('is a function', function(done) {
     assert(window.TableStakes);
     assert(typeof window.TableStakes === 'function');
     return done();
   });
-  it('constructor', function(done) {
+  it('has a basic constructor', function(done) {
     assert(table);
     return done();
+  });
+  describe("chainable getter/setter methods for most internal attributes", function() {
+    return it('should return the value set by the same method', function() {
+      var attributes;
+      attributes = ['data', 'isDeletable', 'onDelete', 'isResizable', 'isSortable', 'dragMode', 'isDraggable', 'onDrag', 'isDragDestination', 'el', 'rowClasses'];
+      return _.each(attributes, function(attribute) {
+        var testVal;
+        testVal = Math.random();
+        assert(table[attribute](testVal) === table);
+        return assert(table[attribute]() === testVal);
+      });
+    });
+  });
+  describe("margin", function() {
+    it('can set all margin attributes at once', function(done) {
+      var testHash;
+      testHash = {
+        top: 40,
+        right: 10,
+        bottom: 30,
+        left: 50
+      };
+      assert(table.margin(testHash) === table);
+      assert(table.margin()['top'] === 40);
+      assert(table.margin()['right'] === 10);
+      assert(table.margin()['bottom'] === 30);
+      assert(table.margin()['left'] === 50);
+      return done();
+    });
+    return it('can set 1-2 margin attributes at a time', function(done) {
+      var testHash;
+      testHash = {
+        top: 40,
+        right: 10,
+        bottom: 30,
+        left: 50
+      };
+      assert(table.margin(testHash) === table);
+      assert(table.margin({
+        top: 100
+      }) === table);
+      assert(table.margin({
+        left: 200,
+        right: 300
+      }) === table);
+      assert(table.margin()['top'] === 100);
+      assert(table.margin()['right'] === 300);
+      assert(table.margin()['bottom'] === 30);
+      assert(table.margin()['left'] === 200);
+      return done();
+    });
+  });
+  describe("columns", function() {
+    return it('returns table on set and an array of Columns on get');
   });
   it('table options', function(done) {
     typeof table.filterCondition === 'object';

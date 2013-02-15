@@ -1,29 +1,27 @@
 class window.TableStakes
 
-  # defaults
-  attributes: {}
+  # internal table settings/variables
   id : Math.floor(Math.random() * 10000)
   header : true
   noData : "No Data Available."
   childIndent : 20
+  tableClassName : "tablestakes"
+  gridData : []
+  gridFilteredData : []
+  tableObject : null
+  isInRender : false
+  filterCondition : []
+  dispatch : d3.dispatch(
+    "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
+  )
 
+  # defaults
   _columns: []
   _margin :
     top: 0
     right: 0
     bottom: 0
     left: 0
-  _rowClasses: null
-
-  tableClassName : "tablestakes"
-  dispatch : d3.dispatch(
-    "elementClick", "elementDblclick", "elementMouseover", "elementMouseout"
-  )
-  gridData : []
-  gridFilteredData : []
-  tableObject : null
-  isInRender : false
-  filterCondition : []
 
   constructor: (options) ->
     @core = new window.TableStakesLib.Core
@@ -40,6 +38,7 @@ class window.TableStakes
       isDraggable: false
       onDrag: null
       isDragDestination: false
+      rowClasses: null
 
     @filterCondition = d3.map([])
     if options?
@@ -52,7 +51,7 @@ class window.TableStakes
       @gridData[0][column['id']] = column['id']
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
-    @setFilter @gridFilteredData[0], @filterCondition
+    @_setFilter @gridFilteredData[0], @filterCondition
     d3.select(@el())
       .html('')
       .datum(@gridFilteredData)
@@ -101,10 +100,10 @@ class window.TableStakes
     value = value or ''
     value = value.toString().toUpperCase()
     @filterCondition.set key, value
-    @setFilter @gridFilteredData[0], @filterCondition
+    @_setFilter @gridFilteredData[0], @filterCondition
     @render()
 
-  setFilter: ( data, filter ) ->
+  _setFilter: ( data, filter ) ->
     self = this
     data or= []
     if typeof data._hiddenvalues == "undefined"
@@ -113,13 +112,13 @@ class window.TableStakes
       data.values = data.values.concat(data._hiddenvalues)
       data._hiddenvalues = []
       for i in [data.values.length-1..0] by -1
-        if @setFilter(data.values[i], filter) == null
+        if @_setFilter(data.values[i], filter) == null
           data._hiddenvalues.push(data.values.splice(i, 1)[0])
     if data._values
       data._values = data._values.concat(data._hiddenvalues)
       data._hiddenvalues = []
       for i in [data._values.length-1..0] by -1
-        if @setFilter(data._values[i], filter) == null
+        if @_setFilter(data._values[i], filter) == null
           data._hiddenvalues.push(data._values.splice(i, 1)[0])
 
     if data.values and data.values.length > 0
@@ -142,14 +141,14 @@ class window.TableStakes
     return null
 
   get: (key) ->
-    @attributes[key]
+    @[key]
 
   set: (key, value, options) ->
-    @attributes[key] = (if value? then value else true) if key?
+    @[key] = (if value? then value else true) if key?
     @
 
   is: (key) ->
-    if @attributes[key] then true else false
+    if @[key] then true else false
 
   # ## Expose Public Variables
 
@@ -169,11 +168,6 @@ class window.TableStakes
     _.each val, (column) =>
       c = new window.TableStakesLib.Column(column)
       @_columns.push c
-    @
-
-  rowClasses: (val) ->
-    return @_rowClasses unless val?
-    @_rowClasses = d3.functor(val)
     @
 
   # builds getter/setter methods (initialized with defaults)
