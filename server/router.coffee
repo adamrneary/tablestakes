@@ -51,12 +51,12 @@ app.get '/test', (req,res)->
     errors[d] = modules.coffeelint.lint contents
 
   try
-    spec = glob.modules.fs.readFileSync __dirname+'/../test/report/spec.txt'
+    lint = glob.modules.fs.readFileSync __dirname+'/../test/reports/lint.txt'
 
   res.render 'test'
     errors: errors
     page: 'mocha'
-    spec: spec
+    lint: lint
 
 app.get '/coverage', (req,res)->
 

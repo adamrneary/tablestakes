@@ -1,5 +1,6 @@
 describe 'coffeelint', ->
   it 'exec', (done)->
+    report = ''
     glob.lint = require('child_process').spawn 'coffeelint', [
       '-f',
       './coffeelint.json',
@@ -11,6 +12,10 @@ describe 'coffeelint', ->
     ]
     glob.lint.stdout.on 'data', (data) ->
       data = data.toString()
-      #process.stdout.write data
+      report += data
+      unless glob.report
+        process.stdout.write data
     glob.lint.on 'exit', ->
-      done()
+      require('fs').writeFile __dirname+'/reports/lint.txt', report, ->
+        done()
+

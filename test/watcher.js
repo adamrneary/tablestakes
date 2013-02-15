@@ -7,11 +7,18 @@ spawn = require('child_process').spawn
 exec = require('child_process').exec
 
 cover = function (cb) {
+  //cmd = __dirname+'/../node_modules/jscoverage/bin/visionmedia-jscoverage '+__dirname+'/../dist/'+glob.config.name+'.js '+__dirname+'/cov/'+glob.config.name+'.js'
   cmd = __dirname+'/../node_modules/jscoverage/bin/jscoverage '+__dirname+'/../dist/'+glob.config.name+'.js '+__dirname+'/cov/'+glob.config.name+'.js'
   exec(cmd,function(err,stdout,stderr) {
     if (cb) cb()
   });
 };
+
+try {
+    require('fs').mkdirSync(__dirname+'/reports')
+} catch (e) {
+
+}
 
 start = function () {
   compile(function() {
@@ -39,11 +46,6 @@ server = function () {
 report = function (cb) {
   cmd = 'REPORT=1 '+__dirname+'/../node_modules/mocha/bin/mocha '+__dirname+'/run.js -R html-cov -s 20 --timeout 6000 --globals d3,window,_$jscoverage,_$jscoverage_cond,_$jscoverage_done,_$jscoverage_init,_,browser'
   exec(cmd,function(err,stdout,stderr) {
-    try {
-        require('fs').mkdirSync(__dirname+'/reports')
-    } catch (e) {
-
-    }
     require('fs').writeFile(__dirname+'/reports/coverage.html',stdout)
     if (cb) cb()
   });
