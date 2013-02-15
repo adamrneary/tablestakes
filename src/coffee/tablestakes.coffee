@@ -37,7 +37,7 @@ class window.TableStakes
       dragMode: null
       isDraggable: false
       onDrag: null
-      isDragDestination: false
+      isDragDestination: true
       rowClasses: null
 
     @filterCondition = d3.map([])

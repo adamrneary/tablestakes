@@ -67,12 +67,18 @@ onDragHandler = (objectID, targetID) ->
   values.push(draggedObject)
   grid.data(data).render()
 
+dragDestination = (d) ->
+  d.depth > 1
+
+draggable = (d) ->
+  d.depth > 1
+
 grid = new window.TableStakes()
   .el('#example')
   .columns(columns)
   .data(data)
-  .isDraggable(true)
+  .isDraggable(draggable)
   .dragMode('hierarchy')
-  .isDragDestination(true)
+  .isDragDestination(dragDestination)
   .onDrag(onDragHandler)
   .render()
