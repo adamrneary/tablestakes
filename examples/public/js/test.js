@@ -26,11 +26,6 @@ describe("Events", function() {
   });
 });
 
-describe('unit tests', function() {
-  require('./tablestakes_test');
-  return require('./events_test');
-});
-
 describe("Tablestakes API ", function() {
   var $, browser, table, window, _;
   $ = null;
@@ -142,4 +137,9 @@ describe("Tablestakes API ", function() {
     assert(table.setID);
     return done();
   });
+});
+
+describe('unit tests', function() {
+  require('./tablestakes_test');
+  return require('./events_test');
 });

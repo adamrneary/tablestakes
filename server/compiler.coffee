@@ -2,16 +2,13 @@ fs = require 'fs'
 child_process = require 'child_process'
 sass = require 'node-sass'
 
-module.exports.css = 'less'
-module.exports.name = 'dist'
-
 coffeePath = "#{__dirname}/../node_modules/coffee-script/bin/coffee"
 
-module.exports.compile = (cb) ->
+module.exports = (cb) ->
   compileCoffeeSrc ->
     compileCoffeeTests ->
       compileCoffeeExamples ->
-        switch module.exports.css
+        switch glob.config.css
           when 'less'
             compileLess ->
               cb()
@@ -34,7 +31,7 @@ compileCoffeeTests = (cb) ->
       cb()
 
 compileCoffeeSrc = (cb) ->
-  srcDest = "#{__dirname}/../dist/#{module.exports.name}.js"
+  srcDest = "#{__dirname}/../dist/#{glob.config.name}.js"
   srcDir = "#{__dirname}/../src/coffee/"
   command1 = "#{coffeePath} -j #{srcDest} -cb #{srcDir}"
   command2 = "#{coffeePath} -p -cb #{srcDir}"
@@ -71,7 +68,7 @@ compileScss = (cb) ->
         console.log err
         cb()
       else
-        fs.writeFile "#{__dirname}/../dist/#{module.exports.name}.css", css, ->
+        fs.writeFile "#{__dirname}/../dist/#{glob.config.name}.css", css, ->
           cb()
     , { include_paths: [ "#{__dirname}/../src/scss/"] }
 
