@@ -39,6 +39,11 @@ server = function () {
 report = function (cb) {
   cmd = 'REPORT=1 '+__dirname+'/../node_modules/mocha/bin/mocha '+__dirname+'/run.js -R html-cov -s 20 --timeout 6000 --globals d3,window,_$jscoverage,_$jscoverage_cond,_$jscoverage_done,_$jscoverage_init,_,browser'
   exec(cmd,function(err,stdout,stderr) {
+    try {
+        require('fs').mkdirSync(__dirname+'/reports')
+    } catch (e) {
+
+    }
     require('fs').writeFile(__dirname+'/reports/coverage.html',stdout)
     if (cb) cb()
   });
