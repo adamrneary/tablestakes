@@ -96,13 +96,15 @@ class window.TableStakesLib.Events
 
     # FIXME pointer-events: none; does not work in IE -> need a workaround
     tableEl = @core.table.el()
-    d3.selectAll(tableEl + ' tbody tr:not(.dragged), ' + tableEl + ' thead tr')
-      .on 'mouseover', (d, i) ->
-        i -= 1 if i > 0
-        self.insertAtIndex = i
-        d3.select(@).classed('draggable-destination', true)
-      .on 'mouseout', (d) ->
-        d3.select(@).classed('draggable-destination', false)
+    d3.selectAll(
+      tableEl + ' tbody tr:not(.dragged),
+      ' + tableEl + ' thead tr'
+    ).on 'mouseover', (d, i) ->
+      i -= 1 if i > 0
+      self.insertAtIndex = i
+      d3.select(@).classed('draggable-destination', true)
+    .on 'mouseout', (d) ->
+      d3.select(@).classed('draggable-destination', false)
 
   dragMove: (tr, d, x, y) ->
     $(tr).css
