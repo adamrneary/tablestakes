@@ -60,9 +60,14 @@ findByID = (data, id, removeElement) ->
     result = obj if obj?
   result
 
+isChild = (childID, parentID) ->
+  parent = findByID(data, parentID)
+  values = parent.values or parent._values or []
+  findByID(values, childID)
+
 onDragHandler = (objectID, targetID) ->
-  if targetID? and objectID?
-    target = findByID(data, targetID, false)
+  if targetID? and objectID? and not isChild(targetID, objectID)
+    target = findByID(data, targetID)
     draggedObject = findByID(data, objectID, true)
     values = target.values or target._values? or (target.values = [])
     values.push(draggedObject)
