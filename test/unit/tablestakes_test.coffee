@@ -1,5 +1,80 @@
 describe "Tablestakes API ", ->
   table = null
+  data = [
+    id: "NVD3"
+    type: "ahaha"
+    values: [
+      id: "Charts"
+      _values: [
+        id: "Simple Line"
+        type: "Historical"
+      ,
+        id: "Scatter / Bubble"
+        type: "Snapshot"
+      ,
+        id: "Stacked / Stream / Expanded Area"
+        type: "Historical"
+      ,
+        id: "Discrete Bar"
+        type: "Snapshot"
+      ,
+        id: "Grouped / Stacked Multi-Bar"
+        type: "Snapshot / Historical"
+      ,
+        id: "Horizontal Grouped Bar"
+        type: "Snapshot"
+      ,
+        id: "Line and Bar Combo"
+        type: "Historical"
+      ,
+        id: "Cumulative Line"
+        type: "Historical"
+      ,
+        id: "Line with View Finder"
+        type: "Historical"
+      ]
+    ,
+      id: "Chart Components"
+      values: [
+        id: "Legend"
+        type: "Universal"
+      ]
+    ]
+  ,
+    id: "New Root"
+    type: "tatata"
+    classes: "rowcustom1"
+    values: [
+      id: "1"
+      type: "123"
+      classes: "rowcustom"
+    ]
+  ]
+
+  setNewTreeValue = (tree, id, field, newValue) ->
+    for node in tree
+      if node.id is id
+        node[field] = newValue
+      else if node.values?
+        setNewTreeValue(node.values, id, field, newValue)
+
+  editHandler = (id, field, newValue) ->
+    setNewTreeValue data, id, field, newValue
+    grid.data(data).render()
+
+  columns = [
+    id: "id"
+    label: "Name"
+    classes: 'row-heading'
+    isEditable: true
+    isNested: true
+    onEdit: editHandler
+  ,
+    id: "type"
+    label: "Type"
+    isEditable: true
+    onEdit: editHandler
+  ]
 
   it 'is a function', (done) ->
     assert window.TableStakes
@@ -68,14 +143,32 @@ describe "Tablestakes API ", ->
       table.utils is 'utils'
       done()
 
+    it 'column', (done) ->
+      table = new window.TableStakes()
+        .el("#example")
+        .data(data)
+      assert table.columns(columns)
+      done()
+
+    it 'setID', (done) ->
+      table.gridData = [values: table.data()]
+      table.columns().forEach (column, i) =>
+        table.gridData[0][column['id']] = column['id']
+      table.setID table.gridData[0], "0"
+      assert table.gridData[0]._id is "0"
+      done()
+
     it 'render', (done) ->
       assert typeof table.render is 'function'
-      assert table.render
+      assert table.render()
       done()
 
     it 'update', (done) ->
+      #console.log 'table', table
+      d3.select(table.el())
+        .html('')
+        .call( (selection) => assert table.update selection)
       assert typeof table.update is 'function'
-      assert table.update
       done()
 
     # it 'update with argument', (done) ->
@@ -86,12 +179,44 @@ describe "Tablestakes API ", ->
 
     it 'dispatchManualEvent', (done) ->
       assert typeof table.dispatchManualEvent is 'function'
-      assert table.dispatchManualEvent
+      #console.log d3.select('td')[0][0]._attributes.class._nodeValue
+      table.dispatchManualEvent(d3.select('td')[0])
+      #d3.select('td')[0][0]._attributes.class._nodeValue
+      console.log d3.select('td')[0][0]._attributes.class._nodeValue
       done()
 
-    it 'setID', (done) ->
-      assert typeof table.setID is 'function'
-      assert table.setID
+    it 'table.set(testdata) and table.get(testdata)', (done) ->
+      assert table.set('isResizable', true)
+      assert table.get('isResizable') is true
+      done()
+
+    it 'table.is(testdata)', (done) ->
+      assert table.is('isResizable') is true
+      done()
+
+    it 'columns', (done) ->
+      table = new window.TableStakes()
+        .el("#example")
+        .data(data)
+      columns = 'isnt array'
+      assert table.columns(columns)
+      done()
+
+    it 'table.is(testdata)', (done) ->
+      assert table.is('isResizable') is true
+      assert table.is('isEditable') is false
+      done()
+
+    it 'filter', (done) ->
+      assert typeof table.filter is 'function'
+      assert table.filter 'key', 'S'
+      assert table.filter 'id', 'NVD3'
+      assert table.filterCondition.get('id') is 'NVD3'
+      done()
+
+    it 'has a basic constructor', (done) ->
+      table = new window.TableStakes('editable': true)
+      assert table
       done()
 
   # it 'attributes options', (done) ->
@@ -139,11 +264,6 @@ describe "Tablestakes API ", ->
     #assert table.setFilter table.gridFilteredData[0], table.filterCondition
     #done()
 
-  #it 'filter', (done) ->
-    #assert typeof table.filter is 'function'
-    #assert table.filter 'key', 'S'
-    #assert table.filterCondition.get('key') is 'S'
-    #done()
 
 #describe "Table: test function", ->
   #table = new window.TableStakes
