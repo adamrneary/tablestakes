@@ -47,8 +47,9 @@ app.get '/test', (req,res)->
   path3="#{__dirname}/../server/"
   files3 = modules.fs.readdirSync path3
   for d in files3
-    contents = modules.fs.readFileSync path3 + d, 'utf-8'
-    errors[d] = modules.coffeelint.lint contents
+    if d.substr(-7) is ".coffee"
+      contents = modules.fs.readFileSync path3 + d, 'utf-8'
+      errors[d] = modules.coffeelint.lint contents
 
   try
     lint = glob.modules.fs.readFileSync __dirname+'/../test/reports/lint.txt'
