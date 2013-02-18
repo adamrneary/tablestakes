@@ -61,11 +61,12 @@ findByID = (data, id, removeElement) ->
   result
 
 onDragHandler = (objectID, targetID) ->
-  target = findByID(data, targetID, false)
-  draggedObject = findByID(data, objectID, true)
-  values = target.values or target._values? or (target.values = [])
-  values.push(draggedObject)
-  grid.data(data).render()
+  if targetID? and objectID?
+    target = findByID(data, targetID, false)
+    draggedObject = findByID(data, objectID, true)
+    values = target.values or target._values? or (target.values = [])
+    values.push(draggedObject)
+    grid.data(data).render()
 
 dragDestination = (d) ->
   d.depth > 1

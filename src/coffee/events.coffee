@@ -96,9 +96,9 @@ class window.TableStakesLib.Events
 
     onMouseOver = (d, i) ->
       self.destinationIndex = i
-      if self.core.utils.ourFunctor(self.core.table.isDragDestination(), d)
-        self.destinationID = d.id
-        d3.select(@).classed(self._draggableDestinationClass(), true)
+      isDestination = self.core.utils.ourFunctor(self.core.table.isDragDestination(), d)
+      self.destinationID = (if isDestination then d.id else null)
+      d3.select(@).classed(self._draggableDestinationClass(), true) if isDestination
 
     onMouseOut = (d) ->
       d3.select(@).classed(self._draggableDestinationClass(), false)

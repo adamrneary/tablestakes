@@ -84,11 +84,13 @@ findByID = function(data, id, removeElement) {
 
 onDragHandler = function(objectID, targetID) {
   var draggedObject, target, values;
-  target = findByID(data, targetID, false);
-  draggedObject = findByID(data, objectID, true);
-  values = target.values || (target._values != null) || (target.values = []);
-  values.push(draggedObject);
-  return grid.data(data).render();
+  if ((targetID != null) && (objectID != null)) {
+    target = findByID(data, targetID, false);
+    draggedObject = findByID(data, objectID, true);
+    values = target.values || (target._values != null) || (target.values = []);
+    values.push(draggedObject);
+    return grid.data(data).render();
+  }
 };
 
 dragDestination = function(d) {
