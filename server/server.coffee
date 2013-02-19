@@ -45,17 +45,21 @@ glob.getSections = (sections, cb) ->
       section.data.example = html
       for modifier in section.modifiers()
         a = {className: modifier.className()}
-        modifier.data.example = glob.modules.jade.compile(jade, {pretty: true})(a)
+        modifier.data.example = glob.modules.jade.compile(
+          jade,
+          {pretty: true}
+        )(a)
   cb sections
 
 require './router'
 compile = require('./compiler').compile
 
-if process.env.NODE_ENV isnt 'testing' and process.env.NODE_ENV isnt 'development'
+arr = ['testing', 'development']
+if process.env.NODE_ENV in arr
+  glob.modules.http.createServer(app).listen glob.config.port, ->
+    console.log  'server start on port '+glob.config.port
+else
   compile ->
     glob.modules.http.createServer(app).listen glob.config.port, ->
       console.log  'server start on port '+glob.config.port
-else
-  glob.modules.http.createServer(app).listen glob.config.port, ->
-    console.log  'server start on port '+glob.config.port
 

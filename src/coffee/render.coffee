@@ -133,8 +133,8 @@ class window.TableStakesLib.Core
 
   _renderUpdateRows: ->
     self = @
-    @updateRows.selectAll('td')
-      .each (d, i) -> self._renderCell(self.columns[i], d, @) if self.columns[i]?
+    @updateRows.selectAll('td').each (d, i) ->
+      self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
     d3.select(td)
@@ -154,17 +154,20 @@ class window.TableStakesLib.Core
   # primary points of contact
 
   # responsible for &lt;th&gt; classes
-  # functions in column classes only to &lt;td&gt; nodes below, not &lt;th&gt; nodes
+  # functions in column classes only to &lt;td&gt; nodes below,
+  # not &lt;th&gt; nodes
   _columnClasses: (column) ->
     column.classes unless typeof column.classes is 'function'
 
   # responsible for &lt;tr&gt; classes
-  # functions in column classes only to &lt;td&gt; nodes below, not &lt;th&gt; nodes
+  # functions in column classes only to &lt;td&gt; nodes below,
+  # not &lt;th&gt; nodes
   _rowClasses: (d) ->
     @table.rowClasses()(d) if @table.rowClasses()?
 
   # responsible for &lt;td&gt; classes
-  # functions in column classes only to &lt;td&gt; nodes below, not &lt;th&gt; nodes
+  # functions in column classes only to &lt;td&gt; nodes below,
+  # not &lt;th&gt; nodes
   _cellClasses: (d, column) ->
     val = []
 
@@ -203,11 +206,10 @@ class window.TableStakesLib.Core
     @enterRows.append('td')
       .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
 
-    @updateRows.selectAll('td.draggable')
-      .on 'mouseover', (d) ->
-        self._setDragBehavior()
-      .on 'mouseout', (d) ->
-        self._clearDragBehavior()
+    @updateRows.selectAll('td.draggable').on 'mouseover', (d) ->
+      self._setDragBehavior()
+    .on 'mouseout', (d) ->
+      self._clearDragBehavior()
 
   _setDragBehavior: ->
     self = @
@@ -239,7 +241,8 @@ class window.TableStakesLib.Core
     @updateRows.append('td')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',
-        (d) => @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
+        (d) =>
+          @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
   _makeResizable: (th) =>

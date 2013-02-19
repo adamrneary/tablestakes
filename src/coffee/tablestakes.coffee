@@ -71,6 +71,7 @@ class window.TableStakes
 
   dispatchManualEvent: (target) ->
     # all browsers except IE before version 9
+    console.log 'here', target.dispatchEvent, document.createEvent
     if target.dispatchEvent and document.createEvent
       mousedownEvent = document.createEvent("MouseEvent")
       mousedownEvent.initMouseEvent(

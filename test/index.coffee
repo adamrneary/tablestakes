@@ -26,18 +26,18 @@ before (done)->
 
 # run server in test mode
 before (done)->
-    glob.server = require('child_process').spawn(
-      'node'
-      [__dirname+'/../server/run.js']
-      { env: process.env }
-    )
-    glob.server.stdout.on 'data', (data) ->
-      data = data.toString()
-      #process.stdout.write data
-      if data is "server start on port #{glob.config.port}\n"
-        done()
-    glob.server.stderr.on 'data', (data) ->
-      #process.stdout.write data.toString()
+  glob.server = require('child_process').spawn(
+    'node'
+    [__dirname+'/../server/run.js']
+    { env: process.env }
+  )
+  glob.server.stdout.on 'data', (data) ->
+    data = data.toString()
+    #process.stdout.write data
+    if data is "server start on port #{glob.config.port}\n"
+      done()
+  glob.server.stderr.on 'data', (data) ->
+    #process.stdout.write data.toString()
 
 if glob.report
   require './unit'
