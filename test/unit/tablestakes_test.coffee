@@ -5,37 +5,70 @@ describe "Tablestakes API ", ->
     type: "ahaha"
     values: [
       id: "Charts"
-      _values: [
+      values: [
         id: "Simple Line"
         type: "Historical"
-      ,
-        id: "Scatter / Bubble"
-        type: "Snapshot"
-      ,
-        id: "Stacked / Stream / Expanded Area"
-        type: "Historical"
-      ,
-        id: "Discrete Bar"
-        type: "Snapshot"
-      ,
-        id: "Grouped / Stacked Multi-Bar"
-        type: "Snapshot / Historical"
-      ,
-        id: "Horizontal Grouped Bar"
-        type: "Snapshot"
-      ,
-        id: "Line and Bar Combo"
-        type: "Historical"
-      ,
-        id: "Cumulative Line"
-        type: "Historical"
-      ,
-        id: "Line with View Finder"
-        type: "Historical"
+        values: [
+          id: "Scatter / Bubble"
+          type: "Snapshot"
+          values: [
+            id: "Stacked / Stream / Expanded Area"
+            type: "Historical"
+            values: [
+              id: "Stacked / Stream / Expanded Area"
+              type: "Historical"
+              values: [
+                id: "Line and Bar Combo"
+                type: "Historical"
+                values: [
+                  id: "Cumulative Line"
+                  type: "Historical"
+                ]
+              ,
+                id: "Cumulative Line"
+                type: "Historical"
+              ] 
+            ]
+          ]
+        ]
+      ]
+    ,
+      id: "NVD3"
+      type: "ahaha"
+      _values: [
+        id: "Charts"
+        _values: [
+          id: "Simple Line"
+          type: "Historical"
+        ,
+          id: "Scatter / Bubble"
+          type: "Snapshot"
+        ,
+          id: "Stacked / Stream / Expanded Area"
+          type: "Historical"
+        ,
+          id: "Discrete Bar"
+          type: "Snapshot"
+        ,
+          id: "Grouped / Stacked Multi-Bar"
+          type: "Snapshot / Historical"
+        ,
+          id: "Horizontal Grouped Bar"
+          type: "Snapshot"
+        ,
+          id: "Line and Bar Combo"
+          type: "Historical"
+        ,
+          id: "Cumulative Line"
+          type: "Historical"
+        ,
+          id: "Line with View Finder"
+          type: "Historical"
+        ]
       ]
     ,
       id: "Chart Components"
-      values: [
+      _values: [
         id: "Legend"
         type: "Universal"
       ]
@@ -45,6 +78,25 @@ describe "Tablestakes API ", ->
     type: "tatata"
     classes: "rowcustom1"
     values: [
+      id: "1"
+      type: "123"
+      classes: "rowcustom"
+    ]
+  ,
+    id: "New Root"
+    type: "tatata"
+    _values: [
+      id: "1"
+      type: "123"
+      classes: "rowcustom"
+    ]
+  ,
+    id: "NVD3"
+    type: "ahaha"
+  ,
+    id: "NVD3"
+    type: "ahaha"
+    _values: [
       id: "1"
       type: "123"
       classes: "rowcustom"
@@ -180,9 +232,12 @@ describe "Tablestakes API ", ->
     it 'dispatchManualEvent', (done) ->
       assert typeof table.dispatchManualEvent is 'function'
       #console.log d3.select('td')[0][0]._attributes.class._nodeValue
-      table.dispatchManualEvent(d3.select('td')[0])
+      #console.log d3.select('td').node()
+      #table.dispatchManualEvent(d3.select('td').node())
       #d3.select('td')[0][0]._attributes.class._nodeValue
-      console.log d3.select('td')[0][0]._attributes.class._nodeValue
+      #console.log d3.select('td')[0][0]._attributes.class._nodeValue
+      #console.log 'node'
+      #console.log d3.select('td').node()
       done()
 
     it 'table.set(testdata) and table.get(testdata)', (done) ->
