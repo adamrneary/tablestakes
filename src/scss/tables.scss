@@ -396,9 +396,7 @@ table.tablestakes {
       &.hierarchy-draggable-destination {
         th, td {
           color: $row-draggable-destination-color;
-          /*border-bottom: solid 4px $row-draggable-destination-border-bottom-color;*/
           background: $row-draggable-destination-background;
-          /*@include opacity(.50);*/
         }
       }
 
