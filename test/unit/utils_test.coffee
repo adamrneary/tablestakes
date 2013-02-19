@@ -17,7 +17,7 @@ describe "Utils", ->
   }
 
   it 'window.TableStakesLib.Utils is function', (done) ->
-    assert typeof utils is 'function'
+    assert typeof window.TableStakesLib.Utils is 'function'
     done()
 
   it 'utils constructor', (done) ->
@@ -26,13 +26,9 @@ describe "Utils", ->
     assert utils
     done()
 
-  it 'isChild', (done) ->
-    assert true
-    done()
+  it 'isChild'
 
-  it 'isParent', (done) ->
-    assert true
-    done()
+  it 'isParent'
 
   it 'hasChildren', (done)->
     assert utils.hasChildren(d)
