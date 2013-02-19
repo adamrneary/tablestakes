@@ -238,7 +238,7 @@ class window.TableStakesLib.Core
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
-    @updateRows.append('td')
+    @enterRows.append('td')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',
         (d) =>

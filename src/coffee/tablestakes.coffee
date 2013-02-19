@@ -45,7 +45,7 @@ class window.TableStakes
       for key of options
         @set key, options[key]
 
-  render: () ->
+  render: ->
     @gridData = [values: @data()]
     @columns().forEach (column, i) =>
       @gridData[0][column['id']] = column['id']
