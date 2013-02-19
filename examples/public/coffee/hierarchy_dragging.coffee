@@ -49,18 +49,26 @@ columns = [
   label: "Type"
 ]
 
-onDragHandler = (objectId, targetId) ->
-  # TODO: find and record objectId's node (with children)
-  # TODO: remove objectId's node from objectId's parent node
-  # TODO: find targetId's node and add objectId's node (with children)
-  grid.data(data).render()
+onDragHandler = (object, target) ->
+  u = grid.core.utils
+  if target? and object? and
+  not u.isChild(target, object) and not u.isParent(target, object)
+    u.removeNode(object)
+    u.appendNode(target, object)
+    grid.data(data).render()
+
+dragDestination = (d) ->
+  d.depth > 1
+
+draggable = (d) ->
+  d.depth > 1
 
 grid = new window.TableStakes()
   .el('#example')
   .columns(columns)
   .data(data)
-  .isDraggable(true)
+  .isDraggable(draggable)
   .dragMode('hierarchy')
-  .isDragDestination(true)
+  .isDragDestination(dragDestination)
   .onDrag(onDragHandler)
   .render()

@@ -16,11 +16,19 @@ describe "Utils", ->
     y: 1
   }
 
-  it 'utils constructor', (done)->
+  it 'window.TableStakesLib.Utils is function', (done) ->
+    assert typeof window.TableStakesLib.Utils is 'function'
+    done()
+
+  it 'utils constructor', (done) ->
     utils = new window.TableStakesLib.Utils
       core: {}
     assert utils
     done()
+
+  it 'isChild'
+
+  it 'isParent'
 
   it 'hasChildren', (done)->
     assert utils.hasChildren(d)
