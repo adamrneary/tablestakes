@@ -54,13 +54,9 @@ columns = [
   }
 ];
 
-onDragHandler = function(objectID, index) {
-  var obj;
-  obj = _.find(data, function(d) {
-    return d.id === objectID;
-  });
-  data = _.without(data, obj);
-  data.splice(index, 0, obj);
+onDragHandler = function(object, index) {
+  data = _.without(data, object);
+  data.splice(index, 0, object);
   return grid.data(data).render();
 };
 

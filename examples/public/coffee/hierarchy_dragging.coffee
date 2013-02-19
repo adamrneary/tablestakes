@@ -49,28 +49,11 @@ columns = [
   label: "Type"
 ]
 
-findByID = (data, id, removeElement) ->
-  result = null
-  _.each data, (d, i) ->
-    if d.id is id
-      data.splice(i, 1) if removeElement
-      result = d
-    values = d.values or d._values
-    obj = findByID(values, id, removeElement) if values?
-    result = obj if obj?
-  result
-
-isChild = (childID, parentID) ->
-  parent = findByID(data, parentID)
-  values = parent.values or parent._values or []
-  findByID(values, childID)
-
-onDragHandler = (objectID, targetID) ->
-  if targetID? and objectID? and not isChild(targetID, objectID)
-    target = findByID(data, targetID)
-    draggedObject = findByID(data, objectID, true)
-    values = target.values or target._values? or (target.values = [])
-    values.push(draggedObject)
+onDragHandler = (object, target) ->
+  u = grid.core.utils
+  if target? and object? and not u.isChild(target, object) and not u.isParent(target, object)
+    u.removeNode(object)
+    u.appendNode(target, object)
     grid.data(data).render()
 
 dragDestination = (d) ->

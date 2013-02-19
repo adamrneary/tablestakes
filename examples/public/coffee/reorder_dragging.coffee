@@ -47,10 +47,9 @@ columns = [
     label: "Type"
 ]
 
-onDragHandler = (objectID, index) ->
-  obj = _.find(data, (d) -> d.id is objectID)
-  data = _.without(data, obj)
-  data.splice(index, 0, obj)
+onDragHandler = (object, index) ->
+  data = _.without(data, object)
+  data.splice(index, 0, object)
   grid.data(data).render()
 
 grid = new window.TableStakes()

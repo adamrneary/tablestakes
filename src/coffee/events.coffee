@@ -97,7 +97,7 @@ class window.TableStakesLib.Events
     onMouseOver = (d, i) ->
       self.destinationIndex = i
       isDestination = self.core.utils.ourFunctor(self.core.table.isDragDestination(), d)
-      self.destinationID = (if isDestination then d.id else null)
+      self.destination = (if isDestination then d else null)
       d3.select(@).classed(self._draggableDestinationClass(), true) if isDestination
 
     onMouseOut = (d) ->
@@ -137,8 +137,8 @@ class window.TableStakesLib.Events
     if @core.table.onDrag
       onDrag = @core.table.onDrag()
       switch @core.table.dragMode()
-        when 'reorder' then onDrag(d.id, @destinationIndex)
-        when 'hierarchy' then onDrag(d.id, @destinationID)
+        when 'reorder' then onDrag(d, @destinationIndex)
+        when 'hierarchy' then onDrag(d, @destination)
 
   resizeDrag: (context, node, d, _, unshift) ->
     th = node.parentNode
