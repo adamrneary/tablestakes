@@ -90,11 +90,12 @@ class window.TableStakesLib.Utils
     values and values.length
 
   isChild: (child, parent) ->
-    if @core.utils.hasChildren(parent)
+    u = @core.utils
+    if u.hasChildren(parent)
       values = parent.values or parent._values
       for d in values
         return true if d is child
-        return true if @core.utils.hasChildren(d) and @core.utils.isChild(child, d)
+        return true if u.hasChildren(d) and u.isChild(child, d)
     false
 
   isParent: (parent, child) ->

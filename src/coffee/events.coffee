@@ -95,10 +95,12 @@ class window.TableStakesLib.Events
     _.each $(tr).find('td'), (td, i) -> $(td).width(cellWidths[i])
 
     onMouseOver = (d, i) ->
+      c = self.core
       self.destinationIndex = i
-      isDestination = self.core.utils.ourFunctor(self.core.table.isDragDestination(), d)
+      isDestination = c.utils.ourFunctor(c.table.isDragDestination(), d)
       self.destination = (if isDestination then d else null)
-      d3.select(@).classed(self._draggableDestinationClass(), true) if isDestination
+      if isDestination
+        d3.select(@).classed(self._draggableDestinationClass(), true)
 
     onMouseOut = (d) ->
       d3.select(@).classed(self._draggableDestinationClass(), false)
