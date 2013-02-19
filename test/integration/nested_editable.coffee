@@ -55,4 +55,5 @@ describe 'nested rows with editable cells', ->
       assert $('td.editable:first').hasClass('active')
       done()
 
+
   it 'records change to editable cell'
