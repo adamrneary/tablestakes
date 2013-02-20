@@ -89,6 +89,22 @@ class window.TableStakesLib.Utils
     values = d.values or d._values
     values and values.length
 
+  isChild: (child, parent) ->
+    u = @core.utils
+    if u.hasChildren(parent)
+      values = parent.values or parent._values
+      for d in values
+        return true if d is child
+        return true if u.hasChildren(d) and u.isChild(child, d)
+    false
+
+  isParent: (parent, child) ->
+    if @core.utils.hasChildren(parent)
+      values = parent.values or parent._values
+      _.contains(values, child)
+    else
+      false
+
   folded: (d) ->
     d._values and d._values.length
 
