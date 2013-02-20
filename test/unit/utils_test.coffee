@@ -30,7 +30,11 @@ describe "Utils", ->
     activatedID: true
   }
 
-  it 'utils constructor', (done)->
+  it 'window.TableStakesLib.Utils is function', (done) ->
+    assert typeof window.TableStakesLib.Utils is 'function'
+    done()
+
+  it 'utils constructor', (done) ->
     utils = new window.TableStakesLib.Utils
       core: {
         utils:{
@@ -50,6 +54,10 @@ describe "Utils", ->
       }
     assert utils
     done()
+
+  it 'isChild'
+
+  it 'isParent'
 
   it 'hasChildren', (done)->
     assert utils.hasChildren(d)

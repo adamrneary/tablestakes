@@ -219,13 +219,16 @@ class window.TableStakesLib.Core
       .on('dragstart', (d, x, y) -> self.events.dragStart(@, d, x, y))
       .on('drag',      (d, x, y) -> self.events.dragMove(@, d, x, y))
       .on('dragend',   (d, x, y) -> self.events.dragEnd(@, d, x, y))
-    self.updateRows.call dragBehavior
+    @updateRows.call dragBehavior
 
   _clearDragBehavior: ->
-    @updateRows
+    self = @
+    dragBehavior = d3.behavior.drag()
+      .origin(Object)
       .on('dragstart', null)
       .on('drag', null)
       .on('dragend', null)
+    @updateRows.call dragBehavior
 
   _makeDeletable: (table) ->
     # add space in the table header
@@ -236,7 +239,7 @@ class window.TableStakesLib.Core
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
-    @updateRows.append('td')
+    @enterRows.append('td')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',
         (d) =>
