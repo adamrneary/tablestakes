@@ -28,7 +28,7 @@
       <span class="nv">dragMode: </span><span class="kc">null</span>
       <span class="nv">isDraggable: </span><span class="kc">false</span>
       <span class="nv">onDrag: </span><span class="kc">null</span>
-      <span class="nv">isDragDestination: </span><span class="kc">false</span>
+      <span class="nv">isDragDestination: </span><span class="kc">true</span>
       <span class="nv">rowClasses: </span><span class="kc">null</span>
 
     <span class="vi">@filterCondition = </span><span class="nx">d3</span><span class="p">.</span><span class="nx">map</span><span class="p">([])</span>
@@ -36,7 +36,7 @@
       <span class="k">for</span> <span class="nx">key</span> <span class="k">of</span> <span class="nx">options</span>
         <span class="nx">@set</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">options</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
 
-  <span class="nv">render: </span><span class="nf">() -&gt;</span>
+  <span class="nv">render: </span><span class="o">-&gt;</span>
     <span class="vi">@gridData = </span><span class="p">[</span><span class="nv">values: </span><span class="nx">@data</span><span class="p">()]</span>
     <span class="nx">@columns</span><span class="p">().</span><span class="nx">forEach</span> <span class="p">(</span><span class="nx">column</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span>
       <span class="nx">@gridData</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">column</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">column</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>

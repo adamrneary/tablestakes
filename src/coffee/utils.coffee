@@ -110,28 +110,16 @@ class window.TableStakesLib.Utils
 
   # change icons during deployment-folding
   nestedIcons: (d)->
-    if d.depth isnt 1
-      if (d.depth-1) < 6
-        indent = (d.depth-1)
-      else
-        indent = 6
-      if d._values and d._values.length
-        'expandable' + ' ' + 'indent' + indent
-      else
-        if d.values and d.values.length
-          'collapsible' + ' ' + 'indent' + indent
-        else
-          'indent' + (indent+1)
-    else unless d.children?
-      'indent1'
+    if (d.depth-1) < 6
+      indent = (d.depth-1)
     else
-      if d._values and d._values.length
-        'expandable'
-      else
-        if d.values and d.values.length
-          'collapsible'
-        else
-          'indent1'
+      indent = 5
+    if d._values and d._values.length
+      'expandable' + ' ' + 'indent' + indent
+    else if d.values and d.values.length
+        'collapsible' + ' ' + 'indent' + indent
+    else
+      'indent' + (indent+1)
 
   # similar in spirit to d3.functor()
   # https://github.com/mbostock/d3/wiki/Internals
