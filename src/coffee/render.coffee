@@ -2,6 +2,7 @@ window.TableStakesLib = {} unless window.TableStakesLib
 class window.TableStakesLib.Core
 
   constructor: (options) ->
+    console.log @
     @utils = new window.TableStakesLib.Utils
       core: @
     @events = new window.TableStakesLib.Events

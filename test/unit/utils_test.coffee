@@ -2,42 +2,57 @@ describe "Utils", ->
   table = null
   utils = null
   d = {
-    _hiddenvalues: [],
     values: ['a'],
     _values: [],
-    _id: "0_6",
-    activatedID: null,
-    changedID: [],
-    depth: 1,
-    id: "Horizontal Grouped Bar",
-    parent: {},
-    type: "Snapshot",
-    x: 0.5,
-    y: 1
+    activatedID: true
+  }
+  a = {
+    values: [],
+    activatedID: true
+  }
+  b = {
+    _values: [a],
+    activatedID: true
+  }
+
+  c = {
+    activatedID: true,
+    parent: {
+      values: [],
+      activatedID: true
+    }
+  }
+  c.parent.values = [b, c]
+  c.parent.children = [b, c]
+
+  f = {
+    values: [a, c],
+    activatedID: true
   }
 
   it 'utils constructor', (done)->
     utils = new window.TableStakesLib.Utils
-      core: {}
+      core: {
+        utils:{
+          deactivateAll: (d) ->
+            d.activatedID = null
+        }
+        data:[{values:[{_id:"0_0", values:[{_id:"0_0_0"}]}], _id:"0"}]
+        columns: [{id: 'id'},{id: 'type'}]
+        nodes: [{_id:"0"},{_id:"0_0"},{_id:"0_0_0"}]
+        table: {
+          gridFilteredData: [
+            {values:[{_id:"0_0", values:[{_id:"0_0_0"}]}], _id:"0"}
+          ]
+          setID: ->
+            return true
+        }
+      }
     assert utils
     done()
 
   it 'hasChildren', (done)->
     assert utils.hasChildren(d)
-    a = {
-      values: [],
-      _values: [],
-      _hiddenvalues: [],
-      _id: "0_6",
-      activatedID: null,
-      changedID: [],
-      depth: 1,
-      id: "Horizontal Grouped Bar",
-      parent: {},
-      type: "Snapshot",
-      x: 0.5,
-      y: 1
-    }
     assert utils.hasChildren(a) is 0
     done()
 
@@ -45,3 +60,53 @@ describe "Utils", ->
     assert utils.folded(d) is 0
     done()
 
+  it 'appendNode', (done)->
+    assert d.values.length is 1
+    utils.appendNode(d, a)
+    assert d.values.length is 2
+
+    assert b._values.length is 1
+    utils.appendNode(b, a)
+    assert b._values.length is 2
+
+    utils.appendNode(c, a)
+    assert c.values.length is 1
+    done()
+
+  it 'pastNode', (done)->
+    #console.log c.parent.values
+    utils.pastNode(c, a)
+    assert c.parent.values[2] is a
+    done()
+
+  it 'removeNode', (done)->
+    utils.removeNode(c)
+    assert c.parent.values.length is 2
+    done()
+
+  it 'findNextNode', (done)->
+    assert utils.findNextNode({_id: "0_0"})._id is "0_0_0"
+    assert utils.findNextNode({_id:"0_0_0"}) is null
+    done()
+
+  it 'findPrevNode', (done)->
+    assert utils.findPrevNode({_id: "0_0_0"})._id is "0_0"
+    assert utils.findPrevNode({_id:"0_0"}) is null
+    done()
+
+  it 'findNodeByID', (done)->
+    utils.findNodeByID("0_0") is { _id:"0_0", values:[{_id:"0_0_0"}]}
+    done()
+
+  it 'getCurrentColumnIndex', (done)->
+    assert utils.getCurrentColumnIndex('id') is 0
+    done()
+
+  it 'deactivateAll', (done)->
+    utils.deactivateAll(f)
+    assert f.activatedID is null
+    assert c.activatedID is null
+    assert a.activatedID is null
+    utils.deactivateAll(b)
+    assert b.activatedID is null
+    done()

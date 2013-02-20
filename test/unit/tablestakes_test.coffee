@@ -27,7 +27,7 @@ describe "Tablestakes API ", ->
               ,
                 id: "Cumulative Line"
                 type: "Historical"
-              ] 
+              ]
             ]
           ]
         ]
@@ -112,7 +112,7 @@ describe "Tablestakes API ", ->
 
   editHandler = (id, field, newValue) ->
     setNewTreeValue data, id, field, newValue
-    grid.data(data).render()
+    table.data(data).render()
 
   columns = [
     id: "id"
