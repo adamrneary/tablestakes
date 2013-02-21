@@ -55,7 +55,6 @@ calls renderBody() for &lt;tbody&gt; and contents</p>             </td>         
     <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>responsible for &lt;tbody&gt; and contents</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_renderBody: </span><span class="nf">(tableObject) -&gt;</span>
     <span class="vi">@tbody = </span><span class="nx">tableObject</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="s2">&quot;tbody&quot;</span><span class="p">).</span><span class="nx">data</span><span class="p">(</span><span class="nf">(d) -&gt;</span> <span class="nx">d</span><span class="p">)</span>
     <span class="nx">@tbody</span><span class="p">.</span><span class="nx">enter</span><span class="p">().</span><span class="nx">append</span> <span class="s2">&quot;tbody&quot;</span>
-
     <span class="nx">@_renderRows</span><span class="p">()</span>
 
   <span class="nv">_enterRows: </span><span class="o">-&gt;</span>

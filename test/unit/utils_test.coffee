@@ -40,6 +40,10 @@ describe "Utils", ->
         utils:{
           deactivateAll: (d) ->
             d.activatedID = null
+          hasChildren: ->
+            true
+          isChild: ->
+            true
         }
         data:[{values:[{_id:"0_0", values:[{_id:"0_0_0"}]}], _id:"0"}]
         columns: [{id: 'id'},{id: 'type'}]
@@ -54,10 +58,6 @@ describe "Utils", ->
       }
     assert utils
     done()
-
-  it 'isChild'
-
-  it 'isParent'
 
   it 'hasChildren', (done)->
     assert utils.hasChildren(d)
@@ -117,4 +117,35 @@ describe "Utils", ->
     assert a.activatedID is null
     utils.deactivateAll(b)
     assert b.activatedID is null
+    done()
+
+  it 'isChild', (done)->
+    assert utils.isChild(d, b)
+    assert utils.isChild(a, f)
+    utilsTest2 = new window.TableStakesLib.Utils
+      core: {
+        utils:{
+          deactivateAll: (d) ->
+            d.activatedID = null
+          hasChildren: ->
+            false
+          isChild: ->
+            false
+        }
+      }
+    assert utilsTest2.isChild(f, a) is false
+    done()
+
+  it 'isParent', (done)->
+    utils.isParent(a, d)
+    utilsTest = new window.TableStakesLib.Utils
+      core: {
+        utils:{
+          deactivateAll: (d) ->
+            d.activatedID = null
+          hasChildren: ->
+            false
+        }
+      }
+    utilsTest.isParent(a, d)
     done()

@@ -76,7 +76,6 @@ class window.TableStakesLib.Core
   _renderBody: (tableObject) ->
     @tbody = tableObject.selectAll("tbody").data((d) -> d)
     @tbody.enter().append "tbody"
-
     @_renderRows()
 
   _enterRows: ->
