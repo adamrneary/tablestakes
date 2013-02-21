@@ -117,7 +117,7 @@ class window.TableStakesLib.Utils
     if d._values and d._values.length
       'expandable' + ' ' + 'indent' + indent
     else if d.values and d.values.length
-        'collapsible' + ' ' + 'indent' + indent
+      'collapsible' + ' ' + 'indent' + indent
     else
       'indent' + (indent+1)
 

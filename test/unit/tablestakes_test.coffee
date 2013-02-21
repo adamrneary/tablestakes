@@ -33,73 +33,11 @@ describe "Tablestakes API ", ->
         ]
       ]
     ,
-      id: "NVD3"
-      type: "ahaha"
-      _values: [
-        id: "Charts"
-        _values: [
-          id: "Simple Line"
-          type: "Historical"
-        ,
-          id: "Scatter / Bubble"
-          type: "Snapshot"
-        ,
-          id: "Stacked / Stream / Expanded Area"
-          type: "Historical"
-        ,
-          id: "Discrete Bar"
-          type: "Snapshot"
-        ,
-          id: "Grouped / Stacked Multi-Bar"
-          type: "Snapshot / Historical"
-        ,
-          id: "Horizontal Grouped Bar"
-          type: "Snapshot"
-        ,
-          id: "Line and Bar Combo"
-          type: "Historical"
-        ,
-          id: "Cumulative Line"
-          type: "Historical"
-        ,
-          id: "Line with View Finder"
-          type: "Historical"
-        ]
-      ]
-    ,
       id: "Chart Components"
       _values: [
         id: "Legend"
         type: "Universal"
       ]
-    ]
-  ,
-    id: "New Root"
-    type: "tatata"
-    classes: "rowcustom1"
-    values: [
-      id: "1"
-      type: "123"
-      classes: "rowcustom"
-    ]
-  ,
-    id: "New Root"
-    type: "tatata"
-    _values: [
-      id: "1"
-      type: "123"
-      classes: "rowcustom"
-    ]
-  ,
-    id: "NVD3"
-    type: "ahaha"
-  ,
-    id: "NVD3"
-    type: "ahaha"
-    _values: [
-      id: "1"
-      type: "123"
-      classes: "rowcustom"
     ]
   ]
 
@@ -117,7 +55,6 @@ describe "Tablestakes API ", ->
   columns = [
     id: "id"
     label: "Name"
-    classes: 'row-heading'
     isEditable: true
     isNested: true
     onEdit: editHandler
@@ -196,6 +133,8 @@ describe "Tablestakes API ", ->
       done()
 
     it 'column', (done) ->
+      table2 = new window.TableStakes()
+        .render()
       table = new window.TableStakes()
         .el("#example")
         .data(data)

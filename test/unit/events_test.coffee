@@ -98,6 +98,8 @@ describe "Events", ->
             return '#example'
           onDrag: ->
             return d
+          dragMode: ->
+            'reorder'
         }
         update: ->
           return true
@@ -146,10 +148,7 @@ describe "Events", ->
       core: {
         table: {
           isInRender: false,
-          el: ->
-            return '#example'
-          onDrag: ->
-            return d
+          el: '#example'
         }
         update: ->
           return true
@@ -344,24 +343,25 @@ describe "Events", ->
     assert event.keydown(td, d, column)
     done()
 
-  # it 'dragStart', (done)->
-  #   tr = d3.select('tr').node()
-  #   assert event.dragStart(tr, d)
-  #   done()
+  it 'dragStart', (done)->
+    tr = d3.select('tr').node()
+    tr['getBoundingClientRect'] = -> [34, 23]
+    assert event.dragStart(tr, d, 120, 70)
+    done()
 
-  # it 'dragMove', (done)->
-  #   d3.event = {
-  #     'x': 45,
-  #     'y': 56
-  #   }
-  #   tr = d3.select('tr').node()
-  #   assert event.dragMove(tr, d, 14, 25)
-  #   done()
+  it 'dragMove', (done)->
+    tr = d3.select('tr').node()
+    assert event.dragMove(tr, d, 14, 25)
+    done()
 
-  # it 'dragEnd', (done)->
-  #   tr = d3.select('tr').node()
-  #   assert event.dragEnd(tr, d)
-  #   done()
+  #it 'dragEnd', (done)->
+    #tr = d3.select('tr').node()
+    #event['destinationIndex'] = 45
+    #event['destination'] = 23
+    #console.log event.dragEnd(tr, d, 56, 78)
+    #event.core.table.dragMode = 'hierarchy'
+    #assert event.dragEnd(tr, d, 56, 78)
+    #done()
 
   it 'resizeDrag', (done)->
     context = {
@@ -409,19 +409,22 @@ describe "Events", ->
 
   it 'editableClick', (done)->
     td = d3.select('td').node()
-    event.editableClick(td, d, 2, 0)
+    assert event.editableClick(td, d, 2, 0)
     done()
 
   it 'nestedClick', (done)->
     td = d3.select('td').node()
     d.values = [td, td]
+    c1 = [td, td]
     td.values = [5,7]
-    event.nestedClick(td, d, 2, 0)
+    assert event.nestedClick(td, d, 2, true)
+    assert d.values is null
+    assert d._values isnt null
     done()
 
   it 'toggleBoolean', (done)->
     td = d3.select('td').node()
-    event.toggleBoolean(td, d, 2, 0, column)
+    assert event.toggleBoolean(td, d, 2, 0, column)
     done()
 
   it 'selectClick', (done)->
@@ -431,5 +434,5 @@ describe "Events", ->
       }
     }
     td = d3.select('td').node()
-    event.selectClick(td, d, 2, 0, column)
+    assert event.selectClick(td, d, 2, 0, column)
     done()
