@@ -107,13 +107,17 @@ describe "Render", ->
       .onDelete(deleteHandler)
       .render()
       .dragMode('reorder')
-      .isDraggable(true)
+      .isDraggable(false)
 
     assert render = new window.TableStakesLib.Core
     done()
     
   it 'render constructor', (done)->
     render = new window.TableStakesLib.Core
+    render['table'] = {
+      isDraggable: ->
+        false
+    }
     assert render
     done()
     
@@ -121,6 +125,8 @@ describe "Render", ->
     rendertest = new window.TableStakesLib.Core
     rendertest['table'] = {
       isInRender: false,
+      isDraggable: ->
+        false
       update: ->
         true
     }
@@ -130,9 +136,26 @@ describe "Render", ->
           true
       }
 
-    rendertest.update()
+    assert rendertest.update()
     done()
+    
+  # it 'render', (done)->
+  #   rendertest = new window.TableStakesLib.Core
+  #   rendertest['data'] = data
+  #   rendertest['table'] = {
+  #     isInRender: false,
+  #     el: ->
+  #       true
+  #     isDraggable: ->
+  #       false
+  #     update: ->
+  #       true
+  #   }
+  #   rendertest['selection'] = {
+  #     transition: ->
+  #       call: ->
+  #         true
+  #     }
 
-  #it 'update', (done)->
-    #render.update()
-    #done()
+  #   assert rendertest.render()
+  #   done()
