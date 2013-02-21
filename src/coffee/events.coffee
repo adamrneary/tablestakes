@@ -82,8 +82,11 @@ class window.TableStakesLib.Events
       d.changedID.push d.activatedID
 
   dragStart: (tr, d) ->
-    @_makeRowDraggable(tr)
     @initPosition = $(tr).position()
+    @_makeRowDraggable(tr)
+    $(tr).css
+      left: @initPosition.left
+      top: @initPosition.top
 
   _makeRowDraggable: (tr) ->
     self = @
