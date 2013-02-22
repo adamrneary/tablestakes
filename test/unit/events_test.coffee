@@ -80,7 +80,7 @@ describe "Events", ->
     label: "Name",
     classes: "row-heading",
     onEdit: ->
-      return true
+      d.id = 'test'
   }
 
   it 'window.TableStakesLib.Events is function', (done)->
@@ -403,31 +403,42 @@ describe "Events", ->
     }
 
     td = d3.select('td').node()
-
     assert event.resizeDrag(context, td, d, 2, 0)
+
     done()
 
   it 'editableClick', (done)->
     td = d3.select('td').node()
     assert event.editableClick(td, d, 2, 0)
+    assert d.activatedID is 'id'
     done()
 
   it 'nestedClick', (done)->
     td = d3.select('td').node()
-    d.values = [td, td]
-    c1 = [td, td]
-    td.values = [5,7]
+    a = {
+      values:[3,8]
+    }
+    d.values = [a]
+    #td.values = [5,7]
+    assert event.nestedClick(td, d, 2, false)
+    assert d.values[0].values is null
+    assert d.values[0]._values isnt null
     assert event.nestedClick(td, d, 2, true)
     assert d.values is null
     assert d._values isnt null
+    assert event.nestedClick(td, d, 2, true)
+    assert d.values isnt null
+    assert d._values is null
     done()
 
   it 'toggleBoolean', (done)->
     td = d3.select('td').node()
     assert event.toggleBoolean(td, d, 2, 0, column)
+    assert d.id is 'test'
     done()
 
   it 'selectClick', (done)->
+    d.id = 0
     d3.event = {
       target: {
         value: 1
@@ -435,4 +446,24 @@ describe "Events", ->
     }
     td = d3.select('td').node()
     assert event.selectClick(td, d, 2, 0, column)
+    assert d.id is 'test'
     done()
+
+#describe "Events+zombie", ->
+  #event = null
+  #$ = null
+  #window = null
+  #browser = null
+  #before (done) ->
+    #glob.zombie.visit glob.url+"#reorder_dragging", (err, _browser) ->
+      #browser = _browser
+      #window = browser.window
+      #$ = window.$
+      #done()
+
+  #it 'dragStart', (done)->
+    #tr = d3.select('tr').node()
+    #event = new window.TableStakesLib.Events
+    #assert event.dragStart(tr, d)
+    #done()
+

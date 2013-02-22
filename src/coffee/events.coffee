@@ -149,6 +149,7 @@ class window.TableStakesLib.Events
     th = node.parentNode
     column_x = parseFloat(d3.select(th).attr("width"))
     column_newX = d3.event.x # x + d3.event.dx
+    #console.log column_newX
     d3.select(th).attr("width", column_newX + "px")
     d3.select(th).style("width", column_newX + "px")
 

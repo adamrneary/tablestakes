@@ -1,11 +1,13 @@
 describe "Render", ->
   render = null
   table = null
+  table2 = null
   data = [
     id: "task 1"
     category: "engineering"
     date: '2013-01-01'
     complete: true
+    classes: "total"
   ,
     id: "task 2"
     category: "qa"
@@ -52,6 +54,7 @@ describe "Render", ->
     assert typeof window.TableStakes is 'function'
     done()
 
+
   it 'window.TableStakesLib.Core', (done) ->
     deleteCheck = (d) ->
       d.type is 'Historical' or d.type is 'Snapshot'
@@ -66,11 +69,10 @@ describe "Render", ->
       .data(data)
       .isDeletable(deleteCheck)
       .onDelete(deleteHandler)
-      .render()
       .dragMode('reorder')
       .isDraggable(true)
+      .render()
       .rowClasses (d) -> "total2" if d.etc is 'etc6'
-    assert render = new window.TableStakesLib.Core
     done()
 
   it 'render constructor', (done)->
@@ -78,6 +80,13 @@ describe "Render", ->
     assert render
     done()
     
+  #it '_buildData', (done)->
+    #data2 = [null]
+    #table2 = new window.TableStakes()
+      #.data(data2)
+    #done()
+
+
   it 'update', (done)->
     rendertest = new window.TableStakesLib.Core
     rendertest['table'] = {

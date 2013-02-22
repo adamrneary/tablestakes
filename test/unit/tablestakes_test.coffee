@@ -40,7 +40,6 @@ describe "Tablestakes API ", ->
       ]
     ]
   ]
-
   setNewTreeValue = (tree, id, field, newValue) ->
     for node in tree
       if node.id is id
@@ -72,6 +71,7 @@ describe "Tablestakes API ", ->
 
   it 'has a basic constructor', (done) ->
     table = new window.TableStakes
+    table.render()
     assert table
     done()
 
@@ -133,8 +133,6 @@ describe "Tablestakes API ", ->
       done()
 
     it 'column', (done) ->
-      table2 = new window.TableStakes()
-        .render()
       table = new window.TableStakes()
         .el("#example")
         .data(data)
