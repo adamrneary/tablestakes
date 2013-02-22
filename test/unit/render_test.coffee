@@ -77,6 +77,10 @@ describe "Render", ->
 
   it 'render constructor', (done)->
     render = new window.TableStakesLib.Core
+    render['table'] = {
+      isDraggable: ->
+        false
+    }
     assert render
     done()
     
@@ -91,9 +95,37 @@ describe "Render", ->
     rendertest = new window.TableStakesLib.Core
     rendertest['table'] = {
       isInRender: false,
+      isDraggable: ->
+        false
       update: ->
         true
     }
-    rendertest['selection'] = d3.select('#example')
+    rendertest['selection'] = {
+      transition: ->
+        call: ->
+          true
+      }
+
     assert rendertest.update()
     done()
+    
+  # it 'render', (done)->
+  #   rendertest = new window.TableStakesLib.Core
+  #   rendertest['data'] = data
+  #   rendertest['table'] = {
+  #     isInRender: false,
+  #     el: ->
+  #       true
+  #     isDraggable: ->
+  #       false
+  #     update: ->
+  #       true
+  #   }
+  #   rendertest['selection'] = {
+  #     transition: ->
+  #       call: ->
+  #         true
+  #     }
+
+  #   assert rendertest.render()
+  #   done()
