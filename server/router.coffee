@@ -15,7 +15,7 @@ app.get '/', (req,res)->
 
 app.get '/documentation', (req,res)->
   docs = {}
-  docsPath = "#{__dirname}/../test/docs/"
+  docsPath = "#{__dirname}/../examples/public/docs/"
   docFiles = modules.fs.readdirSync docsPath
   for docFile in docFiles
     if docFile.substr(docFile.length-4) == 'html'

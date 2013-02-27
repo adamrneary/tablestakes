@@ -36,7 +36,7 @@ compileCoffeeSrc = (cb) ->
   command1 = "#{coffeePath} -j #{srcDest} -cb #{srcDir}"
   command2 = "#{coffeePath} -p -cb #{srcDir}"
   doccoPath = "#{__dirname}/../node_modules/docco/bin/docco"
-  docsDir = "#{__dirname}/../test/docs"
+  docsDir = "#{__dirname}/../examples/public/docs/"
 
   child_process.exec command1, (err,stdout,stderr) ->
     if stderr
