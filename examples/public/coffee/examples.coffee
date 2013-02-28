@@ -54,6 +54,12 @@ prepareLinks = (route, el) ->
     $.get url, (data) ->
       $("example_view").text data
 
+    $("#example_js").load urlCoffee, ->
+      $(@).removeClass("rainbow")
+      Rainbow.color()
+    Rainbow.color()
+
+
 $(document).ready ->
   _.map core, (route) ->
     prepareLinks route, $("#coreLinkList")

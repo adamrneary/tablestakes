@@ -61,9 +61,14 @@ prepareLinks = function(route, el) {
     $.get(urlCoffee, function(data) {
       return $("#example_js").text(data);
     });
-    return $.get(url, function(data) {
+    $.get(url, function(data) {
       return $("example_view").text(data);
     });
+    $("#example_js").load(urlCoffee, function() {
+      $(this).removeClass("rainbow");
+      return Rainbow.color();
+    });
+    return Rainbow.color();
   };
 };
 

@@ -7,17 +7,17 @@
         "start": "node test/watcher.js"
     },
     "engines": {
-        "node": "0.8.x",
+        "node": "0.8.14",
         "npm": "1.1.x"
     },
     "dependencies": {
         "express": "3.0.6",
         "jade": "",
-        "coffee-script": "",
+        "coffee-script": "1.4.0",
         "node-sass": "",
         "kss": "",
         "mocha": "",
-        "request": "",
+        "request": "2.14.0",
         "coffeelint": "",
         "coffeestand": "",
         "docco":"",
