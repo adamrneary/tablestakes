@@ -1,13 +1,13 @@
 !!! Frameset
 html
   head
-    //- link(rel='stylesheet', href='libs/css/mocha.css')
+    link(rel='stylesheet', href='libs/css/mocha.css')
     include includes/head
-    // script(src='libs/assert.js')
-    // script(src='libs/mocha.js')
-    // script
-      //- mocha.setup('bdd')
-    // script(src='js/test.js')
+    script(src='libs/assert.js')
+    script(src='libs/mocha.js')
+    script
+      - mocha.setup('bdd')
+    script(src='js/test.js')
     style
       #mocha-stats { top: 60px; }
       #mocha-stats .progress { overflow: visible; }
@@ -87,14 +87,14 @@ html
             ul#coreLinkList.nav.nav-list
               li.nav-header
                 | Tests
-              //- li
-              //-   | <a href="#mocha">Mocha test</a>
+              li
+                | <a href="#mocha">Mocha test</a>
               li
                 | <a href="#coffeelint">Coffeelint test</a>
-        //- .span9
-          //- #mocha
-          // script
-            // mocha.run();
+        .span9
+          #mocha
+          script
+            mocha.run();
       .row
         #coffeelint
         .span3

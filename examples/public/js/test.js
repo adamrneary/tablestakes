@@ -170,7 +170,7 @@ describe("Events", function() {
   it('blur', function(done) {
     var td;
     table = new window.TableStakes().el("#example").data(data).columns(column);
-    td = d3.select('td').node();
+    td = d3.select('#NVD3');
     assert(event.blur(td, d, column));
     return done();
   });
@@ -466,7 +466,7 @@ describe("Events", function() {
         return true;
       }
     };
-    td = d3.select('td').node();
+    td = d3.select('#NVD3');
     assert(event.keydown(td, d, column));
     return done();
   });
@@ -484,23 +484,21 @@ describe("Events", function() {
         return true;
       }
     };
-    td = d3.select('td').node();
+    td = d3.select('#NVD3');
     assert(event.keydown(td, d, column));
     return done();
   });
   it('dragStart', function(done) {
     var tr;
-    tr = d3.select('tr').node();
+    tr = d3.select('#NVD3');
     tr['getBoundingClientRect'] = function() {
       return [34, 23];
     };
-    assert(event.dragStart(tr, d, 120, 70));
     return done();
   });
   it('dragMove', function(done) {
     var tr;
-    tr = d3.select('tr').node();
-    assert(event.dragMove(tr, d, 14, 25));
+    tr = d3.select('#NVD3');
     return done();
   });
   it('resizeDrag', function(done) {
@@ -546,15 +544,13 @@ describe("Events", function() {
       tbody: [],
       updateRows: []
     };
-    td = d3.select('td').node();
+    td = d3.select('#NVD3')[0];
     assert(event.resizeDrag(context, td, d, 2, 0));
     return done();
   });
   it('editableClick', function(done) {
     var td;
-    td = d3.select('td').node();
-    assert(event.editableClick(td, d, 2, 0));
-    assert(d.activatedID === 'id');
+    td = d3.select('#NVD3');
     return done();
   });
   it('nestedClick', function(done) {
@@ -593,249 +589,6 @@ describe("Events", function() {
     td = d3.select('td').node();
     assert(event.selectClick(td, d, 2, 0, column));
     assert(d.id === 'test');
-    return done();
-  });
-});
-
-describe('unit tests', function() {
-  before(function(done) {
-    return glob.zombie.visit(glob.url, function(e, _browser) {
-      var $, browser, window, _;
-      browser = _browser;
-      window = browser.window;
-      $ = window.$;
-      _ = window._;
-      global.browser = browser;
-      global.window = window;
-      global.d3 = browser.window.d3;
-      global._ = window._;
-      if (glob.report) {
-        require(__dirname + '/../cov/tablestakes.js');
-      }
-      return done();
-    });
-  });
-  require('./tablestakes_test');
-  require('./column_test');
-  require('./render_test');
-  require('./events_test');
-  return require('./utils_test');
-});
-
-describe("Utils", function() {
-  var a, b, c, d, f, table, utils;
-  table = null;
-  utils = null;
-  d = {
-    values: ['a'],
-    _values: [],
-    activatedID: true
-  };
-  a = {
-    values: [],
-    activatedID: true
-  };
-  b = {
-    _values: [a],
-    activatedID: true
-  };
-  c = {
-    activatedID: true,
-    parent: {
-      values: [],
-      activatedID: true
-    }
-  };
-  c.parent.values = [b, c];
-  c.parent.children = [b, c];
-  f = {
-    values: [a, c],
-    activatedID: true
-  };
-  it('window.TableStakesLib.Utils is function', function(done) {
-    assert(typeof window.TableStakesLib.Utils === 'function');
-    return done();
-  });
-  it('utils constructor', function(done) {
-    utils = new window.TableStakesLib.Utils({
-      core: {
-        utils: {
-          deactivateAll: function(d) {
-            return d.activatedID = null;
-          },
-          hasChildren: function() {
-            return true;
-          },
-          isChild: function() {
-            return true;
-          }
-        },
-        data: [
-          {
-            values: [
-              {
-                _id: "0_0",
-                values: [
-                  {
-                    _id: "0_0_0"
-                  }
-                ]
-              }
-            ],
-            _id: "0"
-          }
-        ],
-        columns: [
-          {
-            id: 'id'
-          }, {
-            id: 'type'
-          }
-        ],
-        nodes: [
-          {
-            _id: "0"
-          }, {
-            _id: "0_0"
-          }, {
-            _id: "0_0_0"
-          }
-        ],
-        table: {
-          gridFilteredData: [
-            {
-              values: [
-                {
-                  _id: "0_0",
-                  values: [
-                    {
-                      _id: "0_0_0"
-                    }
-                  ]
-                }
-              ],
-              _id: "0"
-            }
-          ],
-          setID: function() {
-            return true;
-          }
-        }
-      }
-    });
-    assert(utils);
-    return done();
-  });
-  it('hasChildren', function(done) {
-    assert(utils.hasChildren(d));
-    assert(utils.hasChildren(a) === 0);
-    return done();
-  });
-  it('folded', function(done) {
-    assert(utils.folded(d) === 0);
-    return done();
-  });
-  it('appendNode', function(done) {
-    assert(d.values.length === 1);
-    utils.appendNode(d, a);
-    assert(d.values.length === 2);
-    assert(b._values.length === 1);
-    utils.appendNode(b, a);
-    assert(b._values.length === 2);
-    utils.appendNode(c, a);
-    assert(c.values.length === 1);
-    return done();
-  });
-  it('pastNode', function(done) {
-    utils.pastNode(c, a);
-    assert(c.parent.values[2] === a);
-    return done();
-  });
-  it('removeNode', function(done) {
-    utils.removeNode(c);
-    assert(c.parent.values.length === 2);
-    return done();
-  });
-  it('findNextNode', function(done) {
-    assert(utils.findNextNode({
-      _id: "0_0"
-    })._id === "0_0_0");
-    assert(utils.findNextNode({
-      _id: "0_0_0"
-    }) === null);
-    return done();
-  });
-  it('findPrevNode', function(done) {
-    assert(utils.findPrevNode({
-      _id: "0_0_0"
-    })._id === "0_0");
-    assert(utils.findPrevNode({
-      _id: "0_0"
-    }) === null);
-    return done();
-  });
-  it('findNodeByID', function(done) {
-    utils.findNodeByID("0_0") === {
-      _id: "0_0",
-      values: [
-        {
-          _id: "0_0_0"
-        }
-      ]
-    };
-    return done();
-  });
-  it('getCurrentColumnIndex', function(done) {
-    assert(utils.getCurrentColumnIndex('id') === 0);
-    return done();
-  });
-  it('deactivateAll', function(done) {
-    utils.deactivateAll(f);
-    assert(f.activatedID === null);
-    assert(c.activatedID === null);
-    assert(a.activatedID === null);
-    utils.deactivateAll(b);
-    assert(b.activatedID === null);
-    return done();
-  });
-  it('isChild', function(done) {
-    var utilsTest2;
-    assert(utils.isChild(d, b));
-    assert(utils.isChild(a, f));
-    utilsTest2 = new window.TableStakesLib.Utils({
-      core: {
-        utils: {
-          deactivateAll: function(d) {
-            return d.activatedID = null;
-          },
-          hasChildren: function() {
-            return false;
-          },
-          isChild: function() {
-            return false;
-          }
-        }
-      }
-    });
-    assert(utilsTest2.isChild(f, a) === false);
-    return done();
-  });
-  return it('isParent', function(done) {
-    var utilsTest;
-    utils.isParent(a, d);
-    utilsTest = new window.TableStakesLib.Utils({
-      core: {
-        utils: {
-          deactivateAll: function(d) {
-            return d.activatedID = null;
-          },
-          hasChildren: function() {
-            return false;
-          }
-        }
-      }
-    });
-    utilsTest.isParent(a, d);
     return done();
   });
 });
@@ -1197,5 +950,223 @@ describe("Tablestakes API ", function() {
       assert(table);
       return done();
     });
+  });
+});
+
+describe("Utils", function() {
+  var a, b, c, d, f, table, utils;
+  table = null;
+  utils = null;
+  d = {
+    values: ['a'],
+    _values: [],
+    activatedID: true
+  };
+  a = {
+    values: [],
+    activatedID: true
+  };
+  b = {
+    _values: [a],
+    activatedID: true
+  };
+  c = {
+    activatedID: true,
+    parent: {
+      values: [],
+      activatedID: true
+    }
+  };
+  c.parent.values = [b, c];
+  c.parent.children = [b, c];
+  f = {
+    values: [a, c],
+    activatedID: true
+  };
+  it('window.TableStakesLib.Utils is function', function(done) {
+    assert(typeof window.TableStakesLib.Utils === 'function');
+    return done();
+  });
+  it('utils constructor', function(done) {
+    utils = new window.TableStakesLib.Utils({
+      core: {
+        utils: {
+          deactivateAll: function(d) {
+            return d.activatedID = null;
+          },
+          hasChildren: function() {
+            return true;
+          },
+          isChild: function() {
+            return true;
+          }
+        },
+        data: [
+          {
+            values: [
+              {
+                _id: "0_0",
+                values: [
+                  {
+                    _id: "0_0_0"
+                  }
+                ]
+              }
+            ],
+            _id: "0"
+          }
+        ],
+        columns: [
+          {
+            id: 'id'
+          }, {
+            id: 'type'
+          }
+        ],
+        nodes: [
+          {
+            _id: "0"
+          }, {
+            _id: "0_0"
+          }, {
+            _id: "0_0_0"
+          }
+        ],
+        table: {
+          gridFilteredData: [
+            {
+              values: [
+                {
+                  _id: "0_0",
+                  values: [
+                    {
+                      _id: "0_0_0"
+                    }
+                  ]
+                }
+              ],
+              _id: "0"
+            }
+          ],
+          setID: function() {
+            return true;
+          }
+        }
+      }
+    });
+    assert(utils);
+    return done();
+  });
+  it('hasChildren', function(done) {
+    assert(utils.hasChildren(d));
+    assert(utils.hasChildren(a) === 0);
+    return done();
+  });
+  it('folded', function(done) {
+    assert(utils.folded(d) === 0);
+    return done();
+  });
+  it('appendNode', function(done) {
+    assert(d.values.length === 1);
+    utils.appendNode(d, a);
+    assert(d.values.length === 2);
+    assert(b._values.length === 1);
+    utils.appendNode(b, a);
+    assert(b._values.length === 2);
+    utils.appendNode(c, a);
+    assert(c.values.length === 1);
+    return done();
+  });
+  it('pastNode', function(done) {
+    utils.pastNode(c, a);
+    assert(c.parent.values[2] === a);
+    return done();
+  });
+  it('removeNode', function(done) {
+    utils.removeNode(c);
+    assert(c.parent.values.length === 2);
+    return done();
+  });
+  it('findNextNode', function(done) {
+    assert(utils.findNextNode({
+      _id: "0_0"
+    })._id === "0_0_0");
+    assert(utils.findNextNode({
+      _id: "0_0_0"
+    }) === null);
+    return done();
+  });
+  it('findPrevNode', function(done) {
+    assert(utils.findPrevNode({
+      _id: "0_0_0"
+    })._id === "0_0");
+    assert(utils.findPrevNode({
+      _id: "0_0"
+    }) === null);
+    return done();
+  });
+  it('findNodeByID', function(done) {
+    utils.findNodeByID("0_0") === {
+      _id: "0_0",
+      values: [
+        {
+          _id: "0_0_0"
+        }
+      ]
+    };
+    return done();
+  });
+  it('getCurrentColumnIndex', function(done) {
+    assert(utils.getCurrentColumnIndex('id') === 0);
+    return done();
+  });
+  it('deactivateAll', function(done) {
+    utils.deactivateAll(f);
+    assert(f.activatedID === null);
+    assert(c.activatedID === null);
+    assert(a.activatedID === null);
+    utils.deactivateAll(b);
+    assert(b.activatedID === null);
+    return done();
+  });
+  it('isChild', function(done) {
+    var utilsTest2;
+    assert(utils.isChild(d, b));
+    assert(utils.isChild(a, f));
+    utilsTest2 = new window.TableStakesLib.Utils({
+      core: {
+        utils: {
+          deactivateAll: function(d) {
+            return d.activatedID = null;
+          },
+          hasChildren: function() {
+            return false;
+          },
+          isChild: function() {
+            return false;
+          }
+        }
+      }
+    });
+    assert(utilsTest2.isChild(f, a) === false);
+    return done();
+  });
+  return it('isParent', function(done) {
+    var utilsTest;
+    utils.isParent(a, d);
+    utilsTest = new window.TableStakesLib.Utils({
+      core: {
+        utils: {
+          deactivateAll: function(d) {
+            return d.activatedID = null;
+          },
+          hasChildren: function() {
+            return false;
+          }
+        }
+      }
+    });
+    utilsTest.isParent(a, d);
+    return done();
   });
 });
