@@ -60,14 +60,27 @@ app.get '/test', (req,res)->
     lint: lint
 
 app.get '/coverage', (req,res)->
+  cover = {}
+  coverPath = "#{__dirname}/../test/reports/coverage.html"
+  htmlBody = modules.fs.readFileSync coverPath, 'utf-8'
+  testText = htmlBody.substr(htmlBody.indexOf("<body>")+6, htmlBody.indexOf("</body></html>"))
+  console.log testText
 
-  report = ''
-  try
-    destDir = __dirname+'/../test/reports/coverage.html'
-    report = glob.modules.fs.readFileSync destDir
-  res.setHeader 'Content-Type', 'text/html'
-  res.setHeader 'Content-Length', report.length
-  res.end report
+  cover = testText
+
+  res.render 'coverage'
+    cover: cover
+    page: 'coverage'
+
+
+
+  #report = ''
+  #try
+    #destDir = __dirname+'/../test/reports/coverage.html'
+    #report = glob.modules.fs.readFileSync destDir
+  #res.setHeader 'Content-Type', 'text/html'
+  #res.setHeader 'Content-Length', report.length
+  #res.end report
 
 app.get '/styleguide', (req,res)->
   options =
