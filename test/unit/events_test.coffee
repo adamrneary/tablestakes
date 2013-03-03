@@ -139,30 +139,17 @@ describe "Events", ->
       stopPropagation: ->
         return true
     }
+    _table = new window.TableStakes()
+      .el("#example")
+      .columns(columns)
+      .data(data)
+      .render()
+    event = _table.core.events
     td = d3.select('td').node()
     assert event.keydown(td, d, column)
     done()
 
   it 'keydown press tab, shiftKey-false and ColumnIndex = 1', (done)->
-    testevent = new window.TableStakesLib.Events
-      core: {
-        table: {
-          isInRender: false,
-          el: '#example'
-        }
-        update: ->
-          return true
-        utils: {
-          getCurrentColumnIndex: ->
-            return 1
-          findNextNode: ->
-            return d
-          findPrevNode: ->
-            return d
-        }
-        columns: [{'id': 2}, {'id': 3}, {'id': 4}],
-        nodes: []
-      }
     d3.event = {
       'keyCode': 9,
       'shiftKey': false,
@@ -172,32 +159,17 @@ describe "Events", ->
         return true
     }
     td = d3.select('td').node()
-    assert testevent.keydown(td, d, column)
+    _table = new window.TableStakes()
+      .el("#example")
+      .columns(columns)
+      .data(data)
+      .render()
+    event = _table.core.events
+    td = d3.select('td').node()
+    assert event.keydown(td, d, column)
     done()
 
   it 'keydown press tab, shiftKey-true and ColumnIndex = 3', (done)->
-    testevent = new window.TableStakesLib.Events
-      core: {
-        table: {
-          isInRender: false,
-          el: ->
-            return '#example'
-          onDrag: ->
-            return d
-        }
-        update: ->
-          return true
-        utils: {
-          getCurrentColumnIndex: ->
-            return 1
-          findNextNode: ->
-            return d
-          findPrevNode: ->
-            return d
-        }
-        columns: [{'id': 2}, {'id': 3}, {'id': 4}],
-        nodes: []
-      }
     d3.event = {
       'keyCode': 9,
       'shiftKey': true,
@@ -206,33 +178,17 @@ describe "Events", ->
       stopPropagation: ->
         return true
     }
+    _table = new window.TableStakes()
+      .el("#example")
+      .columns(columns)
+      .data(data)
+      .render()
+    event = _table.core.events
     td = d3.select('td').node()
-    assert testevent.keydown(td, d, column)
+    assert event.keydown(td, d, column)
     done()
 
   it 'keydown press tab, shiftKey-true and  ColumnIndex = 0', (done)->
-    testevent = new window.TableStakesLib.Events
-      core: {
-        table: {
-          isInRender: false,
-          el: ->
-            return '#example'
-          onDrag: ->
-            return d
-        }
-        update: ->
-          return true
-        utils: {
-          getCurrentColumnIndex: ->
-            return 0
-          findNextNode: ->
-            return d
-          findPrevNode: ->
-            return d
-        }
-        columns: [{'id': 2}, {'id': 3}, {'id': 4}],
-        nodes: []
-      }
     d3.event = {
       'keyCode': 9,
       'shiftKey': true,
@@ -242,32 +198,17 @@ describe "Events", ->
         return true
     }
     td = d3.select('td').node()
-    assert testevent.keydown(td, d, column)
+    _table = new window.TableStakes()
+      .el("#example")
+      .columns(columns)
+      .data(data)
+      .render()
+    event = _table.core.events
+    td = d3.select('td').node()
+    assert event.keydown(td, d, column)
     done()
 
   it 'keydown press up', (done)->
-    testevent = new window.TableStakesLib.Events
-      core: {
-        table: {
-          isInRender: false,
-          el: ->
-            return '#example'
-          onDrag: ->
-            return d
-        }
-        update: ->
-          return true
-        utils: {
-          getCurrentColumnIndex: ->
-            return 2
-          findNextNode: ->
-            return d
-          findPrevNode: ->
-            return d
-        }
-        columns: {0: {'id': 2}, 1: {'id': 3}, 2: {'id': 4}},
-        nodes: []
-      }
     d3.event = {
       'keyCode': 38,
       'shiftKey': true,
@@ -276,33 +217,17 @@ describe "Events", ->
       stopPropagation: ->
         return true
     }
+    _table = new window.TableStakes()
+      .el("#example")
+      .columns(columns)
+      .data(data)
+      .render()
+    event = _table.core.events
     td = d3.select('td').node()
-    assert testevent.keydown(td, d, column)
+    assert event.keydown(td, d, column)
     done()
 
   it 'keydown press down', (done)->
-    testevent = new window.TableStakesLib.Events
-      core: {
-        table: {
-          isInRender: false,
-          el: ->
-            return '#example'
-          onDrag: ->
-            return d
-        }
-        update: ->
-          return true
-        utils: {
-          getCurrentColumnIndex: ->
-            return 1
-          findNextNode: ->
-            return d
-          findPrevNode: ->
-            return d
-        }
-        columns: {0: {'id': 2}, 1: {'id': 3}, 2: {'id': 4}},
-        nodes: []
-      }
     d3.event = {
       'keyCode': 40,
       'shiftKey': true,
@@ -311,8 +236,14 @@ describe "Events", ->
       stopPropagation: ->
         return true
     }
+    _table = new window.TableStakes()
+      .el("#example")
+      .columns(columns)
+      .data(data)
+      .render()
+    event = _table.core.events
     td = d3.select('td').node()
-    assert testevent.keydown(td, d, column)
+    assert event.keydown(td, d, column)
     done()
 
   it 'keydown press Enter', (done)->

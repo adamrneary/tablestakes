@@ -13,6 +13,21 @@ tests = [
   isDeletable: true
 ,
   name: 'testRender'
+,
+  name: 'testEditable'
+  rows: 36
+  columns: 12
+  isDeletable: false
+  isEditable: true
+  configs:
+    isEditable: (d,column)->
+      if column.id is 'p2' or column.id is 'p5'
+        if d.p2 is 1 or d.p5 is 1 or d.p2 is 4
+          false
+        else
+          true
+      else
+        true
 ]
 
 class Performance
@@ -33,7 +48,7 @@ class Performance
           <% for (var p in test) { %>
               <% if (typeof test[p] === 'object') { %>
                   <% for (var pp in test[p]) { %>
-                    <b><%= pp %></b>:<%= tests[p][pp] %>
+                    <b><%= pp %></b>: <%= test[p][pp] %>
                     <br />
                   <% } %>
               <% } else { %>
@@ -116,6 +131,14 @@ class Performance
 
   testRender: (options)->
     @table.render()
+
+  testEditable: (options)->
+    data = @generateData options.rows,options.columns, options.configs
+    @table
+      .isDeletable(options.isDeletable)
+      .columns(data.columns)
+      .data(data.data)
+      .render()
 
 $(document).ready ->
   perf = new Performance
