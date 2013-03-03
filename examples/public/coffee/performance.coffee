@@ -8,6 +8,11 @@ tests = [
   name: 'testUpdate'
   rows: 72
   columns: 24
+,
+  name: 'testDeletable'
+  isDeletable: true
+,
+  name: 'testRender'
 ]
 
 class Performance
@@ -21,6 +26,27 @@ class Performance
         <div id="example"></div>
       </div>
     '''
+
+  result_template: _.template \
+    '''
+        <div class="row">
+          <% for (var p in test) { %>
+              <% if (typeof test[p] === 'object') { %>
+                  <% for (var pp in test[p]) { %>
+                    <b><%= pp %></b>:<%= tests[p][pp] %>
+                    <br />
+                  <% } %>
+              <% } else { %>
+                  <b><%= p %></b>: <%= test[p] %>
+                  <br />
+              <% } %>
+          <% } %>
+          <pre> <%= code %> </pre>
+          <b>time: </b><%= time %>ms
+          <hr />
+        </div>
+    '''
+
   constructor: (options)->
     @el = options.el
     @tests = options.tests
@@ -38,40 +64,40 @@ class Performance
       @[@tests[counter].name] @tests[counter]
       setTimeout =>
         end = Date.now()
-        @showResult end-start, @tests[counter]
+        @showResult end-start, counter
         counter++
         if @tests[counter]
-          @runTest(counter) 
+          @runTest(counter)
         else
-          $(@el).find('#example').hide()
+          #$(@el).find('#example').hide()
       , 0
     , 0
 
-  generateData: (rows,columns)->
+  showResult: (time, counter)->
+    $(@el).find('#results').append @result_template
+      time: time
+      test: @tests[counter]
+      code: @[@tests[counter].name].toString()
+
+  generateData: (rows,columns,configs)->
     data =
       columns: []
       data: []
     for c in [1..columns]
-      column = 'p'+c
-      data.columns.push
-        id: column
-        label: column
+      columnName = 'p'+c
+      column =
+        id: columnName
+        label: columnName
+      if configs
+        for config of configs
+          column[config] = configs[config]
+      data.columns.push column
     for p in [1..rows]
       obj = {}
       for column in data.columns
         obj[column.id] = p
       data.data.push obj
     return data
-
-  showResult: (time, test)->
-    html = '<div>'
-    for p of test
-      html+= "<b>#{p}</b>: #{test[p]}"
-      html += '<br />'
-    html += "<strong>time</strong>: #{time}ms"
-    html += "<hr />"
-    html += "</div>"
-    $(@el).find('#results').append(html)
 
   testInit: (options)->
     data = @generateData options.rows,options.columns
@@ -84,6 +110,12 @@ class Performance
   testUpdate: (options)->
     data = @generateData options.rows, options.columns
     @table.columns(data.columns).data(data.data).render()
+
+  testDeletable: (options)->
+    @table.isDeletable(options.isDeletable).render()
+
+  testRender: (options)->
+    @table.render()
 
 $(document).ready ->
   perf = new Performance
