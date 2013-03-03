@@ -1,6 +1,6 @@
 .navbar.navbar-inverse.navbar-fixed-top
   .navbar-inner
-    .container-fluid
+    .container
       a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
         span.icon-bar
         span.icon-bar
@@ -37,6 +37,10 @@
             a(href='/documentation')
               i.icon-white.icon-list-alt
               |  Documentation
+          li(class="#{page == 'performance'? 'active': ''}")
+            a(href='/performance')
+              i.icon-white.icon-time
+              |  Performance
           li(class="#{page == 'test'? 'active': ''}")
             a(href='/test')
               i.icon-white.icon-ok

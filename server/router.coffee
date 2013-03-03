@@ -63,16 +63,16 @@ app.get '/coverage', (req,res)->
   cover = {}
   coverPath = "#{__dirname}/../test/reports/coverage.html"
   htmlBody = modules.fs.readFileSync coverPath, 'utf-8'
-  testText = htmlBody.substr(htmlBody.indexOf("<body>")+6, htmlBody.indexOf("</body></html>"))
-  console.log testText
+  start = htmlBody.indexOf("<body>")+6
+  end = htmlBody.indexOf("</body></html>")
+  testText = htmlBody.substr(start, end)
+  #console.log testText
 
   cover = testText
 
   res.render 'coverage'
     cover: cover
     page: 'coverage'
-
-
 
   #report = ''
   #try
@@ -90,6 +90,10 @@ app.get '/styleguide', (req,res)->
       res.render 'styleguide'
         sections: sections
         page: 'styleguide'
+
+app.get '/performance', (req,res)->
+  res.render 'performance'
+    page: 'performance'
 
 app.get "/js/#{name}.js", (req,res)->
   script = modules.fs.readFileSync "#{__dirname}/../dist/#{name}.js"
