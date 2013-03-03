@@ -8,8 +8,8 @@ class window.TableStakesLib.Events
   keydown: (node, d, column) ->
     switch d3.event.keyCode
       when 9  then @_handleTab(node, d, column)
-      when 38 then @_handleUp(node, d, column)
-      when 40 then @_handleDown(node, d, column)
+      when 38 then @_handleUpDown(node, d, column,false)
+      when 40 then @_handleUpDown(node, d, column,true)
       when 13 then @_handleEnter(node, d, column)
       when 27 then @_handleEscape(node, d, column)
 
@@ -18,40 +18,37 @@ class window.TableStakesLib.Events
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
     # if shiftkey is not pressed, get next
     if d3.event.shiftKey is false
-      if(currentindex < @core.columns.length - 1)
-        d.activatedID = @core.columns[currentindex+1].id
+      index = @core.utils.findEditableColumn d,currentindex+1,true
+      if index?
+        d.activatedID = @core.columns[index].id
       else
         nextNode = @core.utils.findNextNode d, @core.nodes
-        if nextNode isnt null
-          nextNode.activatedID = @core.columns[0].id
-          d.activatedID = null
+        if nextNode?
+          index = @core.utils.findEditableColumn nextNode,0,true
+          if index?
+            d.activatedID = null
+            nextNode.activatedID = @core.columns[index].id
     # if shiftkey is not pressed, get previous
     else
-      if currentindex > 0
-        d.activatedID = @core.columns[currentindex-1].id
+      index = @core.utils.findEditableColumn d,currentindex-1,false
+      if index?
+        d.activatedID = @core.columns[index].id
       else
         prevNode = @core.utils.findPrevNode d, @core.nodes
-        if prevNode isnt null
-          prevNode.activatedID = @core.columns[@core.columns.length - 1].id
+        if prevNode?
+          start = @core.columns.length-1
+          index = @core.utils.findEditableColumn prevNode,start,false
+          prevNode.activatedID = @core.columns[index].id
           d.activatedID = null
     d3.event.preventDefault()
     d3.event.stopPropagation()
     @core.update()
 
   # move active cell to next cell above
-  _handleUp: (node, d, column) ->
-    prevNode = @core.utils.findPrevNode d, @nodes
+  _handleUpDown: (node, d, column,isUp) ->
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-    if prevNode != null
-      prevNode.activatedID = @core.columns[currentindex].id
-      d.activatedID = null
-    @core.update()
-
-  # move active cell to next cell below
-  _handleDown: (node, d, column) ->
-    nextNode = @core.utils.findNextNode d
-    currentindex = @core.utils.getCurrentColumnIndex d.activatedID
-    if nextNode isnt null
+    nextNode = @core.utils.findEditableCell d,column,isUp
+    if nextNode?
       nextNode.activatedID = @core.columns[currentindex].id
       d.activatedID = null
     @core.update()

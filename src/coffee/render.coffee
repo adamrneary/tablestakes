@@ -142,7 +142,8 @@ class window.TableStakesLib.Core
       .text((d) -> d[column.id] or '-')
 
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
-    @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
+    if @utils.ourFunctor(column.isEditable, d,column)
+      @_makeEditable(d, td, column)
     @_makeChanged(d, td, column)
     @_makeBoolean(d, td, column) if column.editor is 'boolean'
     @_makeSelect(d, td, column) if column.editor is 'select'

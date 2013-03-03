@@ -12,6 +12,40 @@ class window.TableStakesLib.Utils
         break
     currentindex
 
+  findEditableColumn: (d,currentIndex,isNext)->
+    if isNext
+      condition = currentIndex < @core.columns.length
+      nextIndex = currentIndex + 1
+    else
+      condition = currentIndex >= 0
+      nextIndex = currentIndex - 1
+    if condition
+      column = @core.columns[currentIndex]
+      if column.isEditable
+        if typeof column.isEditable is 'boolean'
+          return currentIndex
+        else if column.isEditable(d,column)
+          return currentIndex
+        else
+          @findEditableColumn d,nextIndex,isNext
+      else
+        @findEditableColumn d,nextIndex,isNext
+    else
+      return null
+
+  findEditableCell: (d,column,isNext)->
+    if isNext
+      node = @core.utils.findNextNode d
+    else
+      node = @core.utils.findPrevNode d
+    if node?
+      if column.isEditable
+        isBoolean = typeof column.isEditable is 'boolean'
+        if isBoolean or column.isEditable(node,column)
+          return node
+        else
+          @findEditableCell node,column,isNext
+
   findNextNode: (d) ->
     nextNodeID = null
     for leaf, i in @core.nodes
@@ -123,8 +157,8 @@ class window.TableStakesLib.Utils
 
   # similar in spirit to d3.functor()
   # https://github.com/mbostock/d3/wiki/Internals
-  ourFunctor: (attr, element) ->
+  ourFunctor: (attr, element,etc) ->
     if typeof attr is 'function'
-      attr(element)
+      attr(element,etc)
     else
       attr
