@@ -128,6 +128,9 @@ class window.TableStakesLib.Core
     self = @
     @columns.forEach (column, column_index) =>
       @enterRows.append('td')
+        .attr('meta-key', column.id)
+        .attr('class', (d) => @_cellClasses(d, column))
+        .text((d) -> d[column.id] or '-')
         .each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
@@ -136,11 +139,6 @@ class window.TableStakesLib.Core
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
-    d3.select(td)
-      .attr('meta-key', column.id)
-      .attr('class', (d) => @_cellClasses(d, column))
-      .text((d) -> d[column.id] or '-')
-
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     if @utils.ourFunctor(column.isEditable, d,column)
       @_makeEditable(d, td, column)
