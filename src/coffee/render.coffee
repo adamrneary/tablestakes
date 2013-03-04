@@ -146,6 +146,7 @@ class window.TableStakesLib.Core
     @_makeChanged(d, td, column)
     @_makeBoolean(d, td, column) if column.editor is 'boolean'
     @_makeSelect(d, td, column) if column.editor is 'select'
+    @_makeButton(d, td, column) if column.editor is 'button'
     @_addShowCount(d, td, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
@@ -309,13 +310,18 @@ class window.TableStakesLib.Core
         .style('cursor', 'pointer')
         .text(item)
 
-    select.on('change', (a,b,c) => @events.selectClick(@,a,b,c,column))
+    select.on('change', (a, b, c) => @events.selectClick(@, a, b, c, column))
+
+  _makeButton: (d, td, column) ->
+    select = d3.select(td)
+      .html("<input type='button' value='#{ column.label }' />")
+      .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
   _makeBoolean: (d, td, column) ->
     d3.select(td)
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
-      .on('click', (a,b,c) => @events.toggleBoolean(@,a,b,c,column))
+      .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length

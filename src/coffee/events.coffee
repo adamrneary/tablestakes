@@ -201,3 +201,8 @@ class window.TableStakesLib.Events
     unless val is d[column.id]
       column.onEdit(d.id, column.id, val) if column.onEdit
     @core.update()
+
+  buttonClick: (node, d, _, unshift, column) ->
+    val = d3.event.target.value
+    column.onClick(d.id, column.id, val) if column.onClick
+    @core.update()
