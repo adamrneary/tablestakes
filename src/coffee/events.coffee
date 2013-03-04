@@ -142,24 +142,20 @@ class window.TableStakesLib.Events
         when 'reorder' then onDrag(d, @destinationIndex)
         when 'hierarchy' then onDrag(d, @destination)
 
-  resizeDrag: (context, node, d, _, unshift) ->
+  resizeDrag: (node) ->
     th = node.parentNode
-    column_x = parseFloat(d3.select(th).attr("width"))
-    column_newX = d3.event.x # x + d3.event.dx
-    #console.log column_newX
-    d3.select(th).attr("width", column_newX + "px")
-    d3.select(th).style("width", column_newX + "px")
-
-    # TODO: re-implement old approach
-    # if context.table.minWidth < column_newX
-      # d3.select(th).attr("width", column_newX + "px")
-      # d3.select(th).style("width", column_newX + "px")
-      # index = parseInt(d3.select(th).attr("ref"))
-      # context.columns[index].width = column_newX + "px"
-      # table_x = parseFloat(context.tableObject.attr("width"))
-      # table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
-      # context.tableObject.attr "width", table_newX+"px"
-      # context.tableObject.style "width", table_newX+"px"
+    old_width_left = parseFloat(d3.select(th).style("width"))
+    old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
+    new_width_left = d3.event.x
+    new_width_right = old_width_left + old_width_right - new_width_left
+    
+    notTooSmall = new_width_left > @core.table._minColumnWidth and
+      new_width_right > @core.table._minColumnWidth
+    if notTooSmall
+      d3.select(th).attr("width", new_width_left + "px")
+      d3.select(th).style("width", new_width_left + "px")
+      d3.select(th.nextSibling).attr("width", new_width_right + "px")
+      d3.select(th.nextSibling).style("width", new_width_right + "px")
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->

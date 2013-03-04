@@ -247,11 +247,17 @@ class window.TableStakesLib.Core
     # todo: clean up contexts
     self = @
     dragBehavior = d3.behavior.drag()
-      .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
-    th.classed('resizeable',true)
+      .on("drag", -> self.events.resizeDrag(@))
+    handlers = th.classed('resizeable',true)
       .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
+    #remove last handle
+    removable = handlers[0] and
+      handlers[0][handlers[0].length-1] and
+      handlers[0][handlers[0].length-1].remove
+    if removable
+      handlers[0][handlers[0].length-1].remove()
 
   # ### Cell-level transform methods
 

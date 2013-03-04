@@ -331,53 +331,7 @@ describe("Events", function() {
     tr = d3.select('#NVD3');
     return done();
   });
-  it('resizeDrag', function(done) {
-    var context, td;
-    context = {
-      columns: [
-        {
-          0: {
-            classes: "row-heading",
-            id: "id",
-            label: "Name"
-          },
-          1: {
-            id: "type",
-            label: "Type"
-          }
-        }
-      ],
-      data: [
-        {
-          0: {
-            _hiddenvalues: [],
-            _id: "0",
-            children: [13],
-            depth: 0,
-            etc: "etc",
-            id: "id",
-            type: "type",
-            values: [13],
-            x: 0.5,
-            y: 0
-          }
-        }
-      ],
-      enterRows: [],
-      events: event,
-      nodes: [],
-      rows: [],
-      selection: [],
-      table: table,
-      tableEnter: [],
-      tableObject: [],
-      tbody: [],
-      updateRows: []
-    };
-    td = d3.select('#NVD3')[0];
-    assert(event.resizeDrag(context, td, d, 2, 0));
-    return done();
-  });
+  it('resizeDrag');
   it('editableClick', function(done) {
     var td;
     td = d3.select('#NVD3');
