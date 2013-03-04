@@ -40,7 +40,7 @@ data = [
     type: "tatata"
   }, {
     id: "1",
-    type: "123"
+    type: "1"
   }
 ];
 
@@ -63,12 +63,26 @@ columns = [
     isEditable: function(d) {
       return d.id === 'Horizontal Grouped Bar';
     },
-    onEdit: editHandler
+    onEdit: editHandler,
+    format: function(d) {
+      if (d === 1) {
+        return "" + d + " period";
+      } else {
+        return "" + d + " periods";
+      }
+    }
   }, {
     id: "type",
     label: "Type",
     isEditable: true,
-    onEdit: editHandler
+    onEdit: editHandler,
+    format: function(d) {
+      if (d === 1) {
+        return "" + d + " period";
+      } else {
+        return "" + d + " periods";
+      }
+    }
   }
 ];
 
