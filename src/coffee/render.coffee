@@ -290,13 +290,21 @@ class window.TableStakesLib.Core
 
   _makeActive: (d, td, column) ->
     self = @
+
     d3.select(td)
       .classed('active', true)
+      .text((d)-> d[column.id] or '-')
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
       .on('blur', (d) -> self.events.blur(this, d, column))
       .node()
         .focus()
+
+  _makeInactive: (node) ->
+    self = @
+    d3.select(node)
+      .classed('active', false)
+      .attr('contentEditable', false)
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
