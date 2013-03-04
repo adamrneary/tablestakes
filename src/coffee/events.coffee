@@ -20,24 +20,28 @@ class window.TableStakesLib.Events
     if d3.event.shiftKey is false
       index = @core.utils.findEditableColumn d,currentindex+1,true
       if index?
+        @core._makeInactive node
         d.activatedID = @core.columns[index].id
       else
         nextNode = @core.utils.findNextNode d, @core.nodes
         if nextNode?
           index = @core.utils.findEditableColumn nextNode,0,true
           if index?
+            @core._makeInactive node
             d.activatedID = null
             nextNode.activatedID = @core.columns[index].id
     # if shiftkey is not pressed, get previous
     else
       index = @core.utils.findEditableColumn d,currentindex-1,false
       if index?
+        @core._makeInactive node
         d.activatedID = @core.columns[index].id
       else
         prevNode = @core.utils.findPrevNode d, @core.nodes
         if prevNode?
           start = @core.columns.length-1
           index = @core.utils.findEditableColumn prevNode,start,false
+          @core._makeInactive node
           prevNode.activatedID = @core.columns[index].id
           d.activatedID = null
     d3.event.preventDefault()
@@ -50,6 +54,7 @@ class window.TableStakesLib.Events
     nextNode = @core.utils.findEditableCell d,column,isUp
     if nextNode?
       nextNode.activatedID = @core.columns[currentindex].id
+      @core._makeInactive node
       d.activatedID = null
     @core.update()
 

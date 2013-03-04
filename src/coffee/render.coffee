@@ -127,11 +127,11 @@ class window.TableStakesLib.Core
   _renderEnterRows: ->
     self = @
     @columns.forEach (column, column_index) =>
-      @enterRows.append('td')
-        .attr('meta-key', column.id)
-        .attr('class', (d) => @_cellClasses(d, column))
+      td = @enterRows.append('td')
+      td.attr('meta-key', column.id)
+        .attr('class', (d) -> self._cellClasses(d, column))
         .text((d) -> d[column.id] or '-')
-        .each (d, i) -> self._renderCell(column, d, @)
+      td.each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
@@ -139,6 +139,10 @@ class window.TableStakesLib.Core
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
+    #d3.select(td)
+      #.attr('meta-key', column.id)
+      #.attr('class', (d) => @_cellClasses(d, column))
+      #.text((d) -> d[column.id] or '-')
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     if @utils.ourFunctor(column.isEditable, d,column)
       @_makeEditable(d, td, column)
@@ -285,6 +289,12 @@ class window.TableStakesLib.Core
       .on('blur', (d) -> self.events.blur(this, d, column))
       .node()
         .focus()
+
+  _makeInactive: (node) ->
+    self = @
+    d3.select(node)
+      .classed('active', false)
+      .attr('contentEditable', false)
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
