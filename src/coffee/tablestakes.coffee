@@ -97,6 +97,25 @@ class window.TableStakes
       node._values.forEach (subnode, i) =>
         @setID subnode, prefix+"_"+i
 
+  sort: (columnId, isDesc)->
+    return unless columnId? or isDesc?
+    sortFunction = (a,b)->
+      if a[columnId]? and b[columnId]?
+        if isDesc
+          if a[columnId].toUpperCase() > b[columnId].toUpperCase()
+            1
+          else
+            -1
+        else
+          if a[columnId].toUpperCase() < b[columnId].toUpperCase()
+            1
+          else
+            -1
+      else
+        0
+    @data().sort sortFunction
+    @render()
+
   filter: (key, value) ->
     value = value or ''
     value = value.toString().toUpperCase()

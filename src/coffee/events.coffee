@@ -206,3 +206,15 @@ class window.TableStakesLib.Events
     val = d3.event.target.value
     column.onClick(d.id, column.id, val) if column.onClick
     @core.update()
+
+  toggleSort: (el,column)->
+    column.desc = !column.desc
+
+    #disable sort for all columns
+    d3.selectAll('.sorted-desc').classed('sorted-desc',false)
+    d3.selectAll('.sorted-asc').classed('sorted-asc',false)
+    d3.selectAll('th').filter (d)->
+      if d.id isnt column.id
+        d.desc = null
+
+    @core.table.sort column.id, column.desc
