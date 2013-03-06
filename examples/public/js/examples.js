@@ -36,6 +36,9 @@ core = [
     shortLink: "editors",
     title: "Custom editors"
   }, {
+    shortLink: "timeseries",
+    title: "Timeseries"
+  }, {
     shortLink: "all",
     title: "Full stack"
   }
