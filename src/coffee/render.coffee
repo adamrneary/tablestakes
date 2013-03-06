@@ -141,12 +141,13 @@ class window.TableStakesLib.Core
       .attr('class', (d) => @_cellClasses(d, column))
       .text((d) -> d[column.id] or '-')
 
+    isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
-    @_makeEditable(d, td, column) if @utils.ourFunctor(column.isEditable, d)
+    @_makeEditable(d, td, column) if isEditable
     @_makeChanged(d, td, column)
-    @_makeBoolean(d, td, column) if column.editor is 'boolean'
-    @_makeSelect(d, td, column) if column.editor is 'select'
-    @_makeButton(d, td, column) if column.editor is 'button'
+    @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
+    @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
+    @_makeButton(d, td, column) if column.editor is 'button' and isEditable
     @_addShowCount(d, td, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
