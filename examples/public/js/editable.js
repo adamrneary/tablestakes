@@ -65,10 +65,10 @@ columns = [
     },
     onEdit: editHandler,
     format: function(d) {
-      if (d === 1) {
-        return "" + d + " period";
+      if (d.id === '1') {
+        return "" + d.id + " period";
       } else {
-        return "" + d + " periods";
+        return d.id;
       }
     }
   }, {
@@ -77,10 +77,10 @@ columns = [
     isEditable: true,
     onEdit: editHandler,
     format: function(d) {
-      if (d === 1) {
-        return "" + d + " period";
+      if (d.type === '1') {
+        return "" + d.type + " period";
       } else {
-        return "" + d + " periods";
+        return d.type;
       }
     }
   }

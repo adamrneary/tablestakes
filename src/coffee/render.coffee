@@ -129,7 +129,7 @@ class window.TableStakesLib.Core
     @columns.forEach (column, column_index) =>
       text = (d) ->
         if column.format
-          column.format d[column.id]
+          column.format d
         else
           d[column.id] or '-'
 

@@ -50,15 +50,15 @@ columns = [
   isEditable: (d) ->
     d.id is 'Horizontal Grouped Bar'
   onEdit: editHandler
-  format: (d)->
-    if d is 1 then "#{d} period" else "#{d} periods"
+  format: (d) ->
+    if d.id is '1' then "#{d.id} period" else d.id
 ,
   id: "type"
   label: "Type"
   isEditable: true
   onEdit: editHandler
   format: (d)->
-    if d is 1 then "#{d} period" else "#{d} periods"
+    if d.type is '1' then "#{d.type} period" else d.type
 ]
 
 grid = new window.TableStakes()
