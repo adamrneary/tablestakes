@@ -127,7 +127,7 @@ class window.TableStakesLib.Core
   _renderEnterRows: ->
     self = @
     @columns.forEach (column, column_index) =>
-      text = (d)-> 
+      text = (d) ->
         if column.format
           column.format d[column.id]
         else
@@ -136,7 +136,7 @@ class window.TableStakesLib.Core
       @enterRows.append('td')
         .attr('meta-key', column.id)
         .attr('class', (d) => @_cellClasses(d, column))
-        .text(text)
+        .html(text)
         .each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
