@@ -337,7 +337,7 @@ class window.TableStakesLib.Core
 
   _makeButton: (d, td, column) ->
     select = d3.select(td)
-      .html("<input type='button' value='#{ column.label }' />")
+      .html("<input type='button' value='#{ column.label }' class='btn btn-mini btn-primary' />")
       .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
   _makeBoolean: (d, td, column) ->
