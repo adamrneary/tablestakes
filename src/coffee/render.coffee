@@ -145,12 +145,19 @@ class window.TableStakesLib.Core
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
+    d3.select(td)
+      .attr('meta-key', column.id)
+      .attr('class', (d) => @_cellClasses(d, column))
+      .text((d) -> d[column.id] or '-')
+
+    isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
-    if @utils.ourFunctor(column.isEditable, d,column)
-      @_makeEditable(d, td, column)
+    @_makeEditable(d, td, column) if isEditable
+
     @_makeChanged(d, td, column)
-    @_makeBoolean(d, td, column) if column.editor is 'boolean'
-    @_makeSelect(d, td, column) if column.editor is 'select'
+    @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
+    @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
+    @_makeButton(d, td, column) if column.editor is 'button' and isEditable
     @_addShowCount(d, td, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
@@ -331,13 +338,18 @@ class window.TableStakesLib.Core
         .style('cursor', 'pointer')
         .text(item)
 
-    select.on('change', (a,b,c) => @events.selectClick(@,a,b,c,column))
+    select.on('change', (a, b, c) => @events.selectClick(@, a, b, c, column))
+
+  _makeButton: (d, td, column) ->
+    select = d3.select(td)
+      .html("<input type='button' value='#{ column.label }' />")
+      .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
   _makeBoolean: (d, td, column) ->
     d3.select(td)
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
-      .on('click', (a,b,c) => @events.toggleBoolean(@,a,b,c,column))
+      .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length

@@ -56,6 +56,14 @@ editHandler = (id, field, newValue) ->
   (row[field] = newValue if row.id is id) for row in data
   grid.data(data).render()
 
+clickHandler = (id, columnId, value) ->
+  if columnId is 'archive'
+    data = _.without(data, _.find(data, (d) -> d.id is id))
+    grid.data(data).render()
+
+isComplete = (d) ->
+  d.complete
+
 columns = [
   id: "id"
   label: "Task"
@@ -81,6 +89,12 @@ columns = [
   isEditable: true
   editor: 'boolean'
   onEdit: editHandler
+,
+  id: "archive"
+  label: "Archive"
+  isEditable: isComplete
+  editor: "button"
+  onClick: clickHandler
 ]
 
 grid = new window.TableStakes()
