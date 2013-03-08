@@ -127,7 +127,16 @@ class window.TableStakesLib.Core
   _renderEnterRows: ->
     self = @
     @columns.forEach (column, column_index) =>
+      text = (d) ->
+        if column.format
+          column.format d
+        else
+          d[column.id] or '-'
+
       @enterRows.append('td')
+        .attr('meta-key', column.id)
+        .attr('class', (d) => @_cellClasses(d, column))
+        .html(text)
         .each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
@@ -144,6 +153,7 @@ class window.TableStakesLib.Core
     isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if isEditable
+
     @_makeChanged(d, td, column)
     @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
     @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
@@ -250,11 +260,17 @@ class window.TableStakesLib.Core
     # todo: clean up contexts
     self = @
     dragBehavior = d3.behavior.drag()
-      .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
-    th.classed('resizeable',true)
+      .on("drag", -> self.events.resizeDrag(@))
+    handlers = th.classed('resizeable',true)
       .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
+    #remove last handle
+    removable = handlers[0] and
+      handlers[0][handlers[0].length-1] and
+      handlers[0][handlers[0].length-1].remove
+    if removable
+      handlers[0][handlers[0].length-1].remove()
 
   # ### Cell-level transform methods
 
@@ -277,17 +293,28 @@ class window.TableStakesLib.Core
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
 
-    @_makeActive(d, td, column) if d.activatedID is column.id
+    if d.activatedID is column.id
+      @_makeActive(d, td, column)
+    else
+      @_makeInactive(td)
 
   _makeActive: (d, td, column) ->
     self = @
+
     d3.select(td)
       .classed('active', true)
+      .text((d) -> d[column.id] or '-')
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
       .on('blur', (d) -> self.events.blur(this, d, column))
       .node()
         .focus()
+
+  _makeInactive: (node) ->
+    self = @
+    d3.select(node)
+      .classed('active', false)
+      .attr('contentEditable', false)
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1

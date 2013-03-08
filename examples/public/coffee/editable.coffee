@@ -36,7 +36,7 @@ data = [
   type: "tatata"
 ,
   id: "1"
-  type: "123"
+  type: "1"
 ]
 
 editHandler = (id, field, newValue) ->
@@ -50,11 +50,15 @@ columns = [
   isEditable: (d) ->
     d.id is 'Horizontal Grouped Bar'
   onEdit: editHandler
+  format: (d) ->
+    if d.id is '1' then "#{d.id} period" else d.id
 ,
   id: "type"
   label: "Type"
   isEditable: true
   onEdit: editHandler
+  format: (d)->
+    if d.type is '1' then "#{d.type} period" else d.type
 ]
 
 grid = new window.TableStakes()
