@@ -145,11 +145,6 @@ class window.TableStakesLib.Core
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
-    d3.select(td)
-      .attr('meta-key', column.id)
-      .attr('class', (d) => @_cellClasses(d, column))
-      .text((d) -> d[column.id] or '-')
-
     isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if isEditable
