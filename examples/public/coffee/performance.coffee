@@ -9,10 +9,8 @@ tests = [
   rows: 72
   columns: 24
 ,
-  name: 'testDeletable'
-  isDeletable: true
-,
   name: 'testRender'
+,
 ]
 
 class Performance
@@ -21,7 +19,7 @@ class Performance
       <div class="container">
         <hr />
         <div id="results">
-          
+
         </div>
         <div id="example"></div>
       </div>
@@ -33,7 +31,7 @@ class Performance
           <% for (var p in test) { %>
               <% if (typeof test[p] === 'object') { %>
                   <% for (var pp in test[p]) { %>
-                    <b><%= pp %></b>:<%= tests[p][pp] %>
+                    <b><%= pp %></b>: <%= test[p][pp] %>
                     <br />
                   <% } %>
               <% } else { %>
@@ -110,9 +108,6 @@ class Performance
   testUpdate: (options)->
     data = @generateData options.rows, options.columns
     @table.columns(data.columns).data(data.data).render()
-
-  testDeletable: (options)->
-    @table.isDeletable(options.isDeletable).render()
 
   testRender: (options)->
     @table.render()

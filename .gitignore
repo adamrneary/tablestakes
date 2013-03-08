@@ -17,3 +17,4 @@ examples/js/tablestakes.js
 .tddium
 test/cov/*
 test/docs/*
+test/reports/*

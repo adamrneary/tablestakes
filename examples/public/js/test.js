@@ -175,7 +175,7 @@ describe("Events", function() {
     return done();
   });
   it('keydown press tab, shiftKey-false and ColumnIndex=3', function(done) {
-    var td;
+    var td, _table;
     d3.event = {
       'keyCode': 9,
       'shiftKey': false,
@@ -186,44 +186,14 @@ describe("Events", function() {
         return true;
       }
     };
+    _table = new window.TableStakes().el("#example").columns(columns).data(data).render();
+    event = _table.core.events;
     td = d3.select('td').node();
     assert(event.keydown(td, d, column));
     return done();
   });
   it('keydown press tab, shiftKey-false and ColumnIndex = 1', function(done) {
-    var td, testevent;
-    testevent = new window.TableStakesLib.Events({
-      core: {
-        table: {
-          isInRender: false,
-          el: '#example'
-        },
-        update: function() {
-          return true;
-        },
-        utils: {
-          getCurrentColumnIndex: function() {
-            return 1;
-          },
-          findNextNode: function() {
-            return d;
-          },
-          findPrevNode: function() {
-            return d;
-          }
-        },
-        columns: [
-          {
-            'id': 2
-          }, {
-            'id': 3
-          }, {
-            'id': 4
-          }
-        ],
-        nodes: []
-      }
-    });
+    var td, _table;
     d3.event = {
       'keyCode': 9,
       'shiftKey': false,
@@ -235,48 +205,14 @@ describe("Events", function() {
       }
     };
     td = d3.select('td').node();
-    assert(testevent.keydown(td, d, column));
+    _table = new window.TableStakes().el("#example").columns(columns).data(data).render();
+    event = _table.core.events;
+    td = d3.select('td').node();
+    assert(event.keydown(td, d, column));
     return done();
   });
   it('keydown press tab, shiftKey-true and ColumnIndex = 3', function(done) {
-    var td, testevent;
-    testevent = new window.TableStakesLib.Events({
-      core: {
-        table: {
-          isInRender: false,
-          el: function() {
-            return '#example';
-          },
-          onDrag: function() {
-            return d;
-          }
-        },
-        update: function() {
-          return true;
-        },
-        utils: {
-          getCurrentColumnIndex: function() {
-            return 1;
-          },
-          findNextNode: function() {
-            return d;
-          },
-          findPrevNode: function() {
-            return d;
-          }
-        },
-        columns: [
-          {
-            'id': 2
-          }, {
-            'id': 3
-          }, {
-            'id': 4
-          }
-        ],
-        nodes: []
-      }
-    });
+    var td, _table;
     d3.event = {
       'keyCode': 9,
       'shiftKey': true,
@@ -287,49 +223,14 @@ describe("Events", function() {
         return true;
       }
     };
+    _table = new window.TableStakes().el("#example").columns(columns).data(data).render();
+    event = _table.core.events;
     td = d3.select('td').node();
-    assert(testevent.keydown(td, d, column));
+    assert(event.keydown(td, d, column));
     return done();
   });
   it('keydown press tab, shiftKey-true and  ColumnIndex = 0', function(done) {
-    var td, testevent;
-    testevent = new window.TableStakesLib.Events({
-      core: {
-        table: {
-          isInRender: false,
-          el: function() {
-            return '#example';
-          },
-          onDrag: function() {
-            return d;
-          }
-        },
-        update: function() {
-          return true;
-        },
-        utils: {
-          getCurrentColumnIndex: function() {
-            return 0;
-          },
-          findNextNode: function() {
-            return d;
-          },
-          findPrevNode: function() {
-            return d;
-          }
-        },
-        columns: [
-          {
-            'id': 2
-          }, {
-            'id': 3
-          }, {
-            'id': 4
-          }
-        ],
-        nodes: []
-      }
-    });
+    var td, _table;
     d3.event = {
       'keyCode': 9,
       'shiftKey': true,
@@ -341,50 +242,14 @@ describe("Events", function() {
       }
     };
     td = d3.select('td').node();
-    assert(testevent.keydown(td, d, column));
+    _table = new window.TableStakes().el("#example").columns(columns).data(data).render();
+    event = _table.core.events;
+    td = d3.select('td').node();
+    assert(event.keydown(td, d, column));
     return done();
   });
   it('keydown press up', function(done) {
-    var td, testevent;
-    testevent = new window.TableStakesLib.Events({
-      core: {
-        table: {
-          isInRender: false,
-          el: function() {
-            return '#example';
-          },
-          onDrag: function() {
-            return d;
-          }
-        },
-        update: function() {
-          return true;
-        },
-        utils: {
-          getCurrentColumnIndex: function() {
-            return 2;
-          },
-          findNextNode: function() {
-            return d;
-          },
-          findPrevNode: function() {
-            return d;
-          }
-        },
-        columns: {
-          0: {
-            'id': 2
-          },
-          1: {
-            'id': 3
-          },
-          2: {
-            'id': 4
-          }
-        },
-        nodes: []
-      }
-    });
+    var td, _table;
     d3.event = {
       'keyCode': 38,
       'shiftKey': true,
@@ -395,51 +260,14 @@ describe("Events", function() {
         return true;
       }
     };
+    _table = new window.TableStakes().el("#example").columns(columns).data(data).render();
+    event = _table.core.events;
     td = d3.select('td').node();
-    assert(testevent.keydown(td, d, column));
+    assert(event.keydown(td, d, column));
     return done();
   });
   it('keydown press down', function(done) {
-    var td, testevent;
-    testevent = new window.TableStakesLib.Events({
-      core: {
-        table: {
-          isInRender: false,
-          el: function() {
-            return '#example';
-          },
-          onDrag: function() {
-            return d;
-          }
-        },
-        update: function() {
-          return true;
-        },
-        utils: {
-          getCurrentColumnIndex: function() {
-            return 1;
-          },
-          findNextNode: function() {
-            return d;
-          },
-          findPrevNode: function() {
-            return d;
-          }
-        },
-        columns: {
-          0: {
-            'id': 2
-          },
-          1: {
-            'id': 3
-          },
-          2: {
-            'id': 4
-          }
-        },
-        nodes: []
-      }
-    });
+    var td, _table;
     d3.event = {
       'keyCode': 40,
       'shiftKey': true,
@@ -450,8 +278,10 @@ describe("Events", function() {
         return true;
       }
     };
+    _table = new window.TableStakes().el("#example").columns(columns).data(data).render();
+    event = _table.core.events;
     td = d3.select('td').node();
-    assert(testevent.keydown(td, d, column));
+    assert(event.keydown(td, d, column));
     return done();
   });
   it('keydown press Enter', function(done) {
@@ -501,53 +331,7 @@ describe("Events", function() {
     tr = d3.select('#NVD3');
     return done();
   });
-  it('resizeDrag', function(done) {
-    var context, td;
-    context = {
-      columns: [
-        {
-          0: {
-            classes: "row-heading",
-            id: "id",
-            label: "Name"
-          },
-          1: {
-            id: "type",
-            label: "Type"
-          }
-        }
-      ],
-      data: [
-        {
-          0: {
-            _hiddenvalues: [],
-            _id: "0",
-            children: [13],
-            depth: 0,
-            etc: "etc",
-            id: "id",
-            type: "type",
-            values: [13],
-            x: 0.5,
-            y: 0
-          }
-        }
-      ],
-      enterRows: [],
-      events: event,
-      nodes: [],
-      rows: [],
-      selection: [],
-      table: table,
-      tableEnter: [],
-      tableObject: [],
-      tbody: [],
-      updateRows: []
-    };
-    td = d3.select('#NVD3')[0];
-    assert(event.resizeDrag(context, td, d, 2, 0));
-    return done();
-  });
+  it('resizeDrag');
   it('editableClick', function(done) {
     var td;
     td = d3.select('#NVD3');
