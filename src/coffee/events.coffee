@@ -153,7 +153,7 @@ class window.TableStakesLib.Events
     old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
     new_width_left = d3.event.x
     new_width_right = old_width_left + old_width_right - new_width_left
-    
+
     notTooSmall = new_width_left > @core.table._minColumnWidth and
       new_width_right > @core.table._minColumnWidth
     if notTooSmall

@@ -286,14 +286,17 @@ class window.TableStakesLib.Core
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
 
-    @_makeActive(d, td, column) if d.activatedID is column.id
+    if d.activatedID is column.id
+      @_makeActive(d, td, column)
+    else
+      @_makeInactive(td)
 
   _makeActive: (d, td, column) ->
     self = @
 
     d3.select(td)
       .classed('active', true)
-      .text((d)-> d[column.id] or '-')
+      .text((d) -> d[column.id] or '-')
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
       .on('blur', (d) -> self.events.blur(this, d, column))
