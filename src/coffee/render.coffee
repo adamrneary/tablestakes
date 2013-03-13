@@ -69,7 +69,11 @@ class window.TableStakesLib.Core
           .style('width', (d) -> d.width)
 
     # for now, either all columns are resizable or none, set in table config
-    theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
+    allTh = theadRow.selectAll("th")
+    @_makeResizable(allTh) if @table.isResizable()
+    sortable = allTh.filter (d)->
+      d.isSortable
+    @_makeSortable(sortable)
     @
 
   # responsible for &lt;tbody&gt; and contents
@@ -336,8 +340,10 @@ class window.TableStakesLib.Core
     select.on('change', (a, b, c) => @events.selectClick(@, a, b, c, column))
 
   _makeButton: (d, td, column) ->
+    classes = 'btn btn-mini btn-primary'
+    html = "<input type='button' value='#{column.label}' class='#{classes}' />"
     select = d3.select(td)
-      .html("<input type='button' value='#{ column.label }' class='btn btn-mini btn-primary' />")
+      .html(html)
       .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
   _makeBoolean: (d, td, column) ->
@@ -345,6 +351,18 @@ class window.TableStakesLib.Core
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
       .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
+
+  _makeSortable: (allTh)->
+    self = @
+    allTh.classed('sortable',true)
+    sorted = allTh.filter (column)->
+      column.desc?
+    if sorted[0] and sorted[0].length > 0
+      desc = sorted.data()[0].desc
+      sorted.classed('sorted-asc',desc)
+      sorted.classed('sorted-desc',!desc)
+    allTh.on 'click', (a,b,c)->
+      self.events.toggleSort @,a,b,c
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length
