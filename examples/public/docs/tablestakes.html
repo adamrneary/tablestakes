@@ -1,157 +1,382 @@
-<!DOCTYPE html>  <html> <head>   <title>tablestakes.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="column.html">                 column.coffee               </a>                                           <a class="source" href="events.html">                 events.coffee               </a>                                           <a class="source" href="render.html">                 render.coffee               </a>                                           <a class="source" href="tablestakes.html">                 tablestakes.coffee               </a>                                           <a class="source" href="utils.html">                 utils.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               tablestakes.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="k">class</span> <span class="nb">window</span><span class="p">.</span><span class="nx">TableStakes</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>internal table settings/variables</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">id : </span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span> <span class="o">*</span> <span class="mi">10000</span><span class="p">)</span>
-  <span class="nv">header : </span><span class="kc">true</span>
-  <span class="nv">noData : </span><span class="s2">&quot;No Data Available.&quot;</span>
-  <span class="nv">childIndent : </span><span class="mi">20</span>
-  <span class="nv">tableClassName : </span><span class="s2">&quot;tablestakes&quot;</span>
-  <span class="nv">gridData : </span><span class="p">[]</span>
-  <span class="nv">gridFilteredData : </span><span class="p">[]</span>
-  <span class="nv">tableObject : </span><span class="kc">null</span>
-  <span class="nv">isInRender : </span><span class="kc">false</span>
-  <span class="nv">filterCondition : </span><span class="p">[]</span>
-  <span class="nv">dispatch : </span><span class="nx">d3</span><span class="p">.</span><span class="nx">dispatch</span><span class="p">(</span>
-    <span class="s2">&quot;elementClick&quot;</span><span class="p">,</span> <span class="s2">&quot;elementDblclick&quot;</span><span class="p">,</span> <span class="s2">&quot;elementMouseover&quot;</span><span class="p">,</span> <span class="s2">&quot;elementMouseout&quot;</span>
-  <span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>defaults</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_columns: </span><span class="p">[]</span>
-  <span class="nv">_margin :</span>
-    <span class="nv">top: </span><span class="mi">0</span>
-    <span class="nv">right: </span><span class="mi">0</span>
-    <span class="nv">bottom: </span><span class="mi">0</span>
-    <span class="nv">left: </span><span class="mi">0</span>
+<!DOCTYPE html>
 
-  <span class="nv">constructor: </span><span class="nf">(options) -&gt;</span>
-    <span class="vi">@core = </span><span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">TableStakesLib</span><span class="p">.</span><span class="nx">Core</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>builds getter/setter methods (initialized with defaults)</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">@_synthesize</span>
-      <span class="nv">data: </span><span class="p">[]</span>
-      <span class="nv">el: </span><span class="kc">null</span>
-      <span class="nv">isDeletable: </span><span class="kc">false</span>
-      <span class="nv">onDelete: </span><span class="kc">null</span>
-      <span class="nv">isResizable: </span><span class="kc">true</span>
-      <span class="nv">isSortable: </span><span class="kc">false</span>
-      <span class="nv">dragMode: </span><span class="kc">null</span>
-      <span class="nv">isDraggable: </span><span class="kc">false</span>
-      <span class="nv">onDrag: </span><span class="kc">null</span>
-      <span class="nv">isDragDestination: </span><span class="kc">true</span>
-      <span class="nv">rowClasses: </span><span class="kc">null</span>
+<html>
+<head>
+  <title>tablestakes.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="column.html">
+                column.coffee
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.coffee
+              </a>
+            
+              
+              <a class="source" href="render.html">
+                render.coffee
+              </a>
+            
+              
+              <a class="source" href="tablestakes.html">
+                tablestakes.coffee
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>tablestakes.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="class"><span class="keyword">class</span> <span class="title">window</span>.<span class="title">TableStakes</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>internal table settings/variables</p>
 
-    <span class="vi">@filterCondition = </span><span class="nx">d3</span><span class="p">.</span><span class="nx">map</span><span class="p">([])</span>
-    <span class="k">if</span> <span class="nx">options</span><span class="o">?</span>
-      <span class="k">for</span> <span class="nx">key</span> <span class="k">of</span> <span class="nx">options</span>
-        <span class="nx">@set</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">options</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>id : Math.floor(Math.random() * <span class="number">10000</span>)
+  header : <span class="literal">true</span>
+  noData : <span class="string">"No Data Available."</span>
+  childIndent : <span class="number">20</span>
+  tableClassName : <span class="string">"tablestakes"</span>
+  gridData : []
+  gridFilteredData : []
+  tableObject : <span class="literal">null</span>
+  isInRender : <span class="literal">false</span>
+  filterCondition : []
+  dispatch : d3.dispatch(
+    <span class="string">"elementClick"</span>, <span class="string">"elementDblclick"</span>, <span class="string">"elementMouseover"</span>, <span class="string">"elementMouseout"</span>
+  )</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>defaults</p>
 
-  <span class="nv">render: </span><span class="o">-&gt;</span>
-    <span class="vi">@gridData = </span><span class="p">[</span><span class="nv">values: </span><span class="nx">@data</span><span class="p">()]</span>
-    <span class="nx">@columns</span><span class="p">().</span><span class="nx">forEach</span> <span class="p">(</span><span class="nx">column</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="nx">@gridData</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="nx">column</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">column</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
-    <span class="nx">@setID</span> <span class="nx">@gridData</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;0&quot;</span>
-    <span class="vi">@gridFilteredData = </span><span class="nx">@gridData</span>
-    <span class="nx">@_setFilter</span> <span class="nx">@gridFilteredData</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">@filterCondition</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">@el</span><span class="p">())</span>
-      <span class="p">.</span><span class="nx">html</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">datum</span><span class="p">(</span><span class="nx">@gridFilteredData</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">call</span><span class="p">(</span> <span class="p">(</span><span class="nx">selection</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">@update</span> <span class="nx">selection</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>@dispatchManualEvent(d3.select('td').node())</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="err">@</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_minColumnWidth: <span class="number">50</span>
+  _columns: []
+  _margin :
+    top: <span class="number">0</span>
+    right: <span class="number">0</span>
+    bottom: <span class="number">0</span>
+    left: <span class="number">0</span>
 
-  <span class="nv">update: </span><span class="nf">(selection) -&gt;</span>
-    <span class="nx">selection</span><span class="p">.</span><span class="nx">each</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="nx">@core</span><span class="p">.</span><span class="nx">set</span>
-        <span class="nv">selection: </span><span class="nx">selection</span>
-        <span class="nv">table: </span><span class="err">@</span>
-        <span class="nv">data: </span><span class="nx">data</span>
-      <span class="nx">@core</span><span class="p">.</span><span class="nx">render</span><span class="p">()</span>
+  constructor: (options) -&gt;
+    <span class="property">@core</span> = <span class="keyword">new</span> window.TableStakesLib.Core</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>builds getter/setter methods (initialized with defaults)</p>
 
-    <span class="vi">@isInRender = </span><span class="kc">false</span>
-    <span class="err">@</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="property">@_synthesize</span>
+      data: []
+      el: <span class="literal">null</span>
+      isDeletable: <span class="literal">false</span>
+      onDelete: <span class="literal">null</span>
+      isResizable: <span class="literal">true</span>
+      isSortable: <span class="literal">false</span>
+      dragMode: <span class="literal">null</span>
+      isDraggable: <span class="literal">false</span>
+      onDrag: <span class="literal">null</span>
+      isDragDestination: <span class="literal">true</span>
+      rowClasses: <span class="literal">null</span>
 
-  <span class="nv">dispatchManualEvent: </span><span class="nf">(target) -&gt;</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>all browsers except IE before version 9</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="nx">target</span><span class="p">.</span><span class="nx">dispatchEvent</span> <span class="o">and</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span>
-      <span class="nv">mousedownEvent = </span><span class="nb">document</span><span class="p">.</span><span class="nx">createEvent</span><span class="p">(</span><span class="s2">&quot;MouseEvent&quot;</span><span class="p">)</span>
-      <span class="nx">mousedownEvent</span><span class="p">.</span><span class="nx">initMouseEvent</span><span class="p">(</span>
-        <span class="s2">&quot;dblclick&quot;</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="kc">true</span><span class="p">,</span> <span class="nb">window</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="kc">false</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">null</span>
-      <span class="p">)</span>
-      <span class="nx">target</span><span class="p">.</span><span class="nx">dispatchEvent</span><span class="p">(</span><span class="nx">mousedownEvent</span><span class="p">)</span>
-    <span class="k">else</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>IE before version 9</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="k">if</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createEventObject</span>
-        <span class="nv">mousedownEvent = </span><span class="nb">document</span><span class="p">.</span><span class="nx">createEventObject</span><span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">event</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>left button is down</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nv">mousedownEvent.button = </span><span class="mi">1</span>
-        <span class="nx">target</span><span class="p">.</span><span class="nx">fireEvent</span><span class="p">(</span><span class="s2">&quot;dblclick&quot;</span><span class="p">,</span> <span class="nx">mousedownEvent</span><span class="p">)</span>
-    <span class="k">return</span>
+    <span class="property">@filterCondition</span> = d3.map([])
+    <span class="keyword">if</span> options?
+      <span class="keyword">for</span> key <span class="keyword">of</span> options
+        <span class="property">@set</span> key, options[key]
 
-  <span class="nv">setID : </span><span class="nf">(node, prefix) -&gt;</span>
-    <span class="nx">node</span><span class="p">[</span><span class="s1">&#39;_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">prefix</span>
-    <span class="k">if</span> <span class="nx">node</span><span class="p">.</span><span class="nx">values</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">forEach</span> <span class="p">(</span><span class="nx">subnode</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="nx">@setID</span> <span class="nx">subnode</span><span class="p">,</span> <span class="nx">prefix</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nx">i</span>
-    <span class="k">if</span> <span class="nx">node</span><span class="p">.</span><span class="nx">_values</span>
-      <span class="nx">node</span><span class="p">.</span><span class="nx">_values</span><span class="p">.</span><span class="nx">forEach</span> <span class="p">(</span><span class="nx">subnode</span><span class="p">,</span> <span class="nx">i</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="nx">@setID</span> <span class="nx">subnode</span><span class="p">,</span> <span class="nx">prefix</span><span class="o">+</span><span class="s2">&quot;_&quot;</span><span class="o">+</span><span class="nx">i</span>
+  render: -&gt;
+    <span class="property">@gridData</span> = [values: <span class="property">@data</span>()]
+    <span class="property">@columns</span>().forEach (column, i) =&gt;
+      <span class="property">@gridData</span>[<span class="number">0</span>][column[<span class="string">'id'</span>]] = column[<span class="string">'id'</span>]
+    <span class="property">@setID</span> <span class="property">@gridData</span>[<span class="number">0</span>], <span class="string">"0"</span>
+    <span class="property">@gridFilteredData</span> = <span class="property">@gridData</span>
+    <span class="property">@_setFilter</span> <span class="property">@gridFilteredData</span>[<span class="number">0</span>], <span class="property">@filterCondition</span>
+    d3.select(<span class="property">@el</span>())
+      .html(<span class="string">''</span>)
+      .datum(<span class="property">@gridFilteredData</span>)
+      .call( (selection) =&gt; <span class="property">@update</span> selection)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>@dispatchManualEvent(d3.select(&#39;td&#39;).node())</p>
 
-  <span class="nv">filter: </span><span class="nf">(key, value) -&gt;</span>
-    <span class="nv">value = </span><span class="nx">value</span> <span class="o">or</span> <span class="s1">&#39;&#39;</span>
-    <span class="nv">value = </span><span class="nx">value</span><span class="p">.</span><span class="nx">toString</span><span class="p">().</span><span class="nx">toUpperCase</span><span class="p">()</span>
-    <span class="nx">@filterCondition</span><span class="p">.</span><span class="nx">set</span> <span class="nx">key</span><span class="p">,</span> <span class="nx">value</span>
-    <span class="nx">@_setFilter</span> <span class="nx">@gridFilteredData</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">@filterCondition</span>
-    <span class="nx">@render</span><span class="p">()</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>@
 
-  <span class="nv">_setFilter: </span><span class="nf">( data, filter ) -&gt;</span>
-    <span class="nv">self = </span><span class="k">this</span>
-    <span class="nx">data</span> <span class="o">or=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="k">typeof</span> <span class="nx">data</span><span class="p">.</span><span class="nx">_hiddenvalues</span> <span class="o">==</span> <span class="s2">&quot;undefined&quot;</span>
-      <span class="nx">data</span><span class="p">[</span><span class="s1">&#39;_hiddenvalues&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="nx">data</span><span class="p">.</span><span class="nx">values</span>
-      <span class="nv">data.values = </span><span class="nx">data</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">_hiddenvalues</span><span class="p">)</span>
-      <span class="nv">data._hiddenvalues = </span><span class="p">[]</span>
-      <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="nx">data</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">..</span><span class="mi">0</span><span class="p">]</span> <span class="k">by</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="k">if</span> <span class="nx">@_setFilter</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">values</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">filter</span><span class="p">)</span> <span class="o">==</span> <span class="kc">null</span>
-          <span class="nx">data</span><span class="p">.</span><span class="nx">_hiddenvalues</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="k">if</span> <span class="nx">data</span><span class="p">.</span><span class="nx">_values</span>
-      <span class="nv">data._values = </span><span class="nx">data</span><span class="p">.</span><span class="nx">_values</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">_hiddenvalues</span><span class="p">)</span>
-      <span class="nv">data._hiddenvalues = </span><span class="p">[]</span>
-      <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="p">[</span><span class="nx">data</span><span class="p">.</span><span class="nx">_values</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">..</span><span class="mi">0</span><span class="p">]</span> <span class="k">by</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="k">if</span> <span class="nx">@_setFilter</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">_values</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">filter</span><span class="p">)</span> <span class="o">==</span> <span class="kc">null</span>
-          <span class="nx">data</span><span class="p">.</span><span class="nx">_hiddenvalues</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">_values</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+  update: (selection) -&gt;
+    selection.each (data) =&gt;
+      <span class="property">@core</span>.set
+        selection: selection
+        table: @
+        data: data
+      <span class="property">@core</span>.render()
 
-    <span class="k">if</span> <span class="nx">data</span><span class="p">.</span><span class="nx">values</span> <span class="o">and</span> <span class="nx">data</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
-      <span class="k">return</span> <span class="nx">data</span>
-    <span class="k">if</span> <span class="nx">data</span><span class="p">.</span><span class="nx">_values</span> <span class="o">and</span> <span class="nx">data</span><span class="p">.</span><span class="nx">_values</span><span class="p">.</span><span class="nx">length</span> <span class="o">&gt;</span> <span class="mi">0</span>
-      <span class="k">return</span> <span class="nx">data</span>
+    <span class="property">@isInRender</span> = <span class="literal">false</span>
+    @
 
-    <span class="nv">matchFound = </span><span class="kc">true</span>
-    <span class="k">for</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">filter</span><span class="p">.</span><span class="nx">keys</span><span class="p">()</span>
-      <span class="k">if</span> <span class="nx">data</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>arr = d3.map data[key], (d) ->
-d.toUpperCase()</p>             </td>             <td class="code">               <div class="highlight"><pre>        <span class="nv">_data = </span><span class="nx">data</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">toUpperCase</span><span class="p">()</span>
-        <span class="k">if</span> <span class="nx">_data</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">filter</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">key</span><span class="p">))</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span>
-          <span class="nv">matchFound = </span><span class="kc">false</span>
-      <span class="k">else</span>
-        <span class="nv">matchFound = </span><span class="kc">false</span>
-    <span class="k">if</span> <span class="nx">matchFound</span>
-      <span class="k">return</span> <span class="nx">data</span>
-    <span class="k">return</span> <span class="kc">null</span>
+  dispatchManualEvent: (target) -&gt;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>all browsers except IE before version 9</p>
 
-  <span class="nv">get: </span><span class="nf">(key) -&gt;</span>
-    <span class="err">@</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> target.dispatchEvent <span class="keyword">and</span> document.createEvent
+      mousedownEvent = document.createEvent(<span class="string">"MouseEvent"</span>)
+      mousedownEvent.initMouseEvent(
+        <span class="string">"dblclick"</span>, <span class="literal">true</span>, <span class="literal">true</span>, window, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>,
+        <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="number">0</span>, <span class="literal">null</span>
+      )
+      target.dispatchEvent(mousedownEvent)
+    <span class="keyword">else</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>IE before version 9</p>
 
-  <span class="nv">set: </span><span class="nf">(key, value, options) -&gt;</span>
-    <span class="err">@</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="k">if</span> <span class="nx">value</span><span class="o">?</span> <span class="k">then</span> <span class="nx">value</span> <span class="k">else</span> <span class="kc">true</span><span class="p">)</span> <span class="k">if</span> <span class="nx">key</span><span class="o">?</span>
-    <span class="err">@</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> document.createEventObject
+        mousedownEvent = document.createEventObject(window.event)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>left button is down</p>
 
-  <span class="o">is:</span> <span class="nf">(key) -&gt;</span>
-    <span class="k">if</span> <span class="err">@</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="k">then</span> <span class="kc">true</span> <span class="k">else</span> <span class="kc">false</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <h2>Expose Public Variables</h2>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>The following are getter/setter methods
-See http://bost.ocks.org/mike/chart for more details.</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">margin: </span><span class="nf">(val) -&gt;</span>
-    <span class="k">return</span> <span class="nx">@_margin</span> <span class="nx">unless</span> <span class="nx">val</span><span class="o">?</span>
-    <span class="k">for</span> <span class="nx">side</span> <span class="k">in</span> <span class="p">[</span><span class="s1">&#39;top&#39;</span><span class="p">,</span><span class="s1">&#39;right&#39;</span><span class="p">,</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span><span class="s1">&#39;left&#39;</span><span class="p">]</span>
-      <span class="nx">@_margin</span><span class="p">[</span><span class="nx">side</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span><span class="p">[</span><span class="nx">side</span><span class="p">]</span> <span class="nx">unless</span> <span class="k">typeof</span> <span class="nx">val</span><span class="p">[</span><span class="nx">side</span><span class="p">]</span> <span class="o">is</span> <span class="s2">&quot;undefined&quot;</span>
-    <span class="err">@</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>mousedownEvent.button = <span class="number">1</span>
+        target.fireEvent(<span class="string">"dblclick"</span>, mousedownEvent)
+    <span class="keyword">return</span>
 
-  <span class="nv">columns: </span><span class="nf">(val) -&gt;</span>
-    <span class="k">return</span> <span class="nx">@_columns</span> <span class="nx">unless</span> <span class="nx">val</span><span class="o">?</span>
-    <span class="vi">@_columns = </span><span class="p">[]</span>
-    <span class="nv">val = </span><span class="p">[</span><span class="nx">val</span><span class="p">]</span> <span class="nx">unless</span> <span class="nx">_</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
-    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">val</span><span class="p">,</span> <span class="p">(</span><span class="nx">column</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="nv">c = </span><span class="k">new</span> <span class="nb">window</span><span class="p">.</span><span class="nx">TableStakesLib</span><span class="p">.</span><span class="nx">Column</span><span class="p">(</span><span class="nx">column</span><span class="p">)</span>
-      <span class="nx">@_columns</span><span class="p">.</span><span class="nx">push</span> <span class="nx">c</span>
-    <span class="err">@</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>builds getter/setter methods (initialized with defaults)</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_synthesize: </span><span class="nf">(hash) -&gt;</span>
-    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">hash</span><span class="p">,</span> <span class="p">(</span><span class="nx">value</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span>
-      <span class="err">@</span><span class="p">[</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">value</span>
-      <span class="nv">func = </span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="o">=&gt;</span>
-        <span class="err">@</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nf">(val) -&gt;</span>
-          <span class="k">return</span> <span class="err">@</span><span class="p">[</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">]</span> <span class="nx">unless</span> <span class="nx">val</span><span class="o">?</span>
-          <span class="err">@</span><span class="p">[</span><span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">val</span>
-          <span class="err">@</span>
-      <span class="nx">func</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+  setID : (node, prefix) -&gt;
+    node[<span class="string">'_id'</span>] = prefix
+    <span class="keyword">if</span> node.values
+      node.values.forEach (subnode, i) =&gt;
+        <span class="property">@setID</span> subnode, prefix+<span class="string">"_"</span>+i
+    <span class="keyword">if</span> node._values
+      node._values.forEach (subnode, i) =&gt;
+        <span class="property">@setID</span> subnode, prefix+<span class="string">"_"</span>+i
 
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+  filter: (key, value) -&gt;
+    value = value <span class="keyword">or</span> <span class="string">''</span>
+    value = value.toString().toUpperCase()
+    <span class="property">@filterCondition</span>.set key, value
+    <span class="property">@_setFilter</span> <span class="property">@gridFilteredData</span>[<span class="number">0</span>], <span class="property">@filterCondition</span>
+    <span class="property">@render</span>()
+
+  _setFilter: ( data, filter ) -&gt;
+    self = <span class="keyword">this</span>
+    data <span class="keyword">or</span>= []
+    <span class="keyword">if</span> <span class="keyword">typeof</span> data._hiddenvalues == <span class="string">"undefined"</span>
+      data[<span class="string">'_hiddenvalues'</span>] = []
+    <span class="keyword">if</span> data.values
+      data.values = data.values.concat(data._hiddenvalues)
+      data._hiddenvalues = []
+      <span class="keyword">for</span> i <span class="keyword">in</span> [data.values.length-<span class="number">1.</span><span class="number">.0</span>] <span class="keyword">by</span> -<span class="number">1</span>
+        <span class="keyword">if</span> <span class="property">@_setFilter</span>(data.values[i], filter) == <span class="literal">null</span>
+          data._hiddenvalues.push(data.values.splice(i, <span class="number">1</span>)[<span class="number">0</span>])
+    <span class="keyword">if</span> data._values
+      data._values = data._values.concat(data._hiddenvalues)
+      data._hiddenvalues = []
+      <span class="keyword">for</span> i <span class="keyword">in</span> [data._values.length-<span class="number">1.</span><span class="number">.0</span>] <span class="keyword">by</span> -<span class="number">1</span>
+        <span class="keyword">if</span> <span class="property">@_setFilter</span>(data._values[i], filter) == <span class="literal">null</span>
+          data._hiddenvalues.push(data._values.splice(i, <span class="number">1</span>)[<span class="number">0</span>])
+
+    <span class="keyword">if</span> data.values <span class="keyword">and</span> data.values.length &gt; <span class="number">0</span>
+      <span class="keyword">return</span> data
+    <span class="keyword">if</span> data._values <span class="keyword">and</span> data._values.length &gt; <span class="number">0</span>
+      <span class="keyword">return</span> data
+
+    matchFound = <span class="literal">true</span>
+    <span class="keyword">for</span> key <span class="keyword">in</span> filter.keys()
+      <span class="keyword">if</span> data[key]</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>arr = d3.map data[key], (d) -&gt;
+d.toUpperCase()</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_data = data[key].toUpperCase()
+        <span class="keyword">if</span> _data.indexOf(filter.get(key)) == -<span class="number">1</span>
+          matchFound = <span class="literal">false</span>
+      <span class="keyword">else</span>
+        matchFound = <span class="literal">false</span>
+    <span class="keyword">if</span> matchFound
+      <span class="keyword">return</span> data
+    <span class="keyword">return</span> <span class="literal">null</span>
+
+  get: (key) -&gt;
+    @[key]
+
+  set: (key, value, options) -&gt;
+    @[key] = (<span class="keyword">if</span> value? <span class="keyword">then</span> value <span class="keyword">else</span> <span class="literal">true</span>) <span class="keyword">if</span> key?
+    @
+
+  <span class="keyword">is</span>: (key) -&gt;
+    <span class="keyword">if</span> @[key] <span class="keyword">then</span> <span class="literal">true</span> <span class="keyword">else</span> <span class="literal">false</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <h2>Expose Public Variables</h2>
+<p>The following are getter/setter methods
+See <a href="http://bost.ocks.org/mike/chart">http://bost.ocks.org/mike/chart</a> for more details.</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>margin: (val) -&gt;
+    <span class="keyword">return</span> <span class="property">@_margin</span> <span class="keyword">unless</span> val?
+    <span class="keyword">for</span> side <span class="keyword">in</span> [<span class="string">'top'</span>,<span class="string">'right'</span>,<span class="string">'bottom'</span>,<span class="string">'left'</span>]
+      <span class="property">@_margin</span>[side] = val[side] <span class="keyword">unless</span> <span class="keyword">typeof</span> val[side] <span class="keyword">is</span> <span class="string">"undefined"</span>
+    @
+
+  columns: (val) -&gt;
+    <span class="keyword">return</span> <span class="property">@_columns</span> <span class="keyword">unless</span> val?
+    <span class="property">@_columns</span> = []
+    val = [val] <span class="keyword">unless</span> _.isArray(val)
+    _.each val, (column) =&gt;
+      c = <span class="keyword">new</span> window.TableStakesLib.Column(column)
+      <span class="property">@_columns</span>.push c
+    @</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>builds getter/setter methods (initialized with defaults)</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_synthesize: (hash) -&gt;
+    _.each hash, (value, key) =&gt;
+      @[<span class="string">'_'</span> + key] = value
+      <span class="function"><span class="title">func</span></span> = (key) =&gt;
+        @[key] = (val) -&gt;
+          <span class="keyword">return</span> @[<span class="string">'_'</span> + key] <span class="keyword">unless</span> val?
+          @[<span class="string">'_'</span> + key] = val
+          @
+      func(key)</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
