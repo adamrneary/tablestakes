@@ -1,109 +1,94 @@
-name = glob.config.name
-app = glob.app
-modules = glob.modules
+module.exports = class Router
 
-app.get '/pid', (req,res)->
-  if req.query.secret is glob.config.secret
-    res.send
-      pid: process.pid
-  else
-    res.send 401
+  #modules
+  fs: require 'fs'
+  coffeelint: require 'coffeelint'
+  kss: require 'kss'
+  #parallel: require('async').parallel
 
-app.get '/', (req,res)->
-  res.render 'index'
-    page: 'index'
+  utils: new (require './utils')
 
-app.get '/documentation', (req,res)->
-  docs = {}
-  docsPath = "#{__dirname}/../examples/public/docs/"
-  docFiles = modules.fs.readdirSync docsPath
-  for docFile in docFiles
-    if docFile.substr(docFile.length-4) == 'html'
-      htmlBody = modules.fs.readFileSync docsPath + docFile, 'utf-8'
-      jsReg = /<body>([\s\S]*?)<\/body>/gi
-      container = jsReg.exec(htmlBody)
-      docs[docFile] = container[1]
+  path:
+    dist:
+      js: "#{glob.config.root}/dist/#{glob.config.name}.js"
+      css: "#{glob.config.root}/dist/#{glob.config.name}.css"
 
-  res.render 'documentation'
-    docs: docs
-    page: 'documentation'
+  dist:
+    js: ''
+    css: ''
 
-app.get '/test', (req,res)->
-  errors = {}
-  pathes = {}
+  init: (app,cb)->
+    app.get '/', @root
+    app.get '/documentation', @documentation
+    app.get '/test', @test
+    app.get '/coverage', @coverage
+    app.get '/styleguide', @styleguide
+    app.get '/performance', @performance
+    app.get "/js/#{glob.config.name}.js", @get_dist_js
+    app.get "/css/#{glob.config.name}.css", @get_dist_css
+    @fs.readFile @path.dist.js, (err,js)=>
+      @dist.js = js.toString()
+      cb() if @dist.css and cb
+    @fs.readFile @path.dist.css, (err,css)=>
+      @dist.css = css.toString()
+      cb() if @dist.js and cb
 
-  path = "#{__dirname}/../src/coffee/"
-  files = modules.fs.readdirSync path
-  for f in files
-    contents = modules.fs.readFileSync path + f, 'utf-8'
-    errors[f] = modules.coffeelint.lint contents
+  root: (req,res)=>
+    res.render 'index'
+      page: 'index'
+      app_name: glob.config.name
 
-  path2="#{__dirname}/../examples/public/coffee/"
-  files2 = modules.fs.readdirSync path2
-  for t in files2
-    contents = modules.fs.readFileSync path2 + t, 'utf-8'
-    errors[t] = modules.coffeelint.lint contents
+  documentation: (req,res)=>
+    docs = {}
+    docsPath = "#{__dirname}/../examples/public/docs/"
+    docFiles = @fs.readdirSync docsPath
+    for docFile in docFiles
+      if docFile.substr(docFile.length-4) == 'html'
+        htmlBody = @fs.readFileSync docsPath + docFile, 'utf-8'
+        jsReg = /<body>([\s\S]*?)<\/body>/gi
+        container = jsReg.exec(htmlBody)
+        docs[docFile] = container[1]
+    res.render 'documentation'
+      docs: docs
+      page: 'documentation'
+      app_name: glob.config.name
 
-  path3="#{__dirname}/../server/"
-  files3 = modules.fs.readdirSync path3
-  for d in files3
-    if d.substr(-7) is ".coffee"
-      contents = modules.fs.readFileSync path3 + d, 'utf-8'
-      errors[d] = modules.coffeelint.lint contents
+  #FIXME
+  test: (req,res)=>
+    res.render 'test'
+      errors: glob.server.lint_errors
+      page: 'mocha'
+      app_name: glob.config.name
 
-  try
-    lint = glob.modules.fs.readFileSync __dirname+'/../test/reports/lint.txt'
+  coverage: (req,res)=>
+    coverPath = "#{glob.config.path.jscoverage.coverage_reports}/unit.html"
 
-  res.render 'test'
-    errors: errors
-    page: 'mocha'
-    lint: lint
+    res.render 'coverage'
+      cover: @fs.readFileSync(coverPath, 'utf-8')
+      page: 'coverage'
+      app_name: glob.config.name
 
-app.get '/coverage', (req,res)->
-  cover = {}
-  coverPath = "#{__dirname}/../test/reports/coverage.html"
-  htmlBody = modules.fs.readFileSync coverPath, 'utf-8'
-  start = htmlBody.indexOf("<body>")+6
-  end = htmlBody.indexOf("</body></html>")
-  testText = htmlBody.substr(start, end)
-  #console.log testText
+  styleguide: (req,res)=>
+    options =
+      markdown: false
+    @kss.traverse "#{__dirname}/../src/", options, (err, styleguide)=>
+      @utils.getSections styleguide.section(), (sections)=>
+        res.render 'styleguide'
+          sections: sections
+          page: 'styleguide'
+          app_name: glob.config.name
 
-  cover = testText
+  performance: (req,res)=>
+    res.render 'performance'
+      page: 'performance'
+      app_name: glob.config.name
 
-  res.render 'coverage'
-    cover: cover
-    page: 'coverage'
+  get_dist_js: (req,res)=>
+    res.setHeader 'Content-Type', 'text/javascript'
+    res.setHeader 'Content-Length', @dist.js.length
+    res.end @dist.js
 
-  #report = ''
-  #try
-    #destDir = __dirname+'/../test/reports/coverage.html'
-    #report = glob.modules.fs.readFileSync destDir
-  #res.setHeader 'Content-Type', 'text/html'
-  #res.setHeader 'Content-Length', report.length
-  #res.end report
-
-app.get '/styleguide', (req,res)->
-  options =
-    markdown: false
-  modules.kss.traverse "#{__dirname}/../src/", options, (err, styleguide)->
-    glob.getSections styleguide.section(), (sections)->
-      res.render 'styleguide'
-        sections: sections
-        page: 'styleguide'
-
-app.get '/performance', (req,res)->
-  res.render 'performance'
-    page: 'performance'
-
-app.get "/js/#{name}.js", (req,res)->
-  script = modules.fs.readFileSync "#{__dirname}/../dist/#{name}.js"
-  res.setHeader 'Content-Type', 'text/javascript'
-  res.setHeader 'Content-Length', script.length
-  res.end script
-
-app.get "/css/#{name}.css", (req,res)->
-  style = modules.fs.readFileSync "#{__dirname}/../dist/#{name}.css"
-  res.setHeader 'Content-Type', 'text/css'
-  res.setHeader 'Content-Length', style.length
-  res.end style
-
+  get_dist_css: (req,res)=>
+    res.setHeader 'Content-Type', 'text/css'
+    res.setHeader 'Content-Length', @dist.css.length
+    res.end @dist.css
