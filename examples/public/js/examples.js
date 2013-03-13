@@ -12,6 +12,9 @@ core = [
     shortLink: "editable",
     title: "Editable"
   }, {
+    shortLink: "sortable",
+    title: "Sortable"
+  }, {
     shortLink: "nested",
     title: "Nested"
   }, {
