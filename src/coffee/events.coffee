@@ -153,7 +153,7 @@ class window.TableStakesLib.Events
     old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
     new_width_left = d3.event.x
     new_width_right = old_width_left + old_width_right - new_width_left
-    
+
     notTooSmall = new_width_left > @core.table._minColumnWidth and
       new_width_right > @core.table._minColumnWidth
     if notTooSmall
@@ -198,4 +198,9 @@ class window.TableStakesLib.Events
     val = d3.event.target.value
     unless val is d[column.id]
       column.onEdit(d.id, column.id, val) if column.onEdit
+    @core.update()
+
+  buttonClick: (node, d, _, unshift, column) ->
+    val = d3.event.target.value
+    column.onClick(d.id, column.id, val) if column.onClick
     @core.update()

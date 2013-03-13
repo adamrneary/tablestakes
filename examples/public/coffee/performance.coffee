@@ -9,25 +9,8 @@ tests = [
   rows: 72
   columns: 24
 ,
-  name: 'testDeletable'
-  isDeletable: true
-,
   name: 'testRender'
 ,
-  name: 'testEditable'
-  rows: 36
-  columns: 12
-  isDeletable: false
-  isEditable: true
-  configs:
-    isEditable: (d,column)->
-      if column.id is 'p2' or column.id is 'p5'
-        if d.p2 is 1 or d.p5 is 1 or d.p2 is 4
-          false
-        else
-          true
-      else
-        true
 ]
 
 class Performance
@@ -36,7 +19,7 @@ class Performance
       <div class="container">
         <hr />
         <div id="results">
-          
+
         </div>
         <div id="example"></div>
       </div>
@@ -126,19 +109,8 @@ class Performance
     data = @generateData options.rows, options.columns
     @table.columns(data.columns).data(data.data).render()
 
-  testDeletable: (options)->
-    @table.isDeletable(options.isDeletable).render()
-
   testRender: (options)->
     @table.render()
-
-  testEditable: (options)->
-    data = @generateData options.rows,options.columns, options.configs
-    @table
-      .isDeletable(options.isDeletable)
-      .columns(data.columns)
-      .data(data.data)
-      .render()
 
 $(document).ready ->
   perf = new Performance

@@ -11,35 +11,13 @@ tests = [
     rows: 72,
     columns: 24
   }, {
-    name: 'testDeletable',
-    isDeletable: true
-  }, {
     name: 'testRender'
-  }, {
-    name: 'testEditable',
-    rows: 36,
-    columns: 12,
-    isDeletable: false,
-    isEditable: true,
-    configs: {
-      isEditable: function(d, column) {
-        if (column.id === 'p2' || column.id === 'p5') {
-          if (d.p2 === 1 || d.p5 === 1 || d.p2 === 4) {
-            return false;
-          } else {
-            return true;
-          }
-        } else {
-          return true;
-        }
-      }
-    }
   }
 ];
 
 Performance = (function() {
 
-  Performance.prototype.template = _.template('<div class="container">\n  <hr />\n  <div id="results">\n    \n  </div>\n  <div id="example"></div>\n</div>');
+  Performance.prototype.template = _.template('<div class="container">\n  <hr />\n  <div id="results">\n\n  </div>\n  <div id="example"></div>\n</div>');
 
   Performance.prototype.result_template = _.template('<div class="row">\n  <% for (var p in test) { %>\n      <% if (typeof test[p] === \'object\') { %>\n          <% for (var pp in test[p]) { %>\n            <b><%= pp %></b>: <%= test[p][pp] %>\n            <br />\n          <% } %>\n      <% } else { %>\n          <b><%= p %></b>: <%= test[p] %>\n          <br />\n      <% } %>\n  <% } %>\n  <pre> <%= code %> </pre>\n  <b>time: </b><%= time %>ms\n  <hr />\n</div>');
 
@@ -128,18 +106,8 @@ Performance = (function() {
     return this.table.columns(data.columns).data(data.data).render();
   };
 
-  Performance.prototype.testDeletable = function(options) {
-    return this.table.isDeletable(options.isDeletable).render();
-  };
-
   Performance.prototype.testRender = function(options) {
     return this.table.render();
-  };
-
-  Performance.prototype.testEditable = function(options) {
-    var data;
-    data = this.generateData(options.rows, options.columns, options.configs);
-    return this.table.isDeletable(options.isDeletable).columns(data.columns).data(data.data).render();
   };
 
   return Performance;
