@@ -61,6 +61,9 @@ clickHandler = (id, columnId, value) ->
     data = _.without(data, _.find(data, (d) -> d.id is id))
     grid.data(data).render()
 
+isComplete = (d) ->
+  d.complete
+
 columns = [
   id: "id"
   label: "Task"
@@ -89,6 +92,7 @@ columns = [
 ,
   id: "archive"
   label: "Archive"
+  isEditable: isComplete
   editor: "button"
   onClick: clickHandler
 ]

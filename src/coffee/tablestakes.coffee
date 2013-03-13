@@ -16,6 +16,7 @@ class window.TableStakes
   )
 
   # defaults
+  _minColumnWidth: 50
   _columns: []
   _margin :
     top: 0

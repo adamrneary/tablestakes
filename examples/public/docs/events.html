@@ -1,165 +1,452 @@
-<!DOCTYPE html>  <html> <head>   <title>events.coffee</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>            <div id="jump_to">         Jump To &hellip;         <div id="jump_wrapper">           <div id="jump_page">                                           <a class="source" href="column.html">                 column.coffee               </a>                                           <a class="source" href="events.html">                 events.coffee               </a>                                           <a class="source" href="render.html">                 render.coffee               </a>                                           <a class="source" href="tablestakes.html">                 tablestakes.coffee               </a>                                           <a class="source" href="utils.html">                 utils.coffee               </a>                        </div>         </div>       </div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               events.coffee             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>                            </td>             <td class="code">               <div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nv">TableStakesLib = </span><span class="p">{}</span> <span class="nx">unless</span> <span class="nb">window</span><span class="p">.</span><span class="nx">TableStakesLib</span>
-<span class="k">class</span> <span class="nb">window</span><span class="p">.</span><span class="nx">TableStakesLib</span><span class="p">.</span><span class="nx">Events</span>
+<!DOCTYPE html>
 
-  <span class="nv">constructor: </span><span class="nf">(options) -&gt;</span>
-    <span class="vi">@core = </span><span class="nx">options</span><span class="p">.</span><span class="nx">core</span></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>keydown editing cell</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">keydown: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="k">switch</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">keyCode</span>
-      <span class="k">when</span> <span class="mi">9</span>  <span class="k">then</span> <span class="nx">@_handleTab</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">column</span><span class="p">)</span>
-      <span class="k">when</span> <span class="mi">38</span> <span class="k">then</span> <span class="nx">@_handleUp</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">column</span><span class="p">)</span>
-      <span class="k">when</span> <span class="mi">40</span> <span class="k">then</span> <span class="nx">@_handleDown</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">column</span><span class="p">)</span>
-      <span class="k">when</span> <span class="mi">13</span> <span class="k">then</span> <span class="nx">@_handleEnter</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">column</span><span class="p">)</span>
-      <span class="k">when</span> <span class="mi">27</span> <span class="k">then</span> <span class="nx">@_handleEscape</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">column</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>move active cell left or right</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_handleTab: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="nv">currentindex = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">getCurrentColumnIndex</span> <span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>if shiftkey is not pressed, get next</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">if</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">shiftKey</span> <span class="o">is</span> <span class="kc">false</span>
-      <span class="k">if</span><span class="p">(</span><span class="nx">currentindex</span> <span class="o">&lt;</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="nv">d.activatedID = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">[</span><span class="nx">currentindex</span><span class="o">+</span><span class="mi">1</span><span class="p">].</span><span class="nx">id</span>
-      <span class="k">else</span>
-        <span class="nv">nextNode = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">findNextNode</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">nodes</span>
-        <span class="k">if</span> <span class="nx">nextNode</span> <span class="o">isnt</span> <span class="kc">null</span>
-          <span class="nv">nextNode.activatedID = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">id</span>
-          <span class="nv">d.activatedID = </span><span class="kc">null</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>if shiftkey is not pressed, get previous</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="k">else</span>
-      <span class="k">if</span> <span class="nx">currentindex</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="nv">d.activatedID = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">[</span><span class="nx">currentindex</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="nx">id</span>
-      <span class="k">else</span>
-        <span class="nv">prevNode = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">findPrevNode</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">nodes</span>
-        <span class="k">if</span> <span class="nx">prevNode</span> <span class="o">isnt</span> <span class="kc">null</span>
-          <span class="nv">prevNode.activatedID = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">[</span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">].</span><span class="nx">id</span>
-          <span class="nv">d.activatedID = </span><span class="kc">null</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">()</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>move active cell to next cell above</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_handleUp: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="nv">prevNode = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">findPrevNode</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">@nodes</span>
-    <span class="nv">currentindex = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">getCurrentColumnIndex</span> <span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span>
-    <span class="k">if</span> <span class="nx">prevNode</span> <span class="o">!=</span> <span class="kc">null</span>
-      <span class="nv">prevNode.activatedID = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">[</span><span class="nx">currentindex</span><span class="p">].</span><span class="nx">id</span>
-      <span class="nv">d.activatedID = </span><span class="kc">null</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>move active cell to next cell below</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_handleDown: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="nv">nextNode = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">findNextNode</span> <span class="nx">d</span>
-    <span class="nv">currentindex = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">getCurrentColumnIndex</span> <span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span>
-    <span class="k">if</span> <span class="nx">nextNode</span> <span class="o">isnt</span> <span class="kc">null</span>
-      <span class="nv">nextNode.activatedID = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">columns</span><span class="p">[</span><span class="nx">currentindex</span><span class="p">].</span><span class="nx">id</span>
-      <span class="nv">d.activatedID = </span><span class="kc">null</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <p>record change and deactivate</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_handleEnter: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="nx">@blur</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span> <span class="nx">d</span><span class="p">,</span> <span class="nx">column</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>reset value and deactivate</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">_handleEscape: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">node</span><span class="p">).</span><span class="nx">node</span><span class="p">().</span><span class="nv">value = </span><span class="nx">d</span><span class="p">[</span><span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span><span class="p">]</span>
-    <span class="nv">d.activatedID = </span><span class="kc">null</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>record change and deactivate</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">blur: </span><span class="nf">(node, d, column) -&gt;</span>
-    <span class="nx">unless</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">isInRender</span>
-      <span class="nv">val = </span><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">node</span><span class="p">).</span><span class="nx">text</span><span class="p">()</span>
-      <span class="nx">unless</span> <span class="nx">val</span> <span class="o">is</span> <span class="nx">d</span><span class="p">[</span><span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span><span class="p">]</span>
-        <span class="nx">@_applyChangedState</span><span class="p">(</span><span class="nx">d</span><span class="p">)</span>
-        <span class="nx">column</span><span class="p">.</span><span class="nx">onEdit</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">column</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="k">if</span> <span class="nx">column</span><span class="p">.</span><span class="nx">onEdit</span>
-      <span class="nv">d.activatedID = </span><span class="kc">null</span>
-      <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span>
+<html>
+<head>
+  <title>events.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="column.html">
+                column.coffee
+              </a>
+            
+              
+              <a class="source" href="events.html">
+                events.coffee
+              </a>
+            
+              
+              <a class="source" href="render.html">
+                render.coffee
+              </a>
+            
+              
+              <a class="source" href="tablestakes.html">
+                tablestakes.coffee
+              </a>
+            
+              
+              <a class="source" href="utils.html">
+                utils.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>events.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>window.TableStakesLib = {} <span class="keyword">unless</span> window.TableStakesLib
+<span class="class"><span class="keyword">class</span> <span class="title">window</span>.<span class="title">TableStakesLib</span>.<span class="title">Events</span></span>
 
-  <span class="nv">_applyChangedState: </span><span class="nf">(d) -&gt;</span>
-    <span class="nx">d</span><span class="p">.</span><span class="nx">changedID</span> <span class="o">?=</span> <span class="p">[]</span>
-    <span class="k">if</span> <span class="nx">d</span><span class="p">.</span><span class="nx">changedID</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span><span class="p">)</span> <span class="o">is</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="nx">d</span><span class="p">.</span><span class="nx">changedID</span><span class="p">.</span><span class="nx">push</span> <span class="nx">d</span><span class="p">.</span><span class="nx">activatedID</span>
+  constructor: (options) -&gt;
+    <span class="property">@core</span> = options.core</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>keydown editing cell</p>
 
-  <span class="nv">dragStart: </span><span class="nf">(tr, d) -&gt;</span>
-    <span class="vi">@initPosition = </span><span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">position</span><span class="p">()</span>
-    <span class="nx">@_makeRowDraggable</span><span class="p">(</span><span class="nx">tr</span><span class="p">)</span>
-    <span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">css</span>
-      <span class="nv">left: </span><span class="nx">@initPosition</span><span class="p">.</span><span class="nx">left</span>
-      <span class="nv">top: </span><span class="nx">@initPosition</span><span class="p">.</span><span class="nx">top</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>keydown: (node, d, column) -&gt;
+    <span class="keyword">switch</span> d3.event.keyCode
+      <span class="keyword">when</span> <span class="number">9</span>  <span class="keyword">then</span> <span class="property">@_handleTab</span>(node, d, column)
+      <span class="keyword">when</span> <span class="number">38</span> <span class="keyword">then</span> <span class="property">@_handleUpDown</span>(node, d, column,<span class="literal">false</span>)
+      <span class="keyword">when</span> <span class="number">40</span> <span class="keyword">then</span> <span class="property">@_handleUpDown</span>(node, d, column,<span class="literal">true</span>)
+      <span class="keyword">when</span> <span class="number">13</span> <span class="keyword">then</span> <span class="property">@_handleEnter</span>(node, d, column)
+      <span class="keyword">when</span> <span class="number">27</span> <span class="keyword">then</span> <span class="property">@_handleEscape</span>(node, d, column)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>move active cell left or right</p>
 
-  <span class="nv">_makeRowDraggable: </span><span class="nf">(tr) -&gt;</span>
-    <span class="nv">self = </span><span class="err">@</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_handleTab: (node, d, column) -&gt;
+    currentindex = <span class="property">@core</span>.utils.getCurrentColumnIndex d.activatedID</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>if shiftkey is not pressed, get next</p>
 
-    <span class="nv">rowWidth = </span><span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">width</span><span class="p">()</span>
-    <span class="nv">cellWidths = </span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span> <span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">),</span> <span class="nf">(td) -&gt;</span> <span class="nx">$</span><span class="p">(</span><span class="nx">td</span><span class="p">).</span><span class="nx">width</span><span class="p">()</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">classed</span><span class="p">(</span><span class="s1">&#39;dragged&#39;</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
-    <span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">width</span><span class="p">(</span><span class="nx">rowWidth</span><span class="p">)</span>
-    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span> <span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="s1">&#39;td&#39;</span><span class="p">),</span> <span class="nf">(td, i) -&gt;</span> <span class="nx">$</span><span class="p">(</span><span class="nx">td</span><span class="p">).</span><span class="nx">width</span><span class="p">(</span><span class="nx">cellWidths</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">if</span> d3.event.shiftKey <span class="keyword">is</span> <span class="literal">false</span>
+      index = <span class="property">@core</span>.utils.findEditableColumn d,currentindex+<span class="number">1</span>,<span class="literal">true</span>
+      <span class="keyword">if</span> index?
+        <span class="property">@core</span>._makeInactive node
+        d.activatedID = <span class="property">@core</span>.columns[index].id
+      <span class="keyword">else</span>
+        nextNode = <span class="property">@core</span>.utils.findNextNode d, <span class="property">@core</span>.nodes
+        <span class="keyword">if</span> nextNode?
+          index = <span class="property">@core</span>.utils.findEditableColumn nextNode,<span class="number">0</span>,<span class="literal">true</span>
+          <span class="keyword">if</span> index?
+            <span class="property">@core</span>._makeInactive node
+            d.activatedID = <span class="literal">null</span>
+            nextNode.activatedID = <span class="property">@core</span>.columns[index].id</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>if shiftkey is not pressed, get previous</p>
 
-    <span class="nv">onMouseOver = </span><span class="nf">(d, i) -&gt;</span>
-      <span class="nv">c = </span><span class="nx">self</span><span class="p">.</span><span class="nx">core</span>
-      <span class="nv">self.destinationIndex = </span><span class="nx">i</span>
-      <span class="nv">isDestination = </span><span class="nx">c</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">ourFunctor</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">isDragDestination</span><span class="p">(),</span> <span class="nx">d</span><span class="p">)</span>
-      <span class="nv">self.destination = </span><span class="p">(</span><span class="k">if</span> <span class="nx">isDestination</span> <span class="k">then</span> <span class="nx">d</span> <span class="k">else</span> <span class="kc">null</span><span class="p">)</span>
-      <span class="k">if</span> <span class="nx">isDestination</span>
-        <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="err">@</span><span class="p">).</span><span class="nx">classed</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">_draggableDestinationClass</span><span class="p">(),</span> <span class="kc">true</span><span class="p">)</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre><span class="keyword">else</span>
+      index = <span class="property">@core</span>.utils.findEditableColumn d,currentindex-<span class="number">1</span>,<span class="literal">false</span>
+      <span class="keyword">if</span> index?
+        <span class="property">@core</span>._makeInactive node
+        d.activatedID = <span class="property">@core</span>.columns[index].id
+      <span class="keyword">else</span>
+        prevNode = <span class="property">@core</span>.utils.findPrevNode d, <span class="property">@core</span>.nodes
+        <span class="keyword">if</span> prevNode?
+          start = <span class="property">@core</span>.columns.length-<span class="number">1</span>
+          index = <span class="property">@core</span>.utils.findEditableColumn prevNode,start,<span class="literal">false</span>
+          <span class="property">@core</span>._makeInactive node
+          prevNode.activatedID = <span class="property">@core</span>.columns[index].id
+          d.activatedID = <span class="literal">null</span>
+    d3.event.preventDefault()
+    d3.event.stopPropagation()
+    <span class="property">@core</span>.update()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>move active cell to next cell above</p>
 
-    <span class="nv">onMouseOut = </span><span class="nf">(d) -&gt;</span>
-      <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="err">@</span><span class="p">).</span><span class="nx">classed</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">_draggableDestinationClass</span><span class="p">(),</span> <span class="kc">false</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>FIXME pointer-events: none; does not work in IE -> needs a workaround</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nv">tableEl = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">el</span><span class="p">()</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="nx">tableEl</span> <span class="o">+</span> <span class="s1">&#39; tbody tr:not(.dragged)&#39;</span><span class="p">)</span>
-      <span class="p">.</span><span class="kc">on</span><span class="p">(</span><span class="s1">&#39;mouseover&#39;</span><span class="p">,</span> <span class="nx">onMouseOver</span><span class="p">)</span>
-      <span class="p">.</span><span class="kc">on</span><span class="p">(</span><span class="s1">&#39;mouseout&#39;</span><span class="p">,</span> <span class="nx">onMouseOut</span><span class="p">)</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_handleUpDown: (node, d, column,isUp) -&gt;
+    currentindex = <span class="property">@core</span>.utils.getCurrentColumnIndex d.activatedID
+    nextNode = <span class="property">@core</span>.utils.findEditableCell d,column,isUp
+    <span class="keyword">if</span> nextNode?
+      nextNode.activatedID = <span class="property">@core</span>.columns[currentindex].id
+      <span class="property">@core</span>._makeInactive node
+      d.activatedID = <span class="literal">null</span>
+    <span class="property">@core</span>.update()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>record change and deactivate</p>
 
-    <span class="k">if</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">dragMode</span><span class="p">()</span> <span class="o">is</span> <span class="s1">&#39;reorder&#39;</span>
-      <span class="nx">d3</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="nx">tableEl</span> <span class="o">+</span> <span class="s1">&#39; thead tr&#39;</span><span class="p">)</span>
-        <span class="p">.</span><span class="kc">on</span><span class="p">(</span><span class="s1">&#39;mouseover&#39;</span><span class="p">,</span> <span class="nx">onMouseOver</span><span class="p">)</span>
-        <span class="p">.</span><span class="kc">on</span><span class="p">(</span><span class="s1">&#39;mouseout&#39;</span><span class="p">,</span> <span class="nx">onMouseOut</span><span class="p">)</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_handleEnter: (node, d, column) -&gt;
+    <span class="property">@blur</span>(node, d, column)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>reset value and deactivate</p>
 
-  <span class="nv">_draggableDestinationClass: </span><span class="o">-&gt;</span>
-    <span class="nv">dragMode = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">dragMode</span><span class="p">()</span>
-    <span class="k">if</span> <span class="nx">dragMode</span><span class="o">?</span>
-      <span class="nx">dragMode</span> <span class="o">+</span> <span class="s1">&#39;-draggable-destination&#39;</span>
-    <span class="k">else</span>
-      <span class="s1">&#39;&#39;</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>_handleEscape: (node, d, column) -&gt;
+    d3.select(node).node().value = d[d.activatedID]
+    d.activatedID = <span class="literal">null</span>
+    <span class="property">@core</span>.update()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>record change and deactivate</p>
 
-  <span class="nv">dragMove: </span><span class="nf">(tr, d, x, y) -&gt;</span>
-    <span class="nx">$</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">css</span>
-      <span class="nv">left: </span><span class="nx">@initPosition</span><span class="p">.</span><span class="nx">left</span> <span class="o">+</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">x</span>
-      <span class="nv">top: </span><span class="nx">@initPosition</span><span class="p">.</span><span class="nx">top</span> <span class="o">+</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">y</span>
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>blur: (node, d, column) -&gt;
+    <span class="keyword">unless</span> <span class="property">@core</span>.table.isInRender
+      val = d3.select(node).text()
+      <span class="keyword">unless</span> val <span class="keyword">is</span> d[d.activatedID]
+        <span class="property">@_applyChangedState</span>(d)
+        column.onEdit(d.id, column.id, val) <span class="keyword">if</span> column.onEdit
+      d.activatedID = <span class="literal">null</span>
+      <span class="property">@core</span>.update()
 
-  <span class="nv">dragEnd: </span><span class="nf">(tr, d) -&gt;</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">tr</span><span class="p">).</span><span class="nx">classed</span><span class="p">(</span><span class="s1">&#39;dragged&#39;</span><span class="p">,</span> <span class="kc">false</span><span class="p">)</span>
-    <span class="nv">tableEl = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">el</span><span class="p">()</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">selectAll</span><span class="p">(</span><span class="nx">tableEl</span> <span class="o">+</span> <span class="s1">&#39; tbody tr, &#39;</span> <span class="o">+</span> <span class="nx">tableEl</span> <span class="o">+</span> <span class="s1">&#39; thead tr&#39;</span><span class="p">)</span>
-      <span class="p">.</span><span class="nx">classed</span><span class="p">(</span><span class="nx">@_draggableDestinationClass</span><span class="p">(),</span> <span class="kc">false</span><span class="p">)</span>
-      <span class="p">.</span><span class="kc">on</span><span class="p">(</span><span class="s1">&#39;mouseover&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span>
-      <span class="p">.</span><span class="kc">on</span><span class="p">(</span><span class="s1">&#39;mouseout&#39;</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span>
+  _applyChangedState: (d) -&gt;
+    d.changedID ?= []
+    <span class="keyword">if</span> d.changedID.indexOf(d.activatedID) <span class="keyword">is</span> -<span class="number">1</span>
+      d.changedID.push d.activatedID
 
-    <span class="k">if</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">onDrag</span>
-      <span class="nv">onDrag = </span><span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">onDrag</span><span class="p">()</span>
-      <span class="k">switch</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">table</span><span class="p">.</span><span class="nx">dragMode</span><span class="p">()</span>
-        <span class="k">when</span> <span class="s1">&#39;reorder&#39;</span> <span class="k">then</span> <span class="nx">onDrag</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">@destinationIndex</span><span class="p">)</span>
-        <span class="k">when</span> <span class="s1">&#39;hierarchy&#39;</span> <span class="k">then</span> <span class="nx">onDrag</span><span class="p">(</span><span class="nx">d</span><span class="p">,</span> <span class="nx">@destination</span><span class="p">)</span>
+  dragStart: (tr, d) -&gt;
+    <span class="property">@initPosition</span> = $(tr).position()
+    <span class="property">@_makeRowDraggable</span>(tr)
+    $(tr).css
+      left: <span class="property">@initPosition</span>.left
+      top: <span class="property">@initPosition</span>.top
 
-  <span class="nv">resizeDrag: </span><span class="nf">(context, node, d, _, unshift) -&gt;</span>
-    <span class="nv">th = </span><span class="nx">node</span><span class="p">.</span><span class="nx">parentNode</span>
-    <span class="nv">column_x = </span><span class="nb">parseFloat</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">th</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">))</span>
-    <span class="nv">column_newX = </span><span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">x</span> <span class="c1"># x + d3.event.dx</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>console.log column_newX</p>             </td>             <td class="code">               <div class="highlight"><pre>    <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">th</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="nx">column_newX</span> <span class="o">+</span> <span class="s2">&quot;px&quot;</span><span class="p">)</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">th</span><span class="p">).</span><span class="nx">style</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span> <span class="nx">column_newX</span> <span class="o">+</span> <span class="s2">&quot;px&quot;</span><span class="p">)</span></pre></div>             </td>           </tr>                               <tr id="section-13">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-13">&#182;</a>               </div>               <p>TODO: re-implement old approach
-if context.table.minWidth &lt; column<em>newX
-d3.select(th).attr("width", column</em>newX + "px")
-d3.select(th).style("width", column<em>newX + "px")
-index = parseInt(d3.select(th).attr("ref"))
-context.columns[index].width = column</em>newX + "px"
-table<em>x = parseFloat(context.tableObject.attr("width"))
-table</em>newX = table<em>x + (column</em>newX - column<em>x) #x + d3.event.dx
-context.tableObject.attr "width", table</em>newX+"px"
-context.tableObject.style "width", table_newX+"px"</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-14">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-14">&#182;</a>               </div>               <p>change row if class editable</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">editableClick: </span><span class="nf">(node, d, _, unshift) -&gt;</span>
-    <span class="nx">unless</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">node</span><span class="p">).</span><span class="nx">classed</span><span class="p">(</span><span class="s1">&#39;active&#39;</span><span class="p">)</span>
-      <span class="nx">@core</span><span class="p">.</span><span class="nx">utils</span><span class="p">.</span><span class="nx">deactivateAll</span> <span class="nx">@core</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-      <span class="nv">d.activatedID = </span><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">d3</span><span class="p">.</span><span class="nx">select</span><span class="p">(</span><span class="nx">node</span><span class="p">).</span><span class="nx">node</span><span class="p">()).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;meta-key&quot;</span><span class="p">)</span>
-      <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span>
-      <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">()</span>
-      <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span></pre></div>             </td>           </tr>                               <tr id="section-15">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-15">&#182;</a>               </div>               <p>toggle nested</p>             </td>             <td class="code">               <div class="highlight"><pre>  <span class="nv">nestedClick: </span><span class="nf">(node,d, _, unshift) -&gt;</span>
-    <span class="k">if</span> <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">shiftKey</span> <span class="o">and</span> <span class="o">not</span> <span class="nx">unshift</span></pre></div>             </td>           </tr>                               <tr id="section-16">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-16">&#182;</a>               </div>               <p>Shift-click to toggle fold all children, instead of itself</p>             </td>             <td class="code">               <div class="highlight"><pre>      <span class="nv">self = </span><span class="err">@</span>
-      <span class="k">if</span> <span class="nx">d</span><span class="p">.</span><span class="nx">values</span>
-        <span class="nx">d</span><span class="p">.</span><span class="nx">values</span><span class="p">.</span><span class="nx">forEach</span> <span class="nf">(node) -&gt;</span>
-          <span class="nx">self</span><span class="p">.</span><span class="nx">nestedClick</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="nx">node</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span> <span class="k">if</span> <span class="nx">node</span><span class="p">.</span><span class="nx">values</span> <span class="o">or</span> <span class="nx">node</span><span class="p">.</span><span class="nx">_values</span>
-    <span class="k">else</span>
-      <span class="k">if</span> <span class="nx">d</span><span class="p">.</span><span class="nx">values</span>
-        <span class="nv">d._values = </span><span class="nx">d</span><span class="p">.</span><span class="nx">values</span>
-        <span class="nv">d.values = </span><span class="kc">null</span>
-      <span class="k">else</span>
-        <span class="nv">d.values = </span><span class="nx">d</span><span class="p">.</span><span class="nx">_values</span>
-        <span class="nv">d._values = </span><span class="kc">null</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">()</span>
-    <span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">stopPropagation</span><span class="p">()</span>
+  _makeRowDraggable: (tr) -&gt;
+    self = @
 
-  <span class="nv">toggleBoolean: </span><span class="nf">(node, d, _, unshift, column) -&gt;</span>
-    <span class="nx">column</span><span class="p">.</span><span class="nx">onEdit</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">column</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="o">not</span> <span class="nx">d</span><span class="p">[</span><span class="nx">column</span><span class="p">.</span><span class="nx">id</span><span class="p">])</span> <span class="k">if</span> <span class="nx">column</span><span class="p">.</span><span class="nx">onEdit</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span>
+    rowWidth = $(tr).width()
+    cellWidths = _.map $(tr).find(<span class="string">'td'</span>), (td) -&gt; $(td).width()
+    d3.select(tr).classed(<span class="string">'dragged'</span>, <span class="literal">true</span>)
+    $(tr).width(rowWidth)
+    _.each $(tr).find(<span class="string">'td'</span>), (td, i) -&gt; $(td).width(cellWidths[i])
 
-  <span class="nv">selectClick: </span><span class="nf">(node, d, _, unshift, column) -&gt;</span>
-    <span class="nv">val = </span><span class="nx">d3</span><span class="p">.</span><span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span>
-    <span class="nx">unless</span> <span class="nx">val</span> <span class="o">is</span> <span class="nx">d</span><span class="p">[</span><span class="nx">column</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span>
-      <span class="nx">column</span><span class="p">.</span><span class="nx">onEdit</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">column</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span> <span class="k">if</span> <span class="nx">column</span><span class="p">.</span><span class="nx">onEdit</span>
-    <span class="nx">@core</span><span class="p">.</span><span class="nx">update</span><span class="p">()</span>
+    <span class="function"><span class="title">onMouseOver</span></span> = (d, i) -&gt;
+      c = self.core
+      self.destinationIndex = i
+      isDestination = c.utils.ourFunctor(c.table.isDragDestination(), d)
+      self.destination = (<span class="keyword">if</span> isDestination <span class="keyword">then</span> d <span class="keyword">else</span> <span class="literal">null</span>)
+      <span class="keyword">if</span> isDestination
+        d3.select(@).classed(self._draggableDestinationClass(), <span class="literal">true</span>)
 
-</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 
+    <span class="function"><span class="title">onMouseOut</span></span> = (d) -&gt;
+      d3.select(@).classed(self._draggableDestinationClass(), <span class="literal">false</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>FIXME pointer-events: none; does not work in IE -&gt; needs a workaround</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>tableEl = <span class="property">@core</span>.table.el()
+    d3.selectAll(tableEl + <span class="string">' tbody tr:not(.dragged)'</span>)
+      .<span class="literal">on</span>(<span class="string">'mouseover'</span>, onMouseOver)
+      .<span class="literal">on</span>(<span class="string">'mouseout'</span>, onMouseOut)
+
+    <span class="keyword">if</span> <span class="property">@core</span>.table.dragMode() <span class="keyword">is</span> <span class="string">'reorder'</span>
+      d3.selectAll(tableEl + <span class="string">' thead tr'</span>)
+        .<span class="literal">on</span>(<span class="string">'mouseover'</span>, onMouseOver)
+        .<span class="literal">on</span>(<span class="string">'mouseout'</span>, onMouseOut)
+
+  _draggableDestinationClass: -&gt;
+    dragMode = <span class="property">@core</span>.table.dragMode()
+    <span class="keyword">if</span> dragMode?
+      dragMode + <span class="string">'-draggable-destination'</span>
+    <span class="keyword">else</span>
+      <span class="string">''</span>
+
+  dragMove: (tr, d, x, y) -&gt;
+    $(tr).css
+      left: <span class="property">@initPosition</span>.left + d3.event.x
+      top: <span class="property">@initPosition</span>.top + d3.event.y
+
+  dragEnd: (tr, d) -&gt;
+    d3.select(tr).classed(<span class="string">'dragged'</span>, <span class="literal">false</span>)
+    tableEl = <span class="property">@core</span>.table.el()
+    d3.selectAll(tableEl + <span class="string">' tbody tr, '</span> + tableEl + <span class="string">' thead tr'</span>)
+      .classed(<span class="property">@_draggableDestinationClass</span>(), <span class="literal">false</span>)
+      .<span class="literal">on</span>(<span class="string">'mouseover'</span>, <span class="literal">null</span>)
+      .<span class="literal">on</span>(<span class="string">'mouseout'</span>, <span class="literal">null</span>)
+
+    <span class="keyword">if</span> <span class="property">@core</span>.table.onDrag
+      onDrag = <span class="property">@core</span>.table.onDrag()
+      <span class="keyword">switch</span> <span class="property">@core</span>.table.dragMode()
+        <span class="keyword">when</span> <span class="string">'reorder'</span> <span class="keyword">then</span> onDrag(d, <span class="property">@destinationIndex</span>)
+        <span class="keyword">when</span> <span class="string">'hierarchy'</span> <span class="keyword">then</span> onDrag(d, <span class="property">@destination</span>)
+
+  resizeDrag: (node) -&gt;
+    th = node.parentNode
+    old_width_left = parseFloat(d3.select(th).style(<span class="string">"width"</span>))
+    old_width_right = parseFloat(d3.select(th.nextSibling).style(<span class="string">"width"</span>))
+    new_width_left = d3.event.x
+    new_width_right = old_width_left + old_width_right - new_width_left
+
+    notTooSmall = new_width_left &gt; <span class="property">@core</span>.table._minColumnWidth <span class="keyword">and</span>
+      new_width_right &gt; <span class="property">@core</span>.table._minColumnWidth
+    <span class="keyword">if</span> notTooSmall
+      d3.select(th).attr(<span class="string">"width"</span>, new_width_left + <span class="string">"px"</span>)
+      d3.select(th).style(<span class="string">"width"</span>, new_width_left + <span class="string">"px"</span>)
+      d3.select(th.nextSibling).attr(<span class="string">"width"</span>, new_width_right + <span class="string">"px"</span>)
+      d3.select(th.nextSibling).style(<span class="string">"width"</span>, new_width_right + <span class="string">"px"</span>)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>change row if class editable</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>editableClick: (node, d, _, unshift) -&gt;
+    <span class="keyword">unless</span> d3.select(node).classed(<span class="string">'active'</span>)
+      <span class="property">@core</span>.utils.deactivateAll <span class="property">@core</span>.data[<span class="number">0</span>]
+      d.activatedID = d3.select(d3.select(node).node()).attr(<span class="string">"meta-key"</span>)
+      <span class="property">@core</span>.update()
+      d3.event.stopPropagation()
+      d3.event.preventDefault()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>toggle nested</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>nestedClick: (node,d, _, unshift) -&gt;
+    <span class="keyword">if</span> d3.event.shiftKey <span class="keyword">and</span> <span class="keyword">not</span> unshift</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Shift-click to toggle fold all children, instead of itself</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>self = @
+      <span class="keyword">if</span> d.values
+        d.values.forEach (node) -&gt;
+          self.nestedClick(<span class="keyword">this</span>, node, <span class="number">0</span>, <span class="literal">true</span>) <span class="keyword">if</span> node.values <span class="keyword">or</span> node._values
+    <span class="keyword">else</span>
+      <span class="keyword">if</span> d.values
+        d._values = d.values
+        d.values = <span class="literal">null</span>
+      <span class="keyword">else</span>
+        d.values = d._values
+        d._values = <span class="literal">null</span>
+    <span class="property">@core</span>.update()
+    d3.event.preventDefault()
+    d3.event.stopPropagation()
+
+  toggleBoolean: (node, d, _, unshift, column) -&gt;
+    column.onEdit(d.id, column.id, <span class="keyword">not</span> d[column.id]) <span class="keyword">if</span> column.onEdit
+    <span class="property">@core</span>.update()
+
+  selectClick: (node, d, _, unshift, column) -&gt;
+    val = d3.event.target.value
+    <span class="keyword">unless</span> val <span class="keyword">is</span> d[column.id]
+      column.onEdit(d.id, column.id, val) <span class="keyword">if</span> column.onEdit
+    <span class="property">@core</span>.update()
+
+  buttonClick: (node, d, _, unshift, column) -&gt;
+    val = d3.event.target.value
+    column.onClick(d.id, column.id, val) <span class="keyword">if</span> column.onClick
+    <span class="property">@core</span>.update()
+
+  toggleSort: (el,column)-&gt;
+    column.desc = !column.desc</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>disable sort for all columns</p>
+
+            </div>
+            
+            <div class="content"><div class="highlight"><pre>d3.selectAll(<span class="string">'.sorted-desc'</span>).classed(<span class="string">'sorted-desc'</span>,<span class="literal">false</span>)
+    d3.selectAll(<span class="string">'.sorted-asc'</span>).classed(<span class="string">'sorted-asc'</span>,<span class="literal">false</span>)
+    d3.selectAll(<span class="string">'th'</span>).filter (d)-&gt;
+      <span class="keyword">if</span> d.id <span class="keyword">isnt</span> column.id
+        d.desc = <span class="literal">null</span>
+
+    <span class="property">@core</span>.table.sort column.id, column.desc</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
