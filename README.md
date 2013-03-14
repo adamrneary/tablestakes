@@ -1,9 +1,7 @@
 # Tablestakes
-
 A bad-ass interactive grid platform.
 
 ## The five-minute setup.
-
 Check your system for local requirements (run until it passes!):
 
     script/bootstrap
@@ -19,21 +17,18 @@ Run the project locally (with tests and watcher):
 Then navigate to the [showcase](http://localhost:5000).
 
 ## Contributing
+Please (please please please) read the following sections on our wiki:
 
-To contribute to Tablestakes, please follow these instructions.
+* [Welcome to Activecell](https://github.com/activecell/activecell/wiki)
+* [Activecell "flow"](https://github.com/activecell/activecell/wiki/flow)
+* [Our approach to agile](https://github.com/activecell/activecell/wiki/agile)
+* [Our toolset](https://github.com/activecell/activecell/wiki/tools)
+* [Quality](https://github.com/activecell/activecell/wiki/Quality)
+* [Style Guide](https://launchpad.activecell.com/admin/styleguide)
 
-1. Complete the **five-minute setup** above.
-1. Create a thoughtfully named topic branch to contain your change
-1. Hack away
-1. Add tests and make sure everything still passes by running `npm test`
-1. If necessary, [rebase your commits into logical chunks](https://help.github.com/articles/interactive-rebase), without errors
-1. Push the branch up to GitHub
-1. Send a pull request for your branch
-
-**Note: You don't have to fork the project in order to create a branch and a pull request!**
+There's so much good information in there! You'll learn so much! :-)
 
 ### Hacking on the source
-
 * Source for the library is in src/coffee/
 * Tests for the library are in test/
 * Showcase files are in examples/public/coffee/

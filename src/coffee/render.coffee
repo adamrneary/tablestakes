@@ -69,7 +69,11 @@ class window.TableStakesLib.Core
           .style('width', (d) -> d.width)
 
     # for now, either all columns are resizable or none, set in table config
-    theadRow.selectAll("th").call(@_makeResizable) if @table.isResizable()
+    allTh = theadRow.selectAll("th")
+    @_makeResizable(allTh) if @table.isResizable()
+    sortable = allTh.filter (d)->
+      d.isSortable
+    @_makeSortable(sortable)
     @
 
   # responsible for &lt;tbody&gt; and contents
@@ -127,7 +131,16 @@ class window.TableStakesLib.Core
   _renderEnterRows: ->
     self = @
     @columns.forEach (column, column_index) =>
+      text = (d) ->
+        if column.format
+          column.format d
+        else
+          d[column.id] or '-'
+
       @enterRows.append('td')
+        .attr('meta-key', column.id)
+        .attr('class', (d) => @_cellClasses(d, column))
+        .html(text)
         .each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
@@ -136,17 +149,14 @@ class window.TableStakesLib.Core
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
-    d3.select(td)
-      .attr('meta-key', column.id)
-      .attr('class', (d) => @_cellClasses(d, column))
-      .text((d) -> d[column.id] or '-')
-
+    isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
-    if @utils.ourFunctor(column.isEditable, d,column)
-      @_makeEditable(d, td, column)
+    @_makeEditable(d, td, column) if isEditable
+
     @_makeChanged(d, td, column)
-    @_makeBoolean(d, td, column) if column.editor is 'boolean'
-    @_makeSelect(d, td, column) if column.editor is 'select'
+    @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
+    @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
+    @_makeButton(d, td, column) if column.editor is 'button' and isEditable
     @_addShowCount(d, td, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
@@ -249,11 +259,17 @@ class window.TableStakesLib.Core
     # todo: clean up contexts
     self = @
     dragBehavior = d3.behavior.drag()
-      .on("drag", (a,b,c) -> self.events.resizeDrag(self,@,a,b,c))
-    th.classed('resizeable',true)
+      .on("drag", -> self.events.resizeDrag(@))
+    handlers = th.classed('resizeable',true)
       .append("div")
       .classed('resizeable-handle right', true)
       .call dragBehavior
+    #remove last handle
+    removable = handlers[0] and
+      handlers[0][handlers[0].length-1] and
+      handlers[0][handlers[0].length-1].remove
+    if removable
+      handlers[0][handlers[0].length-1].remove()
 
   # ### Cell-level transform methods
 
@@ -276,17 +292,28 @@ class window.TableStakesLib.Core
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
 
-    @_makeActive(d, td, column) if d.activatedID is column.id
+    if d.activatedID is column.id
+      @_makeActive(d, td, column)
+    else
+      @_makeInactive(td)
 
   _makeActive: (d, td, column) ->
     self = @
+
     d3.select(td)
       .classed('active', true)
+      .text((d) -> d[column.id] or '-')
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
       .on('blur', (d) -> self.events.blur(this, d, column))
       .node()
         .focus()
+
+  _makeInactive: (node) ->
+    self = @
+    d3.select(node)
+      .classed('active', false)
+      .attr('contentEditable', false)
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
@@ -310,13 +337,32 @@ class window.TableStakesLib.Core
         .style('cursor', 'pointer')
         .text(item)
 
-    select.on('change', (a,b,c) => @events.selectClick(@,a,b,c,column))
+    select.on('change', (a, b, c) => @events.selectClick(@, a, b, c, column))
+
+  _makeButton: (d, td, column) ->
+    classes = 'btn btn-mini btn-primary'
+    html = "<input type='button' value='#{column.label}' class='#{classes}' />"
+    select = d3.select(td)
+      .html(html)
+      .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
   _makeBoolean: (d, td, column) ->
     d3.select(td)
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
-      .on('click', (a,b,c) => @events.toggleBoolean(@,a,b,c,column))
+      .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
+
+  _makeSortable: (allTh)->
+    self = @
+    allTh.classed('sortable',true)
+    sorted = allTh.filter (column)->
+      column.desc?
+    if sorted[0] and sorted[0].length > 0
+      desc = sorted.data()[0].desc
+      sorted.classed('sorted-asc',desc)
+      sorted.classed('sorted-desc',!desc)
+    allTh.on 'click', (a,b,c)->
+      self.events.toggleSort @,a,b,c
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length

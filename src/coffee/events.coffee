@@ -20,24 +20,28 @@ class window.TableStakesLib.Events
     if d3.event.shiftKey is false
       index = @core.utils.findEditableColumn d,currentindex+1,true
       if index?
+        @core._makeInactive node
         d.activatedID = @core.columns[index].id
       else
         nextNode = @core.utils.findNextNode d, @core.nodes
         if nextNode?
           index = @core.utils.findEditableColumn nextNode,0,true
           if index?
+            @core._makeInactive node
             d.activatedID = null
             nextNode.activatedID = @core.columns[index].id
     # if shiftkey is not pressed, get previous
     else
       index = @core.utils.findEditableColumn d,currentindex-1,false
       if index?
+        @core._makeInactive node
         d.activatedID = @core.columns[index].id
       else
         prevNode = @core.utils.findPrevNode d, @core.nodes
         if prevNode?
           start = @core.columns.length-1
           index = @core.utils.findEditableColumn prevNode,start,false
+          @core._makeInactive node
           prevNode.activatedID = @core.columns[index].id
           d.activatedID = null
     d3.event.preventDefault()
@@ -50,6 +54,7 @@ class window.TableStakesLib.Events
     nextNode = @core.utils.findEditableCell d,column,isUp
     if nextNode?
       nextNode.activatedID = @core.columns[currentindex].id
+      @core._makeInactive node
       d.activatedID = null
     @core.update()
 
@@ -142,24 +147,20 @@ class window.TableStakesLib.Events
         when 'reorder' then onDrag(d, @destinationIndex)
         when 'hierarchy' then onDrag(d, @destination)
 
-  resizeDrag: (context, node, d, _, unshift) ->
+  resizeDrag: (node) ->
     th = node.parentNode
-    column_x = parseFloat(d3.select(th).attr("width"))
-    column_newX = d3.event.x # x + d3.event.dx
-    #console.log column_newX
-    d3.select(th).attr("width", column_newX + "px")
-    d3.select(th).style("width", column_newX + "px")
+    old_width_left = parseFloat(d3.select(th).style("width"))
+    old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
+    new_width_left = d3.event.x
+    new_width_right = old_width_left + old_width_right - new_width_left
 
-    # TODO: re-implement old approach
-    # if context.table.minWidth < column_newX
-      # d3.select(th).attr("width", column_newX + "px")
-      # d3.select(th).style("width", column_newX + "px")
-      # index = parseInt(d3.select(th).attr("ref"))
-      # context.columns[index].width = column_newX + "px"
-      # table_x = parseFloat(context.tableObject.attr("width"))
-      # table_newX = table_x + (column_newX - column_x) #x + d3.event.dx
-      # context.tableObject.attr "width", table_newX+"px"
-      # context.tableObject.style "width", table_newX+"px"
+    notTooSmall = new_width_left > @core.table._minColumnWidth and
+      new_width_right > @core.table._minColumnWidth
+    if notTooSmall
+      d3.select(th).attr("width", new_width_left + "px")
+      d3.select(th).style("width", new_width_left + "px")
+      d3.select(th.nextSibling).attr("width", new_width_right + "px")
+      d3.select(th.nextSibling).style("width", new_width_right + "px")
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->
@@ -198,3 +199,20 @@ class window.TableStakesLib.Events
     unless val is d[column.id]
       column.onEdit(d.id, column.id, val) if column.onEdit
     @core.update()
+
+  buttonClick: (node, d, _, unshift, column) ->
+    val = d3.event.target.value
+    column.onClick(d.id, column.id, val) if column.onClick
+    @core.update()
+
+  toggleSort: (el,column)->
+    column.desc = !column.desc
+
+    #disable sort for all columns
+    d3.selectAll('.sorted-desc').classed('sorted-desc',false)
+    d3.selectAll('.sorted-asc').classed('sorted-asc',false)
+    d3.selectAll('th').filter (d)->
+      if d.id isnt column.id
+        d.desc = null
+
+    @core.table.sort column.id, column.desc
