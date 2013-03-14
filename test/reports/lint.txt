@@ -21,7 +21,8 @@
   ✓ [1m[32m./src/coffee/column.coffee[39m[22m
   ✓ [1m[32m./src/coffee/events.coffee[39m[22m
   ✓ [1m[32m./src/coffee/render.coffee[39m[22m
-  ✓ [1m[32m./src/coffee/tablestakes.coffee[39m[22m
+  ✗ [1m[31m./src/coffee/tablestakes.coffee[39m[22m
+     ✗ [31m#193[39m: Line contains inconsistent indentation. Expected 2 got 4.
   ✓ [1m[32m./src/coffee/utils.coffee[39m[22m
   ✓ [1m[32m./test/index.coffee[39m[22m
   ✓ [1m[32m./test/integration/base.coffee[39m[22m
@@ -45,5 +46,5 @@
   ✓ [1m[32m./test/unit/tablestakes_test.coffee[39m[22m
   ✓ [1m[32m./test/unit/utils_test.coffee[39m[22m
 
-✓ [1m[32mOk![39m[22m » 0 errors and 0 warnings in 45 files
+✗ [1m[31mLint![39m[22m » 1 error and 0 warnings in 45 files
 

@@ -185,11 +185,11 @@ class window.TableStakes
   displayColumns: (periods,show)->
     if typeof periods is 'string'
       periods = [periods]
-    return unless periods[0]
+    periods = _.first(_.pluck(@_columns, 'id'), 12) if periods.length is 0
+
     show = true unless show?
     for column in @_columns
-      for period in periods
-        if column.id is period
+      if column.timeSeries && column.id not in periods
           hidden = 'hidden'
           column.classes = '' unless column.classes
           i1 = column.classes.indexOf(hidden)
@@ -200,7 +200,6 @@ class window.TableStakes
           else
             if i1 isnt -1
               column.classes = column.classes.replace hidden, ''
-          break
     @
 
   # builds getter/setter methods (initialized with defaults)

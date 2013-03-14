@@ -57,7 +57,7 @@ data = [
   }
 ];
 
-availableTimeframe = ['mar', 'apr'];
+availableTimeframe = ['feb', 'mar', 'apr'];
 
 labelFunction = function(label) {
   return label.toUpperCase();
@@ -70,8 +70,7 @@ columns = [
     classes: "row-heading"
   }, {
     timeSeries: availableTimeframe,
-    label: labelFunction,
-    classes: 'well'
+    label: labelFunction
   }
 ];
 

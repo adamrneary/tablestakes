@@ -52,7 +52,7 @@ data = [
   apr: 'apr1'
 ]
 
-availableTimeframe = ['mar', 'apr']
+availableTimeframe = ['feb', 'mar', 'apr']
 labelFunction = (label)->
   label.toUpperCase()
 
@@ -63,7 +63,6 @@ columns = [
 ,
   timeSeries: availableTimeframe
   label: labelFunction
-  classes: 'well'
 ]
 
 grid = new window.TableStakes()
