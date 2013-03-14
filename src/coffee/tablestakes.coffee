@@ -187,8 +187,39 @@ class window.TableStakes
     @_columns = []
     val = [val] unless _.isArray(val)
     _.each val, (column) =>
-      c = new window.TableStakesLib.Column(column)
-      @_columns.push c
+      if column.timeSeries
+        for label in column.timeSeries
+          _column = _.clone column
+          _column.id = label
+          if typeof column.label is 'function'
+            _column.label = column.label(label)
+          else
+            _column.label = label
+          c = new window.TableStakesLib.Column(_column)
+          @_columns.push c
+      else
+        c = new window.TableStakesLib.Column(column)
+        @_columns.push c
+    @
+
+  displayColumns: (periods,show)->
+    if typeof periods is 'string'
+      periods = [periods]
+    periods = _.first(_.pluck(@_columns, 'id'), 12) if periods.length is 0
+
+    show = true unless show?
+    for column in @_columns
+      if column.timeSeries && column.id not in periods
+          hidden = 'hidden'
+          column.classes = '' unless column.classes
+          i1 = column.classes.indexOf(hidden)
+          i2 = 'hidden'.length
+          unless show
+            if i1 is -1
+              column.classes += ' '+hidden
+          else
+            if i1 isnt -1
+              column.classes = column.classes.replace hidden, ''
     @
 
   # builds getter/setter methods (initialized with defaults)
