@@ -83,6 +83,10 @@ describe "Events", ->
       d.id = 'test'
   }
 
+  before (done)->
+    d3.select('body').append('div').attr('id','example')
+    done()
+
   it 'window.TableStakesLib.Events is function', (done)->
     assert window.TableStakesLib
     assert typeof window.TableStakesLib.Events is 'function'
