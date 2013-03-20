@@ -1,80 +1,158 @@
 data = [
   id: "nerds for good"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Simple Line"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Scatter / Bubble"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Stacked / Stream / Expanded Area"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Discrete Bar"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Grouped / Stacked Multi-Bar"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Horizontal Grouped Bar"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Line and Bar Combo"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Cumulative Line"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Line with View Finder"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "Legend"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "New Root"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ,
   id: "1"
-  mar: "mar1"
-  apr: 'apr1'
+  nov: "nov1"
+  dec: "dec1"
+  jan: "jan1"
 ]
 
-availableTimeframe = ['feb', 'mar', 'apr']
+availableTimeframe = [
+  new Date(2012,  9, 1),
+  new Date(2012, 10, 1),
+  new Date(2012, 11, 1),
+  new Date(2013,  0, 1),
+  new Date(2013,  1, 1)
+]
+#availableTimeframe = ['feb', 'mar', 'apr'] #reformat to dates array
 labelFunction = (label)->
-  label.toUpperCase()
+  id: label.toDateString().split(' ')[1].toLowerCase()
+  label: label.toDateString().split(' ')[1].toUpperCase()
+
+labelFunctionYear = (label)->
+  id: label.toDateString().split(' ')[1].toLowerCase()
+  label: label.getFullYear().toString()
 
 columns = [
-  id: "id"
-  label: "Name"
-  classes: "row-heading"
+  col: [
+    id: "id"
+    label: "Name"
+    classes: ""
+  ,
+    timeSeries: availableTimeframe
+    label: labelFunctionYear
+  ],
+  headClasses: 'secondary'
 ,
-  timeSeries: availableTimeframe
-  label: labelFunction
+  col: [
+    id: "id"
+    label: "Name"
+    classes: "row-heading"
+  ,
+    timeSeries: availableTimeframe
+    label: labelFunction
+    classes: "well"
+  ],
+  headClasses: 'row-heading'
 ]
+#columns = [
+#  id: "id"
+#  label: "Name"
+#  classes: "row-heading"
+#,
+#  timeSeries: availableTimeframe
+#  label: labelFunction
+#  classes: "well"
+#]
 
 grid = new window.TableStakes()
   .el("#example")
-  .columns(columns)
+#  .columns(columns)
+  .headRows(columns)
   .data(data)
   .render()
 
-displayPeriods = ['mar']
+displayPeriods = [
+  new Date(2012, 10, 1),
+  new Date(2012, 11, 1),
+  new Date(2013,  0, 1)]
+#displayPeriods = ['mar']
 #displayPeriods = 'mar'
 
 toggle = true
+
+yearDisplay = (column) ->
+  # Table header row filter function. Returns label for column.
+  unless !!column.timeSeries
+    label = ""
+  else
+    period = if toggle then availableTimeframe else displayPeriods
+    first = _.chain(period)
+      .filter((date) -> date.getFullYear().toString() is column.label)
+      .first()
+      .value()
+    first = _.first(period) unless !!first
+
+    first = labelFunctionYear(first)
+    if column.id is first.id
+      label = first.label
+    else
+      label = ""
+  label
+
+grid.headRowsFilter(yearDisplay).render()
+
 $('<button>display/hide</button>').appendTo('#temp').on 'click', (e)->
   toggle = !toggle
-  grid.displayColumns(displayPeriods,toggle).render()
+  grid.displayColumns(_.map(displayPeriods, (value, key, list) ->
+    value.toDateString().split(' ')[1].toLowerCase()
+  ),toggle).render()
+  grid.headRowsFilter(yearDisplay).render()

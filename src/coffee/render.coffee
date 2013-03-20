@@ -12,6 +12,7 @@ class window.TableStakesLib.Core
     @selection = options.selection
     @data = options.data
     @columns = @table.columns()
+    @headRows = @table.headRows()
 
   update: ->
     @table.isInRender = true
@@ -51,22 +52,47 @@ class window.TableStakesLib.Core
   _renderHead: (tableObject) ->
     self = @
 
-    # create table header and row
-    theadRow = tableObject.selectAll("thead")
-      .data((d) -> d)
-      .enter()
-        .append("thead")
-        .append("tr")
+    # create table header
+#    thead = tableObject.selectAll('thead')
+#      .data((d)->d)
+#      .enter()
+#        .append('thead')
+    thead = tableObject
+      .append('thead')
 
-    # append a &lt;th&gt; for each column
-    th = theadRow.selectAll("th")
-      .data(@columns)
-      .enter()
-        .append("th")
-          .text((d) -> d.label)
-          .attr("ref", (d,i) -> i)
-          .attr("class", (d) => @_columnClasses(d))
-          .style('width', (d) -> d.width)
+    if !@headRows
+      # create table header row
+      theadRow = thead.selectAll("thead")
+        .data((d) -> d)
+        .enter()
+          .append("tr")
+
+      # append a &lt;th&gt; for each column
+      th = theadRow.selectAll("th")
+        .data(@columns)
+        .enter()
+          .append("th")
+            .text((d) -> d.label)
+            .attr("ref", (d,i) -> i)
+            .attr("class", (d) => @_columnClasses(d))
+            .style('width', (d) -> d.width)
+    else
+      # create table header row
+      theadRow = thead.selectAll("thead")
+        .data(@headRows)
+        .enter()
+          .append("tr")
+            .attr("class", (d) -> d.headClasses)
+
+      # append a &lt;th&gt; for each column
+      th = theadRow.selectAll("th")
+        .data((row) -> row.columns)
+        .enter()
+          .append("th")
+            .text((d) -> d.label)
+            .attr("ref", (d,i) -> i)
+            .attr("class", (d) => @_columnClasses(d))
+            .style('width', (d) -> d.width)
 
     # for now, either all columns are resizable or none, set in table config
     allTh = theadRow.selectAll("th")

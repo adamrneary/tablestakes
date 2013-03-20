@@ -188,13 +188,14 @@ class window.TableStakes
     val = [val] unless _.isArray(val)
     _.each val, (column) =>
       if column.timeSeries
-        for label in column.timeSeries
+        for item in column.timeSeries
           _column = _.clone column
-          _column.id = label
           if typeof column.label is 'function'
-            _column.label = column.label(label)
+            _column.id =  column.label(item).id
+            _column.label = column.label(item).label
           else
-            _column.label = label
+            _column.id =  item.label
+            _column.label = item.label
           c = new window.TableStakesLib.Column(_column)
           @_columns.push c
       else
@@ -202,14 +203,38 @@ class window.TableStakes
         @_columns.push c
     @
 
-  displayColumns: (periods,show)->
-    if typeof periods is 'string'
-      periods = [periods]
-    periods = _.first(_.pluck(@_columns, 'id'), 12) if periods.length is 0
+  headRows: (val) ->
+    return @_headRows unless val?
 
-    show = true unless show?
-    for column in @_columns
-      if column.timeSeries && column.id not in periods
+    @_headRows = []
+    val = [val] unless _.isArray(val)
+
+    _.each val, (row, i) =>
+      @columns(row.col)
+      _row = _.clone row
+      _row.columns = @columns()
+      r = new window.TableStakesLib.HeadRow(_row)
+      @_headRows.push r
+    @
+
+  headRowsFilter: (callback) ->
+    # TODO: алгоритм
+    # последовательный перебор @_headRows элементов
+    # Если show:
+    #   Оставить label первого элемента TimeFrame, остальные удалить
+    #   Записать label для элемента, совмещенного с январем
+    # Иначе
+    #   Оставить label первого элемента TimeFrame, найденного в displayPeriod,
+    #     остальные удалить
+    #   Записать label для элемента, совмещенного с январем
+    _.each _.first(@_headRows).columns, (column) ->
+      column.label = callback(column)
+    @
+
+  displayColumns: (periods,show)->
+    hideColumns = (columns, periods, show) ->
+      _.each columns, (column, i) ->
+        if !!column.timeSeries && column.id not in periods
           hidden = 'hidden'
           column.classes = '' unless column.classes
           i1 = column.classes.indexOf(hidden)
@@ -220,6 +245,24 @@ class window.TableStakes
           else
             if i1 isnt -1
               column.classes = column.classes.replace hidden, ''
+      @
+    if typeof periods is 'string'
+      periods = [periods]
+
+    if periods.length is 0
+      periods = _.chain(@_columns)
+        .filter( (col)-> !!col.timeSeries)
+        .pluck('timeSeries')
+        .first()
+        .first(12)
+        .value()
+
+    show = true unless show?
+    if !!@_headRows
+      _.each @_headRows, (row) ->
+        hideColumns(row.columns, periods, show)
+    else
+      hideColumns(@_columns)
     @
 
   # builds getter/setter methods (initialized with defaults)
