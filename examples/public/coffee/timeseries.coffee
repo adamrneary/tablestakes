@@ -99,7 +99,6 @@ columns = [
   ,
     timeSeries: availableTimeframe
     label: labelFunction
-    classes: "well"
   ],
   headClasses: 'row-heading'
 ]
