@@ -53,19 +53,15 @@ class window.TableStakesLib.Core
     self = @
 
     # create table header
-#    thead = tableObject.selectAll('thead')
-#      .data((d)->d)
-#      .enter()
-#        .append('thead')
-    thead = tableObject
-      .append('thead')
+    thead = tableObject.selectAll('thead')
+      .data((d)->d)
+      .enter()
+        .append('thead')
 
     if !@headRows
       # create table header row
-      theadRow = thead.selectAll("thead")
-        .data((d) -> d)
-        .enter()
-          .append("tr")
+      theadRow = thead
+        .append("tr")
 
       # append a &lt;th&gt; for each column
       th = theadRow.selectAll("th")
