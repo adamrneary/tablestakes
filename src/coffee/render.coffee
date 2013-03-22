@@ -154,7 +154,10 @@ class window.TableStakesLib.Core
     self = @
     @columns.forEach (column, column_index) =>
       text = (d) ->
-        if column.format
+        if column.timeSeries? and d.period? and d.dataValue?
+          index = d.period.indexOf(column.id)
+          d.dataValue[index]
+        else if column.format
           column.format d
         else
           d[column.id] or '-'

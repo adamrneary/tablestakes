@@ -190,12 +190,12 @@ class window.TableStakes
       if column.timeSeries
         for item in column.timeSeries
           _column = _.clone column
-          if typeof column.label is 'function'
-            _column.id =  column.label(item).id
-            _column.label = column.label(item).label
+          if column.label? and typeof column.label is 'function'
+            _column.id = item
+            _column.label = column.label item
           else
-            _column.id =  item.label
-            _column.label = item.label
+            _column.id =  item
+            _column.label = new Date(item).toDateString().split(' ')[1]
           c = new window.TableStakesLib.Column(_column)
           @_columns.push c
       else
@@ -218,15 +218,8 @@ class window.TableStakes
     @
 
   headRowsFilter: (callback) ->
-    # TODO: алгоритм
-    # последовательный перебор @_headRows элементов
-    # Если show:
-    #   Оставить label первого элемента TimeFrame, остальные удалить
-    #   Записать label для элемента, совмещенного с январем
-    # Иначе
-    #   Оставить label первого элемента TimeFrame, найденного в displayPeriod,
-    #     остальные удалить
-    #   Записать label для элемента, совмещенного с январем
+    # filtering first (top) header row
+    # For each column applies label returned by callback
     _.each _.first(@_headRows).columns, (column) ->
       column.label = callback(column)
     @
