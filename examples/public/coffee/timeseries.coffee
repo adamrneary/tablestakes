@@ -57,9 +57,9 @@ yearDisplay = (column) ->
       label = ""
   label
 
-grid.headRowsFilter(yearDisplay).render()
+#grid.headRowsFilter(yearDisplay).render()
 
 $('<button>display/hide</button>').appendTo('#temp').on 'click', (e)->
   toggle = !toggle
   grid.displayColumns(displayPeriods, toggle).render()
-  grid.headRowsFilter(yearDisplay).render()
+#  grid.headRowsFilter(yearDisplay).render()

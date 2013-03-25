@@ -190,12 +190,14 @@ class window.TableStakes
       if column.timeSeries
         for item in column.timeSeries
           _column = _.clone column
-          if column.label? and typeof column.label is 'function'
+          if column.label?
             _column.id = item
-            _column.label = column.label item
+            _column.label = if typeof column.label is 'function'
+            then column.label item else column.label
           else
             _column.id =  item
             _column.label = new Date(item).toDateString().split(' ')[1]
+            _column.secondary = new Date(item).getFullYear().toString()
           c = new window.TableStakesLib.Column(_column)
           @_columns.push c
       else
@@ -239,6 +241,7 @@ class window.TableStakes
             if i1 isnt -1
               column.classes = column.classes.replace hidden, ''
       @
+
     if typeof periods is 'string'
       periods = [periods]
 
@@ -255,7 +258,7 @@ class window.TableStakes
       _.each @_headRows, (row) ->
         hideColumns(row.columns, periods, show)
     else
-      hideColumns(@_columns)
+      hideColumns(@_columns, periods, show)
     @
 
   # builds getter/setter methods (initialized with defaults)
