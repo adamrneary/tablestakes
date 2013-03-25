@@ -82,7 +82,7 @@ class window.TableStakesLib.Core
 
       # append a &lt;th&gt; for each column
       th = theadRow.selectAll("th")
-        .data((row) -> row.columns)
+        .data((row, i) -> row.col)
         .enter()
           .append("th")
             .text((d) -> d.label)
@@ -154,7 +154,10 @@ class window.TableStakesLib.Core
     self = @
     @columns.forEach (column, column_index) =>
       text = (d) ->
-        if column.format
+        if column.timeSeries? and d.period? and d.dataValue?
+          index = d.period.indexOf(column.id)
+          d.dataValue[index]
+        else if column.format
           column.format d
         else
           d[column.id] or '-'
