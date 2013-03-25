@@ -35,6 +35,9 @@ core = [
   shortLink: "editors"
   title: "Custom editors"
 ,
+  shortLink: "select_options"
+  title: "Select Options"
+,
   shortLink: "timeseries"
   title: "Timeseries"
 ,

@@ -12,4 +12,5 @@ module.exports = (env)->
     require './hierarchy_drag'
     require './reorder_drag'
     require './custom_editor'
+    require './select_options'
     # require './full_stack'
