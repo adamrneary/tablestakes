@@ -32,34 +32,14 @@ _.each ["row1","row2","row3","row4","row5","row6","row7","row8"], (rowLabel) ->
 grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
-#  .headRows(columns)
+  .headRows('secondary')
   .data(data)
   .render()
 
 toggle = true
 
-yearDisplay = (column) ->
-  # Table header row filter function. Returns label for column.
-  unless !!column.timeSeries
-    label = ""
-  else
-    period = if toggle then availableTimeFrame else displayPeriods
-    first = _.chain(period)
-      .filter((date) -> date.getFullYear().toString() is column.label)
-      .first()
-      .value()
-    first = _.first(period) unless !!first
-
-    first = labelFunctionYear(first)
-    if column.id is first.id
-      label = first.label
-    else
-      label = ""
-  label
-
-#grid.headRowsFilter(yearDisplay).render()
-
 $('<button>display/hide</button>').appendTo('#temp').on 'click', (e)->
   toggle = !toggle
-  grid.displayColumns(displayPeriods, toggle).render()
-#  grid.headRowsFilter(yearDisplay).render()
+  grid.displayColumns(displayPeriods, toggle)
+    .headRows('secondary')
+    .render()

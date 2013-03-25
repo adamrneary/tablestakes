@@ -50,81 +50,7 @@ class window.TableStakesLib.Core
 
   # responsible for &lt;thead&gt; and contents
   _renderHead: (tableObject) ->
-    _headerRowUpdate = (columns, filter) ->
-      # function return new object of window.TableStakesLib.HeadRow()
-      # if filter could be applied
-      _columns = []
-      if _.filter(columns, (col) -> _.has(col, filter)).length > 0
-        # create new array of columns
-        _.each columns, (col) ->
-          c = _.clone col
-          if _.has(col, filter)
-            c.label = col[filter]
-          else
-            c.label = ""
-          _columns.push c
-
-        row = new window.TableStakesLib.HeadRow(
-          col: _columns
-          headClasses: filter
-        )
-      else
-        row = new window.TableStakesLib.HeadRow(
-          col: []
-        )
-
-      row
-
-
     self = @
-    localHeadRows = []
-    secondaryHeadRow = _headerRowUpdate(@columns, 'secondary')
-
-    # filter labels of secondaryHeadRow
-
-
-
-
-
-
-    localHeadRows.push secondaryHeadRow
-    localHeadRows.push new window.TableStakesLib.HeadRow(
-      col: @columns
-    )
-    # Columns timeSeries Resolver
-    # IF @columns contains columns with .secondary field
-    #   localHeadRows = createHeadRows([secondary, primary])
-    #   cleanUpLabels(localHeadRows) # use the classes, Luke
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-    #
-
-#    localHeadRows = _.filter(@columns, (col) -> col.secondary?)
-#    localColumns = []
-#    if localHeadRows
-#      localColumns = @columns
-#      _.each localColumns, (col) ->
-
 
     # create table header
     thead = tableObject.selectAll('thead')
@@ -132,9 +58,8 @@ class window.TableStakesLib.Core
       .enter()
         .append('thead')
 
-    console.log localHeadRows
-#    if !@headRows
-    if !localHeadRows
+    console.log ".render ->\t", @headRows
+    if !@headRows
       # create table header row
       theadRow = thead
         .append("tr")
@@ -151,7 +76,7 @@ class window.TableStakesLib.Core
     else
       # create table header row
       theadRow = thead.selectAll("thead")
-        .data(localHeadRows)
+        .data(@headRows)
         .enter()
           .append("tr")
             .attr("class", (d) -> d.headClasses)

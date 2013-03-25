@@ -205,25 +205,67 @@ class window.TableStakes
         @_columns.push c
     @
 
-  headRows: (val) ->
-    return @_headRows unless val?
+  headRows: (filter) ->
+    return @_headRows unless filter?
+    console.log "headRows"
+    console.log "\t", "filter", filter
+    console.log "\t", "@_columns", @_columns
+    console.log "\t", "@_headRows", @_headRows
+
+    # Variable:
+    # _headRows - local array of head rows
+    # _columns - local array of columns
+    # @_columns - global array of columns
+    # @_headRows - global array of head rows
 
     @_headRows = []
-    val = [val] unless _.isArray(val)
 
-    _.each val, (row, i) =>
-      @columns(row.col)
-      _row = _.clone row
-      _row.columns = @columns()
-      r = new window.TableStakesLib.HeadRow(_row)
-      @_headRows.push r
-    @
+    # if filter could be applied
+    if _.filter(@_columns, (col) -> _.has(col, filter)).length > 0
+      # create new array of columns
+      _columns = []
+      _.each @_columns, (col) ->
+        c = _.clone col
+        if _.has(col, filter)
+          c.label = col[filter]
+        else
+          c.label = ""
+        _columns.push c
 
-  headRowsFilter: (callback) ->
-    # filtering first (top) header row
-    # For each column applies label returned by callback
-    _.each _.first(@_headRows).columns, (column) ->
-      column.label = callback(column)
+      row = new window.TableStakesLib.HeadRow(
+        col: _columns
+        headClasses: filter
+      )
+    else
+      row = new window.TableStakesLib.HeadRow(
+        col: []
+      )
+
+    if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
+      # special filtering rule for secondary timeSeries header
+      visiblePeriod = []
+      _.each row.col, (column, i) ->
+        hidden = 'hidden'
+        if column.timeSeries?
+          if !column.classes? or column.classes.indexOf(hidden) is -1
+            visiblePeriod.push column.id
+
+      _.each row.col, (column, i) ->
+        first = _.chain(visiblePeriod)
+          .filter((date) ->
+            new Date(date).getFullYear().toString() is column.label
+          )
+          .first()
+          .value()
+        first = _.first(visiblePeriod) unless !!first
+        unless column.id is first
+          column.label = ""
+    # end if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
+
+    @_headRows.push row
+    @_headRows.push new window.TableStakesLib.HeadRow(
+      col: @_columns
+    )
     @
 
   displayColumns: (periods,show)->
@@ -254,11 +296,7 @@ class window.TableStakes
         .value()
 
     show = true unless show?
-    if !!@_headRows
-      _.each @_headRows, (row) ->
-        hideColumns(row.columns, periods, show)
-    else
-      hideColumns(@_columns, periods, show)
+    hideColumns(@_columns, periods, show)
     @
 
   # builds getter/setter methods (initialized with defaults)
