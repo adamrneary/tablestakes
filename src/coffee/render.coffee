@@ -343,10 +343,7 @@ class window.TableStakesLib.Core
       d.changedID.splice i, 1
 
   _makeSelect: (d, td, column) ->
-    if _.isArray(column.selectOptions)
-      options = column.selectOptions
-    else if _.isFunction(column.selectOptions)
-      options = column.selectOptions(d)
+    options = @utils.ourFunctor(column.selectOptions, d)
     
     select = d3.select(td)
       .html('<select class="expand-select"></select>')
