@@ -2,16 +2,27 @@ data = [
   id: "NVD3"
   type: "ahaha"
   values: [
-    id: "Charts"
+    id: "Charts"  # editable
+    # TODO: expand only on arrow
+    # TODO: edit on text click
+    # TODO: edit on cell click
     _values: [
-      id: "Simple Line"
+      id: "Simple Line" # editable
+      # TODO: edit on text click
+      # TODO: edit on cell click
       type: "Historical"
     ,
-      id: "Scatter / Bubble"
+      id: "Scatter / Bubble <a href='#timeseries'>TimeSeries</a>" # link
+      # TODO: prevent any editing
       type: "Snapshot"
+      # TODO: edit on text click
+      # TODO: edit on cell click
     ,
       id: "Stacked / Stream / Expanded Area"
-      type: "Historical"
+      # TODO: edit on text click
+      # TODO: edit on cell click
+      type: "Historical  <a href='#timeseries'>TimeSeries</a>" # link
+      # TODO: prevent any editing
     ,
       id: "Discrete Bar"
       type: "Snapshot"
@@ -32,7 +43,10 @@ data = [
       type: "Historical"
     ]
   ,
-    id: "Chart Components"
+    id: "Chart Components <a href='#timeseries'>TimeSeries</a>"  # link
+    # TODO: expand only on arrow
+    # TODO: prevent any editing
+    # TODO: link action on click
     values: [
       id: "Legend"
       type: "Universal"
@@ -40,7 +54,8 @@ data = [
   ]
 ,
   id: "New Root"
-  type: "tatata"
+  type: "tatata  <a href='#timeseries'>TimeSeries</a>" # link
+  # TODO: prevent any editing
   classes: "rowcustom1"
   values: [
     id: "1"
