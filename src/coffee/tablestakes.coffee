@@ -207,11 +207,6 @@ class window.TableStakes
 
   headRows: (filter) ->
     return @_headRows unless filter?
-    console.log "headRows"
-    console.log "\t", "filter", filter
-    console.log "\t", "@_columns", @_columns
-    console.log "\t", "@_headRows", @_headRows
-
     # Variable:
     # _headRows - local array of head rows
     # _columns - local array of columns

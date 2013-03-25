@@ -58,7 +58,6 @@ class window.TableStakesLib.Core
       .enter()
         .append('thead')
 
-    console.log ".render ->\t", @headRows
     if !@headRows
       # create table header row
       theadRow = thead
