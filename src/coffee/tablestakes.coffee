@@ -190,12 +190,14 @@ class window.TableStakes
       if column.timeSeries
         for item in column.timeSeries
           _column = _.clone column
-          if typeof column.label is 'function'
-            _column.id =  column.label(item).id
-            _column.label = column.label(item).label
+          if column.label?
+            _column.id = item
+            _column.label = if typeof column.label is 'function'
+            then column.label item else column.label
           else
-            _column.id =  item.label
-            _column.label = item.label
+            _column.id =  item
+            _column.label = new Date(item).toDateString().split(' ')[1]
+            _column.secondary = new Date(item).getFullYear().toString()
           c = new window.TableStakesLib.Column(_column)
           @_columns.push c
       else
@@ -203,32 +205,62 @@ class window.TableStakes
         @_columns.push c
     @
 
-  headRows: (val) ->
-    return @_headRows unless val?
+  headRows: (filter) ->
+    return @_headRows unless filter?
+    # Variable:
+    # _headRows - local array of head rows
+    # _columns - local array of columns
+    # @_columns - global array of columns
+    # @_headRows - global array of head rows
 
     @_headRows = []
-    val = [val] unless _.isArray(val)
 
-    _.each val, (row, i) =>
-      @columns(row.col)
-      _row = _.clone row
-      _row.columns = @columns()
-      r = new window.TableStakesLib.HeadRow(_row)
-      @_headRows.push r
-    @
+    # if filter could be applied
+    if _.filter(@_columns, (col) -> _.has(col, filter)).length > 0
+      # create new array of columns
+      _columns = []
+      _.each @_columns, (col) ->
+        c = _.clone col
+        if _.has(col, filter)
+          c.label = col[filter]
+        else
+          c.label = ""
+        _columns.push c
 
-  headRowsFilter: (callback) ->
-    # TODO: алгоритм
-    # последовательный перебор @_headRows элементов
-    # Если show:
-    #   Оставить label первого элемента TimeFrame, остальные удалить
-    #   Записать label для элемента, совмещенного с январем
-    # Иначе
-    #   Оставить label первого элемента TimeFrame, найденного в displayPeriod,
-    #     остальные удалить
-    #   Записать label для элемента, совмещенного с январем
-    _.each _.first(@_headRows).columns, (column) ->
-      column.label = callback(column)
+      row = new window.TableStakesLib.HeadRow(
+        col: _columns
+        headClasses: filter
+      )
+    else
+      row = new window.TableStakesLib.HeadRow(
+        col: []
+      )
+
+    if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
+      # special filtering rule for secondary timeSeries header
+      visiblePeriod = []
+      _.each row.col, (column, i) ->
+        hidden = 'hidden'
+        if column.timeSeries?
+          if !column.classes? or column.classes.indexOf(hidden) is -1
+            visiblePeriod.push column.id
+
+      _.each row.col, (column, i) ->
+        first = _.chain(visiblePeriod)
+          .filter((date) ->
+            new Date(date).getFullYear().toString() is column.label
+          )
+          .first()
+          .value()
+        first = _.first(visiblePeriod) unless !!first
+        unless column.id is first
+          column.label = ""
+    # end if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
+
+    @_headRows.push row
+    @_headRows.push new window.TableStakesLib.HeadRow(
+      col: @_columns
+    )
     @
 
   displayColumns: (periods,show)->
@@ -246,6 +278,7 @@ class window.TableStakes
             if i1 isnt -1
               column.classes = column.classes.replace hidden, ''
       @
+
     if typeof periods is 'string'
       periods = [periods]
 
@@ -258,11 +291,7 @@ class window.TableStakes
         .value()
 
     show = true unless show?
-    if !!@_headRows
-      _.each @_headRows, (row) ->
-        hideColumns(row.columns, periods, show)
-    else
-      hideColumns(@_columns)
+    hideColumns(@_columns, periods, show)
     @
 
   # builds getter/setter methods (initialized with defaults)
