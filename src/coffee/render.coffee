@@ -346,6 +346,8 @@ class window.TableStakesLib.Core
       d.changedID.splice i, 1
 
   _makeSelect: (d, td, column) ->
+    options = @utils.ourFunctor(column.selectOptions, d)
+    
     select = d3.select(td)
       .html('<select class="expand-select"></select>')
       .select('.expand-select')
@@ -357,7 +359,7 @@ class window.TableStakesLib.Core
 
     # add other options
     group = select.append('optgroup').style('cursor', 'pointer')
-    _.each _.without(column.selectOptions, d[column.id]), (item) =>
+    _.each _.without(options, d[column.id]), (item) =>
       group.append('option')
         .style('cursor', 'pointer')
         .text(item)
