@@ -4,10 +4,12 @@ tests = [
   name: 'testInit'
   rows: 36
   columns: 12
+  test_num: 10
 ,
   name: 'testUpdate'
   rows: 72
   columns: 24
+  test_num: 10
 ,
   name: 'testRender'
 ,
