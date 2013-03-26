@@ -300,6 +300,8 @@ class window.TableStakesLib.Core
 
   #
   _makeNested: (td) ->
+    # TODO: prevent any dblclick
+    # TODO: cell's single click - expand/collapse
     d3.select(td)
       .attr('class', (d) => @utils.nestedIcons(d))
       .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))

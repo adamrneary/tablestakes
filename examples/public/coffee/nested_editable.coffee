@@ -24,8 +24,10 @@ data = [
       type: "Historical  <a href='#timeseries'>TimeSeries</a>" # link
       # TODO: prevent any editing
     ,
-      id: "Discrete Bar"
-      type: "Snapshot"
+      id: "Discrete Bar <a href='#timeseries'>TimeSeries</a>" # link
+      # TODO: prevent any editing
+      type: "Snapshot <a href='#timeseries'>TimeSeries</a>" # link
+      # TODO: prevent any editing
     ,
       id: "Grouped / Stacked Multi-Bar"
       type: "Snapshot / Historical"

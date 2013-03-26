@@ -164,15 +164,25 @@ class window.TableStakesLib.Events
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->
-    unless d3.select(node).classed('active')
+    # TODO: allow on text click
+    # TODO: prevent if cell contain link
+    console.log "editable click"
+    console.log "\t", node, d, _, unshift
+#    console.log "\t", d3.select(node).selectAll('a').empty()
+    _node = d3.select(node)
+    if !_node.classed('active') and _node.selectAll('a').empty()
       @core.utils.deactivateAll @core.data[0]
       d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
       @core.update()
       d3.event.stopPropagation()
-      d3.event.preventDefault()
+#      d3.event.preventDefault()
 
   # toggle nested
   nestedClick: (node,d, _, unshift) ->
+    # TODO: allow on cell click
+    # TODO: prevent on link click
+    console.log "nested click"
+    console.log "\t", node, d, _, unshift
     if d3.event.shiftKey and not unshift
       # Shift-click to toggle fold all children, instead of itself
       self = @
@@ -187,7 +197,7 @@ class window.TableStakesLib.Events
         d.values = d._values
         d._values = null
     @core.update()
-    d3.event.preventDefault()
+#    d3.event.preventDefault()
     d3.event.stopPropagation()
 
   toggleBoolean: (node, d, _, unshift, column) ->
