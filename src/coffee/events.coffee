@@ -164,30 +164,35 @@ class window.TableStakesLib.Events
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->
-    unless d3.select(node).classed('active')
+    target = d3.event.target
+    _node = d3.select(node)
+    unless _node.classed('active') or $(target).is('a')
       @core.utils.deactivateAll @core.data[0]
       d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
       @core.update()
-      d3.event.stopPropagation()
       d3.event.preventDefault()
+    d3.event.stopPropagation()
 
   # toggle nested
   nestedClick: (node,d, _, unshift) ->
-    if d3.event.shiftKey and not unshift
-      # Shift-click to toggle fold all children, instead of itself
-      self = @
-      if d.values
-        d.values.forEach (node) ->
-          self.nestedClick(this, node, 0, true) if node.values or node._values
-    else
-      if d.values
-        d._values = d.values
-        d.values = null
+    target = d3.event.target
+    unless $(target).is('a') or d3.select(target).classed('active')
+      if d3.event.shiftKey and not unshift
+        # Shift-click to toggle fold all children, instead of itself
+        self = @
+        if d.values
+          d.values.forEach (_node) ->
+            if _node.values or _node._values
+              self.nestedClick(this, _node, 0, true)
       else
-        d.values = d._values
-        d._values = null
-    @core.update()
-    d3.event.preventDefault()
+        if d.values
+          d._values = d.values
+          d.values = null
+        else
+          d.values = d._values
+          d._values = null
+      @core.update()
+      d3.event.preventDefault()
     d3.event.stopPropagation()
 
   toggleBoolean: (node, d, _, unshift, column) ->
