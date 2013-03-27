@@ -2,32 +2,19 @@ data = [
   id: "NVD3"
   type: "ahaha"
   values: [
-    id: "Charts"  # editable
-    # TODO: expand only on arrow
-    # TODO: edit on text click
-    # TODO: edit on cell click
-    _values: [
-      id: "Simple Line" # editable
-      # TODO: edit on text click
-      # TODO: edit on cell click
-      type: "Historical"
+    id: "Charts"
+    values: [
+      id: "Simple Line with <a href='http://www.google.com'>Simple Link</a>"
+      type: "Some text with <a href='http://www.yahoo.com'>Another Link</a>"
     ,
-      id: "Scatter / Bubble <a href='#timeseries'>TimeSeries</a>" # link
-      # TODO: prevent any editing
+      id: "Scatter / Bubble"
       type: "Snapshot"
-      # TODO: edit on text click
-      # TODO: edit on cell click
     ,
       id: "Stacked / Stream / Expanded Area"
-      # TODO: edit on text click
-      # TODO: edit on cell click
-      type: "Historical  <a href='#timeseries'>TimeSeries</a>" # link
-      # TODO: prevent any editing
+      type: "Historical"
     ,
-      id: "Discrete Bar <a href='#timeseries'>TimeSeries</a>" # link
-      # TODO: prevent any editing
-      type: "Snapshot <a href='#timeseries'>TimeSeries</a>" # link
-      # TODO: prevent any editing
+      id: "Discrete Bar"
+      type: "Snapshot"
     ,
       id: "Grouped / Stacked Multi-Bar"
       type: "Snapshot / Historical"
@@ -45,10 +32,8 @@ data = [
       type: "Historical"
     ]
   ,
-    id: "Chart Components <a href='#timeseries'>TimeSeries</a>"  # link
-    # TODO: expand only on arrow
-    # TODO: prevent any editing
-    # TODO: link action on click
+    id: "expand/collapse or <a href='http://www.yandex.com'>link to Link</a>"
+    type: "dblClick for editing <a href='http://www.bing.com'>link</a>"
     values: [
       id: "Legend"
       type: "Universal"
@@ -57,7 +42,6 @@ data = [
 ,
   id: "New Root"
   type: "tatata  <a href='#timeseries'>TimeSeries</a>" # link
-  # TODO: prevent any editing
   classes: "rowcustom1"
   values: [
     id: "1"
