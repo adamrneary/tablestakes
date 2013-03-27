@@ -3,9 +3,9 @@ data = [
   type: "ahaha"
   values: [
     id: "Charts"
-    _values: [
-      id: "Simple Line"
-      type: "Historical"
+    values: [
+      id: "Simple Line with <a href='http://www.google.com'>Simple Link</a>"
+      type: "Some text with <a href='http://www.yahoo.com'>Another Link</a>"
     ,
       id: "Scatter / Bubble"
       type: "Snapshot"
@@ -32,7 +32,8 @@ data = [
       type: "Historical"
     ]
   ,
-    id: "Chart Components"
+    id: "expand/collapse or <a href='http://www.yandex.com'>link to Link</a>"
+    type: "dblClick for editing <a href='http://www.bing.com'>link</a>"
     values: [
       id: "Legend"
       type: "Universal"
@@ -40,7 +41,7 @@ data = [
   ]
 ,
   id: "New Root"
-  type: "tatata"
+  type: "tatata  <a href='#timeseries'>TimeSeries</a>" # link
   classes: "rowcustom1"
   values: [
     id: "1"

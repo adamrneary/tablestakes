@@ -313,9 +313,9 @@ class window.TableStakesLib.Core
     # TODO: enable datepicker
     # $('.editable.calendar').datepicker()
 
-    eventType = if column.isNested then 'dblclick' else 'click'
+    eventType = 'dblclick'
     d3.select(td)
-      .on(eventType, (a,b,c) -> self.events.editableClick(this,a,b,c,column))
+      .on(eventType, (a,b,c) -> self.events.editableClick(@,a,b,c,column))
 
     if d.activatedID is column.id
       @_makeActive(d, td, column)
