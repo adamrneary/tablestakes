@@ -1,9 +1,16 @@
 availableTimeFrame = [
-  new Date(2012,  9, 1).getTime(),
-  new Date(2012, 10, 1).getTime(),
-  new Date(2012, 11, 1).getTime(),
   new Date(2013,  0, 1).getTime(),
-  new Date(2013,  1, 1).getTime()
+  new Date(2013,  1, 1).getTime(),
+  new Date(2013,  2, 1).getTime(),
+  new Date(2013,  3, 1).getTime(),
+  new Date(2013,  4, 1).getTime(),
+  new Date(2013,  5, 1).getTime(),
+  new Date(2013,  6, 1).getTime(),
+  new Date(2013,  7, 1).getTime(),
+  new Date(2013,  8, 1).getTime(),
+  new Date(2013,  9, 1).getTime(),
+  new Date(2013, 10, 1).getTime(),
+  new Date(2013, 11, 1).getTime()
 ]
 
 displayPeriods = [
@@ -48,12 +55,15 @@ sliders = $('<div id="sliders"></div>').appendTo('#temp')
 
 labelTimeFrame =  $('<label>')
   .attr('for', 'sliderTimeFrame')
-  .text('Available Time Frame: ').appendTo '#sliders'
+  .text("Available Time Frame:
+  #{ new Date(_.first(availableTimeFrame)).toDateString().slice(4) }
+   - #{ new Date(_.last(availableTimeFrame)).toDateString().slice(4) }")
+  .appendTo '#sliders'
 sliderTimeFrame = $("<div>").attr("id", "sliderTimeFrame").appendTo '#sliders'
 sliderTimeFrame.slider
   min: 0  # TODO: temporary solution
   max: 71 # TODO: temporary solution
-  values: [33, 37] # TODO: temporary solution
+  values: [36, 47] # TODO: temporary solution
   range: true
   slide: (event, ui) ->
     availableTimeFrame = []
@@ -73,12 +83,15 @@ sliderTimeFrame.slider
 
 labelPeriod =  $('<label>')
   .attr('for', 'sliderPeriod')
-  .text('Display Period: ').appendTo '#sliders'
+  .text("Display Period:
+  #{ new Date(_.first(displayPeriods)).toDateString().slice(4) }
+   - #{ new Date(_.last(displayPeriods)).toDateString().slice(4) }")
+  .appendTo '#sliders'
 sliderPeriod = $("<div>").attr("id", "sliderPeriod").appendTo '#sliders'
 sliderPeriod.slider
   min: 0  # TODO: temporary solution
   max: 71 # TODO: temporary solution
-  values: [34, 36]  # TODO: temporary solution
+  values: [37, 46]  # TODO: temporary solution
   range: true
   slide: (event, ui) ->
     displayPeriods = []

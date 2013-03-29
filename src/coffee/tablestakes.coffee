@@ -182,24 +182,54 @@ class window.TableStakes
       @_margin[side] = val[side] unless typeof val[side] is "undefined"
     @
 
-  columns: (val) ->
-    return @_columns unless val?
+  columns: (columnList) ->
+    return @_columns unless columnList
     @_columns = []
-    val = [val] unless _.isArray(val)
-    _.each val, (column) =>
+
+    _.each columnList, (column) =>
       if column.timeSeries
-        for item in column.timeSeries
-          _column = _.clone column
-          if column.label?
-            _column.id = item
-            _column.label = if typeof column.label is 'function'
-            then column.label item else column.label
-          else
-            _column.id =  item
-            _column.label = new Date(item).toDateString().split(' ')[1]
-            _column.secondary = new Date(item).getFullYear().toString()
-          c = new window.TableStakesLib.Column(_column)
-          @_columns.push c
+        if column.timeSeries.length <= 12
+          for item in column.timeSeries
+            _column = _.clone column
+            if column.label?
+              _column.id = item
+              _column.label = if typeof column.label is 'function'
+              then column.label item else column.label
+            else
+              _column.id =  item
+              _column.label = new Date(item).toDateString().split(' ')[1]
+              _column.secondary = new Date(item).getFullYear().toString()
+            c = new window.TableStakesLib.Column(_column)
+            @_columns.push c
+        else if 12 < column.timeSeries.length <= 36
+          for item, i in column.timeSeries by 3
+            grouppedItems = _.first(column.timeSeries.slice(i), 3)
+            _column = _.clone column
+            _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
+            if grouppedItems.length > 1
+              _column.label = [
+                new Date(_.first(grouppedItems)).toDateString().split(' ')[1],
+                new Date(_.last(grouppedItems)).toDateString().split(' ')[1]
+              ].join ' - '
+            else
+              _column.label = new Date(_.first(grouppedItems))
+                .toDateString()
+                .split(' ')[1]
+            _column.secondary = new Date(_.last(grouppedItems))
+              .getFullYear()
+              .toString()
+            _column.secondary = new Date(_.first(grouppedItems))
+              .getFullYear()
+              .toString() if i is 0
+            c = new window.TableStakesLib.Column(_column)
+            @_columns.push c
+        else
+          console.log "Display Annual"
+          console.log "\t", "Group timeSeries values by 12"
+          for item, i in column.timeSeries by 12
+            console.log "\t", i, item
+
+
       else
         c = new window.TableStakesLib.Column(column)
         @_columns.push c
@@ -243,7 +273,13 @@ class window.TableStakes
         hidden = 'hidden'
         if column.timeSeries?
           if !column.classes? or column.classes.indexOf(hidden) is -1
-            visiblePeriod.push column.id
+            if _.isNumber column.id
+              visiblePeriod.push column.id
+            else if _.isString column.id
+              begin = parseInt column.id.split('-')[0]
+              end = parseInt column.id.split('-')[1]
+              _.each column.timeSeries, (date) ->
+                visiblePeriod.push date if begin <= date <= end
 
       _.each row.col, (column, i) ->
         first = _.chain(visiblePeriod)
@@ -253,7 +289,12 @@ class window.TableStakes
           .first()
           .value()
         first = _.first(visiblePeriod) unless !!first
-        unless column.id is first
+        if _.isString(column.id)
+          begin = parseInt column.id.split('-')[0]
+          end = parseInt column.id.split('-')[1]
+          unless begin <= first <= end
+            column.label = ""
+        else unless column.id is first
           column.label = ""
     # end if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
 
