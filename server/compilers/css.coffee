@@ -1,15 +1,18 @@
 module.exports = class Css
 
   fs: require 'fs'
-  sass: require 'node-sass'
 
   path: glob.config.path.css
 
   compile_src: (cb) =>
-    @["compile_src_#{glob.config.server.css_engine}"] =>
-      cb() if cb
+    if process.env.NODE_ENV is 'development'
+      @["compile_src_#{glob.config.server.css_engine}"] =>
+        cb() if cb
+    else
+      cb?()
 
   compile_src_scss: (cb) =>
+    @sass = require 'node-sass'
     @fs.readFile @path.src.from, (err, scssFile) =>
       scssFile = '' unless scssFile?
       @sass.render scssFile.toString(), (err, css) =>
