@@ -3,3 +3,6 @@ deployment:
     branch: master
     heroku:
       appname: tablestakes-showcase
+machine:
+  node:
+    version: 0.10.2
