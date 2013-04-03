@@ -24,23 +24,27 @@ _.each ["row1","row2","row3","row4","row5","row6","row7"], (rowLabel, i) ->
   _.each _.range(72), (month, j) ->
     dataFromStriker.push
       firstColumn: rowLabel
-      period_id: new Date(2010, 0+month).getTime()
+      period_id: new Date(2010, 0+month).getTime() #integer value
       value: (i+1) + (j+1)
 
 data = []
 _.each _.keys(_.groupBy(dataFromStriker, (obj) -> obj.firstColumn)),
 (rowLabel, i) ->
   data.push
+    id: i
     firstColumn: rowLabel
     period: _.chain(dataFromStriker)
       .filter((obj) -> obj.firstColumn is rowLabel)
-      .map((obj) -> obj.period_id).value()
+      .map((obj) -> obj.period_id).value() # array of strings
     dataValue: _.chain(dataFromStriker)
       .filter((obj) -> obj.firstColumn is rowLabel)
       .map((obj) -> obj.value).value()
 
 editHandler = (id, field, newValue) ->
-  (row[field] = newValue if row.id is id) for row in data
+  newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
+  for row in data
+    if row.id is id
+      row.dataValue[_.indexOf row.period, field] = newValue
   grid.data(data).render()
 
 columns = [
@@ -93,12 +97,12 @@ sliderTimeFrame.slider
     _.each columns, (col) ->
       if col.timeSeries?
         col.timeSeries = availableTimeFrame
-#        if availableTimeFrame.length > 12
-#          col.isEditable = false
-#          col.onEdit = null
-#        else
-#          col.isEditable = true
-#          col.onEdit = editHandler
+        if availableTimeFrame.length > 12
+          col.isEditable = false
+          col.onEdit = null
+        else
+          col.isEditable = true
+          col.onEdit = editHandler
 
     labelTimeFrame.text(
       "Available Time Frame:
