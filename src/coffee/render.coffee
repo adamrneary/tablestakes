@@ -17,9 +17,6 @@ class window.TableStakesLib.Core
   update: ->
     @table.isInRender = true
     @selection.transition().call (selection) =>
-      console.log "@tabele", @table
-      console.log "@tabele.update", typeof @table.update
-      console.log "@tabele.update", @table.update
       @table.update selection
 
   # responsible for &lt;table&gt; and contents
