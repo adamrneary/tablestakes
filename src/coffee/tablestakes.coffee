@@ -62,6 +62,7 @@ class window.TableStakes
 
   update: (selection) ->
     selection.each (data) =>
+      console.log @core.render
       @core.set
         selection: selection
         table: @
