@@ -182,24 +182,71 @@ class window.TableStakes
       @_margin[side] = val[side] unless typeof val[side] is "undefined"
     @
 
-  columns: (val) ->
-    return @_columns unless val?
+  columns: (columnList) ->
+    return @_columns unless columnList
     @_columns = []
-    val = [val] unless _.isArray(val)
-    _.each val, (column) =>
+
+    _.each columnList, (column) =>
       if column.timeSeries
-        for item in column.timeSeries
-          _column = _.clone column
-          if column.label?
-            _column.id = item
-            _column.label = if typeof column.label is 'function'
-            then column.label item else column.label
-          else
-            _column.id =  item
-            _column.label = new Date(item).toDateString().split(' ')[1]
-            _column.secondary = new Date(item).getFullYear().toString()
-          c = new window.TableStakesLib.Column(_column)
-          @_columns.push c
+        if column.timeSeries.length <= 12
+          for item in column.timeSeries
+            _column = _.clone column
+            if column.label?
+              _column.id = item
+              _column.label = if typeof column.label is 'function'
+              then column.label item else column.label
+            else
+              _column.id =  item
+              _column.label = new Date(item).toDateString().split(' ')[1]
+              _column.secondary = new Date(item).getFullYear().toString()
+            c = new window.TableStakesLib.Column(_column)
+            @_columns.push c
+        else if 12 < column.timeSeries.length <= 36
+          groupper = 3
+          for item, i in column.timeSeries by groupper
+            grouppedItems = _.first(column.timeSeries.slice(i), groupper)
+            _column = _.clone column
+            _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
+            if grouppedItems.length > 1
+              _column.label = [
+                new Date(_.first(grouppedItems)).toDateString().split(' ')[1],
+                new Date(_.last(grouppedItems)).toDateString().split(' ')[1]
+              ].join ' - '
+            else
+              _column.label = new Date(_.first(grouppedItems))
+                .toDateString()
+                .split(' ')[1]
+            _column.secondary = new Date(_.last(grouppedItems))
+              .getFullYear()
+              .toString()
+            _column.secondary = new Date(_.first(grouppedItems))
+              .getFullYear()
+              .toString() if i is 0
+            c = new window.TableStakesLib.Column(_column)
+            @_columns.push c
+        else
+          groupper = 12
+          for item, i in column.timeSeries by groupper
+            grouppedItems = _.first(column.timeSeries.slice(i), groupper)
+            _column = _.clone column
+            _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
+            if new Date(_.first(grouppedItems)).getMonth() is 0
+              _column.label = "
+              #{ new Date(_.first(grouppedItems)).getFullYear() }"
+            else if grouppedItems.length > 1
+              _column.label = "
+              #{ new Date(_.first(grouppedItems)).getMonth()+1 }/
+              #{ new Date(_.first(grouppedItems)).getFullYear() } -
+              #{ new Date(_.last(grouppedItems)).getMonth()+1 }/
+              #{ new Date(_.last(grouppedItems)).getFullYear() }"
+            else
+              _column.label = "
+              #{ new Date(_.first(grouppedItems)).getMonth()+1 }/
+              #{ new Date(_.first(grouppedItems)).getFullYear() }"
+
+            c = new window.TableStakesLib.Column(_column)
+            @_columns.push c
+
       else
         c = new window.TableStakesLib.Column(column)
         @_columns.push c
@@ -243,24 +290,33 @@ class window.TableStakes
         hidden = 'hidden'
         if column.timeSeries?
           if !column.classes? or column.classes.indexOf(hidden) is -1
-            visiblePeriod.push column.id
+            if _.isNumber column.id
+              visiblePeriod.push column.id
+            else if _.isString column.id
+              begin = parseInt column.id.split('-')[0]
+              end = parseInt column.id.split('-')[1]
+              _.each column.timeSeries, (date) ->
+                visiblePeriod.push date if begin <= date <= end
 
       _.each row.col, (column, i) ->
         first = _.chain(visiblePeriod)
           .filter((date) ->
-            new Date(date).getFullYear().toString() is column.label
-          )
+            new Date(date).getFullYear().toString() is column.label)
           .first()
           .value()
         first = _.first(visiblePeriod) unless !!first
-        unless column.id is first
+        if _.isString(column.id)
+          begin = parseInt column.id.split('-')[0]
+          end = parseInt column.id.split('-')[1]
+          unless begin <= first <= end
+            column.label = ""
+        else unless column.id is first
           column.label = ""
     # end if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
 
     @_headRows.push row
     @_headRows.push new window.TableStakesLib.HeadRow(
-      col: @_columns
-    )
+      col: @_columns)
     @
 
   displayColumns: (periods,show)->
@@ -292,6 +348,67 @@ class window.TableStakes
 
     show = true unless show?
     hideColumns(@_columns, periods, show)
+    @
+
+  dataAggregate: (filter) ->
+    # Function of data aggregation:
+    # 1. summ
+    # 2. avarage                - future compatibility
+    # 3. max/min                - future compatibility
+    # 4. last/first             - future compatibility
+    # 5. user defined function  - future compatibility
+    summ = (data, availableTimeFrame) ->
+      _data = []
+
+      if availableTimeFrame.length <= 12
+        return data
+      else
+      if 12 < availableTimeFrame.length <= 36
+        groupper = 3
+      else
+        groupper = 12
+
+      _.each data, (row, i) ->
+        _period = []
+        _dataValue = []
+
+        start = _.indexOf row.period, _.first availableTimeFrame
+        end = _.lastIndexOf row.period, _.last availableTimeFrame
+
+        unless start is -1 or end is -1
+          _slicePeriod = row.period.slice(start, end+1)
+          _sliceValue = row.dataValue.slice(start, end+1)
+          for val, j in _slicePeriod by groupper
+            _period.push [val,_.last(_slicePeriod.slice(j,j+groupper))].join '-'
+            _dataValue.push _.reduce(
+              _sliceValue.slice(j, j+groupper),
+            (memo, num) ->
+              if _.isNumber(num) and _.isNumber(memo)
+                memo+num
+              else
+                '-'
+            , 0
+            )
+        else
+          for val, j in availableTimeFrame by groupper
+            _period.push [val,_.last availableTimeFrame[j..j+groupper]].join '-'
+            _dataValue.push '-'
+
+        _data.push
+          firstColumn: row.firstColumn
+          period: _period
+          dataValue: _dataValue
+
+      _data
+
+    @_initialData = @_data unless @_initialData
+    data = @_initialData
+    timeFrame = _.find(@_columns, (obj) -> obj.timeSeries?).timeSeries
+
+    if _.isFunction(filter)
+      return @
+    else if filter is 'sum'
+      @_data = summ(data, timeFrame)
     @
 
   # builds getter/setter methods (initialized with defaults)

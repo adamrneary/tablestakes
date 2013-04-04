@@ -317,7 +317,7 @@ class window.TableStakesLib.Core
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editableClick(@,a,b,c,column))
 
-    if d.activatedID is column.id
+    if d.activatedID is column.id.toString()
       @_makeActive(d, td, column)
     else
       @_makeInactive(td)
@@ -325,9 +325,15 @@ class window.TableStakesLib.Core
   _makeActive: (d, td, column) ->
     self = @
 
+    _text = (d) ->
+      if _.has(column, 'timeSeries')
+        d.dataValue[_.indexOf(d.period, column.id)] or '-'
+      else
+        d[column.id] or '-'
+
     d3.select(td)
       .classed('active', true)
-      .text((d) -> d[column.id] or '-')
+      .text(_text)
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
       .on('blur', (d) -> self.events.blur(this, d, column))
