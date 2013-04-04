@@ -24,7 +24,7 @@ _.each ["row1","row2","row3","row4","row5","row6","row7"], (rowLabel, i) ->
   _.each _.range(72), (month, j) ->
     dataFromStriker.push
       firstColumn: rowLabel
-      period_id: new Date(2010, 0+month).getTime() #integer value
+      period_id: new Date(2010, 0+month).getTime()
       value: (i+1) + (j+1)
 
 data = []
@@ -35,7 +35,7 @@ _.each _.keys(_.groupBy(dataFromStriker, (obj) -> obj.firstColumn)),
     firstColumn: rowLabel
     period: _.chain(dataFromStriker)
       .filter((obj) -> obj.firstColumn is rowLabel)
-      .map((obj) -> obj.period_id).value() # array of strings
+      .map((obj) -> obj.period_id).value()
     dataValue: _.chain(dataFromStriker)
       .filter((obj) -> obj.firstColumn is rowLabel)
       .map((obj) -> obj.value).value()
