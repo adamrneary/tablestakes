@@ -11,6 +11,11 @@ tests = [
 ,
   name: 'testRender'
 ,
+  name: 'timeSeriesInitial_12'
+  rows: 12
+  columns: 2
+  timeSeries: 72
+  timeFrame: 12
 ]
 
 class Performance
@@ -111,6 +116,34 @@ class Performance
 
   testRender: (options)->
     @table.render()
+
+  timeSeriesInitial_12: (options)->
+    columns = [
+      id: "firstColumn"
+      label: "Name"
+      classes: "row-heading"
+    ,
+      id: 'period'
+      dataValue: 'dataValue'
+      timeSeries: _.map(_.range(options.timeFrame), (m) ->
+        new Date(2010, 0+m).getTime())
+    ]
+
+    data = []
+    period = _.map(_.range(options.timeSeries), (m) ->
+      new Date(2010, 0+m).getTime())
+    _.each _.range(options.rows), (rowLabel, i) ->
+      data.push
+        id: i
+        firstColumn: 'row '+(i+1)
+        period: period
+        dataValue: _.map(_.range(options.timeSeries), (m, j) -> i+j)
+
+    @table.columns(columns)
+      .headRows('secondary')
+      .data(data)
+      .dataAggregate('sum')
+      .render()
 
 $(document).ready ->
   perf = new Performance
