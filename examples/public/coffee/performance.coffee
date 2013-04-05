@@ -16,6 +16,12 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: 12
+,
+  name: 'timeSeriesInitial_36'
+  rows: 12
+  columns: 2
+  timeSeries: 72
+  timeFrame: 36
 ]
 
 class Performance
@@ -117,7 +123,7 @@ class Performance
   testRender: (options)->
     @table.render()
 
-  timeSeriesInitial_12: (options)->
+  timeSeriesDataGenerate: (rows, timeFrame, timeSeries) ->
     columns = [
       id: "firstColumn"
       label: "Name"
@@ -125,23 +131,42 @@ class Performance
     ,
       id: 'period'
       dataValue: 'dataValue'
-      timeSeries: _.map(_.range(options.timeFrame), (m) ->
+      timeSeries: _.map(_.range(timeFrame), (m) ->
         new Date(2010, 0+m).getTime())
     ]
 
-    data = []
-    period = _.map(_.range(options.timeSeries), (m) ->
+    period = _.map(_.range(timeSeries), (m) ->
       new Date(2010, 0+m).getTime())
-    _.each _.range(options.rows), (rowLabel, i) ->
+    data = []
+
+    _.each _.range(rows), (rowLabel, i) ->
       data.push
         id: i
         firstColumn: 'row '+(i+1)
         period: period
-        dataValue: _.map(_.range(options.timeSeries), (m, j) -> i+j)
+        dataValue: _.map(_.range(timeSeries), (m, j) -> i+j)
 
-    @table.columns(columns)
+    returnValue =
+      columns: columns
+      data: data
+
+  timeSeriesInitial_12: (options)->
+    data = @timeSeriesDataGenerate(
+      options.rows, options.timeFrame, options.timeSeries)
+
+    @table.columns(data.columns)
       .headRows('secondary')
-      .data(data)
+      .data(data.data)
+      .dataAggregate('sum')
+      .render()
+
+  timeSeriesInitial_36: (options)->
+    data = @timeSeriesDataGenerate(
+      options.rows, options.timeFrame, options.timeSeries)
+
+    @table.columns(data.columns)
+      .headRows('secondary')
+      .data(data.data)
       .dataAggregate('sum')
       .render()
 

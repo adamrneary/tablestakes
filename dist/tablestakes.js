@@ -673,7 +673,7 @@ window.TableStakesLib.Core = (function() {
     d3.select(td).on(eventType, function(a, b, c) {
       return self.events.editableClick(this, a, b, c, column);
     });
-    if (d.activatedID === column.id) {
+    if (d.activatedID === column.id.toString()) {
       return this._makeActive(d, td, column);
     } else {
       return this._makeInactive(td);
@@ -681,11 +681,16 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeActive = function(d, td, column) {
-    var self;
+    var self, _text;
     self = this;
-    return d3.select(td).classed('active', true).text(function(d) {
-      return d[column.id] || '-';
-    }).attr('contentEditable', true).on('keydown', function(d) {
+    _text = function(d) {
+      if (_.has(column, 'timeSeries')) {
+        return d.dataValue[_.indexOf(d.period, column.id)] || '-';
+      } else {
+        return d[column.id] || '-';
+      }
+    };
+    return d3.select(td).classed('active', true).text(_text).attr('contentEditable', true).on('keydown', function(d) {
       return self.events.keydown(this, d, column);
     }).on('blur', function(d) {
       return self.events.blur(this, d, column);
@@ -1013,35 +1018,76 @@ window.TableStakes = (function() {
     return this;
   };
 
-  TableStakes.prototype.columns = function(val) {
+  TableStakes.prototype.columns = function(columnList) {
     var _this = this;
-    if (val == null) {
+    if (!columnList) {
       return this._columns;
     }
     this._columns = [];
-    if (!_.isArray(val)) {
-      val = [val];
-    }
-    _.each(val, function(column) {
-      var c, item, _column, _i, _len, _ref, _results;
+    _.each(columnList, function(column) {
+      var c, grouppedItems, groupper, i, item, _column, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3, _results, _results1, _results2, _step, _step1;
       if (column.timeSeries) {
-        _ref = column.timeSeries;
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          item = _ref[_i];
-          _column = _.clone(column);
-          if (column.label != null) {
-            _column.id = item;
-            _column.label = typeof column.label === 'function' ? column.label(item) : column.label;
-          } else {
-            _column.id = item;
-            _column.label = new Date(item).toDateString().split(' ')[1];
-            _column.secondary = new Date(item).getFullYear().toString();
+        if (column.timeSeries.length <= 12) {
+          _ref = column.timeSeries;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            item = _ref[_i];
+            _column = _.clone(column);
+            if (column.label != null) {
+              _column.id = item;
+              _column.label = typeof column.label === 'function' ? column.label(item) : column.label;
+            } else {
+              _column.id = item;
+              _column.label = new Date(item).toDateString().split(' ')[1];
+              _column.secondary = new Date(item).getFullYear().toString();
+            }
+            c = new window.TableStakesLib.Column(_column);
+            _results.push(_this._columns.push(c));
           }
-          c = new window.TableStakesLib.Column(_column);
-          _results.push(_this._columns.push(c));
+          return _results;
+        } else if ((12 < (_ref1 = column.timeSeries.length) && _ref1 <= 36)) {
+          groupper = 3;
+          _ref2 = column.timeSeries;
+          _results1 = [];
+          for (i = _j = 0, _len1 = _ref2.length, _step = groupper; _j < _len1; i = _j += _step) {
+            item = _ref2[i];
+            grouppedItems = _.first(column.timeSeries.slice(i), groupper);
+            _column = _.clone(column);
+            _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
+            if (grouppedItems.length > 1) {
+              _column.label = [new Date(_.first(grouppedItems)).toDateString().split(' ')[1], new Date(_.last(grouppedItems)).toDateString().split(' ')[1]].join(' - ');
+            } else {
+              _column.label = new Date(_.first(grouppedItems)).toDateString().split(' ')[1];
+            }
+            _column.secondary = new Date(_.last(grouppedItems)).getFullYear().toString();
+            if (i === 0) {
+              _column.secondary = new Date(_.first(grouppedItems)).getFullYear().toString();
+            }
+            c = new window.TableStakesLib.Column(_column);
+            _results1.push(_this._columns.push(c));
+          }
+          return _results1;
+        } else {
+          groupper = 12;
+          _ref3 = column.timeSeries;
+          _results2 = [];
+          for (i = _k = 0, _len2 = _ref3.length, _step1 = groupper; _k < _len2; i = _k += _step1) {
+            item = _ref3[i];
+            grouppedItems = _.first(column.timeSeries.slice(i), groupper);
+            _column = _.clone(column);
+            _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
+            if (new Date(_.first(grouppedItems)).getMonth() === 0) {
+              _column.label = "              " + (new Date(_.first(grouppedItems)).getFullYear());
+            } else if (grouppedItems.length > 1) {
+              _column.label = "              " + (new Date(_.first(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.first(grouppedItems)).getFullYear()) + " -              " + (new Date(_.last(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.last(grouppedItems)).getFullYear());
+            } else {
+              _column.label = "              " + (new Date(_.first(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.first(grouppedItems)).getFullYear());
+            }
+            c = new window.TableStakesLib.Column(_column);
+            _results2.push(_this._columns.push(c));
+          }
+          return _results2;
         }
-        return _results;
       } else {
         c = new window.TableStakesLib.Column(column);
         return _this._columns.push(c);
@@ -1084,23 +1130,39 @@ window.TableStakes = (function() {
     }).length > 0) {
       visiblePeriod = [];
       _.each(row.col, function(column, i) {
-        var hidden;
+        var begin, end, hidden;
         hidden = 'hidden';
         if (column.timeSeries != null) {
           if (!(column.classes != null) || column.classes.indexOf(hidden) === -1) {
-            return visiblePeriod.push(column.id);
+            if (_.isNumber(column.id)) {
+              return visiblePeriod.push(column.id);
+            } else if (_.isString(column.id)) {
+              begin = parseInt(column.id.split('-')[0]);
+              end = parseInt(column.id.split('-')[1]);
+              return _.each(column.timeSeries, function(date) {
+                if ((begin <= date && date <= end)) {
+                  return visiblePeriod.push(date);
+                }
+              });
+            }
           }
         }
       });
       _.each(row.col, function(column, i) {
-        var first;
+        var begin, end, first;
         first = _.chain(visiblePeriod).filter(function(date) {
           return new Date(date).getFullYear().toString() === column.label;
         }).first().value();
         if (!first) {
           first = _.first(visiblePeriod);
         }
-        if (column.id !== first) {
+        if (_.isString(column.id)) {
+          begin = parseInt(column.id.split('-')[0]);
+          end = parseInt(column.id.split('-')[1]);
+          if (!((begin <= first && first <= end))) {
+            return column.label = "";
+          }
+        } else if (column.id !== first) {
           return column.label = "";
         }
       });
@@ -1149,6 +1211,71 @@ window.TableStakes = (function() {
       show = true;
     }
     hideColumns(this._columns, periods, show);
+    return this;
+  };
+
+  TableStakes.prototype.dataAggregate = function(filter) {
+    var data, summ, timeFrame;
+    summ = function(data, availableTimeFrame) {
+      var groupper, _data, _ref;
+      _data = [];
+      if (availableTimeFrame.length <= 12) {
+        return data;
+      } else {
+
+      }
+      if ((12 < (_ref = availableTimeFrame.length) && _ref <= 36)) {
+        groupper = 3;
+      } else {
+        groupper = 12;
+      }
+      _.each(data, function(row, i) {
+        var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _slicePeriod, _sliceValue, _step, _step1;
+        _period = [];
+        _dataValue = [];
+        start = _.indexOf(row.period, _.first(availableTimeFrame));
+        end = _.lastIndexOf(row.period, _.last(availableTimeFrame));
+        if (!(start === -1 || end === -1)) {
+          _slicePeriod = row.period.slice(start, end + 1);
+          _sliceValue = row.dataValue.slice(start, end + 1);
+          for (j = _i = 0, _len = _slicePeriod.length, _step = groupper; _i < _len; j = _i += _step) {
+            val = _slicePeriod[j];
+            _period.push([val, _.last(_slicePeriod.slice(j, j + groupper))].join('-'));
+            _dataValue.push(_.reduce(_sliceValue.slice(j, j + groupper), function(memo, num) {
+              if (_.isNumber(num) && _.isNumber(memo)) {
+                return memo + num;
+              } else {
+                return '-';
+              }
+            }, 0));
+          }
+        } else {
+          for (j = _j = 0, _len1 = availableTimeFrame.length, _step1 = groupper; _j < _len1; j = _j += _step1) {
+            val = availableTimeFrame[j];
+            _period.push([val, _.last(availableTimeFrame.slice(j, +(j + groupper) + 1 || 9e9))].join('-'));
+            _dataValue.push('-');
+          }
+        }
+        return _data.push({
+          firstColumn: row.firstColumn,
+          period: _period,
+          dataValue: _dataValue
+        });
+      });
+      return _data;
+    };
+    if (!this._initialData) {
+      this._initialData = this._data;
+    }
+    data = this._initialData;
+    timeFrame = _.find(this._columns, function(obj) {
+      return obj.timeSeries != null;
+    }).timeSeries;
+    if (_.isFunction(filter)) {
+      return this;
+    } else if (filter === 'sum') {
+      this._data = summ(data, timeFrame);
+    }
     return this;
   };
 
