@@ -52,21 +52,16 @@ prepareLinks = (route, el) ->
   showcaseObject.routes[route.shortLink] = route.shortLink
   showcaseObject[route.shortLink] = ->
     $("#example_header").text route.title
-    urlCoffee = "coffee/" + route.shortLink + ".coffee"
-    url = "js/" + route.shortLink + ".js"
-    script = $("<script>").attr("src", url)
-    $("#example_view").empty().append script
-    $("#temp").empty()
+    urlCoffee = "examples/" + route.shortLink + ".coffee"
+    url       = "js/" + route.shortLink + ".js"
+    script    = $("<script>").attr("src", url)
+
+    $("#temp").empty().append script
 
     $.get urlCoffee, (data) ->
-      $("#example_js").text data
-    $.get url, (data) ->
-      $("example_view").text data
-
-    $("#example_js").load urlCoffee, ->
-      $(@).removeClass("rainbow")
+      $("#example_js").text(data).removeClass("rainbow")
+      console.log 'color'
       Rainbow.color()
-    Rainbow.color()
 
 
 $(document).ready ->
@@ -78,5 +73,3 @@ $(document).ready ->
   Backbone.history.start()
 
   showcase.navigate "/#base"  unless window.location.hash
-
-
