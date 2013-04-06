@@ -10,12 +10,17 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'dist/tablestakes.js': path('src/coffee/*')
-        '../tmp/unit_tests.js': path('test/unit/*', 'test/test_helper.coffee')
+        'assets/tablestakes.js': path('src/coffee/*')
+        'assets/examples.js': path('src/examples/*')
+        'assets/vendors.js': path('vendor/js/jquery.js', 'vendor/js/underscore.js', 'vendor/js/backbone.js', 'vendor/js/d3.js')
+        'assets/unit_tests.js': path('vendor/test/chai.js', 'test/unit/*', 'test/test_helper.coffee')
+      order:
+        before: ['vendor/js/jquery.js', 'vendor/js/underscore.js']
 
     stylesheets:
       joinTo:
-        'dist/tablestakes.css' : path('src/scss/*')
+        'assets/vendors.css': path('vendor/css/bootstrap.css')
+        'assets/tablestakes.css' : path('src/scss/*')
 
   modules:
     wrapper: false

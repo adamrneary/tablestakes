@@ -3,12 +3,8 @@
   "launch_in_ci": ["phantomjs"],
   "launch_in_dev": ["phantomjs"],
   "src_files": [
-    "public/vendor/js/jquery.js",
-    "public/vendor/js/underscore.js",
-    "public/vendor/js/backbone.js",
-    "public/vendor/js/d3.js",
-    "public/vendor/test/chai.js",
-    "public/dist/tablestakes.js",
-    "tmp/unit_tests.js"
+    "public/assets/vendors.js",
+    "public/assets/tablestakes.js",
+    "public/assets/unit_tests.js"
   ]
 }

@@ -1,8 +1,7 @@
-app    = require('showcase')(__dirname)
-brunch = require('brunch')
+app = require('showcase')(__dirname)
 
 app.configure 'development', ->
-  brunch.watch({})
+  require('brunch').watch({})
 
 app.setup null, ->
   app.get '/', (req, res) ->

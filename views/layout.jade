@@ -2,17 +2,14 @@
 html
   head
     title Tablestakes: A bad-ass interactive grid platform.
-    link(href='/vendor/css/bootstrap.css', rel='stylesheet', type='text/css')
-    link(href='/dist/tablestakes.css', rel='stylesheet', type='text/css')
+    link(href='/assets/vendors.css', rel='stylesheet', type='text/css')
+    link(href='/assets/tablestakes.css', rel='stylesheet', type='text/css')
   body
     include shared/toppanel
     .container
       block content
     hr
 
-    script(type='text/javascript', src='/vendor/js/jquery.js')
-    script(type='text/javascript', src='/vendor/js/underscore.js')
-    script(type='text/javascript', src='/vendor/js/backbone.js')
-    script(type='text/javascript', src='/vendor/js/d3.js')
-    script(type='text/javascript', src='/vendor/js/bootstrap.js')
-    script(type='text/javascript', src='/dist/tablestakes.js')
+    script(type='text/javascript', src='/assets/vendors.js')
+    script(type='text/javascript', src='/assets/tablestakes.js')
+    script(type='text/javascript', src='/assets/examples.js')
