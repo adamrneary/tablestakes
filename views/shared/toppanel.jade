@@ -18,8 +18,6 @@
           li
             a(tabindex="-1", href='http://shotgun-showcase.herokuapp.com') Shotgun.js
           li
-            a(tabindex="-1", href='http://shotgun-showcase.herokuapp.com') Shotgun.js
-          li
             a(tabindex="-1", href='http://striker-showcase.herokuapp.com') Striker.js
           li
             a(tabindex="-1", href='http://tactile-showcase.herokuapp.com') Tactile.js
@@ -29,27 +27,27 @@
             a(tabindex="-1", href='#') Trebuchet
       .nav-collapse
         ul.nav
-          li(class="#{page == 'index'? 'active': ''}")
+          li
             a(href='/')
               i.icon-white.icon-home
               |  Home
-          li(class="#{page == 'documentation'? 'active': ''}")
-            a(href='/documentation')
+          li
+            a(href='/docs/tablestakes.html')
               i.icon-white.icon-list-alt
               |  Documentation
-          li(class="#{page == 'performance'? 'active': ''}")
+          li
             a(href='/performance')
               i.icon-white.icon-time
               |  Performance
-          li(class="#{page == 'test'? 'active': ''}")
+          li
             a(href='/test')
               i.icon-white.icon-ok
               |  Tests
-          li(class="#{page == 'report'? 'active': ''}")
+          li
             a(href='/coverage')
               i.icon-white.icon-ok
               |  Coverage
-          li(class="#{page == 'styleguide'? 'active': ''}")
+          li
             a(href='/styleguide')
               i.icon-white.icon-glass
               |  Style Guide
@@ -57,9 +55,3 @@
             a(href='https://github.com/activecell/tablestakes')
               i.icon-white.icon-book
               |  Source
-      //
-        /.nav-collapse
-
-script(type='text/javascript')
-  $('.dropdown-toggle').dropdown()
-
