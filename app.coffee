@@ -8,4 +8,4 @@ app.setup ->
     res.render 'examples/index'
 
   app.get '/performance', (req, res) ->
-    res.render 'performance'
+    res.render 'layout', layout: false

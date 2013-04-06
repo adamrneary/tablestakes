@@ -62,12 +62,32 @@ prepareLinks = (route, el) ->
       $("#example_code").remove()
       $('body').append $("<script id='example_code'>#{source}</script>")
 
+#NOTE name of test should be same, as name of function
+#additional fields will be passed to function as options object
+tests = [
+  name: 'testInit'
+  rows: 36
+  columns: 12
+,
+  name: 'testUpdate'
+  rows: 72
+  columns: 24
+,
+  name: 'testRender'
+]
+
 $(document).ready ->
-  _.map core, (route) ->
-    prepareLinks route, $("#coreLinkList")
+  if location.pathname is '/'
+    _.map core, (route) ->
+      prepareLinks route, $("#coreLinkList")
 
-  Showcase = Backbone.Router.extend(showcaseObject)
-  showcase = new Showcase()
-  Backbone.history.start()
+    Showcase = Backbone.Router.extend(showcaseObject)
+    showcase = new Showcase()
+    Backbone.history.start()
 
-  showcase.navigate "/#base"  unless window.location.hash
+    showcase.navigate "/#base"  unless window.location.hash
+
+  else if location.pathname is '/performance'
+    perf = new Performance
+      el: $('<div id="performance" />').appendTo('#content')
+      tests: tests

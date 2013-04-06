@@ -1,19 +1,4 @@
-#NOTE name of test should be same, as name of function
-#additional fields will be passed to function as options object
-tests = [
-  name: 'testInit'
-  rows: 36
-  columns: 12
-,
-  name: 'testUpdate'
-  rows: 72
-  columns: 24
-,
-  name: 'testRender'
-,
-]
-
-class Performance
+class window.Performance
   template: _.template \
     '''
       <div class="container">
@@ -98,7 +83,7 @@ class Performance
     return data
 
   testInit: (options)->
-    data = @generateData options.rows,options.columns
+    data = @generateData(options.rows ,options.columns)
     @table = new window.TableStakes()
       .el("#example")
       .columns(data.columns)
@@ -111,8 +96,3 @@ class Performance
 
   testRender: (options)->
     @table.render()
-
-$(document).ready ->
-  perf = new Performance
-    el: $('<div id="performance" />').appendTo('body')
-    tests: tests
