@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "./node_modules/testem/testem.js ci",
-    "start": "coffee app.coffee"
+    "start": "coffee app.coffee",
+    "build": "./node_modules/brunch/bin/brunch build"
   },
   "engines": {
     "node": "0.10.x"
@@ -15,9 +16,7 @@
     "javascript-brunch": "~1.5.1",
     "coffee-script-brunch": "~1.5.1",
     "css-brunch": "~1.5.1",
-    "sass-brunch": "~1.5.1",
-    "uglify-js-brunch": "~1.5.1",
-    "clean-css-brunch": "~1.5.1",
+    "sass-brunch": "git+ssh://git@github.com:brunch/sass-brunch.git",
     "coffeelint-brunch": "~1.4.4",
     "testem": "*"
   }
