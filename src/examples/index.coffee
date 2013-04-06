@@ -53,16 +53,14 @@ prepareLinks = (route, el) ->
   showcaseObject[route.shortLink] = ->
     $("#example_header").text route.title
     urlCoffee = "examples/" + route.shortLink + ".coffee"
-    url       = "js/" + route.shortLink + ".js"
-    script    = $("<script>").attr("src", url)
-
-    $("#temp").empty().append script
+    url       = "examples/" + route.shortLink + ".js"
 
     $.get urlCoffee, (data) ->
       $("#example_js").text(data).removeClass("rainbow")
-      console.log 'color'
       Rainbow.color()
-
+      source = CoffeeScript.compile(data)
+      $("#example_code").remove()
+      $('body').append $("<script id='example_code'>#{source}</script>")
 
 $(document).ready ->
   _.map core, (route) ->

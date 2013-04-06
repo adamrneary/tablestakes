@@ -1,270 +1,270 @@
 testTree = [
+  catname: "collapsible"
+  values: [
+    catname: "indent1"
+    AUG:
+      label: "22"
+      classes: "old"
+    SEP:
+      label: "22"
+      classes: "old"
+    OCT:
+      label: "1,234"
+      classes: "plan"
+    NOV:
+      label: "987"
+      classes: "plan"
+    DEC:
+      label: "987"
+      classes: "plan"
+    JAN:
+      label: "987"
+      classes: "plan"
+    FEB: "987"
+    MAR: "67"
+    APR: "4"
+    MAY: "456"
+    JUN: "347"
+    JUL: "14"
+  ,
+    catname: "indent2"
+    AUG:
+      label: "22"
+      classes: "old"
+    SEP:
+      label: "22"
+      classes: "old"
+    OCT:
+      label: "1,234"
+      classes: "plan"
+    NOV:
+      label: "987"
+      classes: "plan"
+    DEC:
+      label: "987"
+      classes: "plan"
+    JAN:
+      label: "987"
+      classes: "plan"
+    FEB: "987"
+    MAR: "67"
+    APR: "4"
+    MAY: "456"
+    JUN: "347"
+    JUL: "14"
+  ,
     catname: "collapsible"
     values: [
-        catname: "indent1"
-        AUG:
-            label: "22"
-            classes: "old"
-        SEP:
-            label: "22"
-            classes: "old"
-        OCT:
-            label: "1,234"
-            classes: "plan"
-        NOV:
-            label: "987"
-            classes: "plan"
-        DEC:
-            label: "987"
-            classes: "plan"
-        JAN:
-            label: "987"
-            classes: "plan"
-        FEB: "987"
-        MAR: "67"
-        APR: "4"
-        MAY: "456"
-        JUN: "347"
-        JUL: "14"
-    ,
-        catname: "indent2"
-        AUG:
-            label: "22"
-            classes: "old"
-        SEP:
-            label: "22"
-            classes: "old"
-        OCT:
-            label: "1,234"
-            classes: "plan"
-        NOV:
-            label: "987"
-            classes: "plan"
-        DEC:
-            label: "987"
-            classes: "plan"
-        JAN:
-            label: "987"
-            classes: "plan"
-        FEB: "987"
-        MAR: "67"
-        APR: "4"
-        MAY: "456"
-        JUN: "347"
-        JUL: "14"
-    ,
-        catname: "collapsible"
-        values: [
-            catname: "indent2"
-            AUG:
-                label: "22"
-            SEP:
-                label: "22"
-            OCT:
-                label: "1,234"
-                classes: "plan"
-            NOV:
-                label: "987"
-                classes: "plan"
-            DEC:
-                label: "987"
-                classes: "plan"
-            JAN:
-                label: "987"
-                classes: "plan"
-            FEB: "987"
-            MAR: "67"
-            APR: "4"
-            MAY: "456"
-            JUN: "347"
-            JUL: "14"
-        ]
+      catname: "indent2"
+      AUG:
+        label: "22"
+      SEP:
+        label: "22"
+      OCT:
+        label: "1,234"
+        classes: "plan"
+      NOV:
+        label: "987"
+        classes: "plan"
+      DEC:
+        label: "987"
+        classes: "plan"
+      JAN:
+        label: "987"
+        classes: "plan"
+      FEB: "987"
+      MAR: "67"
+      APR: "4"
+      MAY: "456"
+      JUN: "347"
+      JUL: "14"
     ]
+  ]
 ,
-    catname: "Section subtotal"
-    AUG: "1"
-    _classes: "subtotal"
+  catname: "Section subtotal"
+  AUG: "1"
+  _classes: "subtotal"
 ,
-    catname: ""
-    _classes: "spacer"
+  catname: ""
+  _classes: "spacer"
 ,
-    catname: "Expandable"
-    _values: [
-        catname: "indent1"
-    ,
-        catname: "indent2"
-    ]
+  catname: "Expandable"
+  _values: [
+    catname: "indent1"
+  ,
+    catname: "indent2"
+  ]
 ,
-    catname: "independent row (link)"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
+  catname: "independent row (link)"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ,
-    catname: "indy row with %"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
+  catname: "indy row with %"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ,
-    catname: "change"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
+  catname: "change"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ,
-    catname: "indy row with %"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
+  catname: "indy row with %"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ,
-    catname: "percent change"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
+  catname: "percent change"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ,
-    catname: "inty & editable name"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
+  catname: "inty & editable name"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ,
-    catname: "Overall total"
-    _classes: "total"
-    AUG:
-        label: "22"
-    SEP:
-        label: "22"
-    OCT:
-        label: "1,234"
-        classes: "plan"
-    NOV:
-        label: "987"
-        classes: "plan"
-    DEC:
-        label: "987"
-        classes: "plan"
-    JAN:
-        label: "987"
-        classes: "plan"
-    FEB: "987"
-    MAR: "67"
-    APR: "4"
-    MAY: "456"
-    JUN: "347"
-    JUL: "14"
-
+  catname: "Overall total"
+  _classes: "total"
+  AUG:
+    label: "22"
+  SEP:
+    label: "22"
+  OCT:
+    label: "1,234"
+    classes: "plan"
+  NOV:
+    label: "987"
+    classes: "plan"
+  DEC:
+    label: "987"
+    classes: "plan"
+  JAN:
+    label: "987"
+    classes: "plan"
+  FEB: "987"
+  MAR: "67"
+  APR: "4"
+  MAY: "456"
+  JUN: "347"
+  JUL: "14"
 ]
+
 testColumns = [
   key: "catname"
   label: "CATEGORY NAME"
@@ -357,8 +357,6 @@ testColumns = [
   isEditable: true
   classes: "keyfield"
 ]
-
-
 
 grid = new window.TableStakes(
   columns: testColumns
