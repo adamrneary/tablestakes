@@ -10,7 +10,6 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    // "showcase": "git+https://activecell-machine-user:NYVy98BbBb6Lae3DAdfWSLCQ@github.com/activecell/showcase",
     "grunt": "~0.4.1",
     "grunt-contrib-coffee": "~0.6.0",
     "grunt-contrib-sass": "~0.3.0",

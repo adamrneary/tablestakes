@@ -299,11 +299,9 @@ class window.TableStakes
                 visiblePeriod.push date if begin <= date <= end
 
       _.each row.col, (column, i) ->
-        first = _.chain(visiblePeriod)
-          .filter((date) ->
-            new Date(date).getFullYear().toString() is column.label)
-          .first()
-          .value()
+        filtered = _.filter visiblePeriod, (date) ->
+          (new Date date).getFullYear().toString() is column.label
+        first = _.first(filtered)
         first = _.first(visiblePeriod) unless !!first
         if _.isString(column.id)
           begin = parseInt column.id.split('-')[0]
