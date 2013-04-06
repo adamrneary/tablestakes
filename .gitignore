@@ -1,17 +1,2 @@
 node_modules/
-examples/public/docs/
-examples/public/js/
-temp/
-npm-debug.log
-*.orig
-.log
-*.swp
 .DS_Store
-/nbproject/
-.project
-.sass-cache/
-.idea/
-.rvmrc
-.powrc
-.tddium*
-.tddium

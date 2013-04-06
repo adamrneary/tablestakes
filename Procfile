@@ -1,1 +1,1 @@
-web: node server/runners/run.js
+web: coffee app.coffee
