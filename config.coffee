@@ -1,7 +1,7 @@
-path = require('showcase').path
+{path, defaultConfig} = require('showcase')
 
 # https://github.com/brunch/brunch/blob/master/docs/config.md
-exports.config =
+exports.config = defaultConfig
   files:
     javascripts:
       joinTo:
@@ -15,24 +15,5 @@ exports.config =
 
     stylesheets:
       joinTo:
-        'assets/vendors.css': path('vendor/css/bootstrap.css')
-        'assets/tablestakes.css' : path('src/scss/*')
-
-  paths:
-    app: 'src'
-
-  plugins:
-    sass:
-      debug: 'comments'
-
-  modules:
-    definition: false
-    # module wrapper
-    wrapper: (path, data) ->
-      if path.match(/\.(coffee|hbs)$/)
-        data = """
-        (function() {
-          #{data}
-        }).call(this);
-        """
-      data + '\n\n'
+        'assets/vendors.css':     path('vendor/css/bootstrap.css')
+        'assets/tablestakes.css': path('src/scss/*')
