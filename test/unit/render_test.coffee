@@ -49,13 +49,11 @@ describe "Render", ->
     onEdit: editHandler
   ]
 
-  it 'is a function', (done) ->
+  it 'is a function', ->
     assert window.TableStakes
     assert typeof window.TableStakes is 'function'
-    done()
 
-
-  it 'window.TableStakesLib.Core', (done) ->
+  it 'window.TableStakesLib.Core', ->
     deleteCheck = (d) ->
       d.type is 'Historical' or d.type is 'Snapshot'
 
@@ -73,25 +71,21 @@ describe "Render", ->
       .isDraggable(true)
       .render()
       .rowClasses (d) -> "total2" if d.etc is 'etc6'
-    done()
 
-  it 'render constructor', (done)->
+  it 'render constructor', ->
     render = new window.TableStakesLib.Core
     render['table'] = {
       isDraggable: ->
         false
     }
     assert render
-    done()
-    
-  #it '_buildData', (done)->
+
+  #it '_buildData', ->
     #data2 = [null]
     #table2 = new window.TableStakes()
       #.data(data2)
-    #done()
 
-
-  it 'update', (done)->
+  it 'update', ->
     rendertest = new window.TableStakesLib.Core
     rendertest['table'] = {
       isInRender: false,
@@ -107,9 +101,8 @@ describe "Render", ->
       }
 
     assert rendertest.update()
-    done()
-    
-  # it 'render', (done)->
+
+  # it 'render', ->
   #   rendertest = new window.TableStakesLib.Core
   #   rendertest['data'] = data
   #   rendertest['table'] = {
@@ -128,4 +121,4 @@ describe "Render", ->
   #     }
 
   #   assert rendertest.render()
-  #   done()
+

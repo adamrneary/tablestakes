@@ -1,24 +1,22 @@
+zombie = require('zombie')
+
 describe 'base table', ->
-  $ = null
-  window = null
-  browser = null
+  [$, window, browser] = []
+
   before (done) ->
-    glob.zombie.visit glob.url+"#base", (err, _browser) ->
+    zombie.visit glob.url+"#base", (err, _browser) ->
       browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+      window  = browser.window
+      $       = window.$
+      done(err)
 
-  it 'renders example page', (done) ->
+  it 'renders example page', ->
     header = $('#example_header').text()
-    assert header is 'Base example', 'example-header '+header
-    done()
+    assert header is 'Base example', 'example-header '+ header
 
-  it 'renders table', (done) ->
+  it 'renders table', ->
     assert $('table.tablestakes')
     assert $('table.tablestakes tr').length > 1
-    done()
 
-  it 'contains "Simple" in one row', (done) ->
+  it 'contains "Simple" in one row', ->
     assert $("table.tablestakes tr:contains('Simple')").length is 1
-    done()

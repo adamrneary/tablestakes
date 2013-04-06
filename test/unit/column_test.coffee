@@ -1,8 +1,5 @@
-describe "column", ->
-
-  it 'constructor', (done) ->
-    column = new window.TableStakesLib.Column
-      a: 'b'
+describe 'column', ->
+  it 'constructor', ->
+    column = new window.TableStakesLib.Column(a: 'b')
     assert column
     assert column.a is 'b'
-    done()

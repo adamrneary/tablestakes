@@ -1,3 +1,8 @@
-node_modules/
 .DS_Store
+node_modules/
 npm-debug.log
+
+.sass-cache/
+public/docs
+public/dist
+public/test

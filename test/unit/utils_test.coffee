@@ -30,11 +30,10 @@ describe "Utils", ->
     activatedID: true
   }
 
-  it 'window.TableStakesLib.Utils is function', (done) ->
+  it 'window.TableStakesLib.Utils is function', ->
     assert typeof window.TableStakesLib.Utils is 'function'
-    done()
 
-  it 'utils constructor', (done) ->
+  it 'utils constructor', ->
     utils = new window.TableStakesLib.Utils
       core: {
         utils:{
@@ -57,18 +56,15 @@ describe "Utils", ->
         }
       }
     assert utils
-    done()
 
-  it 'hasChildren', (done)->
+  it 'hasChildren', ->
     assert utils.hasChildren(d)
     assert utils.hasChildren(a) is 0
-    done()
 
-  it 'folded', (done)->
+  it 'folded', ->
     assert utils.folded(d) is 0
-    done()
 
-  it 'appendNode', (done)->
+  it 'appendNode', ->
     assert d.values.length is 1
     utils.appendNode(d, a)
     assert d.values.length is 2
@@ -79,47 +75,39 @@ describe "Utils", ->
 
     utils.appendNode(c, a)
     assert c.values.length is 1
-    done()
 
-  it 'pastNode', (done)->
+  it 'pastNode', ->
     #console.log c.parent.values
     utils.pastNode(c, a)
     assert c.parent.values[2] is a
-    done()
 
-  it 'removeNode', (done)->
+  it 'removeNode', ->
     utils.removeNode(c)
     assert c.parent.values.length is 2
-    done()
 
-  it 'findNextNode', (done)->
+  it 'findNextNode', ->
     assert utils.findNextNode({_id: "0_0"})._id is "0_0_0"
     assert utils.findNextNode({_id:"0_0_0"}) is null
-    done()
 
-  it 'findPrevNode', (done)->
+  it 'findPrevNode', ->
     assert utils.findPrevNode({_id: "0_0_0"})._id is "0_0"
     assert utils.findPrevNode({_id:"0_0"}) is null
-    done()
 
-  it 'findNodeByID', (done)->
+  it 'findNodeByID', ->
     utils.findNodeByID("0_0") is { _id:"0_0", values:[{_id:"0_0_0"}]}
-    done()
 
-  it 'getCurrentColumnIndex', (done)->
+  it 'getCurrentColumnIndex', ->
     assert utils.getCurrentColumnIndex('id') is 0
-    done()
 
-  it 'deactivateAll', (done)->
+  it 'deactivateAll', ->
     utils.deactivateAll(f)
     assert f.activatedID is null
     assert c.activatedID is null
     assert a.activatedID is null
     utils.deactivateAll(b)
     assert b.activatedID is null
-    done()
 
-  it 'isChild', (done)->
+  it 'isChild', ->
     assert utils.isChild(d, b)
     assert utils.isChild(a, f)
     utilsTest2 = new window.TableStakesLib.Utils
@@ -134,9 +122,8 @@ describe "Utils", ->
         }
       }
     assert utilsTest2.isChild(f, a) is false
-    done()
 
-  it 'isParent', (done)->
+  it 'isParent', ->
     utils.isParent(a, d)
     utilsTest = new window.TableStakesLib.Utils
       core: {
@@ -148,4 +135,3 @@ describe "Utils", ->
         }
       }
     utilsTest.isParent(a, d)
-    done()
