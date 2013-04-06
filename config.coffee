@@ -18,13 +18,21 @@ exports.config =
         'assets/vendors.css': path('vendor/css/bootstrap.css')
         'assets/tablestakes.css' : path('src/scss/*')
 
-  modules:
-    wrapper: false
-    definition: false
-
   paths:
     app: 'src'
 
   plugins:
     sass:
       debug: 'comments'
+
+  modules:
+    definition: false
+    # module wrapper
+    wrapper: (path, data) ->
+      if path.match(/\.(coffee|hbs)$/)
+        data = """
+        (function() {
+          #{data}
+        }).call(this);
+        """
+      data + '\n\n'
