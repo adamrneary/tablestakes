@@ -14,7 +14,7 @@
     "public/vendor/js/d3.js",
     "public/vendor/test/chai.js",
     "public/dist/tablestakes.js",
-    "public/test/test_helper.js",
-    "public/test/unit_tests.js"
+    "tmp/test_helper.js",
+    "tmp/unit_tests.js"
   ]
 }

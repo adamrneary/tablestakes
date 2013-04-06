@@ -6,8 +6,8 @@ module.exports = (grunt) ->
           'public/dist/tablestakes.js' : ['src/coffee/*.coffee']
       test:
         files:
-          'public/test/test_helper.js' : 'test/test_helper.coffee'
-          'public/test/unit_tests.js' : ['test/unit/*.coffee']
+          'tmp/test_helper.js' : 'test/test_helper.coffee'
+          'tmp/unit_tests.js' : ['test/unit/*.coffee']
 
     sass:
       dist:
