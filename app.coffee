@@ -1,9 +1,9 @@
-app = require('showcase')(__dirname)
+app = require('showcase').app(__dirname)
 
 app.configure 'development', ->
   require('brunch').watch({})
 
-app.setup null, ->
+app.setup ->
   app.get '/', (req, res) ->
     res.render 'examples/index'
 

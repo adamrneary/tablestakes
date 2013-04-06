@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html{{#if offline}} manifest="/offline.manifest"{{/if}}>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Tablestakes: A bad-ass interactive grid platform.</title>
+    <link href="/assets/vendors.css" rel="stylesheet" type="text/css">
+    <link href="/assets/tablestakes.css" rel="stylesheet" type="text/css">
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <div class="dropdown">
+            <a href="#" data-toggle="dropdown" class="span2 dropdown-toggle brand">Tablestakes.js<i class="icon-chevron-down icon-white pull-right"></i></a>
+
+            <ul role="menu" aria-labelledby="drop2" style="top: 40px;" class="dropdown-menu">
+              <li><a href="http://launchpad.activecell.com/admin">Activecell admin (rails)</a></li>
+              <li><a href="#">Porchetta admin (node/socket)</a></li><li class="divider"></li>
+              <li><a href="http://shotgun-showcase.herokuapp.com">Shotgun.js</a></li>
+              <li><a href="http://shotgun-showcase.herokuapp.com">Shotgun.js</a></li>
+              <li><a href="http://striker-showcase.herokuapp.com">Striker.js</a></li>
+              <li><a href="http://tactile-showcase.herokuapp.com">Tactile.js</a></li>
+              <li class="disabled"><a href="http://tablestakes-showcase.herokuapp.com">Tablestakes.js</a></li>
+              <li><a href="#">Trebuchet</a></li>
+            </ul>
+          </div>
+
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li><a href="/"><i class="icon-white icon-home"></i> Home</a></li>
+              <li><a href="/docs/tablestakes.html"><i class="icon-white icon-list-alt"></i> Documentation</a></li>
+              <li><a href="/performance"><i class="icon-white icon-time"></i> Performance</a></li>
+              <li><a href="/test"><i class="icon-white icon-ok"></i> Tests</a></li>
+              <li><a href="/coverage"><i class="icon-white icon-ok"></i> Coverage</a></li>
+              <li><a href="/styleguide"><i class="icon-white icon-glass"></i> Style Guide</a></li>
+              <li><a href="https://github.com/activecell/tablestakes"><i class="icon-white icon-book"></i> Source</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">{{{body}}}</div>
+    <hr>
+
+    <script src="/assets/vendors.js" defer></script>
+    <script src="/assets/tablestakes.js" defer></script>
+    <script src="/assets/examples.js" defer></script>
+  </body>
+</html>

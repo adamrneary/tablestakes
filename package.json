@@ -11,12 +11,12 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "showcase": "git+https://activecell-machine-user:NYVy98BbBb6Lae3DAdfWSLCQ@github.com/activecell/showcase",
+    "showcase": "git+ssh://git@github.com:activecell/showcase.git#0.1.1",
     "brunch": "~1.6.2",
     "javascript-brunch": "~1.5.1",
     "coffee-script-brunch": "~1.5.1",
     "css-brunch": "~1.5.1",
-    "sass-brunch": "git+ssh://git@github.com:brunch/sass-brunch.git",
+    "sass-brunch": "git+ssh://git@github.com:brunch/sass-brunch.git#ca5392084128",
     "coffeelint-brunch": "~1.4.4",
     "testem": "*"
   }
