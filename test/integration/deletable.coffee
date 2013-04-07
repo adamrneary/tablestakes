@@ -1,30 +1,16 @@
-describe 'deletable rows', ->
-  $ = null
-  window = null
-  browser = null
-  before (done) ->
-    glob.zombie.visit glob.url+"#deleteable", (err, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Deleteable', 'example-header '+header
-    done()
+scenario '#deleteable', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Deleteable'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'contains "Simple" in one row', (done) ->
-    assert $("table.tablestakes tr:contains('Simple')").length is 1
-    done()
+  next 'contains "Simple" in one row', ->
+    @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
-  it 'removes "Simple Line" on user delete', (done) ->
-    selector = browser.query("table.tablestakes tr:contains('Simple') td:last")
-    browser.fire 'click', selector, ->
-      assert $("table.tablestakes tr:contains('Simple')").length is 0
-      done()
+  next 'removes "Simple Line" on user delete', ->
+    @click 'table.tablestakes tr:nth-child(3) td:last-of-type'
+    @test.assertSelectorDoesntHaveText 'table.tablestakes tr', 'Simple'

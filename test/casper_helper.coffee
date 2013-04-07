@@ -18,5 +18,8 @@ exports.scenario = (url, func) =>
 
 exports.next = (desc, func) ->
   casper.then ->
-    @echo "\n#{desc}", 'COMMENT'
+    @echo "\n-> #{desc}"
     func.call(@)
+
+exports.pending = (desc) ->
+  casper.then -> @echo "\n#{desc}", 'COMMENT'
