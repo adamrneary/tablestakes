@@ -1,9 +1,9 @@
 {
   "name": "tablestakes",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "test": "./node_modules/testem/testem.js ci",
+    "test": "npm run build && ./node_modules/testem/testem.js ci",
     "start": "coffee app.coffee",
     "build": "./node_modules/brunch/bin/brunch build"
   },
@@ -11,13 +11,13 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "showcase": "git+ssh://git@github.com:activecell/showcase.git#0.1.3",
+    "showcase": "git+ssh://git@github.com:activecell/showcase.git#0.1.4",
     "brunch": "~1.6.2",
     "javascript-brunch": "~1.5.1",
     "coffee-script-brunch": "~1.5.1",
     "css-brunch": "~1.5.1",
     "sass-brunch": "git+ssh://git@github.com:brunch/sass-brunch.git#ca5392084128",
     "coffeelint-brunch": "~1.4.4",
-    "testem": "*"
+    "testem": ""
   }
 }

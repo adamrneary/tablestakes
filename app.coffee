@@ -1,4 +1,5 @@
-app = require('showcase').app(__dirname)
+app   = require('showcase').app(__dirname)
+docco = require('showcase').docco
 
 app.configure 'development', ->
   require('brunch').watch({})
@@ -9,3 +10,5 @@ app.setup ->
 
   app.get '/performance', (req, res) ->
     res.render 'layout', layout: false
+
+docco(files: '/src/coffee/*', output: '/public/docs', root: __dirname)
