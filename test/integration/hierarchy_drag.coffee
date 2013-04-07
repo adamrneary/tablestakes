@@ -1,26 +1,14 @@
-describe 'dragging hierarchy rows', ->
-  $ = null
-  window = null
-  browser = null
-  before (done) ->
-    glob.zombie.visit glob.url+"#hierarchy_dragging", (err, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next, pending} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Hierarchy dragging', 'example-header '+header
-    done()
+scenario '#hierarchy_dragging', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Hierarchy dragging'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'contains "New Root" in one row', (done) ->
-    assert $("table.tablestakes tr:contains('New Root')").length is 1
-    done()
+  next 'contains "New Root" in one row', ->
+    @test.assertEval -> $("table.tablestakes tr:contains('New Root')").length is 1
 
-  it 'wishes we could test drag and drop!'
+  pending 'wishes we could test drag and drop!'

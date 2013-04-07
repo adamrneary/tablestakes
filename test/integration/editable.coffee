@@ -1,28 +1,13 @@
-describe 'editable cells', ->
-  $ = null
-  window = null
-  browser = null
-  before (done) ->
-    glob.zombie.visit glob.url+"#editable", (err, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Editable', 'example-header '+header
-    done()
+scenario '#editable', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Editable'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'becomes active on click', (done) ->
-    selector = browser.query('td.editable:first')
-    browser.fire 'click', selector, ->
-      assert $('td.editable:first').hasClass('active')
-      done()
-
-  it 'records change to editable cell'
+  next 'becomes active on dblclick', ->
+    @mouseEvent('dblclick', 'td.editable:first-of-type')
+    @test.assertEval -> $('td.editable:first-of-type').hasClass('active')
