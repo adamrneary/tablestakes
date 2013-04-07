@@ -1,44 +1,27 @@
-describe 'nested rows', ->
-  $ = null
-  window = null
-  browser = null
-  before (done)->
-    glob.zombie.visit glob.url+"#nested", (e, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Nested', 'example-header '+header
-    done()
+scenario '#nested', 'nested rows', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Nested'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'contains "New Root" in one row', (done) ->
-    assert $("table.tablestakes tr:contains('New Root')").length is 1
-    done()
+  next 'contains "New Root" in one row', ->
+    @test.assertSelectorHasText 'table.tablestakes tr', 'New Root'
 
-  it 'opens first node and children are visible', (done) ->
-    td = $('td.expandable:first')
-    selector = browser.query('td.expandable')
-    assert $("table.tablestakes tr:contains('Simple')").length is 0
-    browser.fire 'click', selector, ->
-      assert td.hasClass('collapsible')
-      assert td.parent().next().find('.indent3').length is 1
-      assert $("table.tablestakes tr:contains('Simple')").length is 1
-      done()
+  next 'opens first node and children are visible', ->
+    @test.assertSelectorDoesntHaveText 'table.tablestakes tr', 'Simple'
+    @click 'td.expandable'
 
-  it 'folds first node and children hide', (done) ->
-    td = $('td.collapsible:first')
-    selector = browser.query('td.collapsible')
-    assert $("table.tablestakes tr:contains('Chart Components')").length is 1
-    browser.fire 'click', selector, ->
-      assert td.hasClass('expandable')
-      assert td.parent().next().find('.indent3').length is 0
-      assert $("table.tablestakes tr:contains('Chart Components')").length is 0
-      done()
+    @test.assertExists 'td.collapsible:first-of-type'
+    @test.assertEval -> $('.indent3').length > 1
+    @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
+
+  next 'folds first node and children hide', ->
+    @test.assertSelectorHasText 'table.tablestakes tr', 'Chart Components'
+    @click 'td.collapsible'
+
+    @test.assertEval -> $('.indent3').length is 0
+    @test.assertSelectorDoesntHaveText 'table.tablestakes tr', 'Chart Components'

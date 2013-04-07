@@ -1,59 +1,42 @@
-describe 'nested rows with editable cells', ->
-  $ = null
-  window = null
-  browser = null
-  before (done) ->
-    glob.zombie.visit glob.url+"#nested_editable", (err, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next, pending} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Nested and editable', 'example-header '+header
-    done()
+scenario '#nested_editable', 'nested rows', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Nested and editable'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'contains "New Root" in one row', (done) ->
-    assert $("table.tablestakes tr:contains('New Root')").length is 1
-    done()
+  next 'contains "New Root" in one row', ->
+    @test.assertSelectorHasText 'table.tablestakes tr', 'New Root'
 
-  it 'open first node and children visible', (done) ->
-    td = $('td.expandable:first')
-    selector = browser.query('td.expandable')
-    assert $("table.tablestakes tr:contains('Simple')").length is 0
-    browser.fire 'click', selector, ->
-      assert td.hasClass('collapsible')
-      assert td.parent().next().find('.indent3').length is 1
-      assert $("table.tablestakes tr:contains('Simple')").length is 1
-      done()
+  pending 'open first node and children visible'
+    # td = $('td.expandable:first')
+    # selector = browser.query('td.expandable')
+    # assert $("table.tablestakes tr:contains('Simple')").length is 0
+    # browser.fire 'click', selector, ->
+    #   assert td.hasClass('collapsible')
+    #   assert td.parent().next().find('.indent3').length is 1
+    #   assert $("table.tablestakes tr:contains('Simple')").length is 1
 
-  it 'fold first node and children hide', (done) ->
-    td = $('td.collapsible:first')
-    selector = browser.query('td.collapsible')
-    assert $("table.tablestakes tr:contains('Chart Components')").length is 1
-    browser.fire 'click', selector, ->
-      assert td.hasClass('expandable')
-      assert td.parent().next().find('.indent3').length is 0
-      assert $("table.tablestakes tr:contains('Chart Components')").length is 0
-      done()
+  pending 'fold first node and children hide', ->
+    # td = $('td.collapsible:first')
+    # selector = browser.query('td.collapsible')
+    # assert $("table.tablestakes tr:contains('Chart Components')").length is 1
+    # browser.fire 'click', selector, ->
+    #   assert td.hasClass('expandable')
+    #   assert td.parent().next().find('.indent3').length is 0
+    #   assert $("table.tablestakes tr:contains('Chart Components')").length is 0
 
-  it 'does not become active on click', (done) ->
-    selector = browser.query('td.editable:first')
-    browser.fire 'click', selector, ->
-      assert !$('td.editable:first').hasClass('active')
-      done()
+  pending 'does not become active on click', ->
+    # selector = browser.query('td.editable:first')
+    # browser.fire 'click', selector, ->
+    #   assert !$('td.editable:first').hasClass('active')
 
-  it 'becomes active on double click', (done) ->
-    selector = browser.query('td.editable:first')
-    browser.fire 'dblclick', selector, ->
-      assert $('td.editable:first').hasClass('active')
-      done()
+  pending 'becomes active on double click', ->
+    # selector = browser.query('td.editable:first')
+    # browser.fire 'dblclick', selector, ->
+    #   assert $('td.editable:first').hasClass('active')
 
-
-  it 'records change to editable cell'
+  pending 'records change to editable cell'
