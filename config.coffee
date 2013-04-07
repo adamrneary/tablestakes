@@ -11,6 +11,7 @@ exports.config = defaultConfig
         'assets/examples.js':    path('src/examples/*')
         'tests/unit_tests.js':   path('test/unit/*')
         'tests/vendors.js':      path('vendor/test/chai.js', 'vendor/test/mocha.js')
+        'tests/blanket.js':      path('vendor/test/blanket.js')
       order:
         before: ['vendor/js/jquery.js', 'vendor/js/underscore.js', 'vendor/rainbow/rainbow.js']
 
