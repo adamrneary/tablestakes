@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# build project
+npm run build
+
+# run unit tests
+./node_modules/testem/testem.js ci
+
+# run integration tests with casperjs
+./script/casper test/integration/

@@ -5,8 +5,8 @@
 # Checks for dependencies so you can get rolling with ActiveCell straight away
 
 echo ""
-echo "  tabestakes.js"
-echo "  A bad-ass interactive grid platform."
+echo "tabestakes.js"
+echo "A bad-ass interactive grid platform."
 echo ""
 
 #
@@ -32,7 +32,30 @@ else
 fi
 
 #
+# Check for coffee-script
+#
+if test ! $(which coffee); then
+  echo "  x You need to install coffee. You can run:"
+  echo "    npm install -g coffee-script"
+  exit
+else
+  echo "  + coffee-script found."
+fi
+
+#
+# Check for casperjs
+#
+if test ! $(which casperjs); then
+  echo "  x You need to install casperjs. If you use Homebrew, you can run:"
+  echo "    brew install casperjs"
+  exit
+else
+  echo "  + casperjs found."
+fi
+
+#
 # Install from package file
 #
-  echo "Installing from package.json."
-  npm install
+echo ""
+echo "Installing packages from package.json."
+npm install

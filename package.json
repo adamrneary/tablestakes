@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "test": "npm run build && ./node_modules/testem/testem.js ci",
+    "test": "./script/test",
     "start": "coffee app.coffee",
     "build": "./node_modules/brunch/bin/brunch build"
   },
