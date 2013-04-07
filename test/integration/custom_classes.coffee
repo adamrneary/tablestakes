@@ -1,24 +1,12 @@
-describe 'custom classes', ->
-  $ = null
-  window = null
-  browser = null
-  before (done) ->
-    glob.zombie.visit glob.url+"#custom_classes", (err, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Custom classes', 'example-header '+header
-    done()
+scenario '#custom_classes', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Custom classes'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'contains "Simple" in one row', (done) ->
-    assert $("table.tablestakes tr:contains('Simple')").length is 1
-    done()
+  next 'contains "Simple" in one row', ->
+    @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
