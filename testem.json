@@ -1,10 +1,8 @@
 {
-  "framework": "mocha",
+  "test_page": "public/test_runner.html",
   "launch_in_ci": ["phantomjs"],
   "launch_in_dev": ["phantomjs"],
-  "src_files": [
-    "public/assets/vendors.js",
-    "public/assets/tablestakes.js",
-    "public/assets/unit_tests.js"
+  "serve_files": [
+    "public/tests/*.js"
   ]
 }
