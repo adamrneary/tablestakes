@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "test": "./script/test",
+    "test": "npm run build && ./node_modules/testem/testem.js ci && ./script/casper test/integration/",
     "start": "coffee app.coffee",
     "build": "./node_modules/brunch/bin/brunch build"
   },
@@ -11,7 +11,7 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "showcase": "git+ssh://git@github.com:activecell/showcase.git#0.1.4",
+    "showcase": "git+ssh://git@github.com:activecell/showcase.git#0.1.5",
     "brunch": "~1.6.2",
     "javascript-brunch": "~1.5.1",
     "coffee-script-brunch": "~1.5.1",
