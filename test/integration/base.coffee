@@ -1,22 +1,21 @@
-zombie = require('zombie')
+# http://casperjs.org/api.html#tester
+casper = require('casper').create()
 
-describe 'base table', ->
-  [$, window, browser] = []
+casper.start 'http://localhost:5000/#base', ->
+  @waitForSelector('#example_code')
 
-  before (done) ->
-    zombie.visit glob.url+"#base", (err, _browser) ->
-      browser = _browser
-      window  = browser.window
-      $       = window.$
-      done(err)
+casper.then ->
+  @echo 'renders example page'
+  @test.assertSelectorHasText '#example_header', 'Base example'
 
-  it 'renders example page', ->
-    header = $('#example_header').text()
-    assert header is 'Base example', 'example-header '+ header
+casper.then ->
+  @echo 'renders table'
+  @test.assertExists 'table.tablestakes'
+  @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'renders table', ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
+casper.then ->
+  @echo 'contains "Simple" in one row'
+  @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
-  it 'contains "Simple" in one row', ->
-    assert $("table.tablestakes tr:contains('Simple')").length is 1
+casper.run ->
+  @test.renderResults(true)
