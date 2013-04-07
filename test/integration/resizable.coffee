@@ -1,26 +1,14 @@
-describe 'resizable columns', ->
-  $ = null
-  window = null
-  browser = null
-  before (done) ->
-    glob.zombie.visit glob.url+"#resizable", (err, _browser) ->
-      browser = _browser
-      window = browser.window
-      $ = window.$
-      done()
+{scenario, next, pending} = require('./test/casper_helper')
 
-  it 'renders example page', (done) ->
-    header = $('#example_header').text()
-    assert header is 'Resizable', 'example-header '+header
-    done()
+scenario '#resizable', 'resizable columns', ->
+  next 'renders example page', ->
+    @test.assertSelectorHasText '#example_header', 'Resizable'
 
-  it 'renders table', (done) ->
-    assert $('table.tablestakes')
-    assert $('table.tablestakes tr').length > 1
-    done()
+  next 'renders table', ->
+    @test.assertExists 'table.tablestakes'
+    @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  it 'contains "Simple" in one row', (done) ->
-    assert $("table.tablestakes tr:contains('Simple')").length is 1
-    done()
+  next 'contains "Simple" in one row', ->
+    @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
-  it 'wishes we could test drag and drop!'
+  pending 'wishes we could test drag and drop!'

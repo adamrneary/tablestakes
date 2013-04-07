@@ -1,6 +1,6 @@
 {scenario, next, pending} = require('./test/casper_helper')
 
-scenario '#hierarchy_dragging', ->
+scenario '#hierarchy_dragging', 'dragging hierarchy rows', ->
   next 'renders example page', ->
     @test.assertSelectorHasText '#example_header', 'Hierarchy dragging'
 

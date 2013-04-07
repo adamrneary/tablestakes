@@ -1,6 +1,6 @@
 {scenario, next} = require('./test/casper_helper')
 
-scenario '#base', ->
+scenario '#base', 'base table', ->
   next 'renders example page', ->
     @test.assertSelectorHasText '#example_header', 'Base example'
 

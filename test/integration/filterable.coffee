@@ -1,6 +1,6 @@
 {scenario, next, pending} = require('./test/casper_helper')
 
-scenario '#filterable', ->
+scenario '#filterable', 'table filters', ->
   next 'renders example page', ->
     @test.assertSelectorHasText '#example_header', 'Filterable'
 

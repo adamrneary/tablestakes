@@ -1,6 +1,6 @@
 {scenario, next} = require('./test/casper_helper')
 
-scenario '#deleteable', ->
+scenario '#deleteable', 'deletable rows', ->
   next 'renders example page', ->
     @test.assertSelectorHasText '#example_header', 'Deleteable'
 

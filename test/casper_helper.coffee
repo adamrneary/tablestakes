@@ -4,9 +4,9 @@
 #
 # Check out http://casperjs.org/api.html#tester
 # For more information about assertion API
-exports.scenario = (url, func) =>
+exports.scenario = (url, desc, func) ->
   baseUrl = "http://localhost:5000/#{url}"
-  casper.echo '\n' + baseUrl, 'PARAMETER'
+  casper.echo '\n' + baseUrl + '\n' + desc, 'PARAMETER'
 
   casper.start baseUrl, ->
     @waitForSelector('#example_code')
@@ -21,5 +21,12 @@ exports.next = (desc, func) ->
     @echo "\n-> #{desc}"
     func.call(@)
 
+pendings = 0
 exports.pending = (desc) ->
-  casper.then -> @echo "\n#{desc}", 'COMMENT'
+  casper.then ->
+    @echo "\n#{desc}", 'COMMENT'
+    pendings++
+
+casper.on 'exit', ->
+  return if pendings is 0
+  @echo "WARNING: #{pendings} pending", 'RED_BAR'

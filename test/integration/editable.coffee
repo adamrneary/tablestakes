@@ -1,6 +1,6 @@
 {scenario, next} = require('./test/casper_helper')
 
-scenario '#editable', ->
+scenario '#editable', 'editable cells', ->
   next 'renders example page', ->
     @test.assertSelectorHasText '#example_header', 'Editable'
 
