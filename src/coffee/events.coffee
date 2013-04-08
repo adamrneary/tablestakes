@@ -175,7 +175,7 @@ class window.TableStakesLib.Events
 
   # toggle nested
   nestedClick: (node,d, _, unshift) ->
-    target = d3.event.target
+    target = d3.event.target || node
     unless $(target).is('a') or d3.select(target).classed('active')
       if d3.event.shiftKey and not unshift
         # Shift-click to toggle fold all children, instead of itself

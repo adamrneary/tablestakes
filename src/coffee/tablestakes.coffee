@@ -301,7 +301,7 @@ class window.TableStakes
       _.each row.col, (column, i) ->
         first = _.chain(visiblePeriod)
           .filter((date) ->
-                      new Date(date).getFullYear().toString() is column.label)
+                    new Date(date).getFullYear().toString() is column.label)
           .first()
           .value()
         first = _.first(visiblePeriod) unless !!first

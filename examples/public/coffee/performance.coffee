@@ -22,6 +22,12 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: 36
+,
+  name: 'timeSeriesInitial_72'
+  rows: 12
+  columns: 2
+  timeSeries: 72
+  timeFrame: 72
 ]
 
 class Performance
@@ -154,7 +160,9 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table.columns(data.columns)
+    @table = new window.TableStakes()
+      .el("#example")
+      .columns(data.columns)
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
@@ -164,7 +172,21 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table.columns(data.columns)
+    @table = new window.TableStakes()
+      .el("#example")
+      .columns(data.columns)
+      .headRows('secondary')
+      .data(data.data)
+      .dataAggregate('sum')
+      .render()
+
+  timeSeriesInitial_72: (options)->
+    data = @timeSeriesDataGenerate(
+      options.rows, options.timeFrame, options.timeSeries)
+
+    @table = new window.TableStakes()
+      .el("#example")
+      .columns(data.columns)
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
