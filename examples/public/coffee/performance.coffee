@@ -34,6 +34,12 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: [12, 36, 12, 72, 12]
+,
+  name: 'changeOne'
+  rows: 12
+  columns: 2
+  timeSeries: 72
+  timeFrame: 12
 ]
 
 class Performance
@@ -218,8 +224,28 @@ class Performance
         .dataAggregate('sum')
         .render()
 
-#  changeOne: (options)->
-    
+  changeOne: (options)->
+    data = @timeSeriesDataGenerate(
+      options.rows, options.timeFrame, options.timeSeries)
+
+    @table = new window.TableStakes()
+      .el("#example")
+      .columns(data.columns)
+      .headRows('secondary')
+      .data(data.data)
+      .dataAggregate('sum')
+      .render()
+
+    row = Math.floor(Math.random() * options.rows)
+    col = Math.floor(Math.random() * options.timeFrame)
+
+    data.data[row].dataValue[col] = Math.floor(Math.random()*options.timeSeries)
+
+    @table.columns(data.columns)
+      .headRows('secondary')
+      .data(data.data)
+      .dataAggregate('sum')
+      .render()
 
 $(document).ready ->
   perf = new Performance
