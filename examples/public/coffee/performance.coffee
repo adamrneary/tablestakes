@@ -22,36 +22,6 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: 36
-,
-  name: 'timeSeriesInitial_72'
-  rows: 12
-  columns: 2
-  timeSeries: 72
-  timeFrame: 72
-,
-  name: 'periodUpdate'
-  rows: 12
-  columns: 2
-  timeSeries: 72
-  timeFrame: [12, 36, 12, 72, 12]
-,
-  name: 'changeOne'
-  rows: 12
-  columns: 2
-  timeSeries: 72
-  timeFrame: 12
-,
-  name: 'changeAll'
-  rows: 12
-  columns: 2
-  timeSeries: 72
-  timeFrame: 12
-,
-  name: 'changeConfig'
-  rows: 12
-  columns: 2
-  timeSeries: 72
-  timeFrame: 12
 ]
 
 class Performance
