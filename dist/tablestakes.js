@@ -239,7 +239,6 @@ window.TableStakesLib.Events = (function() {
   Events.prototype.nestedClick = function(node, d, _, unshift) {
     var self, target;
     target = d3.event.target || node;
-    console.log(d3.event.target, node);
     if (!($(target).is('a') || d3.select(target).classed('active'))) {
       if (d3.event.shiftKey && !unshift) {
         self = this;

@@ -28,6 +28,12 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: 72
+,
+  name: 'periodUpdate'
+  rows: 12
+  columns: 2
+  timeSeries: 72
+  timeFrame: [12, 36, 12, 72, 12]
 ]
 
 class Performance
@@ -191,6 +197,29 @@ class Performance
       .data(data.data)
       .dataAggregate('sum')
       .render()
+
+  periodUpdate: (options)->
+    table = @table
+
+    data = @timeSeriesDataGenerate(
+      options.rows, options.timeFrame.length, options.timeSeries)
+
+    _.each options.timeFrame, (timeFrame) ->
+      availableTimeFrame = []
+      _.each _.range(timeFrame), (val) ->
+        availableTimeFrame.push new Date(2010, 0+val).getTime()
+
+      _.each data.columns, (col) ->
+        if col.timeSeries?
+          col.timeSeries = availableTimeFrame
+
+      table.columns(data.columns)
+        .headRows('secondary')
+        .dataAggregate('sum')
+        .render()
+
+#  changeOne: (options)->
+    
 
 $(document).ready ->
   perf = new Performance
