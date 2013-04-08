@@ -34,6 +34,12 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: [12, 36, 12, 72, 12]
+,
+  name: 'changeOne'
+  rows: 12
+  columns: 2
+  timeSeries: 72
+  timeFrame: 12
 ]
 
 class Performance
@@ -239,52 +245,6 @@ class Performance
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
-      .render()
-
-  changeAll: (options)->
-    data = @timeSeriesDataGenerate(
-      options.rows, options.timeFrame, options.timeSeries)
-
-    @table = new window.TableStakes()
-      .el("#example")
-      .columns(data.columns)
-      .headRows('secondary')
-      .data(data.data)
-      .dataAggregate('sum')
-      .render()
-
-    for row, i in data.data
-      for val, j in row.dataValue
-        data.data[i].dataValue[j] = val*10
-
-    @table.columns(data.columns)
-      .headRows('secondary')
-      .data(data.data)
-      .dataAggregate('sum')
-      .render()
-
-  changeConfig: (options)->
-    deleteHandler = (id) ->
-      data.data = _.reject(data.data, (row) -> row.id is id)
-      table.data(data.data).render()
-
-    data = @timeSeriesDataGenerate(
-      options.rows, options.timeFrame, options.timeSeries)
-
-    table = new window.TableStakes().el("#example")
-    deletable = false
-
-    table.isDeletable(deletable)
-      .columns(data.columns)
-      .headRows('secondary')
-      .data(data.data)
-      .dataAggregate('sum')
-      .render()
-
-    deletable = true
-
-    table.isDeletable(deletable)
-      .onDelete(deleteHandler)
       .render()
 
 $(document).ready ->
