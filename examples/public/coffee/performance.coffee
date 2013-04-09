@@ -40,6 +40,8 @@ tests = [
   columns: 2
   timeSeries: 72
   timeFrame: 12
+  row: 1
+  col: 2
 ,
   name: 'changeAll'
   rows: 12
@@ -184,9 +186,7 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table = new window.TableStakes()
-      .el("#example")
-      .columns(data.columns)
+    @table.columns(data.columns)
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
@@ -196,9 +196,7 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table = new window.TableStakes()
-      .el("#example")
-      .columns(data.columns)
+    @table.columns(data.columns)
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
@@ -208,9 +206,7 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table = new window.TableStakes()
-      .el("#example")
-      .columns(data.columns)
+    @table.columns(data.columns)
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
@@ -240,7 +236,7 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table = new window.TableStakes()
+    table = new window.TableStakes()
       .el("#example")
       .columns(data.columns)
       .headRows('secondary')
@@ -248,14 +244,9 @@ class Performance
       .dataAggregate('sum')
       .render()
 
-    row = Math.floor(Math.random() * options.rows)
-    col = Math.floor(Math.random() * options.timeFrame)
+    data.data[options.row].dataValue[options.col] += 1000
 
-    data.data[row].dataValue[col] = Math.floor(Math.random()*options.timeSeries)
-
-    @table.columns(data.columns)
-      .headRows('secondary')
-      .data(data.data)
+    table.data(data.data)
       .dataAggregate('sum')
       .render()
 
@@ -263,7 +254,7 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    @table = new window.TableStakes()
+    table = new window.TableStakes()
       .el("#example")
       .columns(data.columns)
       .headRows('secondary')
@@ -275,9 +266,7 @@ class Performance
       for val, j in row.dataValue
         data.data[i].dataValue[j] = val*10
 
-    @table.columns(data.columns)
-      .headRows('secondary')
-      .data(data.data)
+    table.data(data.data)
       .dataAggregate('sum')
       .render()
 
@@ -289,11 +278,7 @@ class Performance
     data = @timeSeriesDataGenerate(
       options.rows, options.timeFrame, options.timeSeries)
 
-    table = new window.TableStakes().el("#example")
-    deletable = false
-
-    table.isDeletable(deletable)
-      .columns(data.columns)
+    @table.columns(data.columns)
       .headRows('secondary')
       .data(data.data)
       .dataAggregate('sum')
@@ -301,7 +286,7 @@ class Performance
 
     deletable = true
 
-    table.isDeletable(deletable)
+    @table.isDeletable(deletable)
       .onDelete(deleteHandler)
       .render()
 
