@@ -14,4 +14,7 @@ app.setup ->
   app.get '/styleguide', (req, res) ->
     res.render 'examples/styleguide'
 
-docco(files: '/src/coffee/*', output: '/public/docs', root: __dirname)
+  app.get '/tests', (req, res) ->
+    res.render 'examples/iframe', url: '/test_runner.html'
+
+docco(files: '/src/coffee/*', output: '/public/docs', root: __dirname, layout: 'linear')
