@@ -17,4 +17,7 @@ app.setup ->
   app.get '/tests', (req, res) ->
     res.render 'examples/iframe', url: '/test_runner.html'
 
+  app.get '/documentation', (req, res) ->
+    res.render 'examples/iframe', url: '/docs/tablestakes.html'
+
 docco(files: '/src/coffee/*', output: '/public/docs', root: __dirname, layout: 'linear')
