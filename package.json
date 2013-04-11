@@ -5,7 +5,8 @@
   "scripts": {
     "test": "npm run build && ./node_modules/testem/testem.js ci && ./script/casper test/integration/",
     "start": "node index.js",
-    "build": "./node_modules/brunch/bin/brunch build"
+    "build": "./node_modules/brunch/bin/brunch build",
+    "preinstall": "bundle install"
   },
   "engines": {
     "node": "0.10.x"
