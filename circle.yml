@@ -6,3 +6,6 @@ deployment:
 machine:
   node:
     version: 0.10.2
+dependencies:
+  pre:
+    - gem install sass
