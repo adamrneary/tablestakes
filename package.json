@@ -16,7 +16,7 @@
     "javascript-brunch": "~1.5.1",
     "coffee-script-brunch": "~1.5.1",
     "css-brunch": "~1.5.1",
-    "sass-brunch": "git+ssh://git@github.com:brunch/sass-brunch.git#ca5392084128",
+    "sass-brunch": "~1.5.1",
     "coffeelint-brunch": "~1.4.4",
     "testem": ""
   }
