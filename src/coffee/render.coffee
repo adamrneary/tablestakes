@@ -353,7 +353,7 @@ class window.TableStakesLib.Core
 
   _makeSelect: (d, td, column) ->
     options = @utils.ourFunctor(column.selectOptions, d)
-    
+
     select = d3.select(td)
       .html('<select class="expand-select"></select>')
       .select('.expand-select')
@@ -402,4 +402,3 @@ class window.TableStakesLib.Core
     d3.select(td).append('span')
       .classed('childrenCount', true)
       .text (d) -> if count then '(' + count + ')' else ''
-

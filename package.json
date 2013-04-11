@@ -18,7 +18,6 @@
     "coffee-script-brunch": "~1.5.1",
     "css-brunch": "~1.5.1",
     "sass-brunch": "~1.5.1",
-    "coffeelint-brunch": "~1.5.0",
     "testem": ""
   }
 }
