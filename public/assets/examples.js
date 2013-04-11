@@ -70,6 +70,7 @@ prepareLinks = function(route, el) {
       var source;
 
       $("#example_js").text(data).removeClass("rainbow");
+      $('#temp').html('');
       Rainbow.color();
       source = CoffeeScript.compile(data);
       $("#example_code").remove();

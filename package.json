@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "test": "./node_modules/testem/testem.js ci && ./script/casper test/integration/",
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "./node_modules/brunch/bin/brunch build"
   },
   "engines": {
     "node": "0.10.x"

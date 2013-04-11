@@ -57,6 +57,7 @@ prepareLinks = (route, el) ->
 
     $.get urlCoffee, (data) ->
       $("#example_js").text(data).removeClass("rainbow")
+      $('#temp').html('')
       Rainbow.color()
       source = CoffeeScript.compile(data)
       $("#example_code").remove()
