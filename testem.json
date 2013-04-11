@@ -3,6 +3,6 @@
   "launch_in_ci": ["phantomjs"],
   "launch_in_dev": ["phantomjs"],
   "serve_files": [
-    "public/tests/*.js"
+    "public/assets/*.js"
   ]
 }
