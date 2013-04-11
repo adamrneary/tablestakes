@@ -3,5 +3,4 @@ node_modules/
 npm-debug.log
 
 .sass-cache/
-public/assets
 public/docs

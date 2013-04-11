@@ -5,7 +5,6 @@ app.configure 'development', ->
   require('brunch').watch({})
 
 app.configure 'production', ->
-  require('brunch').build({})
   app.set('github-client-id', '25505fffcba6c3f4b29e')
   app.set('github-client-secret', '434fbe2831a94b1c9a7931734e769cf2ac25ee09')
 
