@@ -95,10 +95,10 @@ describe "Render", ->
         true
     }
     rendertest['selection'] = {
-      transition: ->
-        call: ->
-          true
-      }
+#      transition: ->
+      call: ->
+        true
+    }
 
     assert rendertest.update()
 
