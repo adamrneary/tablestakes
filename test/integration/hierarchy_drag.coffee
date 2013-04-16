@@ -11,4 +11,7 @@ scenario '#hierarchy_dragging', 'dragging hierarchy rows', ->
   next 'contains "New Root" in one row', ->
     @test.assertEval -> $("table.tablestakes tr:contains('New Root')").length is 1
 
+  next 'contains draggable element', ->
+    @test.assertExists 'table.tablestakes tbody tr td.draggable'
+
   pending 'wishes we could test drag and drop!'
