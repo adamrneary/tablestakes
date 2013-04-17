@@ -19,11 +19,11 @@ scenario '#editors', 'Custom cell editors', ->
     @test.assertEval (() ->
       $('tr:nth-last-child(1) td select').val() is 'qa'),
       'selected option is "qa"'
-    @test.assertEval (() ->
-      value = $('tr:nth-last-child(1) td select optgroup option:last-of-type').text()
-      $('tr:nth-last-child(1) td select').val(value)
-      $('tr:nth-last-child(1) td select').val() is 'design'
-      ), '"select" editor value switched to last option ("design")'
+#    @test.assertEval (() ->
+#      value = $('tr:nth-last-child(1) td select optgroup option:last-of-type').text()
+#      $('tr:nth-last-child(1) td select').val(value)
+#      $('tr:nth-last-child(1) td select').val() is 'design'
+#      ), '"select" editor value switched to last option ("design")'
 
   next '"Text" editor', ->
     @test.assertExist 'table.tablestakes tr td.editable'
