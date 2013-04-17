@@ -16,7 +16,7 @@ class window.TableStakesLib.Core
 
   update: ->
     @table.isInRender = true
-    @selection.transition().call (selection) =>
+    @selection.call (selection) =>
       @table.update selection
 
   # responsible for &lt;table&gt; and contents

@@ -3,7 +3,7 @@ data = [
   type: "ahaha"
   values: [
     id: "Charts"
-    values: [
+    _values: [
       id: "Simple Line with <a href='http://www.google.com'>Simple Link</a>"
       type: "Some text with <a href='http://www.yahoo.com'>Another Link</a>"
     ,

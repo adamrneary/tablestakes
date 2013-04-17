@@ -368,7 +368,7 @@ window.TableStakesLib.Core = (function() {
     var _this = this;
 
     this.table.isInRender = true;
-    return this.selection.transition().call(function(selection) {
+    return this.selection.call(function(selection) {
       return _this.table.update(selection);
     });
   };
@@ -1326,6 +1326,7 @@ window.TableStakes = (function() {
           }
         }
         return _data.push({
+          id: i,
           firstColumn: row.firstColumn,
           period: _period,
           dataValue: _dataValue

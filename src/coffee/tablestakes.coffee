@@ -393,6 +393,7 @@ class window.TableStakes
             _dataValue.push '-'
 
         _data.push
+          id: i
           firstColumn: row.firstColumn
           period: _period
           dataValue: _dataValue
