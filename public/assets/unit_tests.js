@@ -473,12 +473,8 @@
       }
     };
     rendertest['selection'] = {
-      transition: function() {
-        return {
-          call: function() {
-            return true;
-          }
-        };
+      call: function() {
+        return true;
       }
     };
     return assert(rendertest.update());

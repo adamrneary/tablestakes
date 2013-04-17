@@ -11,4 +11,7 @@ scenario '#reorder_dragging', 'dragging rows to reorder', ->
   next 'contains "Simple" in one row', ->
     @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
+  next 'contains draggable element', ->
+    @test.assertExists 'table.tablestakes tbody tr td.draggable'
+
   pending 'wishes we could test drag and drop!'

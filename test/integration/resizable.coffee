@@ -11,4 +11,7 @@ scenario '#resizable', 'resizable columns', ->
   next 'contains "Simple" in one row', ->
     @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
+  next 'table head contains draggable element', ->
+    @test.assertExist 'table.tablestakes thead th div.resizeable-handle'
+
   pending 'wishes we could test drag and drop!'

@@ -8,16 +8,20 @@ scenario '#select_options', 'Custom cell editor specially for custom select opti
     @test.assertExists 'table.tablestakes'
     @test.assertEval -> $('table.tablestakes tr').length > 1
 
-  pending 'displays a dropdown menu as requested'
-  #   assert $("table.tablestakes select").length > 0
-  #
-  pending 'toggles boolean fields on click'
-  #   selector = $("table.tablestakes tr:contains('task 1') td:last")
-  #   assert selector.hasClass('boolean-false')
-  #   browser.fire 'click', selector, =>
-  #     assert selector.hasClass('boolean-true')
-  #     browser.fire 'click', selector, =>
-  #       assert selector.hasClass('boolean-false')
-  #       browser.fire 'click', selector, =>
-  #         assert selector.hasClass('boolean-true')
-  #         done()
+  next 'table contains "select"', ->
+    @test.assertExists 'table.tablestakes tbody td select'
+
+  next 'select options', ->
+    @test.assertEval (() ->
+      $('tr:nth-child(2) td select option').length is 3),
+      'Category options length is 3'
+    @test.assertEval (() ->
+      $('tr:nth-last-child(1) td select option').length is 2),
+      'Account options length is 2'
+
+  pending 'changing select value', ->
+#    @test.assertEval (() ->
+#      value = $('tr:nth-last-child(1) td select optgroup option:last-of-type').text()
+#      $('tr:nth-last-child(1) td select').val(value)
+#      $('tr:nth-last-child(1) td select').val() is 'design'
+#      ), '"select" editor value switched to last option ("design")'
