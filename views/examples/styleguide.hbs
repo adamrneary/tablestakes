@@ -1,3 +1,70 @@
+{{! .span9
+  each section in sections
+    a(name='#{section.data.reference}') &nbsp;
+    br
+    .styleguide-example
+      h3 #{section.data.reference} #{section.data.header}
+        em #{section.data.filename}
+      .styleguide-description
+        p!= section.data.description
+        if section.data.modifiers
+          ul.styleguide-modifier
+            each modifier in section.modifiers()
+              li
+                strong #{modifier.name()} -
+                text #{modifier.description()}
+      .styleguide-element!= section.data.example
+=      each modifier in section.data.modifiers
+        .styleguide-element.styleguide-modifier
+          span.styleguide-modifier-name #{modifier.name()}
+=          section!= modifier.data.example
+      pre.styleguide-code
+        code(data-language='html')= section.data.example
+ }}
+
 <div class="container">
-  <h1>Comming soon, need to understand kss</h1>
+  <div class="row-fluid">
+    <div class="span3">
+      <div class="well" style="position: fixed;">
+        <ul class="nav nav-list">
+          {{#each sections}}
+          <li><a href="#{{data.reference}}">{{data.reference}} {{data.header}}</a></li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class="span9">
+      {{#each sections}}
+      <a name="{{data.reference}}">&nbsp;</a>
+      <br>
+
+      <div class="styleguide-example">
+        <h3>{{data.reference}} {{data.header}} <em>{{data.filename}}</em></h3>
+
+        <div class="styleguide-description">
+          <p>{{{data.description}}}</p>
+          {{#if data.modifiers}}
+          <ul class="styleguide-modifier">
+            {{#each modifiers}}
+            <li><strong>{{name}}</strong><text>{{description}}</text></li>
+            {{/each}}
+          </ul>
+          {{/if}}
+        </div>
+
+        <div class="styleguide-element">{{{data.example}}}</div>
+        {{#each data.modifiers}}
+        <div class="styleguide-element styleguide-modifier">
+          <span class="styleguide-modifier-name">{{name}}</span>
+          <section>{{{data.example}}}</section>
+        </div>
+        {{/each}}
+
+        <pre class="styleguide-code">
+          <code data-language='html'>{{data.example}}</code>
+        </pre>
+      </div>{{! div.styleguide-example }}
+      {{/each}}
+    </div>
+  </div>
 </div>
