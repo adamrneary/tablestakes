@@ -1,6 +1,6 @@
 {
   "name": "tablestakes",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "scripts": {
     "test": "./node_modules/testem/testem.js ci && ./script/casper test/integration/",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.6.2",
-    "showcase": "~0.2.4",
+    "showcase": "~0.2.6",
     "kss": "~0.3.6"
   },
   "devDependencies": {
