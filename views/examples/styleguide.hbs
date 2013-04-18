@@ -1,27 +1,3 @@
-{{! .span9
-  each section in sections
-    a(name='#{section.data.reference}') &nbsp;
-    br
-    .styleguide-example
-      h3 #{section.data.reference} #{section.data.header}
-        em #{section.data.filename}
-      .styleguide-description
-        p!= section.data.description
-        if section.data.modifiers
-          ul.styleguide-modifier
-            each modifier in section.modifiers()
-              li
-                strong #{modifier.name()} -
-                text #{modifier.description()}
-      .styleguide-element!= section.data.example
-=      each modifier in section.data.modifiers
-        .styleguide-element.styleguide-modifier
-          span.styleguide-modifier-name #{modifier.name()}
-=          section!= modifier.data.example
-      pre.styleguide-code
-        code(data-language='html')= section.data.example
- }}
-
 <div class="container">
   <div class="row-fluid">
     <div class="span3">
@@ -61,7 +37,7 @@
         {{/each}}
 
         <pre class="styleguide-code">
-          <code data-language='html'>{{data.example}}</code>
+          <code data-language='html' style="margin-left: -78px;">{{data.example}}</code>
         </pre>
       </div>{{! div.styleguide-example }}
       {{/each}}
