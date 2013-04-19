@@ -21,25 +21,11 @@ _.each ["row1","row2","row3","row4","row5","row6","row7"], (rowLabel, i) ->
       period_id: new Date(2010, 0+month).getTime()
       value: (i+1) + (j+1)
 
-data = []
-_.each _.keys(_.groupBy(dataFromStriker, (obj) -> obj.firstColumn)),
-(rowLabel, i) ->
-  data.push
-    id: i
-    firstColumn: rowLabel
-    period: _.chain(dataFromStriker)
-      .filter((obj) -> obj.firstColumn is rowLabel)
-      .map((obj) -> obj.period_id).value()
-    dataValue: _.chain(dataFromStriker)
-      .filter((obj) -> obj.firstColumn is rowLabel)
-      .map((obj) -> obj.value).value()
-
 editHandler = (id, field, newValue) ->
   newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
-  for row in data
-    if row.id is id
-      row.dataValue[_.indexOf row.period, field] = newValue
-  grid.data(data).render()
+  obj = _.filter(dataFromStriker, (obj) -> obj.period_id is field)[id]
+  dataFromStriker[_.indexOf dataFromStriker, obj].value = newValue
+  grid.parseFlatData(dataFromStriker).render()
 
 columns = [
   id: "firstColumn"
@@ -57,7 +43,7 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .headRows('secondary')
-  .data(data)
+  .parseFlatData(dataFromStriker)
   .render()
 
 sliders = $('<div id="sliders"></div>').appendTo('#temp')
