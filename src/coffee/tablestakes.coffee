@@ -46,6 +46,22 @@ class window.TableStakes
       for key of options
         @set key, options[key]
 
+  parseFlatData: (rawData) ->
+    data = []
+    _.each _.keys(_.groupBy(rawData, (obj) -> obj.firstColumn)),
+      (rowLabel, i) ->
+        data.push
+          id: i
+          firstColumn: rowLabel
+          period: _.chain(rawData)
+            .filter((obj) -> obj.firstColumn is rowLabel)
+            .map((obj) -> obj.period_id).value()
+          dataValue: _.chain(rawData)
+            .filter((obj) -> obj.firstColumn is rowLabel)
+            .map((obj) -> obj.value).value()
+    @data(data)
+    @
+
   render: ->
     @gridData = [values: @data()]
     @columns().forEach (column, i) =>
@@ -197,7 +213,7 @@ class window.TableStakes
               then column.label item else column.label
             else
               _column.id =  item
-              _column.label = new Date(item).toDateString().split(' ')[1]
+              _column.label = new Date(item).toGMTString().split(' ')[2]
               _column.secondary = new Date(item).getFullYear().toString()
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
@@ -209,13 +225,13 @@ class window.TableStakes
             _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
             if grouppedItems.length > 1
               _column.label = [
-                new Date(_.first(grouppedItems)).toDateString().split(' ')[1],
-                new Date(_.last(grouppedItems)).toDateString().split(' ')[1]
+                new Date(_.first(grouppedItems)).toGMTString().split(' ')[2],
+                new Date(_.last(grouppedItems)).toGMTString().split(' ')[2]
               ].join ' - '
             else
               _column.label = new Date(_.first(grouppedItems))
-                .toDateString()
-                .split(' ')[1]
+                .toGMTString()
+                .split(' ')[2]
             _column.secondary = new Date(_.last(grouppedItems))
               .getFullYear()
               .toString()

@@ -13,12 +13,6 @@ availableTimeFrame = [
   new Date(2013, 11, 1).getTime()
 ]
 
-#displayPeriods = [
-#  new Date(2012, 10, 1).getTime(),
-#  new Date(2012, 11, 1).getTime(),
-#  new Date(2013,  0, 1).getTime()
-#]
-
 dataFromStriker = []
 _.each ["row1","row2","row3","row4","row5","row6","row7"], (rowLabel, i) ->
   _.each _.range(72), (month, j) ->
@@ -27,25 +21,11 @@ _.each ["row1","row2","row3","row4","row5","row6","row7"], (rowLabel, i) ->
       period_id: new Date(2010, 0+month).getTime()
       value: (i+1) + (j+1)
 
-data = []
-_.each _.keys(_.groupBy(dataFromStriker, (obj) -> obj.firstColumn)),
-(rowLabel, i) ->
-  data.push
-    id: i
-    firstColumn: rowLabel
-    period: _.chain(dataFromStriker)
-      .filter((obj) -> obj.firstColumn is rowLabel)
-      .map((obj) -> obj.period_id).value()
-    dataValue: _.chain(dataFromStriker)
-      .filter((obj) -> obj.firstColumn is rowLabel)
-      .map((obj) -> obj.value).value()
-
 editHandler = (id, field, newValue) ->
   newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
-  for row in data
-    if row.id is id
-      row.dataValue[_.indexOf row.period, field] = newValue
-  grid.data(data).render()
+  obj = _.filter(dataFromStriker, (obj) -> obj.period_id is field)[id]
+  dataFromStriker[_.indexOf dataFromStriker, obj].value = newValue
+  grid.parseFlatData(dataFromStriker).render()
 
 columns = [
   id: "firstColumn"
@@ -63,16 +43,8 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .headRows('secondary')
-  .data(data)
+  .parseFlatData(dataFromStriker)
   .render()
-
-#toggle = true
-#
-#$('<button>display/hide</button>').appendTo('#temp').on 'click', (e)->
-#  toggle = !toggle
-#  grid.displayColumns(displayPeriods, toggle)
-#    .headRows('secondary')
-#    .render()
 
 sliders = $('<div id="sliders"></div>').appendTo('#temp')
 
@@ -84,15 +56,14 @@ labelTimeFrame =  $('<label>')
   .appendTo '#sliders'
 sliderTimeFrame = $("<div>").attr("id", "sliderTimeFrame").appendTo '#sliders'
 sliderTimeFrame.slider
-  min: 0  # TODO: temporary solution
-  max: 71 # TODO: temporary solution
-  values: [36, 47] # TODO: temporary solution
+  min: 0            # TODO: temporary solution
+  max: 71           # TODO: temporary solution
+  values: [36, 47]  # TODO: temporary solution
   range: true
   slide: (event, ui) ->
     availableTimeFrame = []
     _.each _.range(ui.values[0], ui.values[1]+1), (val) ->
       availableTimeFrame.push new Date(2010, 0+val).getTime()
-
 
     _.each columns, (col) ->
       if col.timeSeries?
