@@ -1,5 +1,5 @@
 # Tablestakes
-A bad-ass interactive grid platform.
+Bad-ass interactive tables.
 
 ## The five-minute setup.
 Check your system for local requirements (run until it passes!):
