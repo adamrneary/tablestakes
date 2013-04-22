@@ -1,6 +1,6 @@
 {
   "name": "tablestakes",
-  "version": "0.2.3",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "test": "./node_modules/testem/testem.js ci && ./script/casper test/integration/",
