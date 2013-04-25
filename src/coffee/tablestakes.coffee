@@ -46,9 +46,9 @@ class window.TableStakes
       for key of options
         @set key, options[key]
 
-  parseFlatData: (flatData) ->
+  parseFlatData: (flatData, key) ->
     data = []
-    _.each _.keys(_.groupBy(flatData, (obj) -> obj.product_id)),
+    _.each _.keys(_.groupBy(flatData, (obj) -> obj[key])),
       (productId, i) ->
         data.push
           id: i

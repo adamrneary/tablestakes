@@ -889,12 +889,12 @@ window.TableStakes = (function() {
     }
   }
 
-  TableStakes.prototype.parseFlatData = function(flatData) {
+  TableStakes.prototype.parseFlatData = function(flatData, key) {
     var data;
 
     data = [];
     _.each(_.keys(_.groupBy(flatData, function(obj) {
-      return obj.product_id;
+      return obj[key];
     })), function(productId, i) {
       return data.push({
         id: i,

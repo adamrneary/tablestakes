@@ -27,7 +27,7 @@ editHandler = (id, field, newValue) ->
   newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
   obj = _.filter(dataFromStriker, (obj) -> obj.periodUnix is field)[id]
   dataFromStriker[_.indexOf dataFromStriker, obj].actual = newValue
-  grid.parseFlatData(dataFromStriker).render()
+  grid.parseFlatData(dataFromStriker, 'product_id').render()
 
 columns = [
   id: "id"
@@ -47,7 +47,7 @@ grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .headRows('secondary')
-  .parseFlatData(dataFromStriker)
+  .parseFlatData(dataFromStriker, 'product_id')
   .dataAggregate('sum')
   .render()
 
@@ -87,6 +87,6 @@ sliderTimeFrame.slider
     )
     grid.columns(columns)
       .headRows('secondary')
-      .parseFlatData(dataFromStriker)
+      .parseFlatData(dataFromStriker, 'product_id')
       .dataAggregate('sum')
       .render()
