@@ -46,19 +46,25 @@ class window.TableStakes
       for key of options
         @set key, options[key]
 
-  parseFlatData: (rawData) ->
+  parseFlatData: (flatData) ->
     data = []
-    _.each _.keys(_.groupBy(rawData, (obj) -> obj.firstColumn)),
-      (rowLabel, i) ->
+    _.each _.keys(_.groupBy(flatData, (obj) -> obj.product_id)),
+      (productId, i) ->
         data.push
           id: i
-          firstColumn: rowLabel
-          period: _.chain(rawData)
-            .filter((obj) -> obj.firstColumn is rowLabel)
-            .map((obj) -> obj.period_id).value()
-          dataValue: _.chain(rawData)
-            .filter((obj) -> obj.firstColumn is rowLabel)
-            .map((obj) -> obj.value).value()
+          product_id: productId
+          period_id: _.chain(flatData)
+            .filter((obj) -> obj.product_id is productId)
+            .map((obj) -> obj.period_id)
+            .value()
+          period: _.chain(flatData)
+            .filter((obj) -> obj.product_id is productId)
+            .map((obj) -> obj.periodUnix)
+            .value()
+          dataValue: _.chain(flatData)
+            .filter((obj) -> obj.product_id is productId)
+            .map((obj) -> obj.actual)
+            .value()
     @data(data)
     @
 
@@ -376,24 +382,28 @@ class window.TableStakes
 
       if availableTimeFrame.length <= 12
         return data
-      else
-      if 12 < availableTimeFrame.length <= 36
+      else if 12 < availableTimeFrame.length <= 36
         groupper = 3
       else
         groupper = 12
 
       _.each data, (row, i) ->
+#        unless row.period? and row.period.length
+#          return
         _period = []
+        _period_id = []
         _dataValue = []
 
         start = _.indexOf row.period, _.first availableTimeFrame
-        end = _.lastIndexOf row.period, _.last availableTimeFrame
+        end = _.indexOf row.period, _.last availableTimeFrame
 
         unless start is -1 or end is -1
-          _slicePeriod = row.period.slice(start, end+1)
-          _sliceValue = row.dataValue.slice(start, end+1)
+          _slicePeriod = if row.period.length then row.period.slice(start, end+1) else []
+          _slicePeriodId = if row.period_id.length then row.period_id.slice(start, end+1) else []
+          _sliceValue = if row.dataValue.length then row.dataValue.slice(start, end+1) else []
           for val, j in _slicePeriod by groupper
             _period.push [val,_.last(_slicePeriod.slice(j,j+groupper))].join '-'
+            _period_id.push [_.first(_slicePeriodId.slice(j,j+groupper)),_.last(_slicePeriodId.slice(j,j+groupper))].join '-'
             _dataValue.push _.reduce(
               _sliceValue.slice(j, j+groupper),
             (memo, num) ->
@@ -406,24 +416,25 @@ class window.TableStakes
         else
           for val, j in availableTimeFrame by groupper
             _period.push [val,_.last availableTimeFrame[j..j+groupper]].join '-'
+            _period_id.push [_.first(row.period_id.slice(j,j+groupper)),_.last(row.period_id.slice(j,j+groupper))].join '-'
             _dataValue.push '-'
 
         _data.push
           id: i
-          firstColumn: row.firstColumn
+          product_id: row.product_id
+          period_id: _period_id
           period: _period
           dataValue: _dataValue
 
       _data
 
-    @_initialData = @_data unless @_initialData
-    data = @_initialData
+    data = @data()
     timeFrame = _.find(@_columns, (obj) -> obj.timeSeries?).timeSeries
 
     if _.isFunction(filter)
       return @
     else if filter is 'sum'
-      @_data = summ(data, timeFrame)
+      @data summ(data, timeFrame)
     @
 
   # builds getter/setter methods (initialized with defaults)

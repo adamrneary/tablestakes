@@ -156,7 +156,10 @@ class window.TableStakesLib.Core
       text = (d) ->
         if column.timeSeries? and d.period? and d.dataValue?
           index = d.period.indexOf(column.id)
-          d.dataValue[index]
+          if column.format
+            column.format d.dataValue[index]
+          else
+            d.dataValue[index]
         else if column.format
           column.format d
         else

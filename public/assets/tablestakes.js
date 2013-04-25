@@ -539,7 +539,11 @@ window.TableStakesLib.Core = (function() {
 
         if ((column.timeSeries != null) && (d.period != null) && (d.dataValue != null)) {
           index = d.period.indexOf(column.id);
-          return d.dataValue[index];
+          if (column.format) {
+            return column.format(d.dataValue[index]);
+          } else {
+            return d.dataValue[index];
+          }
         } else if (column.format) {
           return column.format(d);
         } else {
@@ -885,25 +889,30 @@ window.TableStakes = (function() {
     }
   }
 
-  TableStakes.prototype.parseFlatData = function(rawData) {
+  TableStakes.prototype.parseFlatData = function(flatData) {
     var data;
 
     data = [];
-    _.each(_.keys(_.groupBy(rawData, function(obj) {
-      return obj.firstColumn;
-    })), function(rowLabel, i) {
+    _.each(_.keys(_.groupBy(flatData, function(obj) {
+      return obj.product_id;
+    })), function(productId, i) {
       return data.push({
         id: i,
-        firstColumn: rowLabel,
-        period: _.chain(rawData).filter(function(obj) {
-          return obj.firstColumn === rowLabel;
+        product_id: productId,
+        period_id: _.chain(flatData).filter(function(obj) {
+          return obj.product_id === productId;
         }).map(function(obj) {
           return obj.period_id;
         }).value(),
-        dataValue: _.chain(rawData).filter(function(obj) {
-          return obj.firstColumn === rowLabel;
+        period: _.chain(flatData).filter(function(obj) {
+          return obj.product_id === productId;
         }).map(function(obj) {
-          return obj.value;
+          return obj.periodUnix;
+        }).value(),
+        dataValue: _.chain(flatData).filter(function(obj) {
+          return obj.product_id === productId;
+        }).map(function(obj) {
+          return obj.actual;
         }).value()
       });
     });
@@ -1315,27 +1324,27 @@ window.TableStakes = (function() {
       _data = [];
       if (availableTimeFrame.length <= 12) {
         return data;
-      } else {
-
-      }
-      if ((12 < (_ref = availableTimeFrame.length) && _ref <= 36)) {
+      } else if ((12 < (_ref = availableTimeFrame.length) && _ref <= 36)) {
         groupper = 3;
       } else {
         groupper = 12;
       }
       _.each(data, function(row, i) {
-        var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _slicePeriod, _sliceValue;
+        var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _period_id, _slicePeriod, _slicePeriodId, _sliceValue;
 
         _period = [];
+        _period_id = [];
         _dataValue = [];
         start = _.indexOf(row.period, _.first(availableTimeFrame));
-        end = _.lastIndexOf(row.period, _.last(availableTimeFrame));
+        end = _.indexOf(row.period, _.last(availableTimeFrame));
         if (!(start === -1 || end === -1)) {
-          _slicePeriod = row.period.slice(start, end + 1);
-          _sliceValue = row.dataValue.slice(start, end + 1);
+          _slicePeriod = row.period.length ? row.period.slice(start, end + 1) : [];
+          _slicePeriodId = row.period_id.length ? row.period_id.slice(start, end + 1) : [];
+          _sliceValue = row.dataValue.length ? row.dataValue.slice(start, end + 1) : [];
           for ((groupper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); groupper > 0 ? _i < _len : _i >= 0; j = _i += groupper) {
             val = _slicePeriod[j];
             _period.push([val, _.last(_slicePeriod.slice(j, j + groupper))].join('-'));
+            _period_id.push([_.first(_slicePeriodId.slice(j, j + groupper)), _.last(_slicePeriodId.slice(j, j + groupper))].join('-'));
             _dataValue.push(_.reduce(_sliceValue.slice(j, j + groupper), function(memo, num) {
               if (_.isNumber(num) && _.isNumber(memo)) {
                 return memo + num;
@@ -1348,29 +1357,28 @@ window.TableStakes = (function() {
           for ((groupper > 0 ? (j = _j = 0, _len1 = availableTimeFrame.length) : j = _j = availableTimeFrame.length - 1); groupper > 0 ? _j < _len1 : _j >= 0; j = _j += groupper) {
             val = availableTimeFrame[j];
             _period.push([val, _.last(availableTimeFrame.slice(j, +(j + groupper) + 1 || 9e9))].join('-'));
+            _period_id.push([_.first(row.period_id.slice(j, j + groupper)), _.last(row.period_id.slice(j, j + groupper))].join('-'));
             _dataValue.push('-');
           }
         }
         return _data.push({
           id: i,
-          firstColumn: row.firstColumn,
+          product_id: row.product_id,
+          period_id: _period_id,
           period: _period,
           dataValue: _dataValue
         });
       });
       return _data;
     };
-    if (!this._initialData) {
-      this._initialData = this._data;
-    }
-    data = this._initialData;
+    data = this.data();
     timeFrame = _.find(this._columns, function(obj) {
       return obj.timeSeries != null;
     }).timeSeries;
     if (_.isFunction(filter)) {
       return this;
     } else if (filter === 'sum') {
-      this._data = summ(data, timeFrame);
+      this.data(summ(data, timeFrame));
     }
     return this;
   };

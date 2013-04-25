@@ -1,42 +1,46 @@
 availableTimeFrame = [
-  new Date(2013,  0, 1).getTime(),
-  new Date(2013,  1, 1).getTime(),
-  new Date(2013,  2, 1).getTime(),
-  new Date(2013,  3, 1).getTime(),
-  new Date(2013,  4, 1).getTime(),
-  new Date(2013,  5, 1).getTime(),
-  new Date(2013,  6, 1).getTime(),
-  new Date(2013,  7, 1).getTime(),
-  new Date(2013,  8, 1).getTime(),
-  new Date(2013,  9, 1).getTime(),
-  new Date(2013, 10, 1).getTime(),
-  new Date(2013, 11, 1).getTime()
+  new Date(2013,  0, 2).getTime(),
+  new Date(2013,  1, 2).getTime(),
+  new Date(2013,  2, 2).getTime(),
+  new Date(2013,  3, 2).getTime(),
+  new Date(2013,  4, 2).getTime(),
+  new Date(2013,  5, 2).getTime(),
+  new Date(2013,  6, 2).getTime(),
+  new Date(2013,  7, 2).getTime(),
+  new Date(2013,  8, 2).getTime(),
+  new Date(2013,  9, 2).getTime(),
+  new Date(2013, 10, 2).getTime(),
+  new Date(2013, 11, 2).getTime(),
 ]
 
 dataFromStriker = []
-_.each ["row1","row2","row3","row4","row5","row6","row7"], (rowLabel, i) ->
+_.each ["hash_key_1","hash_key_2","hash_key_3","hash_key_4","hash_key_5","hash_key_6","hash_key_7"], (rowLabel, i) ->
   _.each _.range(72), (month, j) ->
     dataFromStriker.push
-      firstColumn: rowLabel
-      period_id: new Date(2010, 0+month).getTime()
-      value: (i+1) + (j+1)
+#      firstColumn: rowLabel
+      product_id: rowLabel  # TODO: temporary solution. hash value should be
+      period_id: month      # TODO: temporary solution. hash value should be
+      periodUnix: new Date(2010, 0+month, 2).getTime()
+      actual: (i+1) + (j+1)
 
 editHandler = (id, field, newValue) ->
   newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
-  obj = _.filter(dataFromStriker, (obj) -> obj.period_id is field)[id]
-  dataFromStriker[_.indexOf dataFromStriker, obj].value = newValue
+  obj = _.filter(dataFromStriker, (obj) -> obj.periodUnix is field)[id]
+  dataFromStriker[_.indexOf dataFromStriker, obj].actual = newValue
   grid.parseFlatData(dataFromStriker).render()
 
 columns = [
-  id: "firstColumn"
+  id: "id"
   label: "Name"
   classes: "row-heading"
+  format: (d) -> "row" + d.id
 ,
   id: 'period'
-  dataValue: 'dataValue'
+  dataValue: 'actual'
   timeSeries: availableTimeFrame
   isEditable: true
   onEdit: editHandler
+  format: (d) -> '$'+d
 ]
 
 grid = new window.TableStakes()
@@ -44,6 +48,7 @@ grid = new window.TableStakes()
   .columns(columns)
   .headRows('secondary')
   .parseFlatData(dataFromStriker)
+  .dataAggregate('sum')
   .render()
 
 sliders = $('<div id="sliders"></div>').appendTo('#temp')
@@ -63,7 +68,7 @@ sliderTimeFrame.slider
   slide: (event, ui) ->
     availableTimeFrame = []
     _.each _.range(ui.values[0], ui.values[1]+1), (val) ->
-      availableTimeFrame.push new Date(2010, 0+val).getTime()
+      availableTimeFrame.push new Date(2010, 0+val, 2).getTime()
 
     _.each columns, (col) ->
       if col.timeSeries?
@@ -82,5 +87,6 @@ sliderTimeFrame.slider
     )
     grid.columns(columns)
       .headRows('secondary')
+      .parseFlatData(dataFromStriker)
       .dataAggregate('sum')
       .render()
