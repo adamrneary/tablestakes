@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "coffee-script": "~1.6.2",
-    "showcase": "~0.2.9",
+    "showcase": "0.2.10",
     "kss": "~0.3.6"
   },
   "devDependencies": {
@@ -21,6 +21,6 @@
     "coffee-script-brunch": "~1.5.1",
     "css-brunch": "~1.5.1",
     "sass-brunch": "~1.5.1",
-    "testem": "0.2.83"
+    "testem": "~0.2.83"
   }
 }
