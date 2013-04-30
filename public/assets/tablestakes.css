@@ -126,13 +126,13 @@ table.tablestakes thead .sortable {
     content: ""; }
   /* line 248 */
   table.tablestakes thead .sortable:before {
-    top: 12px;
+    top: 8px;
     border-color: transparent transparent #00455b transparent;
     border-style: solid;
     border-width: 0px 5px 5px 5px; }
   /* line 255 */
   table.tablestakes thead .sortable:after {
-    bottom: 12px;
+    bottom: 8px;
     border-color: #00455b transparent transparent transparent;
     border-style: solid;
     border-width: 5px 5px 0 5px; }
@@ -239,7 +239,7 @@ table.tablestakes tbody tr.dragged {
 table.tablestakes th, table.tablestakes td {
   font-size: 12px;
   text-align: right;
-  padding: 9px 8px; }
+  padding: 5px; }
   /* line 448 */
   table.tablestakes th.plan, table.tablestakes td.plan {
     color: #675b5e;
