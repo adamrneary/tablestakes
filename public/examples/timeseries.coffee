@@ -51,7 +51,7 @@ grid = new window.TableStakes()
   .dataAggregate('sum')
   .render()
 
-sliders = $('<div id="sliders"></div>').appendTo('#temp')
+sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo('#temp')
 
 labelTimeFrame =  $('<label>')
   .attr('for', 'sliderTimeFrame')

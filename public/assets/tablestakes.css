@@ -387,7 +387,7 @@ table.tablestakes th, table.tablestakes td {
       display: block;
       width: 24px;
       height: 25px;
-      background: url("../img/sprite_air.png") -10px -10px no-repeat; }
+      background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat; }
   /* line 634 */
   table.tablestakes th.boolean-false:before, table.tablestakes td.boolean-false:before {
     background: #dc6e59;
