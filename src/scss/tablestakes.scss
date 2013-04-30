@@ -220,7 +220,7 @@ table.tablestakes {
 
 // Sortable
 //
-// TODO: write descriptions
+// Sortable cell contents needs to be wrapped inside of a div element due the FF bug.
 //
 // .sortable - for columns not currently sorted, informing the user that the column can be sorted
 // .sortable.sorted-asc - for column currently sorted ascending
@@ -232,42 +232,50 @@ table.tablestakes {
   thead {
     // sortable
     .sortable {
-      position: relative;
-      padding-right: 20px;
-      cursor: pointer;
-      text-align: left;
+      div {
+        position: relative;
+        padding-right: 20px;
+        cursor: pointer;
+        text-align: left;
 
-      &:before, &:after {
-        position: absolute;
-        right: 5px;
-        height: 0;
-        width: 0;
-        content: "";
-      }
+        &:before, &:after {
+          position: absolute;
+          right: 0;
+          height: 0;
+          width: 0;
+          content: "";
+          display: block;
+          overflow: hidden;
+        }
 
-      &:before {
-        top: 12px;
-        border-color: transparent transparent $sortable-inactive-arrows-color transparent;
-        border-style: solid;
-        border-width: 0px 5px 5px 5px;
-      }
+        &:before {
+          top: 2px;
+          border-color: transparent transparent $sortable-inactive-arrows-color transparent;
+          border-style: solid;
+          border-width: 0px 5px 5px 5px;
+        }
 
-      &:after {
-        bottom: 12px;
-        border-color: $sortable-inactive-arrows-color transparent transparent transparent;
-        border-style: solid;
-        border-width: 5px 5px 0 5px;
+        &:after {
+          bottom: 2px;
+          border-color: $sortable-inactive-arrows-color transparent transparent transparent;
+          border-style: solid;
+          border-width: 5px 5px 0 5px;
+        }
       }
 
       &.sorted-asc {
-        &:after {
-          border-color: $sortable-active-arrows-color transparent transparent transparent;
+        div {
+          &:after {
+            border-color: $sortable-active-arrows-color transparent transparent transparent;
+          }
         }
       }
 
       &.sorted-desc {
-         &:before {
-          border-color: transparent transparent $sortable-active-arrows-color transparent;
+        div {
+          &:before {
+           border-color: transparent transparent $sortable-active-arrows-color transparent;
+         }
         }
       }
     }
