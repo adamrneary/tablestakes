@@ -220,7 +220,7 @@ table.tablestakes {
 
 // Sortable
 //
-// Sortable cell contents needs to be wrapped inside of a div element due the FF bug.
+// TODO: write descriptions
 //
 // .sortable - for columns not currently sorted, informing the user that the column can be sorted
 // .sortable.sorted-asc - for column currently sorted ascending
@@ -232,50 +232,51 @@ table.tablestakes {
   thead {
     // sortable
     .sortable {
-      div {
-        position: relative;
-        padding-right: 20px;
-        cursor: pointer;
-        text-align: left;
+      position: relative;
+      padding-right: 20px;
+      cursor: pointer;
+      text-align: left;
 
-        &:before, &:after {
-          position: absolute;
-          right: 0;
-          height: 0;
-          width: 0;
-          content: "";
-          display: block;
-          overflow: hidden;
-        }
+      &:before, &:after {
+        position: absolute;
+        right: 5px;
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+        color: $sortable-inactive-arrows-color;
+        font-size: 16px;
+      }
 
-        &:before {
-          top: 2px;
-          border-color: transparent transparent $sortable-inactive-arrows-color transparent;
-          border-style: solid;
-          border-width: 0px 5px 5px 5px;
-        }
+      &:before {
+        top: 2px;
+        content: "\f0d8";
+      }
 
-        &:after {
-          bottom: 2px;
-          border-color: $sortable-inactive-arrows-color transparent transparent transparent;
-          border-style: solid;
-          border-width: 5px 5px 0 5px;
-        }
+      &:after {
+        bottom: 2px;
+        content: "\f0d7";
       }
 
       &.sorted-asc {
-        div {
-          &:after {
-            border-color: $sortable-active-arrows-color transparent transparent transparent;
-          }
+        &:after {
+          color: $sortable-active-arrows-color;
         }
       }
 
       &.sorted-desc {
-        div {
-          &:before {
-           border-color: transparent transparent $sortable-active-arrows-color transparent;
-         }
+         &:before {
+          color: $sortable-active-arrows-color;
         }
       }
     }
@@ -472,18 +473,25 @@ table.tablestakes {
     &.collapsible {
       cursor: pointer;
       text-align: left;
-
+      
       &:before {
-        content: "";
-        width: 0;
-        height: 0;
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
         display: inline-block;
-        margin: 0 5px 0 -5px;
-        border-color: $cell-collapsible-arrow-color transparent transparent transparent;
-        border-style: solid;
-        border-width: 5px;
-        text-indent: 0;
-        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+        content: "\f0d7";
+        color: $cell-collapsible-arrow-color;
+        font-size: 16px;
       }
     }
 
@@ -493,47 +501,57 @@ table.tablestakes {
        text-align: left;
 
       &:before {
-        content: "";
-        width: 0;
-        height: 0;
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
         display: inline-block;
-        margin: 0 5px 0 -5px;
-        border-color: transparent transparent transparent $cell-expandable-arrow-color;
-        border-style: solid;
-        border-width: 5px;
-        text-indent: 0;
-        cursor: pointer;
+        width: 16px;
+        height: 16px;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+        content: "\f0da";
+        color: $cell-collapsible-arrow-color;
+        font-size: 16px;
+        
       }
     }
 
     // deletable
     &.deletable {
       text-align: left;
-      text-indent: -9999em;
       cursor: pointer;
 
       &:hover {
         &:before {
-          font-size: 18px;
           text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
         }
       }
 
       &:before {
-        // @include border-radius(200px);
-        content: "x";
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
         display: inline-block;
-        float: left;
         width: 16px;
         height: 16px;
-        line-height: 16px;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+        content: "\f057";
         color: $cell-deletable-color;
-        background: $cell-deletable-background;
-        text-align: center;
         font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        text-indent: 0;
+        
       }
     }
 
@@ -541,27 +559,26 @@ table.tablestakes {
     &.draggable {
       position: relative;
       cursor: pointer;
-      padding-left: 20px;
-      &:before, &:after {
-        position: absolute;
-        left: 5px;
-        height: 0;
-        width: 0;
-        content: "";
-      }
+      text-align: left;
 
       &:before {
-        top: 12px;
-        border-color: transparent transparent $sortable-inactive-arrows-color transparent;
-        border-style: solid;
-        border-width: 0px 5px 5px 5px;
-      }
-
-      &:after {
-        bottom: 12px;
-        border-color: $sortable-inactive-arrows-color transparent transparent transparent;
-        border-style: solid;
-        border-width: 5px 5px 0 5px;
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: inherit;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        line-height: normal;
+        vertical-align: baseline;
+        background-image: none;
+        background-position: 0% 0%;
+        background-repeat: repeat;
+        margin-top: 0;
+        content: "\f0a6";
+        color: $sortable-inactive-arrows-color;
+        font-size: 16px;
       }
     }
 
