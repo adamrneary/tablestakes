@@ -299,6 +299,20 @@ class window.TableStakesLib.Core
     if removable
       handlers[0][handlers[0].length-1].remove()
 
+  _makeSortable: (allTh)->
+    self = @
+    allTh.classed('sortable',true)
+      .append("div")
+      .classed('sortable-handle', true)
+    sorted = allTh.filter (column)->
+      column.desc?
+    if sorted[0] and sorted[0].length > 0
+      desc = sorted.data()[0].desc
+      sorted.classed('sorted-asc',desc)
+      sorted.classed('sorted-desc',!desc)
+    allTh.on 'click', (a,b,c)->
+      self.events.toggleSort @,a,b,c
+
   # ### Cell-level transform methods
 
   #
@@ -387,18 +401,6 @@ class window.TableStakesLib.Core
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
       .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
-
-  _makeSortable: (allTh)->
-    self = @
-    allTh.classed('sortable',true)
-    sorted = allTh.filter (column)->
-      column.desc?
-    if sorted[0] and sorted[0].length > 0
-      desc = sorted.data()[0].desc
-      sorted.classed('sorted-asc',desc)
-      sorted.classed('sorted-desc',!desc)
-    allTh.on 'click', (a,b,c)->
-      self.events.toggleSort @,a,b,c
 
   _addShowCount: (d, td, column) ->
     count = d.values?.length or d._values?.length
