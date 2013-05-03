@@ -689,6 +689,24 @@ window.TableStakesLib.Core = (function() {
     }
   };
 
+  Core.prototype._makeSortable = function(allTh) {
+    var desc, self, sorted;
+
+    self = this;
+    allTh.classed('sortable', true).append("div").classed('sortable-handle', true);
+    sorted = allTh.filter(function(column) {
+      return column.desc != null;
+    });
+    if (sorted[0] && sorted[0].length > 0) {
+      desc = sorted.data()[0].desc;
+      sorted.classed('sorted-asc', desc);
+      sorted.classed('sorted-desc', !desc);
+    }
+    return allTh.on('click', function(a, b, c) {
+      return self.events.toggleSort(this, a, b, c);
+    });
+  };
+
   Core.prototype._makeNested = function(td) {
     var _this = this;
 
@@ -787,24 +805,6 @@ window.TableStakesLib.Core = (function() {
 
     return d3.select(td).classed('boolean-true', d[column.id]).classed('boolean-false', !d[column.id]).on('click', function(a, b, c) {
       return _this.events.toggleBoolean(_this, a, b, c, column);
-    });
-  };
-
-  Core.prototype._makeSortable = function(allTh) {
-    var desc, self, sorted;
-
-    self = this;
-    allTh.classed('sortable', true);
-    sorted = allTh.filter(function(column) {
-      return column.desc != null;
-    });
-    if (sorted[0] && sorted[0].length > 0) {
-      desc = sorted.data()[0].desc;
-      sorted.classed('sorted-asc', desc);
-      sorted.classed('sorted-desc', !desc);
-    }
-    return allTh.on('click', function(a, b, c) {
-      return self.events.toggleSort(this, a, b, c);
     });
   };
 
