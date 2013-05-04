@@ -21,6 +21,18 @@ else
 fi
 
 #
+# Check node version
+#
+NODE_VERSION=$(node -v)
+if ! [[ $NODE_VERSION == v0.10* ]]; then
+  echo "  x You need to update node to 0.10.x. If you use Homebrew, you can run:"
+  echo "    brew update && brew upgrade node"
+  exit
+else
+  echo "  + node >= 0.10."
+fi
+
+#
 # Check for npm
 #
 if test ! $(which npm); then
