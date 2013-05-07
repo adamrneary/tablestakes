@@ -146,10 +146,10 @@ table.tablestakes thead .sortable {
     bottom: 2px;
     content: "\f0d7"; }
   /* line 272 */
-  table.tablestakes thead .sortable.sorted-asc:after {
+  table.tablestakes thead .sortable.sorted-asc:before {
     color: white; }
   /* line 278 */
-  table.tablestakes thead .sortable.sorted-desc:before {
+  table.tablestakes thead .sortable.sorted-desc:after {
     color: white; }
 
 /* line 308 */

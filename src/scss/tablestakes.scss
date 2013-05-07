@@ -269,13 +269,13 @@ table.tablestakes {
       }
 
       &.sorted-asc {
-        &:after {
+        &:before {
           color: $sortable-active-arrows-color;
         }
       }
 
       &.sorted-desc {
-         &:before {
+         &:after {
           color: $sortable-active-arrows-color;
         }
       }
