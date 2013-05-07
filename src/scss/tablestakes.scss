@@ -67,8 +67,8 @@ table.tablestakes {
     tr {
       &.secondary {
         th, td {
-          color: $header-primary-color;
-          background: $header-primary-background;
+          color: $white;
+          background: $th-background !important;
         }
 
         td {
