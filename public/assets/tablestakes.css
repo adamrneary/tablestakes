@@ -1,11 +1,3 @@
-/* Chart palette
--------------------------------------------------- */
-/* Alert palette
--------------------------------------------------- */
-/* Chart palette
--------------------------------------------------- */
-/* Alert palette
--------------------------------------------------- */
 /* line 18 */
 table.tablestakes {
   -webkit-border-radius: 4px;
@@ -43,8 +35,8 @@ table.tablestakes thead th {
   background: #007f9b; }
 /* line 69 */
 table.tablestakes thead tr.secondary th, table.tablestakes thead tr.secondary td {
-  color: #30878f;
-  background: transparent; }
+  color: white;
+  background: #007f9b !important; }
 /* line 74 */
 table.tablestakes thead tr.secondary td {
   border-bottom: solid 1px #e2dedf; }
