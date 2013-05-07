@@ -28,6 +28,10 @@ table.tablestakes {
 
   a {
     color: $table-link-color;
+    
+    &:hover, &:focus {
+      text-decoration: underline;
+    }
   }
 }
 
