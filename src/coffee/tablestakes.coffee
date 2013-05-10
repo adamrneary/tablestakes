@@ -54,15 +54,15 @@ class window.TableStakes
           id: i
           product_id: productId
           period_id: _.chain(flatData)
-            .filter((obj) -> obj.product_id is productId)
+            .filter((obj) -> obj[key] is productId)
             .map((obj) -> obj.period_id)
             .value()
           period: _.chain(flatData)
-            .filter((obj) -> obj.product_id is productId)
+            .filter((obj) -> obj[key] is productId)
             .map((obj) -> obj.periodUnix)
             .value()
           dataValue: _.chain(flatData)
-            .filter((obj) -> obj.product_id is productId)
+            .filter((obj) -> obj[key] is productId)
             .map((obj) -> obj.actual)
             .value()
     @data(data)
