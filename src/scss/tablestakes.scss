@@ -74,6 +74,10 @@ table.tablestakes {
         td {
           border-bottom: solid 1px $header-primary-border-color;
         }
+
+        th.some_class {
+          border-bottom: solid 1px $header-primary-border-color;
+        }
       }
     }
   }
