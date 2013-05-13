@@ -437,6 +437,9 @@ window.TableStakesLib.Core = (function() {
       th = theadRow.selectAll("th").data(function(row, i) {
         return row.col;
       }).enter().append("th").text(function(d) {
+        if (!d.label) {
+          d.classes += ' ' + 'underline';
+        }
         return d.label;
       }).attr("ref", function(d, i) {
         return i;
@@ -444,7 +447,7 @@ window.TableStakesLib.Core = (function() {
         return _this._columnClasses(d);
       }).style('width', function(d) {
         return d.width;
-      });
+      }).transition();
     }
     allTh = theadRow.selectAll("th");
     if (this.table.isResizable()) {
@@ -900,17 +903,17 @@ window.TableStakes = (function() {
         id: i,
         product_id: productId,
         period_id: _.chain(flatData).filter(function(obj) {
-          return obj.product_id === productId;
+          return obj[key] === productId;
         }).map(function(obj) {
           return obj.period_id;
         }).value(),
         period: _.chain(flatData).filter(function(obj) {
-          return obj.product_id === productId;
+          return obj[key] === productId;
         }).map(function(obj) {
           return obj.periodUnix;
         }).value(),
         dataValue: _.chain(flatData).filter(function(obj) {
-          return obj.product_id === productId;
+          return obj[key] === productId;
         }).map(function(obj) {
           return obj.actual;
         }).value()
