@@ -41,7 +41,7 @@ table.tablestakes thead tr.secondary th, table.tablestakes thead tr.secondary td
 table.tablestakes thead tr.secondary td {
   border-bottom: solid 1px #e2dedf; }
 /* line 78 */
-table.tablestakes thead tr.secondary th.some_class {
+table.tablestakes thead tr.secondary th.underline {
   border-bottom: solid 1px #e2dedf; }
 
 /* line 102 */

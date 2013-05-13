@@ -438,7 +438,7 @@ window.TableStakesLib.Core = (function() {
         return row.col;
       }).enter().append("th").text(function(d) {
         if (!d.label) {
-          d.classes += ' ' + 'some_class';
+          d.classes += ' ' + 'underline';
         }
         return d.label;
       }).attr("ref", function(d, i) {

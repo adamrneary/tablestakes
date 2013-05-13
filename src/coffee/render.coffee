@@ -86,7 +86,7 @@ class window.TableStakesLib.Core
         .enter()
           .append("th")
             .text((d) ->
-              d.classes += ' ' + 'some_class' unless d.label
+              d.classes += ' ' + 'underline' unless d.label
               d.label)
             .attr("ref", (d,i) -> i)
             .attr("class", (d) => @_columnClasses(d))
