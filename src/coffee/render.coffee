@@ -85,10 +85,20 @@ class window.TableStakesLib.Core
         .data((row, i) -> row.col)
         .enter()
           .append("th")
-            .text((d) -> d.label)
+            .text((d) ->
+              d.classes += ' ' + 'underline' unless d.label
+              d.label)
             .attr("ref", (d,i) -> i)
             .attr("class", (d) => @_columnClasses(d))
             .style('width', (d) -> d.width)
+          .transition()
+
+
+#      td = theadRow.selectAll("th")
+#        .filter((d, i) -> d.label? and d.label is "")
+#        .data([])
+#          .exit()
+#            .remove()
 
     # for now, either all columns are resizable or none, set in table config
     allTh = theadRow.selectAll("th")
