@@ -47,9 +47,6 @@ columns = [
   id: "id"
   label: "Name"
   classes: "row-heading"
-  isEditable: (d) ->
-    d.id is 'Horizontal Grouped Bar'
-  onEdit: editHandler
   format: (d) ->
     if d.id is '1' then "#{d.id} period" else d.id
 ,
