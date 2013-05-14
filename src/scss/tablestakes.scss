@@ -74,10 +74,6 @@ table.tablestakes {
         td {
           border-bottom: solid 1px $header-primary-border-color;
         }
-
-        th.underline {
-          border-bottom: solid 1px $header-primary-border-color;
-        }
       }
     }
   }
@@ -202,7 +198,7 @@ table.tablestakes {
         top: 0;
         bottom: 0;
         display: inline-block;
-        width: 4px;
+        width: 3px;
         height: 100%;
         cursor: col-resize;
 
@@ -220,7 +216,6 @@ table.tablestakes {
 
         &.right {
           right: 0;
-          border-right: solid 2px saturate($primary, 20%);
         }
       }
     }
@@ -703,7 +698,7 @@ table.tablestakes {
   th, td {
     // editable
     &.editable {
-      color: $cell-editable-active-border-color !important;
+      color: $cell-editable-active-border-color;
       cursor: pointer;
 
       &:hover {
