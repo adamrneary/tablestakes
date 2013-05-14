@@ -239,28 +239,28 @@ table.tablestakes tbody tr.dragged {
     opacity: 0.5;
     background: inherit; }
 
-/* line 455 */
-table.tablestakes th, table.tablestakes td {
+/* line 456 */
+table.tablestakes tbody th, table.tablestakes tbody td {
   font-size: 12px;
   text-align: right;
   padding: 5px; }
-  /* line 461 */
-  table.tablestakes th.plan, table.tablestakes td.plan {
+  /* line 462 */
+  table.tablestakes tbody th.plan, table.tablestakes tbody td.plan {
     color: #675b5e;
     background: #e2f4f5; }
-    /* line 465 */
-    table.tablestakes th.plan.editable:hover, table.tablestakes td.plan.editable:hover {
+    /* line 466 */
+    table.tablestakes tbody th.plan.editable:hover, table.tablestakes tbody td.plan.editable:hover {
       background: white; }
-  /* line 471 */
-  table.tablestakes th.old, table.tablestakes td.old {
+  /* line 472 */
+  table.tablestakes tbody th.old, table.tablestakes tbody td.old {
     color: #675b5e;
     background: #eeecec; }
-  /* line 477 */
-  table.tablestakes th.collapsible, table.tablestakes td.collapsible {
+  /* line 478 */
+  table.tablestakes tbody th.collapsible, table.tablestakes tbody td.collapsible {
     cursor: pointer;
     text-align: left; }
-    /* line 481 */
-    table.tablestakes th.collapsible:before, table.tablestakes td.collapsible:before {
+    /* line 482 */
+    table.tablestakes tbody th.collapsible:before, table.tablestakes tbody td.collapsible:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -278,12 +278,12 @@ table.tablestakes th, table.tablestakes td {
       content: "\f0d7";
       color: #30878f;
       font-size: 16px; }
-  /* line 503 */
-  table.tablestakes th.expandable, table.tablestakes td.expandable {
+  /* line 504 */
+  table.tablestakes tbody th.expandable, table.tablestakes tbody td.expandable {
     cursor: pointer;
     text-align: left; }
-    /* line 507 */
-    table.tablestakes th.expandable:before, table.tablestakes td.expandable:before {
+    /* line 508 */
+    table.tablestakes tbody th.expandable:before, table.tablestakes tbody td.expandable:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -301,15 +301,15 @@ table.tablestakes th, table.tablestakes td {
       content: "\f0da";
       color: #30878f;
       font-size: 16px; }
-  /* line 530 */
-  table.tablestakes th.deletable, table.tablestakes td.deletable {
+  /* line 531 */
+  table.tablestakes tbody th.deletable, table.tablestakes tbody td.deletable {
     text-align: left;
     cursor: pointer; }
-    /* line 535 */
-    table.tablestakes th.deletable:hover:before, table.tablestakes td.deletable:hover:before {
+    /* line 536 */
+    table.tablestakes tbody th.deletable:hover:before, table.tablestakes tbody td.deletable:hover:before {
       text-shadow: 1px 2px 6px rgba(220, 110, 89, 0.5); }
-    /* line 540 */
-    table.tablestakes th.deletable:before, table.tablestakes td.deletable:before {
+    /* line 541 */
+    table.tablestakes tbody th.deletable:before, table.tablestakes tbody td.deletable:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -327,13 +327,13 @@ table.tablestakes th, table.tablestakes td {
       content: "\f057";
       color: #dc6e59;
       font-size: 16px; }
-  /* line 563 */
-  table.tablestakes th.draggable, table.tablestakes td.draggable {
+  /* line 564 */
+  table.tablestakes tbody th.draggable, table.tablestakes tbody td.draggable {
     position: relative;
     cursor: pointer;
     text-align: left; }
-    /* line 568 */
-    table.tablestakes th.draggable:before, table.tablestakes td.draggable:before {
+    /* line 569 */
+    table.tablestakes tbody th.draggable:before, table.tablestakes tbody td.draggable:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -351,32 +351,32 @@ table.tablestakes th, table.tablestakes td {
       content: "\f0a6";
       color: #00455b;
       font-size: 16px; }
-  /* line 590 */
-  table.tablestakes th.indent1, table.tablestakes td.indent1 {
+  /* line 591 */
+  table.tablestakes tbody th.indent1, table.tablestakes tbody td.indent1 {
     text-align: left;
     padding-left: 20px; }
-  /* line 596 */
-  table.tablestakes th.indent2, table.tablestakes td.indent2 {
+  /* line 597 */
+  table.tablestakes tbody th.indent2, table.tablestakes tbody td.indent2 {
     text-align: left;
     padding-left: 30px; }
-  /* line 602 */
-  table.tablestakes th.indent3, table.tablestakes td.indent3 {
+  /* line 603 */
+  table.tablestakes tbody th.indent3, table.tablestakes tbody td.indent3 {
     text-align: left;
     padding-left: 40px; }
-  /* line 608 */
-  table.tablestakes th.indent4, table.tablestakes td.indent4 {
+  /* line 609 */
+  table.tablestakes tbody th.indent4, table.tablestakes tbody td.indent4 {
     text-align: left;
     padding-left: 50px; }
-  /* line 614 */
-  table.tablestakes th.indent5, table.tablestakes td.indent5 {
+  /* line 615 */
+  table.tablestakes tbody th.indent5, table.tablestakes tbody td.indent5 {
     text-align: left;
     padding-left: 60px; }
-  /* line 620 */
-  table.tablestakes th.indent6, table.tablestakes td.indent6 {
+  /* line 621 */
+  table.tablestakes tbody th.indent6, table.tablestakes tbody td.indent6 {
     text-align: left;
     padding-left: 70px; }
-  /* line 626 */
-  table.tablestakes th.boolean-false, table.tablestakes th.boolean-true, table.tablestakes td.boolean-false, table.tablestakes td.boolean-true {
+  /* line 627 */
+  table.tablestakes tbody th.boolean-false, table.tablestakes tbody th.boolean-true, table.tablestakes tbody td.boolean-false, table.tablestakes tbody td.boolean-true {
     position: relative;
     min-width: 30px;
     margin-left: 5px;
@@ -384,11 +384,11 @@ table.tablestakes th, table.tablestakes td {
     display: block;
     text-align: left;
     text-indent: -9999em; }
-    /* line 635 */
-    table.tablestakes th.boolean-false:hover, table.tablestakes th.boolean-true:hover, table.tablestakes td.boolean-false:hover, table.tablestakes td.boolean-true:hover {
+    /* line 636 */
+    table.tablestakes tbody th.boolean-false:hover, table.tablestakes tbody th.boolean-true:hover, table.tablestakes tbody td.boolean-false:hover, table.tablestakes tbody td.boolean-true:hover {
       background: transparent; }
-    /* line 639 */
-    table.tablestakes th.boolean-false:before, table.tablestakes th.boolean-true:before, table.tablestakes td.boolean-false:before, table.tablestakes td.boolean-true:before {
+    /* line 640 */
+    table.tablestakes tbody th.boolean-false:before, table.tablestakes tbody th.boolean-true:before, table.tablestakes tbody td.boolean-false:before, table.tablestakes tbody td.boolean-true:before {
       position: absolute;
       top: 7px;
       left: 0;
@@ -399,8 +399,8 @@ table.tablestakes th, table.tablestakes td {
       -webkit-border-radius: 20px;
       -moz-border-radius: 20px;
       border-radius: 20px; }
-    /* line 650 */
-    table.tablestakes th.boolean-false:after, table.tablestakes th.boolean-true:after, table.tablestakes td.boolean-false:after, table.tablestakes td.boolean-true:after {
+    /* line 651 */
+    table.tablestakes tbody th.boolean-false:after, table.tablestakes tbody th.boolean-true:after, table.tablestakes tbody td.boolean-false:after, table.tablestakes tbody td.boolean-true:after {
       position: absolute;
       top: 5px;
       content: "";
@@ -408,34 +408,34 @@ table.tablestakes th, table.tablestakes td {
       width: 24px;
       height: 25px;
       background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat; }
-  /* line 663 */
-  table.tablestakes th.boolean-false:before, table.tablestakes td.boolean-false:before {
+  /* line 664 */
+  table.tablestakes tbody th.boolean-false:before, table.tablestakes tbody td.boolean-false:before {
     background: #dc6e59;
     -webkit-box-shadow: inset 0 0 6px #812b1b;
     -moz-box-shadow: inset 0 0 6px #812b1b;
     box-shadow: inset 0 0 6px #812b1b; }
-  /* line 668 */
-  table.tablestakes th.boolean-false:after, table.tablestakes td.boolean-false:after {
+  /* line 669 */
+  table.tablestakes tbody th.boolean-false:after, table.tablestakes tbody td.boolean-false:after {
     left: -3px; }
-  /* line 675 */
-  table.tablestakes th.boolean-true:before, table.tablestakes td.boolean-true:before {
+  /* line 676 */
+  table.tablestakes tbody th.boolean-true:before, table.tablestakes tbody td.boolean-true:before {
     background: #8ac16f;
     -webkit-box-shadow: inset 0 0 6px #416a2d;
     -moz-box-shadow: inset 0 0 6px #416a2d;
     box-shadow: inset 0 0 6px #416a2d; }
-  /* line 680 */
-  table.tablestakes th.boolean-true:after, table.tablestakes td.boolean-true:after {
+  /* line 681 */
+  table.tablestakes tbody th.boolean-true:after, table.tablestakes tbody td.boolean-true:after {
     right: -3px; }
 
-/* line 700 */
-table.tablestakes th.editable, table.tablestakes td.editable {
+/* line 703 */
+table.tablestakes tbody th.editable, table.tablestakes tbody td.editable {
   color: #30878f;
   cursor: pointer; }
-  /* line 704 */
-  table.tablestakes th.editable:hover, table.tablestakes td.editable:hover {
+  /* line 707 */
+  table.tablestakes tbody th.editable:hover, table.tablestakes tbody td.editable:hover {
     background: #e2f4f5; }
-  /* line 709 */
-  table.tablestakes th.editable.active, table.tablestakes td.editable.active {
+  /* line 712 */
+  table.tablestakes tbody th.editable.active, table.tablestakes tbody td.editable.active {
     width: auto;
     position: relative;
     cursor: text;
@@ -444,8 +444,8 @@ table.tablestakes th.editable, table.tablestakes td.editable {
     -moz-box-shadow: inset 0 0 6px #a69b9e;
     box-shadow: inset 0 0 6px #a69b9e;
     background: #faf9fa; }
-    /* line 717 */
-    table.tablestakes th.editable.active:after, table.tablestakes td.editable.active:after {
+    /* line 720 */
+    table.tablestakes tbody th.editable.active:after, table.tablestakes tbody td.editable.active:after {
       position: absolute;
       bottom: 0;
       right: 0;
@@ -460,19 +460,19 @@ table.tablestakes th.editable, table.tablestakes td.editable {
       box-shadow: 0 1px 1px #005568;
       cursor: pointer;
       overflow: hidden; }
-    /* line 732 */
-    table.tablestakes th.editable.active:hover, table.tablestakes td.editable.active:hover {
+    /* line 735 */
+    table.tablestakes tbody th.editable.active:hover, table.tablestakes tbody td.editable.active:hover {
       background: #faf9fa; }
-    /* line 736 */
-    table.tablestakes th.editable.active:focus, table.tablestakes td.editable.active:focus {
+    /* line 739 */
+    table.tablestakes tbody th.editable.active:focus, table.tablestakes tbody td.editable.active:focus {
       outline: none; }
-  /* line 742 */
-  table.tablestakes th.editable.changed, table.tablestakes td.editable.changed {
+  /* line 745 */
+  table.tablestakes tbody th.editable.changed, table.tablestakes tbody td.editable.changed {
     font-weight: bold;
     border: 1px dotted #30878f; }
 
-/* line 764 */
-table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
+/* line 769 */
+table.tablestakes tbody th.editable.active.calendar input, table.tablestakes tbody td.editable.active.calendar input {
   width: auto;
   height: auto;
   margin: 0;
@@ -482,13 +482,13 @@ table.tablestakes th.editable.active.calendar input, table.tablestakes td.editab
   background: transparent;
   outline: none;
   box-shadow: none; }
-  /* line 775 */
-  table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
+  /* line 780 */
+  table.tablestakes tbody th.editable.active.calendar input:focus, table.tablestakes tbody td.editable.active.calendar input:focus {
     border: none;
     outline: none;
     background: transparent; }
 
-/* line 798 */
+/* line 804 */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;

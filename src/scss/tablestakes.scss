@@ -452,233 +452,235 @@ table.tablestakes {
 // Styleguide 4.1
 
 table.tablestakes {
-  th, td {
-    font-size: 12px;
-    text-align: right;
-    padding: 5px;
+  tbody {
+    th, td {
+      font-size: 12px;
+      text-align: right;
+      padding: 5px;
 
-    // plan
-    &.plan {
-      color: $cell-plan-color;
-      background: $cell-plan-background;
+      // plan
+      &.plan {
+        color: $cell-plan-color;
+        background: $cell-plan-background;
 
-      &.editable:hover {
-        background: $white;
-      }
-    }
-
-    // old
-    &.old {
-      color: $cell-old-color;
-      background: $cell-old-background
-    }
-
-    // collapsible
-    &.collapsible {
-      cursor: pointer;
-      text-align: left;
-      
-      &:before {
-        font-family: FontAwesome;
-        font-weight: normal;
-        font-style: normal;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: normal;
-        vertical-align: baseline;
-        background-image: none;
-        background-position: 0% 0%;
-        background-repeat: repeat;
-        margin-top: 0;
-        content: "\f0d7";
-        color: $cell-collapsible-arrow-color;
-        font-size: 16px;
-      }
-    }
-
-    // expandable
-    &.expandable {
-       cursor: pointer;
-       text-align: left;
-
-      &:before {
-        font-family: FontAwesome;
-        font-weight: normal;
-        font-style: normal;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: normal;
-        vertical-align: baseline;
-        background-image: none;
-        background-position: 0% 0%;
-        background-repeat: repeat;
-        margin-top: 0;
-        content: "\f0da";
-        color: $cell-collapsible-arrow-color;
-        font-size: 16px;
-        
-      }
-    }
-
-    // deletable
-    &.deletable {
-      text-align: left;
-      cursor: pointer;
-
-      &:hover {
-        &:before {
-          text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
+        &.editable:hover {
+          background: $white;
         }
       }
 
-      &:before {
-        font-family: FontAwesome;
-        font-weight: normal;
-        font-style: normal;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: normal;
-        vertical-align: baseline;
-        background-image: none;
-        background-position: 0% 0%;
-        background-repeat: repeat;
-        margin-top: 0;
-        content: "\f057";
-        color: $cell-deletable-color;
-        font-size: 16px;
-        
-      }
-    }
-
-    // draggable
-    &.draggable {
-      position: relative;
-      cursor: pointer;
-      text-align: left;
-
-      &:before {
-        font-family: FontAwesome;
-        font-weight: normal;
-        font-style: normal;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: normal;
-        vertical-align: baseline;
-        background-image: none;
-        background-position: 0% 0%;
-        background-repeat: repeat;
-        margin-top: 0;
-        content: "\f0a6";
-        color: $sortable-inactive-arrows-color;
-        font-size: 16px;
-      }
-    }
-
-    // indent1
-    &.indent1 {
-      text-align: left;
-      padding-left: 20px;
-    }
-
-    // indent2
-    &.indent2 {
-      text-align: left;
-      padding-left: 30px;
-    }
-
-    // indent3
-    &.indent3 {
-      text-align: left;
-      padding-left: 40px;
-    }
-
-    // indent4
-    &.indent4 {
-      text-align: left;
-      padding-left: 50px;
-    }
-
-    // indent5
-    &.indent5 {
-      text-align: left;
-      padding-left: 60px;
-    }
-
-    // indent5
-    &.indent6 {
-      text-align: left;
-      padding-left: 70px;
-    }
-
-    // boolean false and true
-    &.boolean-false, &.boolean-true {
-      position: relative;
-      min-width: 30px;
-      margin-left: 5px;
-      margin-right: 5px;
-      display: block;
-      text-align: left;
-      text-indent: -9999em;
-
-      &:hover {
-        background: transparent;
+      // old
+      &.old {
+        color: $cell-old-color;
+        background: $cell-old-background
       }
 
-      &:before {
-        position: absolute;
-        top: 7px;
-        left: 0;
-        content: "";
+      // collapsible
+      &.collapsible {
+        cursor: pointer;
+        text-align: left;
+
+        &:before {
+          font-family: FontAwesome;
+          font-weight: normal;
+          font-style: normal;
+          text-decoration: inherit;
+          -webkit-font-smoothing: antialiased;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          line-height: normal;
+          vertical-align: baseline;
+          background-image: none;
+          background-position: 0% 0%;
+          background-repeat: repeat;
+          margin-top: 0;
+          content: "\f0d7";
+          color: $cell-collapsible-arrow-color;
+          font-size: 16px;
+        }
+      }
+
+      // expandable
+      &.expandable {
+         cursor: pointer;
+         text-align: left;
+
+        &:before {
+          font-family: FontAwesome;
+          font-weight: normal;
+          font-style: normal;
+          text-decoration: inherit;
+          -webkit-font-smoothing: antialiased;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          line-height: normal;
+          vertical-align: baseline;
+          background-image: none;
+          background-position: 0% 0%;
+          background-repeat: repeat;
+          margin-top: 0;
+          content: "\f0da";
+          color: $cell-collapsible-arrow-color;
+          font-size: 16px;
+
+        }
+      }
+
+      // deletable
+      &.deletable {
+        text-align: left;
+        cursor: pointer;
+
+        &:hover {
+          &:before {
+            text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
+          }
+        }
+
+        &:before {
+          font-family: FontAwesome;
+          font-weight: normal;
+          font-style: normal;
+          text-decoration: inherit;
+          -webkit-font-smoothing: antialiased;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          line-height: normal;
+          vertical-align: baseline;
+          background-image: none;
+          background-position: 0% 0%;
+          background-repeat: repeat;
+          margin-top: 0;
+          content: "\f057";
+          color: $cell-deletable-color;
+          font-size: 16px;
+
+        }
+      }
+
+      // draggable
+      &.draggable {
+        position: relative;
+        cursor: pointer;
+        text-align: left;
+
+        &:before {
+          font-family: FontAwesome;
+          font-weight: normal;
+          font-style: normal;
+          text-decoration: inherit;
+          -webkit-font-smoothing: antialiased;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          line-height: normal;
+          vertical-align: baseline;
+          background-image: none;
+          background-position: 0% 0%;
+          background-repeat: repeat;
+          margin-top: 0;
+          content: "\f0a6";
+          color: $sortable-inactive-arrows-color;
+          font-size: 16px;
+        }
+      }
+
+      // indent1
+      &.indent1 {
+        text-align: left;
+        padding-left: 20px;
+      }
+
+      // indent2
+      &.indent2 {
+        text-align: left;
+        padding-left: 30px;
+      }
+
+      // indent3
+      &.indent3 {
+        text-align: left;
+        padding-left: 40px;
+      }
+
+      // indent4
+      &.indent4 {
+        text-align: left;
+        padding-left: 50px;
+      }
+
+      // indent5
+      &.indent5 {
+        text-align: left;
+        padding-left: 60px;
+      }
+
+      // indent5
+      &.indent6 {
+        text-align: left;
+        padding-left: 70px;
+      }
+
+      // boolean false and true
+      &.boolean-false, &.boolean-true {
+        position: relative;
+        min-width: 30px;
+        margin-left: 5px;
+        margin-right: 5px;
         display: block;
-        width: 100%;
-        height: 20px;
-        @include border-radius(20px)
+        text-align: left;
+        text-indent: -9999em;
+
+        &:hover {
+          background: transparent;
+        }
+
+        &:before {
+          position: absolute;
+          top: 7px;
+          left: 0;
+          content: "";
+          display: block;
+          width: 100%;
+          height: 20px;
+          @include border-radius(20px)
+        }
+
+        &:after {
+          position: absolute;
+          top: 5px;
+          content: "";
+          display: block;
+          width: 24px;
+          height: 25px;
+          background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat;
+        }
       }
 
-      &:after {
-        position: absolute;
-        top: 5px;
-        content: "";
-        display: block;
-        width: 24px;
-        height: 25px;
-        background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat;
-      }
-    }
+      // boolean false
+      &.boolean-false {
+        &:before {
+          background: $danger;
+          @include inner-shadow(0, 0, 6px, darken($danger, 30%));
+        }
 
-    // boolean false
-    &.boolean-false {
-      &:before {
-        background: $danger;
-        @include inner-shadow(0, 0, 6px, darken($danger, 30%));
+        &:after {
+          left: -3px;
+        }
       }
 
-      &:after {
-        left: -3px;
-      }
-    }
+      // boolean true
+      &.boolean-true {
+        &:before {
+          background: $success;
+          @include inner-shadow(0, 0, 6px, darken($success, 30%));
+        }
 
-    // boolean true
-    &.boolean-true {
-      &:before {
-        background: $success;
-        @include inner-shadow(0, 0, 6px, darken($success, 30%));
-      }
-
-      &:after {
-        right: -3px;
+        &:after {
+          right: -3px;
+        }
       }
     }
   }
@@ -695,57 +697,59 @@ table.tablestakes {
 // Styleguide 4.1.1
 
 table.tablestakes {
-  th, td {
-    // editable
-    &.editable {
-      color: $cell-editable-active-border-color;
-      cursor: pointer;
-
-      &:hover {
-        background: $cell-editable-hover-color;
-      }
-
-      // active
-      &.active {
-        width: auto;
-        position: relative;
-        cursor: text;
-        border: 1px solid $cell-editable-active-border-color;
-        @include inner-shadow(0, 0, 6px, $grey);
-        background: $cell-editable-active-background;
-
-        &:after {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          content: " ";
-          color: $white;
-          background: $primary;
-          display: block;
-          width: 8px;
-          height: 8px;
-          @include outer-shadow(0, 1px, 1px, $secondary);
-          cursor: pointer;
-          overflow: hidden;
-        }
+  tbody {
+    th, td {
+      // editable
+      &.editable {
+        color: $cell-editable-active-border-color;
+        cursor: pointer;
 
         &:hover {
+          background: $cell-editable-hover-color;
+        }
+
+        // active
+        &.active {
+          width: auto;
+          position: relative;
+          cursor: text;
+          border: 1px solid $cell-editable-active-border-color;
+          @include inner-shadow(0, 0, 6px, $grey);
           background: $cell-editable-active-background;
+
+          &:after {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            content: " ";
+            color: $white;
+            background: $primary;
+            display: block;
+            width: 8px;
+            height: 8px;
+            @include outer-shadow(0, 1px, 1px, $secondary);
+            cursor: pointer;
+            overflow: hidden;
+          }
+
+          &:hover {
+            background: $cell-editable-active-background;
+          }
+
+          &:focus {
+            outline: none;
+          }
         }
 
-        &:focus {
-          outline: none;
+        // changed
+        &.changed {
+          font-weight: bold;
+          border: 1px dotted $cell-editable-changed-border-color;
         }
-      }
 
-      // changed
-      &.changed {
-        font-weight: bold;
-        border: 1px dotted $cell-editable-changed-border-color;
       }
-
     }
-  }
+ }
 }
 
 // Editable Calendar
@@ -757,25 +761,27 @@ table.tablestakes {
 // Styleguide 4.1.2
 
 table.tablestakes {
-  th, td {
-    &.editable {
-      &.active {
-        &.calendar {
-          input {
-            width: auto;
-            height: auto;
-            margin: 0;
-            padding: 0;
-            color: $cell-editable-active-border-color;
-            border: none;
-            background: transparent;
-            outline: none;
-            box-shadow: none;
-
-            &:focus {
+  tbody {
+    th, td {
+      &.editable {
+        &.active {
+          &.calendar {
+            input {
+              width: auto;
+              height: auto;
+              margin: 0;
+              padding: 0;
+              color: $cell-editable-active-border-color;
               border: none;
-              outline: none;
               background: transparent;
+              outline: none;
+              box-shadow: none;
+
+              &:focus {
+                border: none;
+                outline: none;
+                background: transparent;
+              }
             }
           }
         }

@@ -900,17 +900,17 @@ window.TableStakes = (function() {
         id: i,
         product_id: productId,
         period_id: _.chain(flatData).filter(function(obj) {
-          return obj.product_id === productId;
+          return obj[key] === productId;
         }).map(function(obj) {
           return obj.period_id;
         }).value(),
         period: _.chain(flatData).filter(function(obj) {
-          return obj.product_id === productId;
+          return obj[key] === productId;
         }).map(function(obj) {
           return obj.periodUnix;
         }).value(),
         dataValue: _.chain(flatData).filter(function(obj) {
-          return obj.product_id === productId;
+          return obj[key] === productId;
         }).map(function(obj) {
           return obj.actual;
         }).value()
