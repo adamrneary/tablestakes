@@ -432,7 +432,7 @@ table.tablestakes th, table.tablestakes td {
 
 /* line 704 */
 table.tablestakes th.editable, table.tablestakes td.editable {
-  color: #30878f;
+  color: #30878f !important;
   cursor: pointer; }
   /* line 708 */
   table.tablestakes th.editable:hover, table.tablestakes td.editable:hover {
