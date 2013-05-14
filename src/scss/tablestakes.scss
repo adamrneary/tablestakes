@@ -202,7 +202,7 @@ table.tablestakes {
         top: 0;
         bottom: 0;
         display: inline-block;
-        width: 5px;
+        width: 4px;
         height: 100%;
         cursor: col-resize;
 
@@ -220,7 +220,7 @@ table.tablestakes {
 
         &.right {
           right: 0;
-          border-right: solid 1px saturate($primary, 20%);
+          border-right: solid 2px saturate($primary, 20%);
         }
       }
     }

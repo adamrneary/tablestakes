@@ -93,7 +93,7 @@ table.tablestakes thead .resizeable {
     top: 0;
     bottom: 0;
     display: inline-block;
-    width: 5px;
+    width: 4px;
     height: 100%;
     cursor: col-resize; }
     /* line 209 */
@@ -108,7 +108,7 @@ table.tablestakes thead .resizeable {
     /* line 221 */
     table.tablestakes thead .resizeable .resizeable-handle.right {
       right: 0;
-      border-right: solid 1px #1d97a2; }
+      border-right: solid 2px #1d97a2; }
 
 /* line 243 */
 table.tablestakes thead .sortable {
