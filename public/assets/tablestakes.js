@@ -119,6 +119,9 @@ window.TableStakesLib.Events = (function() {
 
     if (!this.core.table.isInRender) {
       val = d3.select(node).text();
+      if (val !== d[column.id]) {
+        d.changed = column.id;
+      }
       if (val !== d[d.activatedID]) {
         this._applyChangedState(d);
         if (column.onEdit) {
@@ -736,6 +739,9 @@ window.TableStakesLib.Core = (function() {
     if (column.editor === 'calendar') {
       d3.select(td).classed('calendar', true);
     }
+    if (d.changed === column.id) {
+      d3.select(td).classed('changed', true);
+    }
     eventType = 'dblclick';
     d3.select(td).on(eventType, function(a, b, c) {
       return self.events.editableClick(this, a, b, c, column);
@@ -776,7 +782,6 @@ window.TableStakesLib.Core = (function() {
     var i;
 
     if (d.changedID && (i = d.changedID.indexOf(column.id)) !== -1) {
-      d3.select(td).classed('changed', true);
       return d.changedID.splice(i, 1);
     }
   };
