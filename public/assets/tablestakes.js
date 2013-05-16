@@ -96,6 +96,7 @@ window.TableStakesLib.Events = (function() {
     currentindex = this.core.utils.getCurrentColumnIndex(d.activatedID);
     nextNode = this.core.utils.findEditableCell(d, column, isUp);
     if (nextNode != null) {
+      this.blur(node, d, column);
       nextNode.activatedID = this.core.columns[currentindex].id;
       this.core._makeInactive(node);
       d.activatedID = null;

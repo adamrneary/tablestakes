@@ -57,6 +57,7 @@ class window.TableStakesLib.Events
     currentindex = @core.utils.getCurrentColumnIndex d.activatedID
     nextNode = @core.utils.findEditableCell d,column,isUp
     if nextNode?
+      @blur(node, d, column)
       nextNode.activatedID = @core.columns[currentindex].id
       @core._makeInactive node
       d.activatedID = null
