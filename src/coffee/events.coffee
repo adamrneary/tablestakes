@@ -72,6 +72,8 @@ class window.TableStakesLib.Events
   blur: (node, d, column) ->
     unless @core.table.isInRender
       val = d3.select(node).text()
+      if val isnt d[column.id]
+        d.changed = column.id
       unless val is d[d.activatedID]
         @_applyChangedState(d)
         column.onEdit(d.id, column.id, val) if column.onEdit
