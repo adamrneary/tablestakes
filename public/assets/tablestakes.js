@@ -53,6 +53,7 @@ window.TableStakesLib.Events = (function() {
       index = this.core.utils.findEditableColumn(d, currentindex + 1, true);
       if (index != null) {
         this.core._makeInactive(node);
+        this.blur(node, d, column);
         d.activatedID = this.core.columns[index].id;
       } else {
         nextNode = this.core.utils.findNextNode(d, this.core.nodes);
@@ -60,6 +61,7 @@ window.TableStakesLib.Events = (function() {
           index = this.core.utils.findEditableColumn(nextNode, 0, true);
           if (index != null) {
             this.core._makeInactive(node);
+            this.blur(node, d, column);
             d.activatedID = null;
             nextNode.activatedID = this.core.columns[index].id;
           }
@@ -69,6 +71,7 @@ window.TableStakesLib.Events = (function() {
       index = this.core.utils.findEditableColumn(d, currentindex - 1, false);
       if (index != null) {
         this.core._makeInactive(node);
+        this.blur(node, d, column);
         d.activatedID = this.core.columns[index].id;
       } else {
         prevNode = this.core.utils.findPrevNode(d, this.core.nodes);
@@ -76,6 +79,7 @@ window.TableStakesLib.Events = (function() {
           start = this.core.columns.length - 1;
           index = this.core.utils.findEditableColumn(prevNode, start, false);
           this.core._makeInactive(node);
+          this.blur(node, d, column);
           prevNode.activatedID = this.core.columns[index].id;
           d.activatedID = null;
         }
@@ -92,6 +96,7 @@ window.TableStakesLib.Events = (function() {
     currentindex = this.core.utils.getCurrentColumnIndex(d.activatedID);
     nextNode = this.core.utils.findEditableCell(d, column, isUp);
     if (nextNode != null) {
+      this.blur(node, d, column);
       nextNode.activatedID = this.core.columns[currentindex].id;
       this.core._makeInactive(node);
       d.activatedID = null;
