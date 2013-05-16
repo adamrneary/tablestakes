@@ -94,7 +94,9 @@ class window.TableStakesLib.Core
           .transition()
 
     # for now, either all columns are resizable or none, set in table config
-    allTh = theadRow.selectAll("th")
+    allTh = theadRow
+      .filter((d) -> true unless d.headClasses)
+      .selectAll("th")
     @_makeResizable(allTh) if @table.isResizable()
     sortable = allTh.filter (d)->
       d.isSortable
