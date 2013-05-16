@@ -21,6 +21,7 @@ class window.TableStakesLib.Events
       index = @core.utils.findEditableColumn d,currentindex+1,true
       if index?
         @core._makeInactive node
+        @blur(node, d, column)
         d.activatedID = @core.columns[index].id
       else
         nextNode = @core.utils.findNextNode d, @core.nodes
@@ -28,6 +29,7 @@ class window.TableStakesLib.Events
           index = @core.utils.findEditableColumn nextNode,0,true
           if index?
             @core._makeInactive node
+            @blur(node, d, column)
             d.activatedID = null
             nextNode.activatedID = @core.columns[index].id
     # if shiftkey is not pressed, get previous
@@ -35,6 +37,7 @@ class window.TableStakesLib.Events
       index = @core.utils.findEditableColumn d,currentindex-1,false
       if index?
         @core._makeInactive node
+        @blur(node, d, column)
         d.activatedID = @core.columns[index].id
       else
         prevNode = @core.utils.findPrevNode d, @core.nodes
@@ -42,6 +45,7 @@ class window.TableStakesLib.Events
           start = @core.columns.length-1
           index = @core.utils.findEditableColumn prevNode,start,false
           @core._makeInactive node
+          @blur(node, d, column)
           prevNode.activatedID = @core.columns[index].id
           d.activatedID = null
     d3.event.preventDefault()
