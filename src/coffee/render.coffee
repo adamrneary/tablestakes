@@ -31,7 +31,7 @@ class window.TableStakesLib.Core
     wrapEnter = wrap.enter().append("div")
     @tableEnter = wrapEnter.append("table")
     @tableObject = wrap.select("table")
-      .classed(@table.tableClassName,true)
+      .classed(@table.tableClassName, true)
       .attr("style", "table-layout:fixed;")
 
     @_renderHead(@tableObject) if @table.header
@@ -335,6 +335,9 @@ class window.TableStakesLib.Core
     # TODO: enable datepicker
     # $('.editable.calendar').datepicker()
 
+    if d.changed is column.id
+        d3.select(td).classed('changed', true)
+
     eventType = 'dblclick'
     d3.select(td)
       .on(eventType, (a,b,c) -> self.events.editableClick(@,a,b,c,column))
@@ -366,11 +369,12 @@ class window.TableStakesLib.Core
     self = @
     d3.select(node)
       .classed('active', false)
+#      .classed('editable', true)
+#      .classed('changed', true)
       .attr('contentEditable', false)
 
   _makeChanged: (d, td, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
-      d3.select(td).classed('changed', true)
       d.changedID.splice i, 1
 
   _makeSelect: (d, td, column) ->
