@@ -196,6 +196,12 @@ table.tablestakes {
     .resizeable {
       // cursor: col-resize;
       position: relative;
+      
+      &:hover {
+        .resizeable-handle {
+          border-right: solid 2px saturate($primary, 20%);
+        }
+      }
 
       .resizeable-handle {
         position: absolute;
@@ -220,7 +226,6 @@ table.tablestakes {
 
         &.right {
           right: 0;
-          border-right: solid 2px saturate($primary, 20%);
         }
       }
     }
