@@ -93,15 +93,10 @@ class window.TableStakesLib.Core
             .style('width', (d) -> d.width)
           .transition()
 
-
-#      td = theadRow.selectAll("th")
-#        .filter((d, i) -> d.label? and d.label is "")
-#        .data([])
-#          .exit()
-#            .remove()
-
     # for now, either all columns are resizable or none, set in table config
-    allTh = theadRow.selectAll("th")
+    allTh = theadRow
+      .filter((d) -> true unless d.headClasses)
+      .selectAll("th")
     @_makeResizable(allTh) if @table.isResizable()
     sortable = allTh.filter (d)->
       d.isSortable

@@ -220,19 +220,30 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype.resizeDrag = function(node) {
-    var new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th;
+    var allTh, index, new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th, thead;
 
     th = node.parentNode;
+    index = parseFloat(d3.select(th).attr('ref'));
+    thead = th.parentNode.parentNode;
+    allTh = [];
+    _.each(thead.childNodes, function(tr) {
+      return allTh.push(tr.childNodes[index]);
+    });
     old_width_left = parseFloat(d3.select(th).style("width"));
     old_width_right = parseFloat(d3.select(th.nextSibling).style("width"));
     new_width_left = d3.event.x;
     new_width_right = old_width_left + old_width_right - new_width_left;
     notTooSmall = new_width_left > this.core.table._minColumnWidth && new_width_right > this.core.table._minColumnWidth;
     if (notTooSmall) {
-      d3.select(th).attr("width", new_width_left + "px");
-      d3.select(th).style("width", new_width_left + "px");
-      d3.select(th.nextSibling).attr("width", new_width_right + "px");
-      return d3.select(th.nextSibling).style("width", new_width_right + "px");
+      return _.each(allTh, function(th) {
+        if (th == null) {
+          return;
+        }
+        d3.select(th).attr("width", new_width_left + "px");
+        d3.select(th).style("width", new_width_left + "px");
+        d3.select(th.nextSibling).attr("width", new_width_right + "px");
+        return d3.select(th.nextSibling).style("width", new_width_right + "px");
+      });
     }
   };
 
@@ -454,7 +465,11 @@ window.TableStakesLib.Core = (function() {
         return d.width;
       }).transition();
     }
-    allTh = theadRow.selectAll("th");
+    allTh = theadRow.filter(function(d) {
+      if (!d.headClasses) {
+        return true;
+      }
+    }).selectAll("th");
     if (this.table.isResizable()) {
       this._makeResizable(allTh);
     }
@@ -1225,9 +1240,8 @@ window.TableStakes = (function() {
         headClasses: filter
       });
     } else {
-      row = new window.TableStakesLib.HeadRow({
-        col: []
-      });
+      this._headRows = null;
+      return this;
     }
     if (_.filter(this._columns, function(col) {
       return _.has(col, 'timeSeries');
@@ -1237,7 +1251,7 @@ window.TableStakes = (function() {
         var begin, end, hidden;
 
         hidden = 'hidden';
-        if (column.timeSeries != null) {
+        if (column.timeSeries) {
           if ((column.classes == null) || column.classes.indexOf(hidden) === -1) {
             if (_.isNumber(column.id)) {
               return visiblePeriod.push(column.id);
@@ -1274,6 +1288,7 @@ window.TableStakes = (function() {
         }
       });
     }
+    console.log("headRows", row);
     this._headRows.push(row);
     this._headRows.push(new window.TableStakesLib.HeadRow({
       col: this._columns
