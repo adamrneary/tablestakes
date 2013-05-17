@@ -475,24 +475,28 @@ table.tablestakes th.editable, table.tablestakes td.editable {
     font-weight: bold;
     border: 1px dotted #30878f; }
 
-/* line 769 */
-table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
-  width: auto;
-  height: auto;
-  margin: 0;
-  padding: 0;
-  color: #30878f;
-  border: none;
-  background: transparent;
-  outline: none;
-  box-shadow: none; }
-  /* line 780 */
-  table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
+/* line 764 */
+table.tablestakes {
+  word-break: break-all;
+  word-wrap: break-word; }
+  /* line 772 */
+  table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    color: #30878f;
     border: none;
+    background: transparent;
     outline: none;
-    background: transparent; }
+    box-shadow: none; }
+    /* line 783 */
+    table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
+      border: none;
+      outline: none;
+      background: transparent; }
 
-/* line 803 */
+/* line 806 */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;

@@ -762,6 +762,9 @@ table.tablestakes {
 // Styleguide 4.1.2
 
 table.tablestakes {
+  word-break: break-all;
+  word-wrap: break-word;
+
   th, td {
     &.editable {
       &.active {
