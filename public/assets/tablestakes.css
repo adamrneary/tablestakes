@@ -42,7 +42,7 @@ table.tablestakes thead tr.secondary td {
   border-bottom: solid 1px #e2dedf; }
 /* line 78 */
 table.tablestakes thead tr.secondary th.underline {
-  border-bottom: solid 1px #e2dedf; }
+  border-bottom: solid 1px white; }
 
 /* line 102 */
 table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
