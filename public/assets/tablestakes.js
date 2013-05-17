@@ -1240,9 +1240,8 @@ window.TableStakes = (function() {
         headClasses: filter
       });
     } else {
-      row = new window.TableStakesLib.HeadRow({
-        col: []
-      });
+      this._headRows = null;
+      return this;
     }
     if (_.filter(this._columns, function(col) {
       return _.has(col, 'timeSeries');
@@ -1252,7 +1251,7 @@ window.TableStakes = (function() {
         var begin, end, hidden;
 
         hidden = 'hidden';
-        if (column.timeSeries != null) {
+        if (column.timeSeries) {
           if ((column.classes == null) || column.classes.indexOf(hidden) === -1) {
             if (_.isNumber(column.id)) {
               return visiblePeriod.push(column.id);
@@ -1289,6 +1288,7 @@ window.TableStakes = (function() {
         }
       });
     }
+    console.log("headRows", row);
     this._headRows.push(row);
     this._headRows.push(new window.TableStakesLib.HeadRow({
       col: this._columns
