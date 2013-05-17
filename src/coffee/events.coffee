@@ -154,6 +154,14 @@ class window.TableStakesLib.Events
 
   resizeDrag: (node) ->
     th = node.parentNode
+    index = parseFloat(d3.select(th).attr('ref'))
+
+    thead = th.parentNode.parentNode
+    allTh = []
+    # select all corresponding &lt;th&gt; of every head row
+    _.each thead.childNodes, (tr) ->
+      allTh.push tr.childNodes[index]
+
     old_width_left = parseFloat(d3.select(th).style("width"))
     old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
     new_width_left = d3.event.x
@@ -161,11 +169,15 @@ class window.TableStakesLib.Events
 
     notTooSmall = new_width_left > @core.table._minColumnWidth and
       new_width_right > @core.table._minColumnWidth
+
     if notTooSmall
-      d3.select(th).attr("width", new_width_left + "px")
-      d3.select(th).style("width", new_width_left + "px")
-      d3.select(th.nextSibling).attr("width", new_width_right + "px")
-      d3.select(th.nextSibling).style("width", new_width_right + "px")
+      _.each allTh, (th) ->
+        return unless th?
+
+        d3.select(th).attr("width", new_width_left + "px")
+        d3.select(th).style("width", new_width_left + "px")
+        d3.select(th.nextSibling).attr("width", new_width_right + "px")
+        d3.select(th.nextSibling).style("width", new_width_right + "px")
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->

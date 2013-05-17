@@ -301,16 +301,15 @@ class window.TableStakes
         headClasses: filter
       )
     else
-      row = new window.TableStakesLib.HeadRow(
-        col: []
-      )
+      @_headRows = null
+      return @
 
     if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
       # special filtering rule for secondary timeSeries header
       visiblePeriod = []
       _.each row.col, (column, i) ->
         hidden = 'hidden'
-        if column.timeSeries?
+        if column.timeSeries
           if !column.classes? or column.classes.indexOf(hidden) is -1
             if _.isNumber column.id
               visiblePeriod.push column.id
@@ -333,6 +332,8 @@ class window.TableStakes
         else unless column.id is first
           column.label = ""
     # end if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
+
+    console.log "headRows", row
 
     @_headRows.push row
     @_headRows.push new window.TableStakesLib.HeadRow(
