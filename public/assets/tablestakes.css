@@ -23,7 +23,7 @@ table.tablestakes {
 /* line 51 */
 table.tablestakes thead th, table.tablestakes thead td {
   text-transform: uppercase;
-  white-space: nowrap;
+  white-space: pre-wrap;
   font-weight: normal; }
 /* line 57 */
 table.tablestakes thead td {
