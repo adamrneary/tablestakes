@@ -334,6 +334,19 @@ window.TableStakesLib.Events = (function() {
     return this.core.table.sort(column.id, column.desc);
   };
 
+  Events.prototype.doubleTap = function(self, a, b, c, column) {
+    var delta, now, timeDelta;
+
+    timeDelta = 500;
+    now = new Date().getTime();
+    self.lastTouch = _.isUndefined(self.lastTouch) ? now + 1 : self.lastTouch;
+    delta = now - self.lastTouch;
+    if ((0 < delta && delta < timeDelta)) {
+      this.editableClick(self, a, b, c, column);
+    }
+    return self.lastTouch = now;
+  };
+
   return Events;
 
 })();
@@ -744,7 +757,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeEditable = function(d, td, column) {
-    var eventType, self;
+    var agent, eventType, self;
 
     self = this;
     if (_.contains(['boolean', 'select'], column.editor)) {
@@ -757,10 +770,18 @@ window.TableStakesLib.Core = (function() {
     if (d.changed === column.id) {
       d3.select(td).classed('changed', true);
     }
-    eventType = 'dblclick';
-    d3.select(td).on(eventType, function(a, b, c) {
-      return self.events.editableClick(this, a, b, c, column);
-    });
+    agent = navigator.userAgent.toLowerCase();
+    if (agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0) {
+      eventType = 'touchend';
+      d3.select(td).on(eventType, function(a, b, c) {
+        return self.events.doubleTap(this, a, b, c, column);
+      });
+    } else {
+      eventType = 'dblclick';
+      d3.select(td).on(eventType, function(a, b, c) {
+        return self.events.editableClick(this, a, b, c, column);
+      });
+    }
     if (d.activatedID === column.id.toString()) {
       return this._makeActive(d, td, column);
     } else {

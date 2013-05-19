@@ -338,9 +338,15 @@ class window.TableStakesLib.Core
     if d.changed is column.id
         d3.select(td).classed('changed', true)
 
-    eventType = 'dblclick'
-    d3.select(td)
-      .on(eventType, (a,b,c) -> self.events.editableClick(@,a,b,c,column))
+    agent = navigator.userAgent.toLowerCase()
+    if agent.indexOf('iphone') >= 0 or agent.indexOf('ipad') >= 0
+      eventType = 'touchend'
+      d3.select(td)
+        .on(eventType, (a,b,c) -> self.events.doubleTap(@,a,b,c,column))
+    else
+      eventType = 'dblclick'
+      d3.select(td)
+        .on(eventType, (a,b,c) -> self.events.editableClick(@,a,b,c,column))
 
     if d.activatedID is column.id.toString()
       @_makeActive(d, td, column)
