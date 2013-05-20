@@ -50,7 +50,7 @@ table.tablestakes {
   thead {
     th, td {
       text-transform: uppercase;
-      white-space: pre-wrap;
+      white-space: pre-line;
       font-weight: normal;
     }
 
@@ -767,7 +767,6 @@ table.tablestakes {
 // Styleguide 4.1.2
 
 table.tablestakes {
-  word-break: break-all;
   word-wrap: break-word;
 
   th, td {
