@@ -240,3 +240,20 @@ class window.TableStakesLib.Events
         d.desc = null
 
     @core.table.sort column.id, column.desc
+
+  doubleTap: (self, a, b, c, column) ->
+    # Pseudo double-click implementation
+    # according to http://appcropolis.com/implementing-doubletap-on-iphones-and-ipads/
+    timeDelta = 500 # time in milliseconds
+
+    # meausure time between 2 touchend events
+    now = new Date().getTime()
+    self.lastTouch = if _.isUndefined(self.lastTouch) then now + 1 else self.lastTouch
+
+    delta = now - self.lastTouch
+
+    # trigger editable event for Cell
+    if 0 < delta < timeDelta
+      @editableClick(self, a, b, c, column)
+
+    self.lastTouch = now
