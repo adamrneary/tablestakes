@@ -97,10 +97,10 @@ class window.TableStakesLib.Core
     allTh = theadRow
       .filter((d) -> true unless d.headClasses)
       .selectAll("th")
-    @_makeResizable(allTh) if @table.isResizable()
     sortable = allTh.filter (d)->
       d.isSortable
     @_makeSortable(sortable)
+    @_makeResizable(allTh) if @table.isResizable()
     @
 
   # responsible for &lt;tbody&gt; and contents
@@ -306,15 +306,22 @@ class window.TableStakesLib.Core
 
   _makeSortable: (allTh)->
     self = @
-    allTh.classed('sortable',true)
+    allTh.text('')
+
+    allTh.append('div')
+      .text((d) -> d.label)
+      .classed('sortable',true)
       .append("div")
       .classed('sortable-handle', true)
+
     sorted = allTh.filter (column)->
       column.desc?
     if sorted[0] and sorted[0].length > 0
       desc = sorted.data()[0].desc
-      sorted.classed('sorted-asc',desc)
-      sorted.classed('sorted-desc',!desc)
+      sorted.selectAll('.sortable')
+        .classed('sorted-asc',desc)
+      sorted.selectAll('.sortable')
+        .classed('sorted-desc',!desc)
     allTh.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
