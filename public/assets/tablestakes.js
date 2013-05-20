@@ -486,9 +486,6 @@ window.TableStakesLib.Core = (function() {
         return true;
       }
     }).selectAll("th");
-    if (this.table.isResizable()) {
-      this._makeResizable(allTh);
-    }
     sortable = allTh.filter(function(d) {
       return d.isSortable;
     });
