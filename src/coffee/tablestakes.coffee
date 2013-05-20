@@ -125,15 +125,25 @@ class window.TableStakes
     sortFunction = (a,b)->
       if a[columnId]? and b[columnId]?
         if isDesc
-          if a[columnId].toUpperCase() > b[columnId].toUpperCase()
-            1
+          if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
+            a[columnId] - b[columnId]
           else
-            -1
+            first = a[columnId].toString().toUpperCase()
+            second = b[columnId].toString().toUpperCase()
+            if first > second
+              1
+            else
+              -1
         else
-          if a[columnId].toUpperCase() < b[columnId].toUpperCase()
-            1
+          if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
+            b[columnId] - a[columnId]
           else
-            -1
+            first = a[columnId].toString().toUpperCase()
+            second = b[columnId].toString().toUpperCase()
+            if first < second
+              1
+            else
+              -1
       else
         0
     @data().sort sortFunction
