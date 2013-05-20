@@ -729,14 +729,17 @@ window.TableStakesLib.Core = (function() {
     var desc, self, sorted;
 
     self = this;
-    allTh.classed('sortable', true).append("div").classed('sortable-handle', true);
+    allTh.text('');
+    allTh.append('div').text(function(d) {
+      return d.label;
+    }).classed('sortable', true).append("div").classed('sortable-handle', true);
     sorted = allTh.filter(function(column) {
       return column.desc != null;
     });
     if (sorted[0] && sorted[0].length > 0) {
       desc = sorted.data()[0].desc;
-      sorted.classed('sorted-asc', desc);
-      sorted.classed('sorted-desc', !desc);
+      sorted.selectAll('.sortable').classed('sorted-asc', desc);
+      sorted.selectAll('.sortable').classed('sorted-desc', !desc);
     }
     return allTh.on('click', function(a, b, c) {
       return self.events.toggleSort(this, a, b, c);
