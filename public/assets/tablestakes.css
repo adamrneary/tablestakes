@@ -23,7 +23,7 @@ table.tablestakes {
 /* line 51 */
 table.tablestakes thead th, table.tablestakes thead td {
   text-transform: uppercase;
-  white-space: pre-wrap;
+  white-space: pre-line;
   font-weight: normal; }
 /* line 57 */
 table.tablestakes thead td {
@@ -479,9 +479,8 @@ table.tablestakes th.editable, table.tablestakes td.editable {
 
 /* line 769 */
 table.tablestakes {
-  word-break: break-all;
   word-wrap: break-word; }
-  /* line 777 */
+  /* line 776 */
   table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
     width: auto;
     height: auto;
@@ -492,13 +491,13 @@ table.tablestakes {
     background: transparent;
     outline: none;
     box-shadow: none; }
-    /* line 788 */
+    /* line 787 */
     table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
       border: none;
       outline: none;
       background: transparent; }
 
-/* line 811 */
+/* line 810 */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;
