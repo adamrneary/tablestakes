@@ -140,11 +140,11 @@ table.tablestakes thead .sortable {
     font-size: 16px; }
   /* line 275 */
   table.tablestakes thead .sortable:before {
-    top: 2px;
+    top: -4px;
     content: "\f0d8"; }
   /* line 280 */
   table.tablestakes thead .sortable:after {
-    bottom: 2px;
+    bottom: -3px;
     content: "\f0d7"; }
   /* line 286 */
   table.tablestakes thead .sortable.sorted-asc:before {
