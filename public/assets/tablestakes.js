@@ -1043,18 +1043,32 @@ window.TableStakes = (function() {
       return;
     }
     sortFunction = function(a, b) {
+      var first, second;
+
       if ((a[columnId] != null) && (b[columnId] != null)) {
         if (isDesc) {
-          if (a[columnId].toUpperCase() > b[columnId].toUpperCase()) {
-            return 1;
+          if (_.isNumber(a[columnId]) && _.isNumber(b[columnId])) {
+            return a[columnId] - b[columnId];
           } else {
-            return -1;
+            first = a[columnId].toString().toUpperCase();
+            second = b[columnId].toString().toUpperCase();
+            if (first > second) {
+              return 1;
+            } else {
+              return -1;
+            }
           }
         } else {
-          if (a[columnId].toUpperCase() < b[columnId].toUpperCase()) {
-            return 1;
+          if (_.isNumber(a[columnId]) && _.isNumber(b[columnId])) {
+            return b[columnId] - a[columnId];
           } else {
-            return -1;
+            first = a[columnId].toString().toUpperCase();
+            second = b[columnId].toString().toUpperCase();
+            if (first < second) {
+              return 1;
+            } else {
+              return -1;
+            }
           }
         }
       } else {
