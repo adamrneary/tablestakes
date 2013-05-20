@@ -490,6 +490,9 @@ window.TableStakesLib.Core = (function() {
       return d.isSortable;
     });
     this._makeSortable(sortable);
+    if (this.table.isResizable()) {
+      this._makeResizable(allTh);
+    }
     return this;
   };
 

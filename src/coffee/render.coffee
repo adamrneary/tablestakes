@@ -97,10 +97,10 @@ class window.TableStakesLib.Core
     allTh = theadRow
       .filter((d) -> true unless d.headClasses)
       .selectAll("th")
-#    @_makeResizable(allTh) if @table.isResizable()
     sortable = allTh.filter (d)->
       d.isSortable
     @_makeSortable(sortable)
+    @_makeResizable(allTh) if @table.isResizable()
     @
 
   # responsible for &lt;tbody&gt; and contents
