@@ -719,7 +719,7 @@ window.TableStakesLib.Core = (function() {
     var dragBehavior, length, self;
 
     self = this;
-    length = allDiv[0].length;
+    length = _.size(allDiv[0]);
     dragBehavior = d3.behavior.drag().on("drag", function() {
       return self.events.resizeDrag(this);
     });

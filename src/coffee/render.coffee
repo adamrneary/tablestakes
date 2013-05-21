@@ -292,7 +292,7 @@ class window.TableStakesLib.Core
   _makeResizable: (allDiv) =>
     # todo: clean up contexts
     self = @
-    length = allDiv[0].length
+    length = _.size(allDiv[0])
 
     dragBehavior = d3.behavior.drag()
       .on("drag", -> self.events.resizeDrag(@))
