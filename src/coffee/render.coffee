@@ -68,10 +68,11 @@ class window.TableStakesLib.Core
         .data(@columns)
         .enter()
           .append("th")
-            .text((d) -> d.label)
             .attr("ref", (d,i) -> i)
             .attr("class", (d) => @_columnClasses(d))
             .style('width', (d) -> d.width)
+            .append('div')
+              .text((d) -> d.label)
     else
       # create table header row
       theadRow = thead.selectAll("thead")
@@ -85,22 +86,22 @@ class window.TableStakesLib.Core
         .data((row, i) -> row.col)
         .enter()
           .append("th")
-            .text((d) ->
-              d.classes += ' ' + 'underline' unless d.label
-              d.label)
             .attr("ref", (d,i) -> i)
-            .attr("class", (d) => @_columnClasses(d))
+            .attr("class", (d) =>
+              d.classes += ' ' + 'underline' unless d.label
+              @_columnClasses(d))
             .style('width', (d) -> d.width)
-          .transition()
+            .append('div')
+              .text((d) -> d.label)
 
     # for now, either all columns are resizable or none, set in table config
-    allTh = theadRow
+    allDiv = theadRow
       .filter((d) -> true unless d.headClasses)
-      .selectAll("th")
-    sortable = allTh.filter (d)->
+      .selectAll("div")
+    sortable = allDiv.filter (d)->
       d.isSortable
     @_makeSortable(sortable)
-    @_makeResizable(allTh) if @table.isResizable()
+    @_makeResizable(allDiv) if @table.isResizable()
     @
 
   # responsible for &lt;tbody&gt; and contents
@@ -288,29 +289,25 @@ class window.TableStakesLib.Core
           @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
-  _makeResizable: (th) =>
+  _makeResizable: (allTh) =>
     # todo: clean up contexts
     self = @
+    length = allTh[0].length
+
     dragBehavior = d3.behavior.drag()
       .on("drag", -> self.events.resizeDrag(@))
-    handlers = th.classed('resizeable',true)
-      .append("div")
-      .classed('resizeable-handle right', true)
-      .call dragBehavior
-    #remove last handle
-    removable = handlers[0] and
-      handlers[0][handlers[0].length-1] and
-      handlers[0][handlers[0].length-1].remove
-    if removable
-      handlers[0][handlers[0].length-1].remove()
+
+    allTh.classed('resizeable',true)
+      .filter((d, i) -> i+1 < length)
+        .append("div")
+          .classed('resizeable-handle', true)
+          .classed('right', true)
+          .call dragBehavior
 
   _makeSortable: (allTh)->
     self = @
-    allTh.text('')
 
-    allTh.append('div')
-      .text((d) -> d.label)
-      .classed('sortable',true)
+    allTh.classed('sortable',true)
       .append("div")
       .classed('sortable-handle', true)
 

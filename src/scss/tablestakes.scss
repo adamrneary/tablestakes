@@ -211,6 +211,7 @@ table.tablestakes {
         width: 4px;
         height: 100%;
         cursor: col-resize;
+        padding: 0;
 
         &:hover {
           background: $resizable-hover-color;
@@ -819,3 +820,14 @@ table.tablestakes {
   }
 }
 
+table.tablestakes {
+  thead {
+    th, td {
+      padding: 0;
+
+      div {
+        padding: 5px;
+      }
+    }
+  }
+}
