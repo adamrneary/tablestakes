@@ -289,29 +289,30 @@ class window.TableStakesLib.Core
           @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
-  _makeResizable: (allTh) =>
+  _makeResizable: (allDiv) =>
     # todo: clean up contexts
     self = @
-    length = allTh[0].length
+    length = allDiv[0].length
 
     dragBehavior = d3.behavior.drag()
       .on("drag", -> self.events.resizeDrag(@))
 
-    allTh.classed('resizeable',true)
+    allDiv.classed('resizeable',true)
       .filter((d, i) -> i+1 < length)
         .append("div")
           .classed('resizeable-handle', true)
           .classed('right', true)
           .call dragBehavior
+    
 
-  _makeSortable: (allTh)->
+  _makeSortable: (allDiv)->
     self = @
 
-    allTh.classed('sortable',true)
+    allDiv.classed('sortable',true)
       .append("div")
       .classed('sortable-handle', true)
 
-    sorted = allTh.filter (column)->
+    sorted = allDiv.filter (column)->
       column.desc?
     if sorted[0] and sorted[0].length > 0
       desc = sorted.data()[0].desc
@@ -319,7 +320,7 @@ class window.TableStakesLib.Core
         .classed('sorted-asc',desc)
       sorted.selectAll('.sortable')
         .classed('sorted-desc',!desc)
-    allTh.on 'click', (a,b,c)->
+    allDiv.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
   # ### Cell-level transform methods

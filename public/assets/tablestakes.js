@@ -715,25 +715,25 @@ window.TableStakesLib.Core = (function() {
     });
   };
 
-  Core.prototype._makeResizable = function(allTh) {
+  Core.prototype._makeResizable = function(allDiv) {
     var dragBehavior, length, self;
 
     self = this;
-    length = allTh[0].length;
+    length = allDiv[0].length;
     dragBehavior = d3.behavior.drag().on("drag", function() {
       return self.events.resizeDrag(this);
     });
-    return allTh.classed('resizeable', true).filter(function(d, i) {
+    return allDiv.classed('resizeable', true).filter(function(d, i) {
       return i + 1 < length;
     }).append("div").classed('resizeable-handle', true).classed('right', true).call(dragBehavior);
   };
 
-  Core.prototype._makeSortable = function(allTh) {
+  Core.prototype._makeSortable = function(allDiv) {
     var desc, self, sorted;
 
     self = this;
-    allTh.classed('sortable', true).append("div").classed('sortable-handle', true);
-    sorted = allTh.filter(function(column) {
+    allDiv.classed('sortable', true).append("div").classed('sortable-handle', true);
+    sorted = allDiv.filter(function(column) {
       return column.desc != null;
     });
     if (sorted[0] && sorted[0].length > 0) {
@@ -741,7 +741,7 @@ window.TableStakesLib.Core = (function() {
       sorted.selectAll('.sortable').classed('sorted-asc', desc);
       sorted.selectAll('.sortable').classed('sorted-desc', !desc);
     }
-    return allTh.on('click', function(a, b, c) {
+    return allDiv.on('click', function(a, b, c) {
       return self.events.toggleSort(this, a, b, c);
     });
   };
