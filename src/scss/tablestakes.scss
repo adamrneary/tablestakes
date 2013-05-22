@@ -274,12 +274,12 @@ table.tablestakes {
       }
 
       &:before {
-        top: -4px;
+        top: 0px;
         content: "\f0d8";
       }
 
       &:after {
-        bottom: -3px;
+        bottom: 2px;
         content: "\f0d7";
       }
 
@@ -293,6 +293,10 @@ table.tablestakes {
          &:after {
           color: $sortable-active-arrows-color;
         }
+      }
+
+      .sortable-handle {
+        padding: 0;
       }
     }
   }

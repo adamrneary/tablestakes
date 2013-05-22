@@ -444,7 +444,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._renderHead = function(tableObject) {
-    var allDiv, self, sortable, th, thead, theadRow,
+    var allDiv, allTh, self, sortable, th, thead, theadRow,
       _this = this;
 
     self = this;
@@ -481,11 +481,12 @@ window.TableStakesLib.Core = (function() {
         return d.label;
       });
     }
-    allDiv = theadRow.filter(function(d) {
+    allTh = theadRow.filter(function(d) {
       if (!d.headClasses) {
         return true;
       }
-    }).selectAll("div");
+    });
+    allDiv = allTh.selectAll("div");
     sortable = allDiv.filter(function(d) {
       return d.isSortable;
     });
@@ -737,8 +738,8 @@ window.TableStakesLib.Core = (function() {
     });
     if (sorted[0] && sorted[0].length > 0) {
       desc = sorted.data()[0].desc;
-      sorted.selectAll('.sortable').classed('sorted-asc', desc);
-      sorted.selectAll('.sortable').classed('sorted-desc', !desc);
+      sorted.classed('sorted-asc', desc);
+      sorted.classed('sorted-desc', !desc);
     }
     return allDiv.on('click', function(a, b, c) {
       return self.events.toggleSort(this, a, b, c);
