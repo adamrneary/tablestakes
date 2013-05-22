@@ -95,9 +95,10 @@ class window.TableStakesLib.Core
               .text((d) -> d.label)
 
     # for now, either all columns are resizable or none, set in table config
-    allDiv = theadRow
+    allTh = theadRow
       .filter((d) -> true unless d.headClasses)
-      .selectAll("div")
+
+    allDiv = allTh.selectAll("div")
     sortable = allDiv.filter (d)->
       d.isSortable
     @_makeSortable(sortable)
@@ -316,10 +317,8 @@ class window.TableStakesLib.Core
       column.desc?
     if sorted[0] and sorted[0].length > 0
       desc = sorted.data()[0].desc
-      sorted.selectAll('.sortable')
-        .classed('sorted-asc',desc)
-      sorted.selectAll('.sortable')
-        .classed('sorted-desc',!desc)
+      sorted.classed('sorted-asc',desc)
+      sorted.classed('sorted-desc',!desc)
     allDiv.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
