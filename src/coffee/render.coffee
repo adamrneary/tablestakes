@@ -68,10 +68,11 @@ class window.TableStakesLib.Core
         .data(@columns)
         .enter()
           .append("th")
-            .text((d) -> d.label)
             .attr("ref", (d,i) -> i)
             .attr("class", (d) => @_columnClasses(d))
             .style('width', (d) -> d.width)
+            .append('div')
+              .text((d) -> d.label)
     else
       # create table header row
       theadRow = thead.selectAll("thead")
@@ -85,22 +86,22 @@ class window.TableStakesLib.Core
         .data((row, i) -> row.col)
         .enter()
           .append("th")
-            .text((d) ->
-              d.classes += ' ' + 'underline' unless d.label
-              d.label)
             .attr("ref", (d,i) -> i)
-            .attr("class", (d) => @_columnClasses(d))
+            .attr("class", (d) =>
+              d.classes += ' ' + 'underline' unless d.label
+              @_columnClasses(d))
             .style('width', (d) -> d.width)
-          .transition()
+            .append('div')
+              .text((d) -> d.label)
 
     # for now, either all columns are resizable or none, set in table config
-    allTh = theadRow
+    allDiv = theadRow
       .filter((d) -> true unless d.headClasses)
-      .selectAll("th")
-    sortable = allTh.filter (d)->
+      .selectAll("div")
+    sortable = allDiv.filter (d)->
       d.isSortable
     @_makeSortable(sortable)
-    @_makeResizable(allTh) if @table.isResizable()
+    @_makeResizable(allDiv) if @table.isResizable()
     @
 
   # responsible for &lt;tbody&gt; and contents
@@ -288,33 +289,30 @@ class window.TableStakesLib.Core
           @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
-  _makeResizable: (th) =>
+  _makeResizable: (allDiv) =>
     # todo: clean up contexts
     self = @
+    length = _.size(allDiv[0])
+
     dragBehavior = d3.behavior.drag()
       .on("drag", -> self.events.resizeDrag(@))
-    handlers = th.classed('resizeable',true)
-      .append("div")
-      .classed('resizeable-handle right', true)
-      .call dragBehavior
-    #remove last handle
-    removable = handlers[0] and
-      handlers[0][handlers[0].length-1] and
-      handlers[0][handlers[0].length-1].remove
-    if removable
-      handlers[0][handlers[0].length-1].remove()
 
-  _makeSortable: (allTh)->
+    allDiv.classed('resizeable',true)
+      .filter((d, i) -> i+1 < length)
+        .append("div")
+          .classed('resizeable-handle', true)
+          .classed('right', true)
+          .call dragBehavior
+    
+
+  _makeSortable: (allDiv)->
     self = @
-    allTh.text('')
 
-    allTh.append('div')
-      .text((d) -> d.label)
-      .classed('sortable',true)
+    allDiv.classed('sortable',true)
       .append("div")
       .classed('sortable-handle', true)
 
-    sorted = allTh.filter (column)->
+    sorted = allDiv.filter (column)->
       column.desc?
     if sorted[0] and sorted[0].length > 0
       desc = sorted.data()[0].desc
@@ -322,7 +320,7 @@ class window.TableStakesLib.Core
         .classed('sorted-asc',desc)
       sorted.selectAll('.sortable')
         .classed('sorted-desc',!desc)
-    allTh.on 'click', (a,b,c)->
+    allDiv.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
   # ### Cell-level transform methods

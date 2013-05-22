@@ -225,7 +225,7 @@ window.TableStakesLib.Events = (function() {
   Events.prototype.resizeDrag = function(node) {
     var allTh, index, new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th, thead;
 
-    th = node.parentNode;
+    th = node.parentNode.parentNode;
     index = parseFloat(d3.select(th).attr('ref'));
     thead = th.parentNode.parentNode;
     allTh = [];
@@ -444,7 +444,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._renderHead = function(tableObject) {
-    var allTh, self, sortable, th, thead, theadRow,
+    var allDiv, self, sortable, th, thead, theadRow,
       _this = this;
 
     self = this;
@@ -453,14 +453,14 @@ window.TableStakesLib.Core = (function() {
     }).enter().append('thead');
     if (!this.headRows) {
       theadRow = thead.append("tr");
-      th = theadRow.selectAll("th").data(this.columns).enter().append("th").text(function(d) {
-        return d.label;
-      }).attr("ref", function(d, i) {
+      th = theadRow.selectAll("th").data(this.columns).enter().append("th").attr("ref", function(d, i) {
         return i;
       }).attr("class", function(d) {
         return _this._columnClasses(d);
       }).style('width', function(d) {
         return d.width;
+      }).append('div').text(function(d) {
+        return d.label;
       });
     } else {
       theadRow = thead.selectAll("thead").data(this.headRows).enter().append("tr").attr("class", function(d) {
@@ -468,30 +468,30 @@ window.TableStakesLib.Core = (function() {
       });
       th = theadRow.selectAll("th").data(function(row, i) {
         return row.col;
-      }).enter().append("th").text(function(d) {
+      }).enter().append("th").attr("ref", function(d, i) {
+        return i;
+      }).attr("class", function(d) {
         if (!d.label) {
           d.classes += ' ' + 'underline';
         }
-        return d.label;
-      }).attr("ref", function(d, i) {
-        return i;
-      }).attr("class", function(d) {
         return _this._columnClasses(d);
       }).style('width', function(d) {
         return d.width;
-      }).transition();
+      }).append('div').text(function(d) {
+        return d.label;
+      });
     }
-    allTh = theadRow.filter(function(d) {
+    allDiv = theadRow.filter(function(d) {
       if (!d.headClasses) {
         return true;
       }
-    }).selectAll("th");
-    sortable = allTh.filter(function(d) {
+    }).selectAll("div");
+    sortable = allDiv.filter(function(d) {
       return d.isSortable;
     });
     this._makeSortable(sortable);
     if (this.table.isResizable()) {
-      this._makeResizable(allTh);
+      this._makeResizable(allDiv);
     }
     return this;
   };
@@ -714,29 +714,25 @@ window.TableStakesLib.Core = (function() {
     });
   };
 
-  Core.prototype._makeResizable = function(th) {
-    var dragBehavior, handlers, removable, self;
+  Core.prototype._makeResizable = function(allDiv) {
+    var dragBehavior, length, self;
 
     self = this;
+    length = _.size(allDiv[0]);
     dragBehavior = d3.behavior.drag().on("drag", function() {
       return self.events.resizeDrag(this);
     });
-    handlers = th.classed('resizeable', true).append("div").classed('resizeable-handle right', true).call(dragBehavior);
-    removable = handlers[0] && handlers[0][handlers[0].length - 1] && handlers[0][handlers[0].length - 1].remove;
-    if (removable) {
-      return handlers[0][handlers[0].length - 1].remove();
-    }
+    return allDiv.classed('resizeable', true).filter(function(d, i) {
+      return i + 1 < length;
+    }).append("div").classed('resizeable-handle', true).classed('right', true).call(dragBehavior);
   };
 
-  Core.prototype._makeSortable = function(allTh) {
+  Core.prototype._makeSortable = function(allDiv) {
     var desc, self, sorted;
 
     self = this;
-    allTh.text('');
-    allTh.append('div').text(function(d) {
-      return d.label;
-    }).classed('sortable', true).append("div").classed('sortable-handle', true);
-    sorted = allTh.filter(function(column) {
+    allDiv.classed('sortable', true).append("div").classed('sortable-handle', true);
+    sorted = allDiv.filter(function(column) {
       return column.desc != null;
     });
     if (sorted[0] && sorted[0].length > 0) {
@@ -744,7 +740,7 @@ window.TableStakesLib.Core = (function() {
       sorted.selectAll('.sortable').classed('sorted-asc', desc);
       sorted.selectAll('.sortable').classed('sorted-desc', !desc);
     }
-    return allTh.on('click', function(a, b, c) {
+    return allDiv.on('click', function(a, b, c) {
       return self.events.toggleSort(this, a, b, c);
     });
   };
@@ -1331,7 +1327,6 @@ window.TableStakes = (function() {
         }
       });
     }
-    console.log("headRows", row);
     this._headRows.push(row);
     this._headRows.push(new window.TableStakesLib.HeadRow({
       col: this._columns

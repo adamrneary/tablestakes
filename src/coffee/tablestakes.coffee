@@ -343,8 +343,6 @@ class window.TableStakes
           column.label = ""
     # end if _.filter(@_columns, (col) -> _.has(col, 'timeSeries')).length > 0
 
-    console.log "headRows", row
-
     @_headRows.push row
     @_headRows.push new window.TableStakesLib.HeadRow(
       col: @_columns)
