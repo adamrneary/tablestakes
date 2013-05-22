@@ -226,7 +226,6 @@ window.TableStakesLib.Events = (function() {
     var allTh, index, new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th, thead;
 
     th = node.parentNode.parentNode;
-    console.log(th);
     index = parseFloat(d3.select(th).attr('ref'));
     thead = th.parentNode.parentNode;
     allTh = [];
@@ -1328,7 +1327,6 @@ window.TableStakes = (function() {
         }
       });
     }
-    console.log("headRows", row);
     this._headRows.push(row);
     this._headRows.push(new window.TableStakesLib.HeadRow({
       col: this._columns

@@ -156,7 +156,6 @@ class window.TableStakesLib.Events
 
   resizeDrag: (node) ->
     th = node.parentNode.parentNode
-    console.log th
     index = parseFloat(d3.select(th).attr('ref'))
 
     thead = th.parentNode.parentNode
