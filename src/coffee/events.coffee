@@ -183,11 +183,13 @@ class window.TableStakesLib.Events
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->
+    console.log "editableClick"
     target = d3.event.target
     _node = d3.select(node)
     unless _node.classed('active') or $(target).is('a')
       @core.utils.deactivateAll @core.data[0]
-      d.activatedID = d3.select(d3.select(node).node()).attr("meta-key")
+      d.activatedID = d3.select(node).attr("meta-key")
+      console.log "\t", d.activatedID
       @core.update()
       d3.event.preventDefault()
     d3.event.stopPropagation()
