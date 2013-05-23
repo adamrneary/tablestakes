@@ -173,14 +173,14 @@ class window.TableStakesLib.Core
           d[column.id] or '-'
 
       @enterRows.append('td')
-        .append('div')
         .attr('meta-key', column.id)
         .attr('class', (d) => @_cellClasses(d, column))
-            .html(text).each (d, i) -> self._renderCell(column, d, @)
+        .html(text)
+        .each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
-    @updateRows.selectAll('td').selectAll('div').each (d, i) ->
+    @updateRows.selectAll('td').each (d, i) ->
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
@@ -366,7 +366,6 @@ class window.TableStakesLib.Core
       else
         d[column.id] or '-'
 
-    console.log "_makeActive", td
     d3.select(td)
       .classed('active', true)
       .text(_text)
