@@ -50,13 +50,16 @@ table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
   background: #007f9b;
   text-align: left;
   font-weight: normal; }
-/* line 109 */
+  /* line 108 */
+  table.tablestakes thead th.row-heading div, table.tablestakes thead td.row-heading div {
+    text-align: left; }
+/* line 113 */
 table.tablestakes thead th.total, table.tablestakes thead td.total {
   color: #231f20;
   background: #a9dde2;
   font-weight: bold; }
 
-/* line 126 */
+/* line 130 */
 table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-size: 16px;
   color: #675b5e;
@@ -65,32 +68,32 @@ table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-style: italic;
   text-align: left; }
 
-/* line 160 */
-table.tablestakes tbody th.row-heading, table.tablestakes tbody td.row-heading {
+/* line 165 */
+table.tablestakes tbody th div.row-heading, table.tablestakes tbody td div.row-heading {
   color: #675b5e;
   background: transparent;
   text-transform: none;
   text-align: left; }
-/* line 167 */
-table.tablestakes tbody th.total, table.tablestakes tbody td.total {
+/* line 172 */
+table.tablestakes tbody th div.total, table.tablestakes tbody td div.total {
   color: #231f20;
   background: #a9dde2;
   font-weight: bold; }
-/* line 173 */
-table.tablestakes tbody th.left-aligned, table.tablestakes tbody td.left-aligned {
+/* line 178 */
+table.tablestakes tbody th div.left-aligned, table.tablestakes tbody td div.left-aligned {
   text-align: left; }
-/* line 177 */
-table.tablestakes tbody th.light, table.tablestakes tbody td.light {
+/* line 182 */
+table.tablestakes tbody th div.light, table.tablestakes tbody td div.light {
   color: #cac3c5;
   background: transparent; }
 
-/* line 196 */
+/* line 202 */
 table.tablestakes thead .resizeable {
   position: relative; }
-  /* line 201 */
+  /* line 207 */
   table.tablestakes thead .resizeable:hover .resizeable-handle {
     border-right: solid 2px #1d97a2; }
-  /* line 206 */
+  /* line 212 */
   table.tablestakes thead .resizeable .resizeable-handle {
     position: absolute;
     top: 0;
@@ -100,26 +103,26 @@ table.tablestakes thead .resizeable {
     height: 100%;
     cursor: col-resize;
     padding: 0; }
-    /* line 216 */
+    /* line 222 */
     table.tablestakes thead .resizeable .resizeable-handle:hover {
       background: white; }
-    /* line 220 */
+    /* line 226 */
     table.tablestakes thead .resizeable .resizeable-handle.neighbor {
       background: #00455b; }
-    /* line 224 */
+    /* line 230 */
     table.tablestakes thead .resizeable .resizeable-handle.left {
       left: 0; }
-    /* line 228 */
+    /* line 234 */
     table.tablestakes thead .resizeable .resizeable-handle.right {
       right: 0; }
 
-/* line 249 */
+/* line 255 */
 table.tablestakes thead .sortable {
   position: relative;
   padding-right: 20px;
   cursor: pointer;
   text-align: left; }
-  /* line 255 */
+  /* line 261 */
   table.tablestakes thead .sortable:before, table.tablestakes thead .sortable:after {
     position: absolute;
     right: 5px;
@@ -139,33 +142,33 @@ table.tablestakes thead .sortable {
     margin-top: 0;
     color: #00455b;
     font-size: 16px; }
-  /* line 276 */
+  /* line 282 */
   table.tablestakes thead .sortable:before {
     top: 0px;
     content: "\f0d8"; }
-  /* line 281 */
+  /* line 287 */
   table.tablestakes thead .sortable:after {
     bottom: 2px;
     content: "\f0d7"; }
-  /* line 287 */
+  /* line 293 */
   table.tablestakes thead .sortable.sorted-asc:before {
     color: white; }
-  /* line 293 */
+  /* line 299 */
   table.tablestakes thead .sortable.sorted-desc:after {
     color: white; }
-  /* line 298 */
+  /* line 304 */
   table.tablestakes thead .sortable .sortable-handle {
     padding: 0; }
 
-/* line 327 */
+/* line 333 */
 table.tablestakes thead tr.reorder-draggable-destination th, table.tablestakes thead tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568; }
-/* line 336 */
+/* line 342 */
 table.tablestakes tbody tr.subtotal th, table.tablestakes tbody tr.subtotal td {
   border-top: solid 1px #e2dedf;
   color: #675b5e;
   background: transparent; }
-/* line 344 */
+/* line 350 */
 table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -173,7 +176,7 @@ table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td
   background: #faf9fa;
   font-weight: bold;
   text-transform: capitalize; }
-/* line 354 */
+/* line 360 */
 table.tablestakes tbody tr.well {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -187,13 +190,13 @@ table.tablestakes tbody tr.well {
   margin: 0;
   color: #675b5e;
   background: #f5fbfc; }
-  /* line 364 */
+  /* line 370 */
   table.tablestakes tbody tr.well td, table.tablestakes tbody tr.well th {
     color: #a69b9e;
     font-weight: bold;
     text-transform: capitalize;
     border: none; }
-/* line 373 */
+/* line 379 */
 table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -201,7 +204,7 @@ table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   background: transparent;
   font-weight: bold;
   text-transform: capitalize; }
-/* line 384 */
+/* line 390 */
 table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -209,31 +212,31 @@ table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   background: #005568;
   font-weight: bold;
   text-transform: capitalize; }
-/* line 395 */
+/* line 401 */
 table.tablestakes tbody tr.spacer th, table.tablestakes tbody tr.spacer td {
   text-align: left;
   text-indent: -9999em; }
-/* line 402 */
+/* line 408 */
 table.tablestakes tbody tr.emphasis th, table.tablestakes tbody tr.emphasis td {
   color: #30878f;
   background: transparent;
   font-size: 100%;
   font-weight: bold;
   border-bottom: solid 1px #e2dedf; }
-/* line 411 */
+/* line 417 */
 table.tablestakes tbody tr.emphasis2 {
   color: #675b5e;
   background: #fce5b1;
   font-size: 100%;
   font-weight: bold; }
-/* line 419 */
+/* line 425 */
 table.tablestakes tbody tr.reorder-draggable-destination th, table.tablestakes tbody tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568; }
-/* line 425 */
+/* line 431 */
 table.tablestakes tbody tr.hierarchy-draggable-destination th, table.tablestakes tbody tr.hierarchy-draggable-destination td {
   color: white;
   background: #0094b4; }
-/* line 431 */
+/* line 437 */
 table.tablestakes tbody tr.dragged {
   pointer-events: none;
   position: absolute;
@@ -241,7 +244,7 @@ table.tablestakes tbody tr.dragged {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
-  /* line 437 */
+  /* line 443 */
   table.tablestakes tbody tr.dragged td, table.tablestakes tbody tr.dragged th {
     pointer-events: none;
     -moz-opacity: 0.5;
@@ -249,28 +252,28 @@ table.tablestakes tbody tr.dragged {
     opacity: 0.5;
     background: inherit; }
 
-/* line 470 */
-table.tablestakes th, table.tablestakes td {
+/* line 477 */
+table.tablestakes th div, table.tablestakes td div {
   font-size: 12px;
   text-align: right;
   padding: 5px; }
-  /* line 476 */
-  table.tablestakes th.plan, table.tablestakes td.plan {
+  /* line 483 */
+  table.tablestakes th div.plan, table.tablestakes td div.plan {
     color: #675b5e;
     background: #e2f4f5; }
-    /* line 480 */
-    table.tablestakes th.plan.editable:hover, table.tablestakes td.plan.editable:hover {
+    /* line 487 */
+    table.tablestakes th div.plan.editable:hover, table.tablestakes td div.plan.editable:hover {
       background: white; }
-  /* line 486 */
-  table.tablestakes th.old, table.tablestakes td.old {
+  /* line 493 */
+  table.tablestakes th div.old, table.tablestakes td div.old {
     color: #675b5e;
     background: #eeecec; }
-  /* line 492 */
-  table.tablestakes th.collapsible, table.tablestakes td.collapsible {
+  /* line 499 */
+  table.tablestakes th div.collapsible, table.tablestakes td div.collapsible {
     cursor: pointer;
     text-align: left; }
-    /* line 496 */
-    table.tablestakes th.collapsible:before, table.tablestakes td.collapsible:before {
+    /* line 503 */
+    table.tablestakes th div.collapsible:before, table.tablestakes td div.collapsible:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -288,12 +291,12 @@ table.tablestakes th, table.tablestakes td {
       content: "\f0d7";
       color: #30878f;
       font-size: 16px; }
-  /* line 518 */
-  table.tablestakes th.expandable, table.tablestakes td.expandable {
+  /* line 525 */
+  table.tablestakes th div.expandable, table.tablestakes td div.expandable {
     cursor: pointer;
     text-align: left; }
-    /* line 522 */
-    table.tablestakes th.expandable:before, table.tablestakes td.expandable:before {
+    /* line 529 */
+    table.tablestakes th div.expandable:before, table.tablestakes td div.expandable:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -311,15 +314,15 @@ table.tablestakes th, table.tablestakes td {
       content: "\f0da";
       color: #30878f;
       font-size: 16px; }
-  /* line 545 */
-  table.tablestakes th.deletable, table.tablestakes td.deletable {
+  /* line 552 */
+  table.tablestakes th div.deletable, table.tablestakes td div.deletable {
     text-align: left;
     cursor: pointer; }
-    /* line 550 */
-    table.tablestakes th.deletable:hover:before, table.tablestakes td.deletable:hover:before {
+    /* line 557 */
+    table.tablestakes th div.deletable:hover:before, table.tablestakes td div.deletable:hover:before {
       text-shadow: 1px 2px 6px rgba(220, 110, 89, 0.5); }
-    /* line 555 */
-    table.tablestakes th.deletable:before, table.tablestakes td.deletable:before {
+    /* line 562 */
+    table.tablestakes th div.deletable:before, table.tablestakes td div.deletable:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -337,13 +340,13 @@ table.tablestakes th, table.tablestakes td {
       content: "\f057";
       color: #dc6e59;
       font-size: 16px; }
-  /* line 578 */
-  table.tablestakes th.draggable, table.tablestakes td.draggable {
+  /* line 585 */
+  table.tablestakes th div.draggable, table.tablestakes td div.draggable {
     position: relative;
     cursor: pointer;
     text-align: left; }
-    /* line 583 */
-    table.tablestakes th.draggable:before, table.tablestakes td.draggable:before {
+    /* line 590 */
+    table.tablestakes th div.draggable:before, table.tablestakes td div.draggable:before {
       font-family: FontAwesome;
       font-weight: normal;
       font-style: normal;
@@ -361,32 +364,32 @@ table.tablestakes th, table.tablestakes td {
       content: "\f0a6";
       color: #00455b;
       font-size: 16px; }
-  /* line 605 */
-  table.tablestakes th.indent1, table.tablestakes td.indent1 {
+  /* line 612 */
+  table.tablestakes th div.indent1, table.tablestakes td div.indent1 {
     text-align: left;
     padding-left: 20px; }
-  /* line 611 */
-  table.tablestakes th.indent2, table.tablestakes td.indent2 {
+  /* line 618 */
+  table.tablestakes th div.indent2, table.tablestakes td div.indent2 {
     text-align: left;
     padding-left: 30px; }
-  /* line 617 */
-  table.tablestakes th.indent3, table.tablestakes td.indent3 {
+  /* line 624 */
+  table.tablestakes th div.indent3, table.tablestakes td div.indent3 {
     text-align: left;
     padding-left: 40px; }
-  /* line 623 */
-  table.tablestakes th.indent4, table.tablestakes td.indent4 {
+  /* line 630 */
+  table.tablestakes th div.indent4, table.tablestakes td div.indent4 {
     text-align: left;
     padding-left: 50px; }
-  /* line 629 */
-  table.tablestakes th.indent5, table.tablestakes td.indent5 {
+  /* line 636 */
+  table.tablestakes th div.indent5, table.tablestakes td div.indent5 {
     text-align: left;
     padding-left: 60px; }
-  /* line 635 */
-  table.tablestakes th.indent6, table.tablestakes td.indent6 {
+  /* line 642 */
+  table.tablestakes th div.indent6, table.tablestakes td div.indent6 {
     text-align: left;
     padding-left: 70px; }
-  /* line 641 */
-  table.tablestakes th.boolean-false, table.tablestakes th.boolean-true, table.tablestakes td.boolean-false, table.tablestakes td.boolean-true {
+  /* line 648 */
+  table.tablestakes th div.boolean-false, table.tablestakes th div.boolean-true, table.tablestakes td div.boolean-false, table.tablestakes td div.boolean-true {
     position: relative;
     min-width: 30px;
     margin-left: 5px;
@@ -394,11 +397,11 @@ table.tablestakes th, table.tablestakes td {
     display: block;
     text-align: left;
     text-indent: -9999em; }
-    /* line 650 */
-    table.tablestakes th.boolean-false:hover, table.tablestakes th.boolean-true:hover, table.tablestakes td.boolean-false:hover, table.tablestakes td.boolean-true:hover {
+    /* line 657 */
+    table.tablestakes th div.boolean-false:hover, table.tablestakes th div.boolean-true:hover, table.tablestakes td div.boolean-false:hover, table.tablestakes td div.boolean-true:hover {
       background: transparent; }
-    /* line 654 */
-    table.tablestakes th.boolean-false:before, table.tablestakes th.boolean-true:before, table.tablestakes td.boolean-false:before, table.tablestakes td.boolean-true:before {
+    /* line 661 */
+    table.tablestakes th div.boolean-false:before, table.tablestakes th div.boolean-true:before, table.tablestakes td div.boolean-false:before, table.tablestakes td div.boolean-true:before {
       position: absolute;
       top: 7px;
       left: 0;
@@ -409,8 +412,8 @@ table.tablestakes th, table.tablestakes td {
       -webkit-border-radius: 20px;
       -moz-border-radius: 20px;
       border-radius: 20px; }
-    /* line 665 */
-    table.tablestakes th.boolean-false:after, table.tablestakes th.boolean-true:after, table.tablestakes td.boolean-false:after, table.tablestakes td.boolean-true:after {
+    /* line 672 */
+    table.tablestakes th div.boolean-false:after, table.tablestakes th div.boolean-true:after, table.tablestakes td div.boolean-false:after, table.tablestakes td div.boolean-true:after {
       position: absolute;
       top: 5px;
       content: "";
@@ -418,34 +421,34 @@ table.tablestakes th, table.tablestakes td {
       width: 24px;
       height: 25px;
       background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat; }
-  /* line 678 */
-  table.tablestakes th.boolean-false:before, table.tablestakes td.boolean-false:before {
+  /* line 685 */
+  table.tablestakes th div.boolean-false:before, table.tablestakes td div.boolean-false:before {
     background: #dc6e59;
     -webkit-box-shadow: inset 0 0 6px #812b1b;
     -moz-box-shadow: inset 0 0 6px #812b1b;
     box-shadow: inset 0 0 6px #812b1b; }
-  /* line 683 */
-  table.tablestakes th.boolean-false:after, table.tablestakes td.boolean-false:after {
-    left: -3px; }
   /* line 690 */
-  table.tablestakes th.boolean-true:before, table.tablestakes td.boolean-true:before {
+  table.tablestakes th div.boolean-false:after, table.tablestakes td div.boolean-false:after {
+    left: -3px; }
+  /* line 697 */
+  table.tablestakes th div.boolean-true:before, table.tablestakes td div.boolean-true:before {
     background: #8ac16f;
     -webkit-box-shadow: inset 0 0 6px #416a2d;
     -moz-box-shadow: inset 0 0 6px #416a2d;
     box-shadow: inset 0 0 6px #416a2d; }
-  /* line 695 */
-  table.tablestakes th.boolean-true:after, table.tablestakes td.boolean-true:after {
+  /* line 702 */
+  table.tablestakes th div.boolean-true:after, table.tablestakes td div.boolean-true:after {
     right: -3px; }
 
-/* line 715 */
-table.tablestakes th.editable, table.tablestakes td.editable {
+/* line 724 */
+table.tablestakes th div.editable, table.tablestakes td div.editable {
   color: #30878f !important;
   cursor: pointer; }
-  /* line 719 */
-  table.tablestakes th.editable:hover, table.tablestakes td.editable:hover {
+  /* line 728 */
+  table.tablestakes th div.editable:hover, table.tablestakes td div.editable:hover {
     background: #e2f4f5; }
-  /* line 724 */
-  table.tablestakes th.editable.active, table.tablestakes td.editable.active {
+  /* line 733 */
+  table.tablestakes th div.editable.active, table.tablestakes td div.editable.active {
     width: auto;
     position: relative;
     cursor: text;
@@ -454,8 +457,8 @@ table.tablestakes th.editable, table.tablestakes td.editable {
     -moz-box-shadow: inset 0 0 6px #a69b9e;
     box-shadow: inset 0 0 6px #a69b9e;
     background: #faf9fa; }
-    /* line 732 */
-    table.tablestakes th.editable.active:after, table.tablestakes td.editable.active:after {
+    /* line 741 */
+    table.tablestakes th div.editable.active:after, table.tablestakes td div.editable.active:after {
       position: absolute;
       bottom: 0;
       right: 0;
@@ -470,22 +473,22 @@ table.tablestakes th.editable, table.tablestakes td.editable {
       box-shadow: 0 1px 1px #005568;
       cursor: pointer;
       overflow: hidden; }
-    /* line 747 */
-    table.tablestakes th.editable.active:hover, table.tablestakes td.editable.active:hover {
+    /* line 756 */
+    table.tablestakes th div.editable.active:hover, table.tablestakes td div.editable.active:hover {
       background: #faf9fa; }
-    /* line 751 */
-    table.tablestakes th.editable.active:focus, table.tablestakes td.editable.active:focus {
+    /* line 760 */
+    table.tablestakes th div.editable.active:focus, table.tablestakes td div.editable.active:focus {
       outline: none; }
-  /* line 757 */
-  table.tablestakes th.editable.changed, table.tablestakes td.editable.changed {
+  /* line 766 */
+  table.tablestakes th div.editable.changed, table.tablestakes td div.editable.changed {
     font-weight: bold;
     border: 1px dotted #30878f; }
 
-/* line 774 */
+/* line 783 */
 table.tablestakes {
   word-wrap: break-word; }
-  /* line 781 */
-  table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
+  /* line 791 */
+  table.tablestakes th div.editable.active.calendar input, table.tablestakes td div.editable.active.calendar input {
     width: auto;
     height: auto;
     margin: 0;
@@ -495,13 +498,13 @@ table.tablestakes {
     background: transparent;
     outline: none;
     box-shadow: none; }
-    /* line 792 */
-    table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
+    /* line 802 */
+    table.tablestakes th div.editable.active.calendar input:focus, table.tablestakes td div.editable.active.calendar input:focus {
       border: none;
       outline: none;
       background: transparent; }
 
-/* line 815 */
+/* line 826 */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;
@@ -510,9 +513,9 @@ table.tablestakes th select, table.tablestakes td select {
   color: #30878f;
   background: transparent; }
 
-/* line 829 */
-table.tablestakes thead th, table.tablestakes thead td {
+/* line 839 */
+table.tablestakes th, table.tablestakes td {
   padding: 0; }
-  /* line 832 */
-  table.tablestakes thead th div, table.tablestakes thead td div {
+  /* line 842 */
+  table.tablestakes th div, table.tablestakes td div {
     padding: 5px; }

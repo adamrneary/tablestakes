@@ -253,11 +253,13 @@ window.TableStakesLib.Events = (function() {
   Events.prototype.editableClick = function(node, d, _, unshift) {
     var target, _node;
 
+    console.log("editableClick");
     target = d3.event.target;
     _node = d3.select(node);
     if (!(_node.classed('active') || $(target).is('a'))) {
       this.core.utils.deactivateAll(this.core.data[0]);
-      d.activatedID = d3.select(d3.select(node).node()).attr("meta-key");
+      d.activatedID = d3.select(node).attr("meta-key");
+      console.log("\t", d.activatedID);
       this.core.update();
       d3.event.preventDefault();
     }
@@ -590,7 +592,7 @@ window.TableStakesLib.Core = (function() {
           return d[column.id] || '-';
         }
       };
-      return _this.enterRows.append('td').attr('meta-key', column.id).attr('class', function(d) {
+      return _this.enterRows.append('td').append('div').attr('meta-key', column.id).attr('class', function(d) {
         return _this._cellClasses(d, column);
       }).html(text).each(function(d, i) {
         return self._renderCell(column, d, this);
@@ -602,7 +604,7 @@ window.TableStakesLib.Core = (function() {
     var self;
 
     self = this;
-    return this.updateRows.selectAll('td').each(function(d, i) {
+    return this.updateRows.selectAll('td').selectAll('div').each(function(d, i) {
       if (self.columns[i] != null) {
         return self._renderCell(self.columns[i], d, this);
       }
