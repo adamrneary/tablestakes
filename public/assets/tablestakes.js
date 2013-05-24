@@ -253,13 +253,11 @@ window.TableStakesLib.Events = (function() {
   Events.prototype.editableClick = function(node, d, _, unshift) {
     var target, _node;
 
-    console.log("editableClick");
     target = d3.event.target;
     _node = d3.select(node);
     if (!(_node.classed('active') || $(target).is('a'))) {
       this.core.utils.deactivateAll(this.core.data[0]);
       d.activatedID = d3.select(node).attr("meta-key");
-      console.log("\t", d.activatedID);
       this.core.update();
       d3.event.preventDefault();
     }
@@ -604,7 +602,7 @@ window.TableStakesLib.Core = (function() {
     var self;
 
     self = this;
-    return this.updateRows.selectAll('td').selectAll('div').each(function(d, i) {
+    return this.updateRows.selectAll('div').each(function(d, i) {
       if (self.columns[i] != null) {
         return self._renderCell(self.columns[i], d, this);
       }

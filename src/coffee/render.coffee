@@ -180,14 +180,13 @@ class window.TableStakesLib.Core
 
   _renderUpdateRows: ->
     self = @
-    @updateRows.selectAll('td').selectAll('div').each (d, i) ->
+    @updateRows.selectAll('div').each (d, i) ->
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
     isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if isEditable
-
     @_makeChanged(d, td, column)
     @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
     @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
