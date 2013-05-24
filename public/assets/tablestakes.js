@@ -668,10 +668,10 @@ window.TableStakesLib.Core = (function() {
     if (table.selectAll('th.draggable-head')[0].length === 0) {
       table.selectAll("thead tr").append('th').attr('width', '15px').classed('draggable-head', true);
     }
-    this.enterRows.append('td').classed('draggable', function(d) {
+    this.enterRows.append('td').append('div').classed('draggable', function(d) {
       return _this.utils.ourFunctor(_this.table.isDraggable(), d);
     });
-    return this.updateRows.selectAll('td.draggable').on('mouseover', function(d) {
+    return this.updateRows.selectAll('td div.draggable').on('mouseover', function(d) {
       return self._setDragBehavior();
     }).on('mouseout', function(d) {
       return self._clearDragBehavior();
@@ -706,7 +706,7 @@ window.TableStakesLib.Core = (function() {
     if (table.selectAll('th.deletable-head')[0].length === 0) {
       table.selectAll("thead tr").append('th').attr('width', '15px').classed('deletable-head', true);
     }
-    return this.enterRows.append('td').classed('deletable', function(d) {
+    return this.enterRows.append('td').append('div').classed('deletable', function(d) {
       return _this.utils.ourFunctor(_this.table.isDeletable(), d);
     }).on('click', function(d) {
       if (_this.utils.ourFunctor(_this.table.isDeletable(), d)) {

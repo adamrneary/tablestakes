@@ -247,10 +247,10 @@ class window.TableStakesLib.Core
           .classed('draggable-head', true)
 
     # add draggable &lt;td&gt;
-    @enterRows.append('td')
+    @enterRows.append('td').append('div')
       .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
 
-    @updateRows.selectAll('td.draggable').on 'mouseover', (d) ->
+    @updateRows.selectAll('td div.draggable').on 'mouseover', (d) ->
       self._setDragBehavior()
     .on 'mouseout', (d) ->
       self._clearDragBehavior()
@@ -282,7 +282,7 @@ class window.TableStakesLib.Core
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
-    @enterRows.append('td')
+    @enterRows.append('td').append('div')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',
         (d) =>
