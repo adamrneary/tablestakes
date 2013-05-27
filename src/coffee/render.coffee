@@ -173,21 +173,20 @@ class window.TableStakesLib.Core
           d[column.id] or '-'
 
       @enterRows.append('td')
+        .append('div')
         .attr('meta-key', column.id)
         .attr('class', (d) => @_cellClasses(d, column))
-        .html(text)
-        .each (d, i) -> self._renderCell(column, d, @)
+            .html(text).each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
-    @updateRows.selectAll('td').each (d, i) ->
+    @updateRows.selectAll('div').each (d, i) ->
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
   _renderCell: (column, d, td) ->
     isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if isEditable
-
     @_makeChanged(d, td, column)
     @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
     @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
@@ -248,10 +247,10 @@ class window.TableStakesLib.Core
           .classed('draggable-head', true)
 
     # add draggable &lt;td&gt;
-    @enterRows.append('td')
+    @enterRows.append('td').append('div')
       .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
 
-    @updateRows.selectAll('td.draggable').on 'mouseover', (d) ->
+    @updateRows.selectAll('td div.draggable').on 'mouseover', (d) ->
       self._setDragBehavior()
     .on 'mouseout', (d) ->
       self._clearDragBehavior()
@@ -283,7 +282,7 @@ class window.TableStakesLib.Core
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
-    @enterRows.append('td')
+    @enterRows.append('td').append('div')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
       .on 'click',
         (d) =>

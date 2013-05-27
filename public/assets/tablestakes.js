@@ -257,7 +257,7 @@ window.TableStakesLib.Events = (function() {
     _node = d3.select(node);
     if (!(_node.classed('active') || $(target).is('a'))) {
       this.core.utils.deactivateAll(this.core.data[0]);
-      d.activatedID = d3.select(d3.select(node).node()).attr("meta-key");
+      d.activatedID = d3.select(node).attr("meta-key");
       this.core.update();
       d3.event.preventDefault();
     }
@@ -590,7 +590,7 @@ window.TableStakesLib.Core = (function() {
           return d[column.id] || '-';
         }
       };
-      return _this.enterRows.append('td').attr('meta-key', column.id).attr('class', function(d) {
+      return _this.enterRows.append('td').append('div').attr('meta-key', column.id).attr('class', function(d) {
         return _this._cellClasses(d, column);
       }).html(text).each(function(d, i) {
         return self._renderCell(column, d, this);
@@ -602,7 +602,7 @@ window.TableStakesLib.Core = (function() {
     var self;
 
     self = this;
-    return this.updateRows.selectAll('td').each(function(d, i) {
+    return this.updateRows.selectAll('div').each(function(d, i) {
       if (self.columns[i] != null) {
         return self._renderCell(self.columns[i], d, this);
       }
@@ -668,10 +668,10 @@ window.TableStakesLib.Core = (function() {
     if (table.selectAll('th.draggable-head')[0].length === 0) {
       table.selectAll("thead tr").append('th').attr('width', '15px').classed('draggable-head', true);
     }
-    this.enterRows.append('td').classed('draggable', function(d) {
+    this.enterRows.append('td').append('div').classed('draggable', function(d) {
       return _this.utils.ourFunctor(_this.table.isDraggable(), d);
     });
-    return this.updateRows.selectAll('td.draggable').on('mouseover', function(d) {
+    return this.updateRows.selectAll('td div.draggable').on('mouseover', function(d) {
       return self._setDragBehavior();
     }).on('mouseout', function(d) {
       return self._clearDragBehavior();
@@ -706,7 +706,7 @@ window.TableStakesLib.Core = (function() {
     if (table.selectAll('th.deletable-head')[0].length === 0) {
       table.selectAll("thead tr").append('th').attr('width', '15px').classed('deletable-head', true);
     }
-    return this.enterRows.append('td').classed('deletable', function(d) {
+    return this.enterRows.append('td').append('div').classed('deletable', function(d) {
       return _this.utils.ourFunctor(_this.table.isDeletable(), d);
     }).on('click', function(d) {
       if (_this.utils.ourFunctor(_this.table.isDeletable(), d)) {
