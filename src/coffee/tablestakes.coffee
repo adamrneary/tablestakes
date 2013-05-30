@@ -42,7 +42,8 @@ class window.TableStakes
       onDrag: null
       isDragDestination: true
       rowClasses: null
-      filterZero: false
+      filterZero: false # timeSeries specific flag
+      sorted: null      # timeSeries specific flag
 
     @filterCondition = d3.map([])
     if options?
@@ -412,11 +413,17 @@ class window.TableStakes
 
       _data
 
-    data = @data()
     timeFrame = _.find(@_columns, (obj) -> obj.timeSeries?).timeSeries
+    return unless timeFrame
+
+    isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
+    @filterZeros(@data()) if isZeroFilter
+    isSorted = _.find(@_columns, (col) => @utils.ourFunctor(col.sorted))?.sorted
+    @sorter(@data()) if isSorted
+
+    data = @data()
 
     _.each aggregator, (filter) ->
-
       if _.isFunction(filter)
         return @
       else if filter is 'sum'
@@ -426,8 +433,6 @@ class window.TableStakes
 
       self.data data
 
-    isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
-    @filterZeros() if isZeroFilter
     @
 
   # builds getter/setter methods (initialized with defaults)
@@ -447,11 +452,7 @@ class window.TableStakes
     return unless cols.length
 
     availableTimeFrame = _.first(cols).timeSeries
-    @unFilteredData = if @unFilteredData? then @unFilteredData else @data()
-    filteredData = @unFilteredData
-
-    console.log data
-    console.log filteredData
+    filteredData = data
 
     filteredData = _.filter filteredData, (row, i) ->
       begin = _.indexOf row.period, _.first(availableTimeFrame)
@@ -461,4 +462,28 @@ class window.TableStakes
       _.every(row.dataValue[begin..end], 0)
 
     @data filteredData
+    @
+
+  sorter: (data) ->
+    # timeSeries specific function. return if no timeSeries 'columns'
+    cols = _.filter @_columns, (col) -> col.timeSeries?
+    return unless cols.length
+
+    availableTimeFrame = _.first(cols).timeSeries
+    sortedData = data
+    sorted = _.find(@_columns, (col) -> col.sorted)?.sorted
+
+    sortedData = _.sortBy sortedData, (row) ->
+      begin = _.indexOf row.period, _.first(availableTimeFrame)
+      end = _.indexOf row.period, _.last(availableTimeFrame)
+      if begin < 0 or end < 0 or end < begin
+        return 0
+      sum = _.reduce row.dataValue[begin..end], ((memo, num) -> memo+num), 0
+      if sorted is 'asc'
+        sum
+      else if sorted is 'desc'
+        sum*-1
+
+    console.log sortedData
+    @data sortedData
     @

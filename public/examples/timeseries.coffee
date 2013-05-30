@@ -40,6 +40,7 @@ columns = [
   timeSeries: availableTimeFrame
   isEditable: true
   filterZero: true
+  sorted: 'desc'
   onEdit: editHandler
   format: (d) -> '$'+d
 ]

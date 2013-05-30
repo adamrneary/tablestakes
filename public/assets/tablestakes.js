@@ -389,7 +389,6 @@ window.TableStakesLib.Core = (function() {
   }
 
   Core.prototype.set = function(options) {
-    console.log("set", options);
     this.table = options.table;
     this.selection = options.selection;
     this.data = options.data;
@@ -931,7 +930,8 @@ window.TableStakesLib.Core = (function() {
       onDrag: null,
       isDragDestination: true,
       rowClasses: null,
-      filterZero: false
+      filterZero: false,
+      sorted: null
     });
     this.filterCondition = d3.map([]);
     if (options != null) {
@@ -1339,7 +1339,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   TableStakes.prototype.dataAggregate = function(aggregator) {
-    var data, isZeroFilter, self, summ, timeFrame, _ref,
+    var data, isSorted, isZeroFilter, self, summ, timeFrame, _ref, _ref1,
       _this = this;
 
     self = this;
@@ -1399,10 +1399,25 @@ window.TableStakesLib.Core = (function() {
       });
       return _data;
     };
-    data = this.data();
     timeFrame = _.find(this._columns, function(obj) {
       return obj.timeSeries != null;
     }).timeSeries;
+    if (!timeFrame) {
+      return;
+    }
+    isZeroFilter = (_ref = _.find(this._columns, function(col) {
+      return _this.utils.ourFunctor(col.filterZero);
+    })) != null ? _ref.filterZero : void 0;
+    if (isZeroFilter) {
+      this.filterZeros(this.data());
+    }
+    isSorted = (_ref1 = _.find(this._columns, function(col) {
+      return _this.utils.ourFunctor(col.sorted);
+    })) != null ? _ref1.sorted : void 0;
+    if (isSorted) {
+      this.sorter(this.data());
+    }
+    data = this.data();
     _.each(aggregator, function(filter) {
       if (_.isFunction(filter)) {
         return this;
@@ -1413,12 +1428,6 @@ window.TableStakesLib.Core = (function() {
       }
       return self.data(data);
     });
-    isZeroFilter = (_ref = _.find(this._columns, function(col) {
-      return _this.utils.ourFunctor(col.filterZero);
-    })) != null ? _ref.filterZero : void 0;
-    if (isZeroFilter) {
-      this.filterZeros();
-    }
     return this;
   };
 
@@ -1452,10 +1461,7 @@ window.TableStakesLib.Core = (function() {
       return;
     }
     availableTimeFrame = _.first(cols).timeSeries;
-    this.unFilteredData = this.unFilteredData != null ? this.unFilteredData : this.data();
-    filteredData = this.unFilteredData;
-    console.log(data);
-    console.log(filteredData);
+    filteredData = data;
     filteredData = _.filter(filteredData, function(row, i) {
       var begin, end;
 
@@ -1467,6 +1473,42 @@ window.TableStakesLib.Core = (function() {
       return _.every(row.dataValue.slice(begin, +end + 1 || 9e9), 0);
     });
     this.data(filteredData);
+    return this;
+  };
+
+  TableStakes.prototype.sorter = function(data) {
+    var availableTimeFrame, cols, sorted, sortedData, _ref;
+
+    cols = _.filter(this._columns, function(col) {
+      return col.timeSeries != null;
+    });
+    if (!cols.length) {
+      return;
+    }
+    availableTimeFrame = _.first(cols).timeSeries;
+    sortedData = data;
+    sorted = (_ref = _.find(this._columns, function(col) {
+      return col.sorted;
+    })) != null ? _ref.sorted : void 0;
+    sortedData = _.sortBy(sortedData, function(row) {
+      var begin, end, sum;
+
+      begin = _.indexOf(row.period, _.first(availableTimeFrame));
+      end = _.indexOf(row.period, _.last(availableTimeFrame));
+      if (begin < 0 || end < 0 || end < begin) {
+        return 0;
+      }
+      sum = _.reduce(row.dataValue.slice(begin, +end + 1 || 9e9), (function(memo, num) {
+        return memo + num;
+      }), 0);
+      if (sorted === 'asc') {
+        return sum;
+      } else if (sorted === 'desc') {
+        return sum * -1;
+      }
+    });
+    console.log(sortedData);
+    this.data(sortedData);
     return this;
   };
 
