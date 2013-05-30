@@ -8,6 +8,7 @@ class window.TableStakesLib.Core
       core: @
 
   set: (options) ->
+    console.log "set", options
     @table = options.table
     @selection = options.selection
     @data = options.data

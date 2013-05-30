@@ -389,6 +389,7 @@ window.TableStakesLib.Core = (function() {
   }
 
   Core.prototype.set = function(options) {
+    console.log("set", options);
     this.table = options.table;
     this.selection = options.selection;
     this.data = options.data;
@@ -877,9 +878,7 @@ window.TableStakesLib.Core = (function() {
 }).call(this);
 
 (function() {
-  var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-window.TableStakes = (function() {
+  window.TableStakes = (function() {
   TableStakes.prototype.id = Math.floor(Math.random() * 10000);
 
   TableStakes.prototype.header = true;
@@ -917,6 +916,9 @@ window.TableStakes = (function() {
     var key;
 
     this.core = new window.TableStakesLib.Core;
+    this.utils = new window.TableStakesLib.Utils({
+      core: this
+    });
     this._synthesize({
       data: [],
       el: null,
@@ -928,7 +930,8 @@ window.TableStakes = (function() {
       isDraggable: false,
       onDrag: null,
       isDragDestination: true,
-      rowClasses: null
+      rowClasses: null,
+      filterZero: false
     });
     this.filterCondition = d3.map([]);
     if (options != null) {
@@ -1335,51 +1338,14 @@ window.TableStakes = (function() {
     return this;
   };
 
-  TableStakes.prototype.displayColumns = function(periods, show) {
-    var hideColumns;
+  TableStakes.prototype.dataAggregate = function(aggregator) {
+    var data, isZeroFilter, self, summ, timeFrame, _ref,
+      _this = this;
 
-    hideColumns = function(columns, periods, show) {
-      _.each(columns, function(column, i) {
-        var hidden, i1, i2, _ref;
-
-        if (!!column.timeSeries && (_ref = column.id, __indexOf.call(periods, _ref) < 0)) {
-          hidden = 'hidden';
-          if (!column.classes) {
-            column.classes = '';
-          }
-          i1 = column.classes.indexOf(hidden);
-          i2 = 'hidden'.length;
-          if (!show) {
-            if (i1 === -1) {
-              return column.classes += ' ' + hidden;
-            }
-          } else {
-            if (i1 !== -1) {
-              return column.classes = column.classes.replace(hidden, '');
-            }
-          }
-        }
-      });
-      return this;
-    };
-    if (typeof periods === 'string') {
-      periods = [periods];
+    self = this;
+    if (!_.isArray(aggregator)) {
+      aggregator = [aggregator];
     }
-    if (periods.length === 0) {
-      periods = _.chain(this._columns).filter(function(col) {
-        return !!col.timeSeries;
-      }).pluck('timeSeries').first().first(12).value();
-    }
-    if (show == null) {
-      show = true;
-    }
-    hideColumns(this._columns, periods, show);
-    return this;
-  };
-
-  TableStakes.prototype.dataAggregate = function(filter) {
-    var data, summ, timeFrame;
-
     summ = function(data, availableTimeFrame) {
       var groupper, _data, _ref;
 
@@ -1437,10 +1403,21 @@ window.TableStakes = (function() {
     timeFrame = _.find(this._columns, function(obj) {
       return obj.timeSeries != null;
     }).timeSeries;
-    if (_.isFunction(filter)) {
-      return this;
-    } else if (filter === 'sum') {
-      this.data(summ(data, timeFrame));
+    _.each(aggregator, function(filter) {
+      if (_.isFunction(filter)) {
+        return this;
+      } else if (filter === 'sum') {
+        data = summ(data, timeFrame);
+      } else if (filter === 'zero') {
+        data = filterZero(data, timeFrame);
+      }
+      return self.data(data);
+    });
+    isZeroFilter = (_ref = _.find(this._columns, function(col) {
+      return _this.utils.ourFunctor(col.filterZero);
+    })) != null ? _ref.filterZero : void 0;
+    if (isZeroFilter) {
+      this.filterZeros();
     }
     return this;
   };
@@ -1463,6 +1440,34 @@ window.TableStakes = (function() {
       };
       return func(key);
     });
+  };
+
+  TableStakes.prototype.filterZeros = function(data) {
+    var availableTimeFrame, cols, filteredData;
+
+    cols = _.filter(this._columns, function(col) {
+      return col.timeSeries != null;
+    });
+    if (!cols.length) {
+      return;
+    }
+    availableTimeFrame = _.first(cols).timeSeries;
+    this.unFilteredData = this.unFilteredData != null ? this.unFilteredData : this.data();
+    filteredData = this.unFilteredData;
+    console.log(data);
+    console.log(filteredData);
+    filteredData = _.filter(filteredData, function(row, i) {
+      var begin, end;
+
+      begin = _.indexOf(row.period, _.first(availableTimeFrame));
+      end = _.indexOf(row.period, _.last(availableTimeFrame));
+      if (begin < 0 || end < 0 || end < begin) {
+        return false;
+      }
+      return _.every(row.dataValue.slice(begin, +end + 1 || 9e9), 0);
+    });
+    this.data(filteredData);
+    return this;
   };
 
   return TableStakes;

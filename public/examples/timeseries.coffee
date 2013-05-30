@@ -39,6 +39,7 @@ columns = [
   dataValue: 'actual'
   timeSeries: availableTimeFrame
   isEditable: true
+  filterZero: true
   onEdit: editHandler
   format: (d) -> '$'+d
 ]

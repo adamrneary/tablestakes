@@ -26,6 +26,8 @@ class window.TableStakes
 
   constructor: (options) ->
     @core = new window.TableStakesLib.Core
+    @utils = new window.TableStakesLib.Utils
+      core: @
 
     # builds getter/setter methods (initialized with defaults)
     @_synthesize
@@ -40,6 +42,7 @@ class window.TableStakes
       onDrag: null
       isDragDestination: true
       rowClasses: null
+      filterZero: false
 
     @filterCondition = d3.map([])
     if options?
@@ -348,44 +351,16 @@ class window.TableStakes
       col: @_columns)
     @
 
-  displayColumns: (periods,show)->
-    hideColumns = (columns, periods, show) ->
-      _.each columns, (column, i) ->
-        if !!column.timeSeries && column.id not in periods
-          hidden = 'hidden'
-          column.classes = '' unless column.classes
-          i1 = column.classes.indexOf(hidden)
-          i2 = 'hidden'.length
-          unless show
-            if i1 is -1
-              column.classes += ' '+hidden
-          else
-            if i1 isnt -1
-              column.classes = column.classes.replace hidden, ''
-      @
-
-    if typeof periods is 'string'
-      periods = [periods]
-
-    if periods.length is 0
-      periods = _.chain(@_columns)
-        .filter( (col)-> !!col.timeSeries)
-        .pluck('timeSeries')
-        .first()
-        .first(12)
-        .value()
-
-    show = true unless show?
-    hideColumns(@_columns, periods, show)
-    @
-
-  dataAggregate: (filter) ->
+  dataAggregate: (aggregator) ->
     # Function of data aggregation:
     # 1. summ
     # 2. avarage                - future compatibility
     # 3. max/min                - future compatibility
     # 4. last/first             - future compatibility
     # 5. user defined function  - future compatibility
+    self = @
+    aggregator = [aggregator] unless _.isArray aggregator
+
     summ = (data, availableTimeFrame) ->
       _data = []
 
@@ -440,10 +415,19 @@ class window.TableStakes
     data = @data()
     timeFrame = _.find(@_columns, (obj) -> obj.timeSeries?).timeSeries
 
-    if _.isFunction(filter)
-      return @
-    else if filter is 'sum'
-      @data summ(data, timeFrame)
+    _.each aggregator, (filter) ->
+
+      if _.isFunction(filter)
+        return @
+      else if filter is 'sum'
+        data = summ(data, timeFrame)
+      else if filter is 'zero'
+        data = filterZero(data, timeFrame)
+
+      self.data data
+
+    isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
+    @filterZeros() if isZeroFilter
     @
 
   # builds getter/setter methods (initialized with defaults)
@@ -456,3 +440,25 @@ class window.TableStakes
           @['_' + key] = val
           @
       func(key)
+
+  filterZeros: (data) ->
+    # timeSeries specific function. return if no timeSeries 'columns'
+    cols = _.filter @_columns, (col) -> col.timeSeries?
+    return unless cols.length
+
+    availableTimeFrame = _.first(cols).timeSeries
+    @unFilteredData = if @unFilteredData? then @unFilteredData else @data()
+    filteredData = @unFilteredData
+
+    console.log data
+    console.log filteredData
+
+    filteredData = _.filter filteredData, (row, i) ->
+      begin = _.indexOf row.period, _.first(availableTimeFrame)
+      end = _.indexOf row.period, _.last(availableTimeFrame)
+      if begin < 0 or end < 0 or end < begin
+        return false
+      _.every(row.dataValue[begin..end], 0)
+
+    @data filteredData
+    @
