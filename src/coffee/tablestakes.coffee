@@ -405,7 +405,7 @@ class window.TableStakes
             _dataValue.push '-'
 
         _data.push
-          id: i
+          id: row.id
           product_id: row.product_id
           period_id: _period_id
           period: _period
@@ -484,6 +484,5 @@ class window.TableStakes
       else if sorted is 'desc'
         sum*-1
 
-    console.log sortedData
     @data sortedData
     @

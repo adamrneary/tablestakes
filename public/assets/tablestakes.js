@@ -1390,7 +1390,7 @@ window.TableStakesLib.Core = (function() {
           }
         }
         return _data.push({
-          id: i,
+          id: row.id,
           product_id: row.product_id,
           period_id: _period_id,
           period: _period,
@@ -1507,7 +1507,6 @@ window.TableStakesLib.Core = (function() {
         return sum * -1;
       }
     });
-    console.log(sortedData);
     this.data(sortedData);
     return this;
   };
