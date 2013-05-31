@@ -877,9 +877,7 @@ window.TableStakesLib.Core = (function() {
 }).call(this);
 
 (function() {
-  var __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
-
-window.TableStakes = (function() {
+  window.TableStakes = (function() {
   TableStakes.prototype.id = Math.floor(Math.random() * 10000);
 
   TableStakes.prototype.header = true;
@@ -917,6 +915,9 @@ window.TableStakes = (function() {
     var key;
 
     this.core = new window.TableStakesLib.Core;
+    this.utils = new window.TableStakesLib.Utils({
+      core: this
+    });
     this._synthesize({
       data: [],
       el: null,
@@ -928,7 +929,9 @@ window.TableStakes = (function() {
       isDraggable: false,
       onDrag: null,
       isDragDestination: true,
-      rowClasses: null
+      rowClasses: null,
+      filterZero: false,
+      sorted: null
     });
     this.filterCondition = d3.map([]);
     if (options != null) {
@@ -1335,51 +1338,14 @@ window.TableStakes = (function() {
     return this;
   };
 
-  TableStakes.prototype.displayColumns = function(periods, show) {
-    var hideColumns;
+  TableStakes.prototype.dataAggregate = function(aggregator) {
+    var data, isSorted, isZeroFilter, self, summ, timeFrame, _ref, _ref1,
+      _this = this;
 
-    hideColumns = function(columns, periods, show) {
-      _.each(columns, function(column, i) {
-        var hidden, i1, i2, _ref;
-
-        if (!!column.timeSeries && (_ref = column.id, __indexOf.call(periods, _ref) < 0)) {
-          hidden = 'hidden';
-          if (!column.classes) {
-            column.classes = '';
-          }
-          i1 = column.classes.indexOf(hidden);
-          i2 = 'hidden'.length;
-          if (!show) {
-            if (i1 === -1) {
-              return column.classes += ' ' + hidden;
-            }
-          } else {
-            if (i1 !== -1) {
-              return column.classes = column.classes.replace(hidden, '');
-            }
-          }
-        }
-      });
-      return this;
-    };
-    if (typeof periods === 'string') {
-      periods = [periods];
+    self = this;
+    if (!_.isArray(aggregator)) {
+      aggregator = [aggregator];
     }
-    if (periods.length === 0) {
-      periods = _.chain(this._columns).filter(function(col) {
-        return !!col.timeSeries;
-      }).pluck('timeSeries').first().first(12).value();
-    }
-    if (show == null) {
-      show = true;
-    }
-    hideColumns(this._columns, periods, show);
-    return this;
-  };
-
-  TableStakes.prototype.dataAggregate = function(filter) {
-    var data, summ, timeFrame;
-
     summ = function(data, availableTimeFrame) {
       var groupper, _data, _ref;
 
@@ -1424,7 +1390,7 @@ window.TableStakes = (function() {
           }
         }
         return _data.push({
-          id: i,
+          id: row.id,
           product_id: row.product_id,
           period_id: _period_id,
           period: _period,
@@ -1433,15 +1399,37 @@ window.TableStakes = (function() {
       });
       return _data;
     };
-    data = this.data();
     timeFrame = _.find(this._columns, function(obj) {
       return obj.timeSeries != null;
     }).timeSeries;
-    if (_.isFunction(filter)) {
-      return this;
-    } else if (filter === 'sum') {
-      this.data(summ(data, timeFrame));
+    if (!timeFrame) {
+      return;
     }
+    this.unFilteredData = this.unFilteredData != null ? this.unFilteredData : _.clone(this.data());
+    this.data(this.unFilteredData);
+    isZeroFilter = (_ref = _.find(this._columns, function(col) {
+      return _this.utils.ourFunctor(col.filterZero);
+    })) != null ? _ref.filterZero : void 0;
+    if (isZeroFilter) {
+      this.filterZeros(this.data());
+    }
+    isSorted = (_ref1 = _.find(this._columns, function(col) {
+      return _this.utils.ourFunctor(col.sorted);
+    })) != null ? _ref1.sorted : void 0;
+    if (isSorted) {
+      this.sorter(this.data());
+    }
+    data = this.data();
+    _.each(aggregator, function(filter) {
+      if (_.isFunction(filter)) {
+        return this;
+      } else if (filter === 'sum') {
+        data = summ(data, timeFrame);
+      } else if (filter === 'zero') {
+        data = filterZero(data, timeFrame);
+      }
+      return self.data(data);
+    });
     return this;
   };
 
@@ -1463,6 +1451,68 @@ window.TableStakes = (function() {
       };
       return func(key);
     });
+  };
+
+  TableStakes.prototype.filterZeros = function(data) {
+    var availableTimeFrame, cols, filteredData;
+
+    cols = _.filter(this._columns, function(col) {
+      return col.timeSeries != null;
+    });
+    if (!cols.length) {
+      return;
+    }
+    availableTimeFrame = _.first(cols).timeSeries;
+    filteredData = data;
+    filteredData = _.filter(filteredData, function(row, i) {
+      var begin, end;
+
+      begin = _.indexOf(row.period, _.first(availableTimeFrame));
+      end = _.indexOf(row.period, _.last(availableTimeFrame));
+      if (begin < 0 || end < 0 || end < begin) {
+        return false;
+      }
+      return _.some(row.dataValue.slice(begin, +end + 1 || 9e9), function(val) {
+        return val;
+      });
+    });
+    this.data(filteredData);
+    return this;
+  };
+
+  TableStakes.prototype.sorter = function(data) {
+    var availableTimeFrame, cols, sorted, sortedData, _ref;
+
+    cols = _.filter(this._columns, function(col) {
+      return col.timeSeries != null;
+    });
+    if (!cols.length) {
+      return;
+    }
+    availableTimeFrame = _.first(cols).timeSeries;
+    sortedData = data;
+    sorted = (_ref = _.find(this._columns, function(col) {
+      return col.sorted;
+    })) != null ? _ref.sorted : void 0;
+    sortedData = _.sortBy(sortedData, function(row) {
+      var begin, end, sum;
+
+      begin = _.indexOf(row.period, _.first(availableTimeFrame));
+      end = _.indexOf(row.period, _.last(availableTimeFrame));
+      if (begin < 0 || end < 0 || end < begin) {
+        return 0;
+      }
+      sum = _.reduce(row.dataValue.slice(begin, +end + 1 || 9e9), (function(memo, num) {
+        return memo + num;
+      }), 0);
+      if (sorted === 'asc') {
+        return sum;
+      } else if (sorted === 'desc') {
+        return sum * -1;
+      }
+    });
+    this.data(sortedData);
+    return this;
   };
 
   return TableStakes;

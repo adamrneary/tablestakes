@@ -21,7 +21,7 @@ _.each ["hash_key_1","hash_key_2","hash_key_3","hash_key_4","hash_key_5","hash_k
       product_id: rowLabel  # TODO: temporary solution. hash value should be
       period_id: month      # TODO: temporary solution. hash value should be
       periodUnix: new Date(2010, 0+month, 2).getTime()
-      actual: if i % 3 then (i+1) + (j+1) else 0
+      actual: if i*12 <= j < (i+1)*12 then 0 else (i+1) + (j+1)
 
 editHandler = (id, field, newValue) ->
   newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
@@ -39,6 +39,8 @@ columns = [
   dataValue: 'actual'
   timeSeries: availableTimeFrame
   isEditable: true
+  filterZero: true
+  sorted: 'desc'
   onEdit: editHandler
   format: (d) -> '$'+d
 ]
