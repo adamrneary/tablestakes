@@ -1405,6 +1405,8 @@ window.TableStakesLib.Core = (function() {
     if (!timeFrame) {
       return;
     }
+    this.unFilteredData = this.unFilteredData != null ? this.unFilteredData : _.clone(this.data());
+    this.data(this.unFilteredData);
     isZeroFilter = (_ref = _.find(this._columns, function(col) {
       return _this.utils.ourFunctor(col.filterZero);
     })) != null ? _ref.filterZero : void 0;
@@ -1470,7 +1472,9 @@ window.TableStakesLib.Core = (function() {
       if (begin < 0 || end < 0 || end < begin) {
         return false;
       }
-      return _.every(row.dataValue.slice(begin, +end + 1 || 9e9), 0);
+      return _.some(row.dataValue.slice(begin, +end + 1 || 9e9), function(val) {
+        return val;
+      });
     });
     this.data(filteredData);
     return this;

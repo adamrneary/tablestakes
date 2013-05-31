@@ -416,6 +416,9 @@ class window.TableStakes
     timeFrame = _.find(@_columns, (obj) -> obj.timeSeries?).timeSeries
     return unless timeFrame
 
+    @unFilteredData = if @unFilteredData? then @unFilteredData else _.clone @data()
+    @data @unFilteredData
+
     isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
     @filterZeros(@data()) if isZeroFilter
     isSorted = _.find(@_columns, (col) => @utils.ourFunctor(col.sorted))?.sorted
@@ -459,7 +462,7 @@ class window.TableStakes
       end = _.indexOf row.period, _.last(availableTimeFrame)
       if begin < 0 or end < 0 or end < begin
         return false
-      _.every(row.dataValue[begin..end], 0)
+      _.some(row.dataValue[begin..end], (val) -> val)
 
     @data filteredData
     @
