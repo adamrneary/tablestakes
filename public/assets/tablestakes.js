@@ -1422,7 +1422,7 @@ window.TableStakesLib.Core = (function() {
     data = this.data();
     _.each(aggregator, function(filter) {
       if (_.isFunction(filter)) {
-        return this;
+        data = filter(data, timeFrame);
       } else if (filter === 'sum') {
         data = summ(data, timeFrame);
       } else if (filter === 'zero') {

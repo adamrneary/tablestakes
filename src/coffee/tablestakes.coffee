@@ -428,7 +428,7 @@ class window.TableStakes
 
     _.each aggregator, (filter) ->
       if _.isFunction(filter)
-        return @
+        data = filter(data, timeFrame)
       else if filter is 'sum'
         data = summ(data, timeFrame)
       else if filter is 'zero'
