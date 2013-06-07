@@ -172,11 +172,14 @@ class window.TableStakesLib.Core
         else
           d[column.id] or '-'
 
+      cellClasses = (d) => @_cellClasses(d, column)
+
       @enterRows.append('td')
+        .attr('class', cellClasses)
         .append('div')
         .attr('meta-key', column.id)
-        .attr('class', (d) => @_cellClasses(d, column))
-            .html(text).each (d, i) -> self._renderCell(column, d, @)
+        .attr('class', cellClasses)
+          .html(text).each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
