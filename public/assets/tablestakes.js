@@ -412,7 +412,7 @@ window.TableStakesLib.Core = (function() {
     wrap = d3.select(this.table.el()).selectAll("div").data([[this.nodes]]);
     wrapEnter = wrap.enter().append("div");
     this.tableEnter = wrapEnter.append("table");
-    this.tableObject = wrap.select("table").classed(this.table.tableClassName, true).attr("style", "table-layout:fixed;");
+    this.tableObject = wrap.select("table").classed(this.table.tableClassName, true);
     if (this.table.header) {
       this._renderHead(this.tableObject);
     }

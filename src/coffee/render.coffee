@@ -32,7 +32,7 @@ class window.TableStakesLib.Core
     @tableEnter = wrapEnter.append("table")
     @tableObject = wrap.select("table")
       .classed(@table.tableClassName, true)
-      .attr("style", "table-layout:fixed;")
+      # .attr("style", "table-layout:fixed;")
 
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
