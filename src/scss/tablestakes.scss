@@ -57,11 +57,17 @@ table.tablestakes {
     td {
       color: $td-color;
       background: $td-background;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     th {
       color: $th-color;
       background: $th-background;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     tr {
