@@ -167,28 +167,26 @@ table.tablestakes {
 table.tablestakes {
   tbody {
     th, td {
-      div {
-        &.row-heading {
-          color: $column-row-heading-color;
-          background: $column-row-heading-background;
-          text-transform: none;
-          text-align: left;
-        }
+      &.row-heading {
+        color: $column-row-heading-color;
+        background: $column-row-heading-background;
+        text-transform: none;
+        text-align: left;
+      }
 
-        &.total {
-          color: $column-total-color;
-          background: $column-total-background;
-          font-weight: bold;
-        }
+      &.total {
+        color: $column-total-color;
+        background: $column-total-background;
+        font-weight: bold;
+      }
 
-        &.left-aligned {
-          text-align: left;
-        }
+      &.left-aligned {
+        text-align: left;
+      }
 
-        &.light {
-          color: $column-light-color;
-          background: $column-light-background;
-        }
+      &.light {
+        color: $column-light-color;
+        background: $column-light-background;
       }
     }
   }
@@ -369,8 +367,8 @@ table.tablestakes {
         display: block;
         padding: 0;
         margin: 0;
-        color: $row-well-color;
-        background: $row-well-background;
+        color: $row-well-color !important;
+        background: $row-well-background !important;
 
         td, th {
           color: $grey;
@@ -384,10 +382,10 @@ table.tablestakes {
         th, td {
           border-top: solid 1px $row-total-border-top-color;
           border-bottom: solid 1px $row-total-border-bottom-color;
-          color: $row-total-color;
-          background: $row-total-background;
-          font-weight: bold;
-          text-transform: capitalize;
+          color: $row-total-color !important;
+          background: $row-total-background !important;
+          font-weight: bold !important;
+          text-transform: capitalize !important;
         }
       }
 
@@ -395,10 +393,10 @@ table.tablestakes {
         th, td {
           border-top: solid 1px $light-grey;
           border-bottom: solid 1px $light-grey;
-          color: $white;
-          background: $secondary;
-          font-weight: bold;
-          text-transform: capitalize;
+          color: $white !important;
+          background: $secondary !important;
+          font-weight: bold !important;
+          text-transform: capitalize !important;
         }
       }
 
