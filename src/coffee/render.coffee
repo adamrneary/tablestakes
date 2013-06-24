@@ -97,12 +97,13 @@ class window.TableStakesLib.Core
     # for now, either all columns are resizable or none, set in table config
     allTh = theadRow
       .filter((d) -> true unless d.headClasses)
+      .selectAll("th")
 
     allDiv = allTh.selectAll("div")
     sortable = allDiv.filter (d)->
       d.isSortable
     @_makeSortable(sortable)
-    @_makeResizable(allDiv) if @table.isResizable()
+    @_makeResizable(allTh) if @table.isResizable()
     @
 
   # responsible for &lt;tbody&gt; and contents
@@ -289,15 +290,16 @@ class window.TableStakesLib.Core
           @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
-  _makeResizable: (allDiv) =>
+  _makeResizable: (allTd) =>
     # todo: clean up contexts
+    console.log "_makeresizable", allTd
     self = @
-    length = _.size(allDiv[0])
+    length = _.size(allTd[0])
 
     dragBehavior = d3.behavior.drag()
       .on("drag", -> self.events.resizeDrag(@))
 
-    allDiv.classed('resizeable',true)
+    allTd.classed('resizeable',true)
       .filter((d, i) -> i+1 < length)
         .append("div")
           .classed('resizeable-handle', true)

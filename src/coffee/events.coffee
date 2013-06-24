@@ -155,7 +155,9 @@ class window.TableStakesLib.Events
         when 'hierarchy' then onDrag(d, @destination)
 
   resizeDrag: (node) ->
-    th = node.parentNode.parentNode
+    console.log "resizeDrag", node
+    th = node.parentNode
+    console.log "\t", th
     index = parseFloat(d3.select(th).attr('ref'))
 
     thead = th.parentNode.parentNode
