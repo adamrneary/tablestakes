@@ -404,12 +404,12 @@ class window.TableStakes
             _period_id.push [_.first(row.period_id.slice(j,j+groupper)),_.last(row.period_id.slice(j,j+groupper))].join '-'
             _dataValue.push '-'
 
-        _data.push
-          id: row.id
-          product_id: row.product_id
-          period_id: _period_id
-          period: _period
-          dataValue: _dataValue
+        _row = _.clone(row)
+        _row.period_id = _period_id
+        _row.period = _period
+        _row.dataValue = _dataValue
+
+        _data.push _row
 
       _data
 
