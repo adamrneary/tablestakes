@@ -225,7 +225,9 @@ window.TableStakesLib.Events = (function() {
   Events.prototype.resizeDrag = function(node) {
     var allTh, index, new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th, thead;
 
-    th = node.parentNode.parentNode;
+    console.log("resizeDrag", node);
+    th = node.parentNode;
+    console.log("\t", th);
     index = parseFloat(d3.select(th).attr('ref'));
     thead = th.parentNode.parentNode;
     allTh = [];
@@ -485,14 +487,14 @@ window.TableStakesLib.Core = (function() {
       if (!d.headClasses) {
         return true;
       }
-    });
+    }).selectAll("th");
     allDiv = allTh.selectAll("div");
     sortable = allDiv.filter(function(d) {
       return d.isSortable;
     });
     this._makeSortable(sortable);
     if (this.table.isResizable()) {
-      this._makeResizable(allDiv);
+      this._makeResizable(allTh);
     }
     return this;
   };
@@ -715,17 +717,18 @@ window.TableStakesLib.Core = (function() {
     });
   };
 
-  Core.prototype._makeResizable = function(allDiv) {
+  Core.prototype._makeResizable = function(allTd) {
     var dragBehavior, length, self;
 
+    console.log("_makeresizable", allTd);
     self = this;
-    length = _.size(allDiv[0]);
+    length = _.size(allTd[0]);
     dragBehavior = d3.behavior.drag().on("drag", function() {
       return self.events.resizeDrag(this);
     });
-    return allDiv.classed('resizeable', true).filter(function(d, i) {
+    return allTd.classed('resizable', true).filter(function(d, i) {
       return i + 1 < length;
-    }).append("div").classed('resizeable-handle', true).classed('right', true).call(dragBehavior);
+    }).append("div").classed('resizable-handle', true).classed('right', true).call(dragBehavior);
   };
 
   Core.prototype._makeSortable = function(allDiv) {
