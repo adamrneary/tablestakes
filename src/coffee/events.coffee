@@ -155,9 +155,7 @@ class window.TableStakesLib.Events
         when 'hierarchy' then onDrag(d, @destination)
 
   resizeDrag: (node) ->
-    console.log "resizeDrag", node
-    th = node.parentNode
-    console.log "\t", th
+    th = node.parentNode.parentNode
     index = parseFloat(d3.select(th).attr('ref'))
 
     thead = th.parentNode.parentNode
@@ -166,10 +164,16 @@ class window.TableStakesLib.Events
     _.each thead.childNodes, (tr) ->
       allTh.push tr.childNodes[index]
 
-    old_width_left = parseFloat(d3.select(th).style("width"))
-    old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
-    new_width_left = d3.event.x
-    new_width_right = old_width_left + old_width_right - new_width_left
+    if d3.select(node).classed("right")
+      old_width_left = parseFloat(d3.select(th).style("width"))
+      old_width_right = parseFloat(d3.select(th.nextSibling).style("width"))
+      new_width_left = d3.event.x
+      new_width_right = old_width_left + old_width_right - new_width_left
+    else
+      old_width_left = parseFloat(d3.select(th.previousSibling).style("width"))
+      old_width_right = parseFloat(d3.select(th).style("width"))
+      new_width_right = old_width_right - d3.event.x
+      new_width_left = old_width_left + old_width_right - new_width_right
 
     notTooSmall = new_width_left > @core.table._minColumnWidth and
       new_width_right > @core.table._minColumnWidth
@@ -178,10 +182,16 @@ class window.TableStakesLib.Events
       _.each allTh, (th) ->
         return unless th?
 
+      if d3.select(node).classed("right")
         d3.select(th).attr("width", new_width_left + "px")
         d3.select(th).style("width", new_width_left + "px")
         d3.select(th.nextSibling).attr("width", new_width_right + "px")
         d3.select(th.nextSibling).style("width", new_width_right + "px")
+      else
+        d3.select(th.previousSibling).attr("width", new_width_left + "px")
+        d3.select(th.previousSibling).style("width", new_width_left + "px")
+        d3.select(th).attr("width", new_width_right + "px")
+        d3.select(th).style("width", new_width_right + "px")
 
   # change row if class editable
   editableClick: (node, d, _, unshift) ->

@@ -62,6 +62,7 @@ class window.TableStakesLib.Core
       # create table header row
       theadRow = thead
         .append("tr")
+        .attr("class", @_columnClasses(@columns[0]))
 
       # append a &lt;th&gt; for each column
       th = theadRow.selectAll("th")
@@ -102,7 +103,7 @@ class window.TableStakesLib.Core
     allDiv = allTh.selectAll("div")
     sortable = allDiv.filter (d)->
       d.isSortable
-    @_makeSortable(sortable)
+#    @_makeSortable(sortable)
     @_makeResizable(allTh) if @table.isResizable()
     @
 
@@ -292,7 +293,6 @@ class window.TableStakesLib.Core
   #
   _makeResizable: (allTd) =>
     # todo: clean up contexts
-    console.log "_makeresizable", allTd
     self = @
     length = _.size(allTd[0])
 
@@ -300,11 +300,19 @@ class window.TableStakesLib.Core
       .on("drag", -> self.events.resizeDrag(@))
 
     allTd.classed('resizable',true)
-      .filter((d, i) -> i+1 < length)
-        .append("div")
-          .classed('resizable-handle', true)
-          .classed('right', true)
-          .call dragBehavior
+
+    allDiv = allTd.selectAll("div")
+    allDiv
+      .insert("div")
+        .classed("resizable-handle", true)
+        .classed("left", true)
+        .call dragBehavior
+
+    allDiv.filter((d, i) -> i+1 < length)
+      .append("div")
+        .classed('resizable-handle', true)
+        .classed('right', true)
+        .call dragBehavior
     
 
   _makeSortable: (allDiv)->
