@@ -301,18 +301,18 @@ class window.TableStakesLib.Core
 
     allTd.classed('resizable',true)
 
-    allDiv = allTd.selectAll("div")
-    allDiv
-      .insert("div")
-        .classed("resizable-handle", true)
-        .classed("left", true)
-        .call dragBehavior
+    first = allTd.filter((d, i) -> i > 0).selectAll("div")
+    last = allTd.filter((d, i) -> i+1 < length).selectAll("div")
 
-    allDiv.filter((d, i) -> i+1 < length)
-      .append("div")
-        .classed('resizable-handle', true)
-        .classed('right', true)
-        .call dragBehavior
+    first.insert("div")
+      .classed("resizable-handle", true)
+      .classed("left", true)
+      .call dragBehavior
+
+    last.append("div")
+      .classed('resizable-handle', true)
+      .classed('right', true)
+      .call dragBehavior
     
 
   _makeSortable: (allDiv)->
