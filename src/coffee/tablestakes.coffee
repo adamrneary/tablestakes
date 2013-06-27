@@ -324,14 +324,13 @@ class window.TableStakes
       _.each row.col, (column, i) ->
         hidden = 'hidden'
         if column.timeSeries
-          if !column.classes? or column.classes.indexOf(hidden) is -1
-            if _.isNumber column.id
-              visiblePeriod.push column.id
-            else if _.isString column.id
-              begin = parseInt column.id.split('-')[0]
-              end = parseInt column.id.split('-')[1]
-              _.each column.timeSeries, (date) ->
-                visiblePeriod.push date if begin <= date <= end
+          if _.isNumber column.id
+            visiblePeriod.push column.id
+          else if _.isString column.id
+            begin = parseInt column.id.split('-')[0]
+            end = parseInt column.id.split('-')[1]
+            _.each column.timeSeries, (date) ->
+              visiblePeriod.push date if begin <= date <= end
 
       _.each row.col, (column, i) ->
         filtered = _.filter visiblePeriod, (date) ->
