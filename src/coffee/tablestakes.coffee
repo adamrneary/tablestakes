@@ -324,14 +324,13 @@ class window.TableStakes
       _.each row.col, (column, i) ->
         hidden = 'hidden'
         if column.timeSeries
-          if !column.classes? or column.classes.indexOf(hidden) is -1
-            if _.isNumber column.id
-              visiblePeriod.push column.id
-            else if _.isString column.id
-              begin = parseInt column.id.split('-')[0]
-              end = parseInt column.id.split('-')[1]
-              _.each column.timeSeries, (date) ->
-                visiblePeriod.push date if begin <= date <= end
+          if _.isNumber column.id
+            visiblePeriod.push column.id
+          else if _.isString column.id
+            begin = parseInt column.id.split('-')[0]
+            end = parseInt column.id.split('-')[1]
+            _.each column.timeSeries, (date) ->
+              visiblePeriod.push date if begin <= date <= end
 
       _.each row.col, (column, i) ->
         filtered = _.filter visiblePeriod, (date) ->
@@ -404,12 +403,12 @@ class window.TableStakes
             _period_id.push [_.first(row.period_id.slice(j,j+groupper)),_.last(row.period_id.slice(j,j+groupper))].join '-'
             _dataValue.push '-'
 
-        _data.push
-          id: row.id
-          product_id: row.product_id
-          period_id: _period_id
-          period: _period
-          dataValue: _dataValue
+        _row = _.clone(row)
+        _row.period_id = _period_id
+        _row.period = _period
+        _row.dataValue = _dataValue
+
+        _data.push _row
 
       _data
 
@@ -428,7 +427,7 @@ class window.TableStakes
 
     _.each aggregator, (filter) ->
       if _.isFunction(filter)
-        return @
+        data = filter(data, timeFrame)
       else if filter is 'sum'
         data = summ(data, timeFrame)
       else if filter is 'zero'

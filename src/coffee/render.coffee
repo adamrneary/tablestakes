@@ -220,7 +220,7 @@ class window.TableStakesLib.Core
     #retrieve classes specific to the column
     val.push if column.classes?
       if typeof column.classes is 'function'
-        column.classes(d)
+        column.classes(d, column)
       else
         column.classes
 

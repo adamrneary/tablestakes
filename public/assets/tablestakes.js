@@ -225,9 +225,7 @@ window.TableStakesLib.Events = (function() {
   Events.prototype.resizeDrag = function(node) {
     var allTh, index, new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th, thead;
 
-    console.log("resizeDrag", node);
     th = node.parentNode;
-    console.log("\t", th);
     index = parseFloat(d3.select(th).attr('ref'));
     thead = th.parentNode.parentNode;
     allTh = [];
@@ -382,7 +380,8 @@ if (!window.TableStakesLib) {
 
 window.TableStakesLib.Core = (function() {
   function Core(options) {
-    this._makeResizable = __bind(this._makeResizable, this);    this.utils = new window.TableStakesLib.Utils({
+    this._makeResizable = __bind(this._makeResizable, this);
+    this.utils = new window.TableStakesLib.Utils({
       core: this
     });
     this.events = new window.TableStakesLib.Events({
@@ -517,7 +516,6 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._updateRows = function() {
     var self;
-
     self = this;
     this.updateRows = this.rows.order();
     this._addRowEventHandling();
@@ -527,7 +525,6 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._addRowEventHandling = function() {
     var addEvent, events,
       _this = this;
-
     events = {
       click: 'elementClick',
       dblclick: 'elementDblclick',
@@ -719,9 +716,8 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeResizable = function(allTd) {
     var dragBehavior, length, self;
-
-    console.log("_makeresizable", allTd);
     self = this;
+
     length = _.size(allTd[0]);
     dragBehavior = d3.behavior.drag().on("drag", function() {
       return self.events.resizeDrag(this);
@@ -1392,13 +1388,11 @@ window.TableStakesLib.Core = (function() {
             _dataValue.push('-');
           }
         }
-        return _data.push({
-          id: row.id,
-          product_id: row.product_id,
-          period_id: _period_id,
-          period: _period,
-          dataValue: _dataValue
-        });
+        _row = _.clone(row);
+        _row.period_id = _period_id;
+        _row.period = _period;
+        _row.dataValue = _dataValue;
+        return _data.push(_row);
       });
       return _data;
     };
@@ -1425,7 +1419,7 @@ window.TableStakesLib.Core = (function() {
     data = this.data();
     _.each(aggregator, function(filter) {
       if (_.isFunction(filter)) {
-        return this;
+        data = filter(data, timeFrame);
       } else if (filter === 'sum') {
         data = summ(data, timeFrame);
       } else if (filter === 'zero') {
@@ -1458,7 +1452,6 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.filterZeros = function(data) {
     var availableTimeFrame, cols, filteredData;
-
     cols = _.filter(this._columns, function(col) {
       return col.timeSeries != null;
     });
