@@ -62,7 +62,6 @@ class window.TableStakesLib.Core
       # create table header row
       theadRow = thead
         .append("tr")
-        .attr("class", @_columnClasses(@columns[0]))
 
       # append a &lt;th&gt; for each column
       th = theadRow.selectAll("th")
@@ -173,10 +172,10 @@ class window.TableStakesLib.Core
           d[column.id] or '-'
 
       @enterRows.append('td')
-        .append('div')
-        .attr('meta-key', column.id)
         .attr('class', (d) => @_cellClasses(d, column))
-            .html(text).each (d, i) -> self._renderCell(column, d, @)
+        .attr('meta-key', column.id)
+        .append('div')
+          .html(text).each (d, i) -> self._renderCell(column, d, @)
 
   _renderUpdateRows: ->
     self = @
@@ -185,13 +184,13 @@ class window.TableStakesLib.Core
 
   _renderCell: (column, d, td) ->
     isEditable = @utils.ourFunctor(column.isEditable, d)
-    @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
+#    @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, td, column) if isEditable
     @_makeChanged(d, td, column)
-    @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
-    @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
-    @_makeButton(d, td, column) if column.editor is 'button' and isEditable
-    @_addShowCount(d, td, column) if column.showCount
+#    @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
+#    @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
+#    @_makeButton(d, td, column) if column.editor is 'button' and isEditable
+#    @_addShowCount(d, td, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
@@ -341,13 +340,13 @@ class window.TableStakesLib.Core
     self = @
 
     return if _.contains ['boolean', 'select'], column.editor
-    d3.select(td).classed('editable', true)
-    d3.select(td).classed('calendar', true) if column.editor is 'calendar'
+    d3.select(td.parentNode).classed('editable', true)
+    d3.select(td.parentNode).classed('calendar', true) if column.editor is 'calendar'
     # TODO: enable datepicker
     # $('.editable.calendar').datepicker()
 
     if d.changed is column.id
-        d3.select(td).classed('changed', true)
+      d3.select(td.parentNode).classed('changed', true)
 
     agent = navigator.userAgent.toLowerCase()
     if agent.indexOf('iphone') >= 0 or agent.indexOf('ipad') >= 0
@@ -373,8 +372,8 @@ class window.TableStakesLib.Core
       else
         d[column.id] or '-'
 
+    d3.select(td.parentNode).classed('active', true)
     d3.select(td)
-      .classed('active', true)
       .text(_text)
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
@@ -384,10 +383,9 @@ class window.TableStakesLib.Core
 
   _makeInactive: (node) ->
     self = @
-    d3.select(node)
+    d3.select(node.parentNode)
       .classed('active', false)
-#      .classed('editable', true)
-#      .classed('changed', true)
+    d3.select(node)
       .attr('contentEditable', false)
 
   _makeChanged: (d, td, column) ->
