@@ -100,10 +100,8 @@ class window.TableStakesLib.Core
       .filter((d) -> true unless d.headClasses)
       .selectAll("th")
 
-    allDiv = allTh.selectAll("div")
-    sortable = allDiv.filter (d)->
-      d.isSortable
-#    @_makeSortable(sortable)
+    sortable = allTh.filter (d)-> d.isSortable
+    @_makeSortable(sortable)
     @_makeResizable(allTh) if @table.isResizable()
     @
 
@@ -315,20 +313,20 @@ class window.TableStakesLib.Core
       .call dragBehavior
     
 
-  _makeSortable: (allDiv)->
+  _makeSortable: (allTd)->
     self = @
 
-    allDiv.classed('sortable',true)
+    allTd.classed('sortable',true)
       .append("div")
-      .classed('sortable-handle', true)
+        .classed('sortable-handle', true)
 
-    sorted = allDiv.filter (column)->
+    sorted = allTd.filter (column)->
       column.desc?
     if sorted[0] and sorted[0].length > 0
       desc = sorted.data()[0].desc
       sorted.classed('sorted-asc',desc)
       sorted.classed('sorted-desc',!desc)
-    allDiv.on 'click', (a,b,c)->
+    allTd.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
   # ### Cell-level transform methods
