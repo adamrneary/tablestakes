@@ -187,10 +187,10 @@ class window.TableStakesLib.Core
     @_makeNested(div) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, div, column) if isEditable
     @_makeChanged(d, div, column)
-#    @_makeBoolean(d, div, column) if column.editor is 'boolean' and isEditable
-#    @_makeSelect(d, div, column) if column.editor is 'select' and isEditable
-#    @_makeButton(d, div, column) if column.editor is 'button' and isEditable
-#    @_addShowCount(d, div, column) if column.showCount
+    @_makeBoolean(d, div, column) if column.editor is 'boolean' and isEditable
+    @_makeSelect(d, div, column) if column.editor is 'select' and isEditable
+    @_makeButton(d, div, column) if column.editor is 'button' and isEditable
+    @_addShowCount(d, div, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
@@ -421,7 +421,7 @@ class window.TableStakesLib.Core
       .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
   _makeBoolean: (d, div, column) ->
-    d3.select(div)
+    d3.select(div.parentNode)
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
       .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
