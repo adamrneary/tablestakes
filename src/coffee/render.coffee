@@ -246,10 +246,11 @@ class window.TableStakesLib.Core
           .classed('draggable-head', true)
 
     # add draggable &lt;td&gt;
-    @enterRows.append('td').append('div')
+    @enterRows.append('td')
       .classed('draggable', (d) => @utils.ourFunctor(@table.isDraggable(), d))
+      .append('div')
 
-    @updateRows.selectAll('td div.draggable').on 'mouseover', (d) ->
+    @updateRows.selectAll('td.draggable').on 'mouseover', (d) ->
       self._setDragBehavior()
     .on 'mouseout', (d) ->
       self._clearDragBehavior()
