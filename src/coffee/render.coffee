@@ -374,6 +374,7 @@ class window.TableStakesLib.Core
       else
         d[column.id] or '-'
 
+    # TODO: handle .calendar input
     d3.select(div.parentNode).classed('active', true)
     d3.select(div)
       .text(_text)
