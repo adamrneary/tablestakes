@@ -281,11 +281,12 @@ class window.TableStakesLib.Core
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
-    @enterRows.append('td').append('div')
+    @enterRows.append('td')
       .classed('deletable', (d) => @utils.ourFunctor(@table.isDeletable(), d))
-      .on 'click',
-        (d) =>
-          @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
+      .append('div')
+        .on 'click',
+          (d) =>
+            @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
   #
   _makeResizable: (allTd) =>
@@ -394,6 +395,8 @@ class window.TableStakesLib.Core
 
   _makeSelect: (d, div, column) ->
     options = @utils.ourFunctor(column.selectOptions, d)
+    d3.select(div.parentNode)
+      .classed("select", true)
 
     select = d3.select(div)
       .html('<select class="expand-select"></select>')
