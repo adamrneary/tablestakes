@@ -182,15 +182,15 @@ class window.TableStakesLib.Core
     @updateRows.selectAll('div').each (d, i) ->
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
-  _renderCell: (column, d, td) ->
+  _renderCell: (column, d, div) ->
     isEditable = @utils.ourFunctor(column.isEditable, d)
-#    @_makeNested(td) if @utils.ourFunctor(column.isNested, d)
-    @_makeEditable(d, td, column) if isEditable
-    @_makeChanged(d, td, column)
-#    @_makeBoolean(d, td, column) if column.editor is 'boolean' and isEditable
-#    @_makeSelect(d, td, column) if column.editor is 'select' and isEditable
-#    @_makeButton(d, td, column) if column.editor is 'button' and isEditable
-#    @_addShowCount(d, td, column) if column.showCount
+    @_makeNested(div) if @utils.ourFunctor(column.isNested, d)
+    @_makeEditable(d, div, column) if isEditable
+    @_makeChanged(d, div, column)
+#    @_makeBoolean(d, div, column) if column.editor is 'boolean' and isEditable
+#    @_makeSelect(d, div, column) if column.editor is 'select' and isEditable
+#    @_makeButton(d, div, column) if column.editor is 'button' and isEditable
+#    @_addShowCount(d, div, column) if column.showCount
 
   # ## "Class methods" (tongue in cheek) define classes to be applied to tags
   # Note: There are other methods that add/remove classes but these are the
@@ -331,39 +331,39 @@ class window.TableStakesLib.Core
   # ### Cell-level transform methods
 
   #
-  _makeNested: (td) ->
-    d3.select(td)
+  _makeNested: (div) ->
+    d3.select(div.parentNode)
       .attr('class', (d) => @utils.nestedIcons(d))
       .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))
 
-  _makeEditable: (d, td, column) ->
+  _makeEditable: (d, div, column) ->
     self = @
 
     return if _.contains ['boolean', 'select'], column.editor
-    d3.select(td.parentNode).classed('editable', true)
-    d3.select(td.parentNode).classed('calendar', true) if column.editor is 'calendar'
+    d3.select(div.parentNode).classed('editable', true)
+    d3.select(div.parentNode).classed('calendar', true) if column.editor is 'calendar'
     # TODO: enable datepicker
     # $('.editable.calendar').datepicker()
 
     if d.changed is column.id
-      d3.select(td.parentNode).classed('changed', true)
+      d3.select(div.parentNode).classed('changed', true)
 
     agent = navigator.userAgent.toLowerCase()
     if agent.indexOf('iphone') >= 0 or agent.indexOf('ipad') >= 0
       eventType = 'touchend'
-      d3.select(td)
+      d3.select(div)
         .on(eventType, (a,b,c) -> self.events.doubleTap(@,a,b,c,column))
     else
       eventType = 'dblclick'
-      d3.select(td)
+      d3.select(div)
         .on(eventType, (a,b,c) -> self.events.editableClick(@,a,b,c,column))
 
     if d.activatedID is column.id.toString()
-      @_makeActive(d, td, column)
+      @_makeActive(d, div, column)
     else
-      @_makeInactive(td)
+      @_makeInactive(div)
 
-  _makeActive: (d, td, column) ->
+  _makeActive: (d, div, column) ->
     self = @
 
     _text = (d) ->
@@ -372,8 +372,8 @@ class window.TableStakesLib.Core
       else
         d[column.id] or '-'
 
-    d3.select(td.parentNode).classed('active', true)
-    d3.select(td)
+    d3.select(div.parentNode).classed('active', true)
+    d3.select(div)
       .text(_text)
       .attr('contentEditable', true)
       .on('keydown', (d) -> self.events.keydown(this, d, column))
@@ -388,14 +388,14 @@ class window.TableStakesLib.Core
     d3.select(node)
       .attr('contentEditable', false)
 
-  _makeChanged: (d, td, column) ->
+  _makeChanged: (d, div, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
       d.changedID.splice i, 1
 
-  _makeSelect: (d, td, column) ->
+  _makeSelect: (d, div, column) ->
     options = @utils.ourFunctor(column.selectOptions, d)
 
-    select = d3.select(td)
+    select = d3.select(div)
       .html('<select class="expand-select"></select>')
       .select('.expand-select')
 
@@ -413,21 +413,21 @@ class window.TableStakesLib.Core
 
     select.on('change', (a, b, c) => @events.selectClick(@, a, b, c, column))
 
-  _makeButton: (d, td, column) ->
+  _makeButton: (d, div, column) ->
     classes = 'btn btn-mini btn-primary'
     html = "<input type='button' value='#{column.label}' class='#{classes}' />"
-    select = d3.select(td)
+    select = d3.select(div)
       .html(html)
       .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
-  _makeBoolean: (d, td, column) ->
-    d3.select(td)
+  _makeBoolean: (d, div, column) ->
+    d3.select(div)
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
       .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
 
-  _addShowCount: (d, td, column) ->
+  _addShowCount: (d, div, column) ->
     count = d.values?.length or d._values?.length
-    d3.select(td).append('span')
+    d3.select(div).append('span')
       .classed('childrenCount', true)
       .text (d) -> if count then '(' + count + ')' else ''
