@@ -6,6 +6,7 @@
 window.TableStakesLib.Column = (function() {
   function Column(options) {
     var key;
+
     if (options != null) {
       for (key in options) {
         this[key] = options[key];
@@ -46,6 +47,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype._handleTab = function(node, d, column) {
     var currentindex, index, nextNode, prevNode, start;
+
     currentindex = this.core.utils.getCurrentColumnIndex(d.activatedID);
     if (d3.event.shiftKey === false) {
       index = this.core.utils.findEditableColumn(d, currentindex + 1, true);
@@ -90,6 +92,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype._handleUpDown = function(node, d, column, isUp) {
     var currentindex, nextNode;
+
     currentindex = this.core.utils.getCurrentColumnIndex(d.activatedID);
     nextNode = this.core.utils.findEditableCell(d, column, isUp);
     if (nextNode != null) {
@@ -113,6 +116,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.blur = function(node, d, column) {
     var val;
+
     if (!this.core.table.isInRender) {
       val = d3.select(node).text();
       if (val !== d[column.id]) {
@@ -130,7 +134,9 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype._applyChangedState = function(d) {
-    if (d.changedID == null) {
+    var _ref;
+
+    if ((_ref = d.changedID) == null) {
       d.changedID = [];
     }
     if (d.changedID.indexOf(d.activatedID) === -1) {
@@ -149,6 +155,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype._makeRowDraggable = function(tr) {
     var cellWidths, onMouseOut, onMouseOver, rowWidth, self, tableEl;
+
     self = this;
     rowWidth = $(tr).width();
     cellWidths = _.map($(tr).find('td'), function(td) {
@@ -161,6 +168,7 @@ window.TableStakesLib.Events = (function() {
     });
     onMouseOver = function(d, i) {
       var c, isDestination;
+
       c = self.core;
       self.destinationIndex = i;
       isDestination = c.utils.ourFunctor(c.table.isDragDestination(), d);
@@ -181,6 +189,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype._draggableDestinationClass = function() {
     var dragMode;
+
     dragMode = this.core.table.dragMode();
     if (dragMode != null) {
       return dragMode + '-draggable-destination';
@@ -198,6 +207,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.dragEnd = function(tr, d) {
     var onDrag, tableEl;
+
     d3.select(tr).classed('dragged', false);
     tableEl = this.core.table.el();
     d3.selectAll(tableEl + ' tbody tr, ' + tableEl + ' thead tr').classed(this._draggableDestinationClass(), false).on('mouseover', null).on('mouseout', null);
@@ -214,7 +224,8 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.resizeDrag = function(node) {
     var allTh, index, new_width_left, new_width_right, notTooSmall, old_width_left, old_width_right, th, thead;
-    th = node.parentNode.parentNode;
+
+    th = node.parentNode;
     index = parseFloat(d3.select(th).attr('ref'));
     thead = th.parentNode.parentNode;
     allTh = [];
@@ -241,6 +252,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.editableClick = function(node, d, _, unshift) {
     var target, _node;
+
     target = d3.event.target;
     _node = d3.select(node);
     if (!(_node.classed('active') || $(target).is('a'))) {
@@ -254,6 +266,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.nestedClick = function(node, d, _, unshift) {
     var self, target;
+
     target = d3.event.target;
     if (!($(target).is('a') || d3.select(target).classed('active'))) {
       if (d3.event.shiftKey && !unshift) {
@@ -289,6 +302,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.selectClick = function(node, d, _, unshift, column) {
     var val;
+
     val = d3.event.target.value;
     if (val !== d[column.id]) {
       if (column.onEdit) {
@@ -300,6 +314,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.buttonClick = function(node, d, _, unshift, column) {
     var val;
+
     val = d3.event.target.value;
     if (column.onClick) {
       column.onClick(d.id, column.id, val);
@@ -321,6 +336,7 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.doubleTap = function(self, a, b, c, column) {
     var delta, now, timeDelta;
+
     timeDelta = 500;
     now = new Date().getTime();
     self.lastTouch = _.isUndefined(self.lastTouch) ? now + 1 : self.lastTouch;
@@ -383,6 +399,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype.update = function() {
     var _this = this;
+
     this.table.isInRender = true;
     return this.selection.call(function(selection) {
       return _this.table.update(selection);
@@ -391,6 +408,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype.render = function() {
     var wrap, wrapEnter;
+
     this._buildData();
     wrap = d3.select(this.table.el()).selectAll("div").data([[this.nodes]]);
     wrapEnter = wrap.enter().append("div");
@@ -410,6 +428,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._buildData = function() {
     var depth;
+
     if (!this.data[0]) {
       this.data[0] = {
         id: this.table.noData
@@ -428,6 +447,7 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._renderHead = function(tableObject) {
     var allDiv, allTh, self, sortable, th, thead, theadRow,
       _this = this;
+
     self = this;
     thead = tableObject.selectAll('thead').data(function(d) {
       return d;
@@ -466,14 +486,14 @@ window.TableStakesLib.Core = (function() {
       if (!d.headClasses) {
         return true;
       }
-    });
+    }).selectAll("th");
     allDiv = allTh.selectAll("div");
     sortable = allDiv.filter(function(d) {
       return d.isSortable;
     });
     this._makeSortable(sortable);
     if (this.table.isResizable()) {
-      this._makeResizable(allDiv);
+      this._makeResizable(allTh);
     }
     return this;
   };
@@ -488,6 +508,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._enterRows = function() {
     var _this = this;
+
     return this.enterRows = this.rows.enter().append("tr").attr("class", function(d) {
       return _this._rowClasses(d);
     });
@@ -547,11 +568,14 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._renderEnterRows = function() {
     var self,
       _this = this;
+
     self = this;
     return this.columns.forEach(function(column, column_index) {
       var text;
+
       text = function(d) {
         var index;
+
         if ((column.timeSeries != null) && (d.period != null) && (d.dataValue != null)) {
           index = d.period.indexOf(column.id);
           if (column.format) {
@@ -575,6 +599,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._renderUpdateRows = function() {
     var self;
+
     self = this;
     return this.updateRows.selectAll('div').each(function(d, i) {
       if (self.columns[i] != null) {
@@ -585,6 +610,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._renderCell = function(column, d, td) {
     var isEditable;
+
     isEditable = this.utils.ourFunctor(column.isEditable, d);
     if (this.utils.ourFunctor(column.isNested, d)) {
       this._makeNested(td);
@@ -621,6 +647,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._cellClasses = function(d, column) {
     var val;
+
     val = [];
     val.push(column.classes != null ? typeof column.classes === 'function' ? column.classes(d) : column.classes : void 0);
     if (column === this.columns[0]) {
@@ -635,6 +662,7 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._makeDraggable = function(table) {
     var self,
       _this = this;
+
     self = this;
     if (table.selectAll('th.draggable-head')[0].length === 0) {
       table.selectAll("thead tr").append('th').attr('width', '15px').classed('draggable-head', true);
@@ -651,6 +679,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._setDragBehavior = function() {
     var dragBehavior, self;
+
     self = this;
     dragBehavior = d3.behavior.drag().origin(Object).on('dragstart', function(d, x, y) {
       return self.events.dragStart(this, d, x, y);
@@ -664,6 +693,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._clearDragBehavior = function() {
     var dragBehavior, self;
+
     self = this;
     dragBehavior = d3.behavior.drag().origin(Object).on('dragstart', null).on('drag', null).on('dragend', null);
     return this.updateRows.call(dragBehavior);
@@ -671,6 +701,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeDeletable = function(table) {
     var _this = this;
+
     if (table.selectAll('th.deletable-head')[0].length === 0) {
       table.selectAll("thead tr").append('th').attr('width', '15px').classed('deletable-head', true);
     }
@@ -683,20 +714,22 @@ window.TableStakesLib.Core = (function() {
     });
   };
 
-  Core.prototype._makeResizable = function(allDiv) {
+  Core.prototype._makeResizable = function(allTd) {
     var dragBehavior, length, self;
     self = this;
-    length = _.size(allDiv[0]);
+
+    length = _.size(allTd[0]);
     dragBehavior = d3.behavior.drag().on("drag", function() {
       return self.events.resizeDrag(this);
     });
-    return allDiv.classed('resizeable', true).filter(function(d, i) {
+    return allTd.classed('resizable', true).filter(function(d, i) {
       return i + 1 < length;
-    }).append("div").classed('resizeable-handle', true).classed('right', true).call(dragBehavior);
+    }).append("div").classed('resizable-handle', true).classed('right', true).call(dragBehavior);
   };
 
   Core.prototype._makeSortable = function(allDiv) {
     var desc, self, sorted;
+
     self = this;
     allDiv.classed('sortable', true).append("div").classed('sortable-handle', true);
     sorted = allDiv.filter(function(column) {
@@ -714,6 +747,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeNested = function(td) {
     var _this = this;
+
     return d3.select(td).attr('class', function(d) {
       return _this.utils.nestedIcons(d);
     }).on('click', function(a, b, c) {
@@ -723,6 +757,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeEditable = function(d, td, column) {
     var agent, eventType, self;
+
     self = this;
     if (_.contains(['boolean', 'select'], column.editor)) {
       return;
@@ -755,6 +790,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeActive = function(d, td, column) {
     var self, _text;
+
     self = this;
     _text = function(d) {
       if (_.has(column, 'timeSeries')) {
@@ -772,12 +808,14 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeInactive = function(node) {
     var self;
+
     self = this;
     return d3.select(node).classed('active', false).attr('contentEditable', false);
   };
 
   Core.prototype._makeChanged = function(d, td, column) {
     var i;
+
     if (d.changedID && (i = d.changedID.indexOf(column.id)) !== -1) {
       return d.changedID.splice(i, 1);
     }
@@ -786,6 +824,7 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._makeSelect = function(d, td, column) {
     var group, options, select,
       _this = this;
+
     options = this.utils.ourFunctor(column.selectOptions, d);
     select = d3.select(td).html('<select class="expand-select"></select>').select('.expand-select');
     select.append('option').style('cursor', 'pointer').text(d[column.id]);
@@ -801,6 +840,7 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._makeButton = function(d, td, column) {
     var classes, html, select,
       _this = this;
+
     classes = 'btn btn-mini btn-primary';
     html = "<input type='button' value='" + column.label + "' class='" + classes + "' />";
     return select = d3.select(td).html(html).on('click', function(a, b, c) {
@@ -810,6 +850,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._makeBoolean = function(d, td, column) {
     var _this = this;
+
     return d3.select(td).classed('boolean-true', d[column.id]).classed('boolean-false', !d[column.id]).on('click', function(a, b, c) {
       return _this.events.toggleBoolean(_this, a, b, c, column);
     });
@@ -817,6 +858,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._addShowCount = function(d, td, column) {
     var count, _ref, _ref1;
+
     count = ((_ref = d.values) != null ? _ref.length : void 0) || ((_ref1 = d._values) != null ? _ref1.length : void 0);
     return d3.select(td).append('span').classed('childrenCount', true).text(function(d) {
       if (count) {
@@ -870,6 +912,7 @@ window.TableStakesLib.Core = (function() {
 
   function TableStakes(options) {
     var key;
+
     this.core = new window.TableStakesLib.Core;
     this.utils = new window.TableStakesLib.Utils({
       core: this
@@ -899,6 +942,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.parseFlatData = function(flatData, key) {
     var data;
+
     data = [];
     _.each(_.keys(_.groupBy(flatData, function(obj) {
       return obj[key];
@@ -929,6 +973,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.render = function() {
     var _this = this;
+
     this.gridData = [
       {
         values: this.data()
@@ -948,6 +993,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.update = function(selection) {
     var _this = this;
+
     selection.each(function(data) {
       _this.core.set({
         selection: selection,
@@ -962,6 +1008,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.dispatchManualEvent = function(target) {
     var mousedownEvent;
+
     if (target.dispatchEvent && document.createEvent) {
       mousedownEvent = document.createEvent("MouseEvent");
       mousedownEvent.initMouseEvent("dblclick", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
@@ -977,6 +1024,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.setID = function(node, prefix) {
     var _this = this;
+
     node['_id'] = prefix;
     if (node.values) {
       node.values.forEach(function(subnode, i) {
@@ -992,11 +1040,13 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.sort = function(columnId, isDesc) {
     var sortFunction;
+
     if (!((columnId != null) || (isDesc != null))) {
       return;
     }
     sortFunction = function(a, b) {
       var first, second;
+
       if ((a[columnId] != null) && (b[columnId] != null)) {
         if (isDesc) {
           if (_.isNumber(a[columnId]) && _.isNumber(b[columnId])) {
@@ -1041,6 +1091,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype._setFilter = function(data, filter) {
     var i, key, matchFound, self, _data, _i, _j, _k, _len, _ref, _ref1, _ref2;
+
     self = this;
     data || (data = []);
     if (typeof data._hiddenvalues === "undefined") {
@@ -1110,6 +1161,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.margin = function(val) {
     var side, _i, _len, _ref;
+
     if (val == null) {
       return this._margin;
     }
@@ -1125,12 +1177,14 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.columns = function(columnList) {
     var _this = this;
+
     if (!columnList) {
       return this._columns;
     }
     this._columns = [];
     _.each(columnList, function(column) {
       var c, grouppedItems, groupper, i, item, _column, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3, _results, _results1, _results2;
+
       if (column.timeSeries) {
         if (column.timeSeries.length <= 12) {
           _ref = column.timeSeries;
@@ -1203,6 +1257,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.headRows = function(filter) {
     var row, visiblePeriod, _columns;
+
     if (filter == null) {
       return this._headRows;
     }
@@ -1213,6 +1268,7 @@ window.TableStakesLib.Core = (function() {
       _columns = [];
       _.each(this._columns, function(col) {
         var c;
+
         c = _.clone(col);
         if (_.has(col, filter)) {
           c.label = col[filter];
@@ -1235,6 +1291,7 @@ window.TableStakesLib.Core = (function() {
       visiblePeriod = [];
       _.each(row.col, function(column, i) {
         var begin, end, hidden;
+
         hidden = 'hidden';
         if (column.timeSeries) {
           if ((column.classes == null) || column.classes.indexOf(hidden) === -1) {
@@ -1254,6 +1311,7 @@ window.TableStakesLib.Core = (function() {
       });
       _.each(row.col, function(column, i) {
         var begin, end, filtered, first;
+
         filtered = _.filter(visiblePeriod, function(date) {
           return (new Date(date)).getFullYear().toString() === column.label;
         });
@@ -1282,12 +1340,14 @@ window.TableStakesLib.Core = (function() {
   TableStakes.prototype.dataAggregate = function(aggregator) {
     var data, isSorted, isZeroFilter, self, summ, timeFrame, _ref, _ref1,
       _this = this;
+
     self = this;
     if (!_.isArray(aggregator)) {
       aggregator = [aggregator];
     }
     summ = function(data, availableTimeFrame) {
       var groupper, _data, _ref;
+
       _data = [];
       if (availableTimeFrame.length <= 12) {
         return data;
@@ -1297,7 +1357,8 @@ window.TableStakesLib.Core = (function() {
         groupper = 12;
       }
       _.each(data, function(row, i) {
-        var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _period_id, _row, _slicePeriod, _slicePeriodId, _sliceValue;
+        var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _period_id, _slicePeriod, _slicePeriodId, _sliceValue;
+
         _period = [];
         _period_id = [];
         _dataValue = [];
@@ -1371,8 +1432,10 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype._synthesize = function(hash) {
     var _this = this;
+
     return _.each(hash, function(value, key) {
       var func;
+
       _this['_' + key] = value;
       func = function(key) {
         return _this[key] = function(val) {
@@ -1399,6 +1462,7 @@ window.TableStakesLib.Core = (function() {
     filteredData = data;
     filteredData = _.filter(filteredData, function(row, i) {
       var begin, end;
+
       begin = _.indexOf(row.period, _.first(availableTimeFrame));
       end = _.indexOf(row.period, _.last(availableTimeFrame));
       if (begin < 0 || end < 0 || end < begin) {
@@ -1414,6 +1478,7 @@ window.TableStakesLib.Core = (function() {
 
   TableStakes.prototype.sorter = function(data) {
     var availableTimeFrame, cols, sorted, sortedData, _ref;
+
     cols = _.filter(this._columns, function(col) {
       return col.timeSeries != null;
     });
@@ -1427,6 +1492,7 @@ window.TableStakesLib.Core = (function() {
     })) != null ? _ref.sorted : void 0;
     sortedData = _.sortBy(sortedData, function(row) {
       var begin, end, sum;
+
       begin = _.indexOf(row.period, _.first(availableTimeFrame));
       end = _.indexOf(row.period, _.last(availableTimeFrame));
       if (begin < 0 || end < 0 || end < begin) {
@@ -1463,6 +1529,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.getCurrentColumnIndex = function(id) {
     var col, currentindex, i, _i, _len, _ref;
+
     currentindex = this.core.columns.length;
     _ref = this.core.columns;
     for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
@@ -1477,6 +1544,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.findEditableColumn = function(d, currentIndex, isNext) {
     var column, condition, nextIndex;
+
     if (isNext) {
       condition = currentIndex < this.core.columns.length;
       nextIndex = currentIndex + 1;
@@ -1504,6 +1572,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.findEditableCell = function(d, column, isNext) {
     var isBoolean, node;
+
     if (isNext) {
       node = this.core.utils.findNextNode(d);
     } else {
@@ -1523,6 +1592,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.findNextNode = function(d) {
     var i, idPath, leaf, nextNodeID, root, _i, _j, _len, _ref, _ref1;
+
     nextNodeID = null;
     _ref = this.core.nodes;
     for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
@@ -1547,6 +1617,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.findPrevNode = function(d) {
     var i, idPath, leaf, prevNodeID, root, _i, _j, _len, _ref, _ref1;
+
     prevNodeID = null;
     _ref = this.core.nodes;
     for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
@@ -1569,6 +1640,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.removeNode = function(d) {
     var currentindex, i, parent, _i, _ref;
+
     parent = d.parent;
     currentindex = parent.values.length;
     for (i = _i = 0, _ref = parent.values.length - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
@@ -1595,6 +1667,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.pastNode = function(d, child) {
     var array, index, n, _i, _len, _ref;
+
     n = 0;
     array = [];
     _ref = d.parent.values;
@@ -1613,6 +1686,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.findNodeByID = function(id) {
     var i, idPath, root, _i, _ref;
+
     idPath = id.split("_");
     root = this.core.table.gridFilteredData[0];
     for (i = _i = 1, _ref = idPath.length - 1; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
@@ -1623,6 +1697,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.deactivateAll = function(d) {
     var _this = this;
+
     d.activatedID = null;
     if (d.values) {
       d.values.forEach(function(item, index) {
@@ -1638,12 +1713,14 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.hasChildren = function(d) {
     var values;
+
     values = d.values || d._values;
     return values && values.length;
   };
 
   Utils.prototype.isChild = function(child, parent) {
     var d, u, values, _i, _len;
+
     u = this.core.utils;
     if (u.hasChildren(parent)) {
       values = parent.values || parent._values;
@@ -1662,6 +1739,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.isParent = function(parent, child) {
     var values;
+
     if (this.core.utils.hasChildren(parent)) {
       values = parent.values || parent._values;
       return _.contains(values, child);
@@ -1676,6 +1754,7 @@ window.TableStakesLib.Utils = (function() {
 
   Utils.prototype.nestedIcons = function(d) {
     var indent;
+
     if ((d.depth - 1) < 6) {
       indent = d.depth - 1;
     } else {

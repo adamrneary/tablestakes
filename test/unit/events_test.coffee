@@ -292,9 +292,9 @@ describe "Events", ->
       #.render()
     #event = _table.core.events
 
-    #td = d3.select('.resizeable-handle')[0]
+    #td = d3.select('.resizable-handle')[0]
     #console.log td
-    ##td = '.resizeable-handle'
+    ##td = '.resizable-handle'
     #assert event.resizeDrag(td)
 
 
