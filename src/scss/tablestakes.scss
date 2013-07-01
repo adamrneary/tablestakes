@@ -33,6 +33,14 @@ table.tablestakes {
       text-decoration: underline;
     }
   }
+  
+  th, td {
+    padding: 0;
+    &> div {
+      padding: 5px;
+      position: relative;
+    }
+  }
 }
 
 // Headers
@@ -110,10 +118,6 @@ table.tablestakes {
         background: $header-row-heading-background;
         text-align: left;
         font-weight: normal;
-
-        div {
-          text-align: left;
-        }
       }
 
       &.total {
@@ -167,28 +171,26 @@ table.tablestakes {
 table.tablestakes {
   tbody {
     th, td {
-      div {
-        &.row-heading {
-          color: $column-row-heading-color;
-          background: $column-row-heading-background;
-          text-transform: none;
-          text-align: left;
-        }
+      &.row-heading {
+        color: $column-row-heading-color;
+        background: $column-row-heading-background;
+        text-transform: none;
+        text-align: left;
+      }
 
-        &.total {
-          color: $column-total-color;
-          background: $column-total-background;
-          font-weight: bold;
-        }
+      &.total {
+        color: $column-total-color;
+        background: $column-total-background;
+        font-weight: bold;
+      }
 
-        &.left-aligned {
-          text-align: left;
-        }
+      &.left-aligned {
+        text-align: left;
+      }
 
-        &.light {
-          color: $column-light-color;
-          background: $column-light-background;
-        }
+      &.light {
+        color: $column-light-color;
+        background: $column-light-background;
       }
     }
   }
@@ -196,26 +198,23 @@ table.tablestakes {
 
 // Resizable
 //
-// <div class="alert alert-info">When <code>.resizeable-handle</code> is active <code>:hover</code>, <code>.neighbor</code> class should be added to the sibling cells <code>.resizeable-handle</code>, via javascript</div>
+// <div class="alert alert-info">When <code>.resizable-handle</code> is active <code>:hover</code>, <code>.neighbor</code> class should be added to the sibling cells <code>.resizable-handle</code>, via javascript</div>
 //
-// .resizeable - allows the user to drag and drop the edges of the columns to resize
+// .resizable - allows the user to drag and drop the edges of the columns to resize
 //
 // Styleguide 2.2
 
 table.tablestakes {
   thead {
-    // resizeable
-    .resizeable {
-      // cursor: col-resize;
-      position: relative;
-
+    // resizable
+    .resizable {
       &:hover {
-        .resizeable-handle {
+        .resizable-handle {
           border-right: solid 2px saturate($primary, 20%);
         }
       }
 
-      .resizeable-handle {
+      .resizable-handle {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -259,50 +258,56 @@ table.tablestakes {
   thead {
     // sortable
     .sortable {
-      position: relative;
-      padding-right: 20px;
       cursor: pointer;
+      
+      &> div {
+        padding-right: 20px;
+        
+        &:before, &:after {
+          position: absolute;
+          right: 0;
+          font-family: FontAwesome;
+          font-weight: normal;
+          font-style: normal;
+          text-decoration: inherit;
+          -webkit-font-smoothing: antialiased;
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          line-height: normal;
+          vertical-align: baseline;
+          background-image: none;
+          background-position: 0% 0%;
+          background-repeat: repeat;
+          margin-top: 0;
+          color: $sortable-inactive-arrows-color;
+          font-size: 16px;
+        }
 
-      &:before, &:after {
-        position: absolute;
-        right: 5px;
-        font-family: FontAwesome;
-        font-weight: normal;
-        font-style: normal;
-        text-decoration: inherit;
-        -webkit-font-smoothing: antialiased;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: normal;
-        vertical-align: baseline;
-        background-image: none;
-        background-position: 0% 0%;
-        background-repeat: repeat;
-        margin-top: 0;
-        color: $sortable-inactive-arrows-color;
-        font-size: 16px;
-      }
+        &:before {
+          top: 0px;
+          content: "\f0d8";
+        }
 
-      &:before {
-        top: 0px;
-        content: "\f0d8";
-      }
-
-      &:after {
-        bottom: 2px;
-        content: "\f0d7";
+        &:after {
+          bottom: 2px;
+          content: "\f0d7";
+        }
       }
 
       &.sorted-asc {
-        &:before {
-          color: $sortable-active-arrows-color;
+        &> div {
+          &:before {
+            color: $sortable-active-arrows-color;
+          }
         }
       }
 
       &.sorted-desc {
-         &:after {
-          color: $sortable-active-arrows-color;
+        &> div {
+          &:after {
+            color: $sortable-active-arrows-color;
+          }
         }
       }
 
@@ -341,6 +346,7 @@ table.tablestakes {
       }
     }
   }
+  
   tbody {
     tr {
       &.subtotal {
@@ -369,8 +375,8 @@ table.tablestakes {
         display: block;
         padding: 0;
         margin: 0;
-        color: $row-well-color;
-        background: $row-well-background;
+        color: $row-well-color !important;
+        background: $row-well-background !important;
 
         td, th {
           color: $grey;
@@ -384,10 +390,10 @@ table.tablestakes {
         th, td {
           border-top: solid 1px $row-total-border-top-color;
           border-bottom: solid 1px $row-total-border-bottom-color;
-          color: $row-total-color;
-          background: $row-total-background;
-          font-weight: bold;
-          text-transform: capitalize;
+          color: $row-total-color !important;
+          background: $row-total-background !important;
+          font-weight: bold !important;
+          text-transform: capitalize !important;
         }
       }
 
@@ -395,10 +401,10 @@ table.tablestakes {
         th, td {
           border-top: solid 1px $light-grey;
           border-bottom: solid 1px $light-grey;
-          color: $white;
-          background: $secondary;
-          font-weight: bold;
-          text-transform: capitalize;
+          color: $white !important;
+          background: $secondary !important;
+          font-weight: bold !important;
+          text-transform: capitalize !important;
         }
       }
 
@@ -479,32 +485,27 @@ table.tablestakes {
 
 table.tablestakes {
   th, td {
-    div {
-      font-size: 12px;
-      text-align: right;
-      padding: 5px;
+    // plan
+    &.plan {
+      color: $cell-plan-color;
+      background: $cell-plan-background;
 
-      // plan
-      &.plan {
-        color: $cell-plan-color;
-        background: $cell-plan-background;
-
-        &.editable:hover {
-          background: $white;
-        }
+      &.editable:hover {
+        background: $white;
       }
+    }
 
-      // old
-      &.old {
-        color: $cell-old-color;
-        background: $cell-old-background
-      }
+    // old
+    &.old {
+      color: $cell-old-color;
+      background: $cell-old-background
+    }
 
-      // collapsible
-      &.collapsible {
-        cursor: pointer;
-        text-align: left;
-
+    // collapsible
+    &.collapsible {
+      cursor: pointer;
+      text-align: left;
+      &> div {
         &:before {
           font-family: FontAwesome;
           font-weight: normal;
@@ -525,12 +526,14 @@ table.tablestakes {
           font-size: 16px;
         }
       }
+    }
 
-      // expandable
-      &.expandable {
-         cursor: pointer;
-         text-align: left;
-
+    // expandable
+    &.expandable {
+      cursor: pointer;
+      text-align: left;
+      
+      &> div {
         &:before {
           font-family: FontAwesome;
           font-weight: normal;
@@ -549,21 +552,24 @@ table.tablestakes {
           content: "\f0da";
           color: $cell-collapsible-arrow-color;
           font-size: 16px;
-
         }
       }
+    }
 
-      // deletable
-      &.deletable {
-        text-align: left;
-        cursor: pointer;
+    // deletable
+    &.deletable {
+      text-align: left;
+      cursor: pointer;
 
-        &:hover {
+      &:hover {
+        &> div {
           &:before {
             text-shadow: 1px 2px 6px rgba($cell-deletable-color, .50);
-          }
+          } 
         }
-
+      }
+      
+      &> div {
         &:before {
           font-family: FontAwesome;
           font-weight: normal;
@@ -582,16 +588,15 @@ table.tablestakes {
           content: "\f057";
           color: $cell-deletable-color;
           font-size: 16px;
-
         }
       }
+    }
 
-      // draggable
-      &.draggable {
-        position: relative;
-        cursor: pointer;
-        text-align: left;
-
+    // draggable
+    &.draggable {;
+      cursor: pointer;
+      text-align: left;
+      &> div {
         &:before {
           font-family: FontAwesome;
           font-weight: normal;
@@ -612,57 +617,54 @@ table.tablestakes {
           font-size: 16px;
         }
       }
+    }
 
-      // indent1
-      &.indent1 {
-        text-align: left;
-        padding-left: 20px;
-      }
+    // indent1
+    &.indent1 {
+      text-align: left;
+      padding-left: 20px;
+    }
 
-      // indent2
-      &.indent2 {
-        text-align: left;
-        padding-left: 30px;
-      }
+    // indent2
+    &.indent2 {
+      text-align: left;
+      padding-left: 30px;
+    }
 
-      // indent3
-      &.indent3 {
-        text-align: left;
-        padding-left: 40px;
-      }
+    // indent3
+    &.indent3 {
+      text-align: left;
+      padding-left: 40px;
+    }
 
-      // indent4
-      &.indent4 {
-        text-align: left;
-        padding-left: 50px;
-      }
+    // indent4
+    &.indent4 {
+      text-align: left;
+      padding-left: 50px;
+    }
 
-      // indent5
-      &.indent5 {
-        text-align: left;
-        padding-left: 60px;
-      }
+    // indent5
+    &.indent5 {
+      text-align: left;
+      padding-left: 60px;
+    }
 
-      // indent5
-      &.indent6 {
-        text-align: left;
-        padding-left: 70px;
-      }
+    // indent5
+    &.indent6 {
+      text-align: left;
+      padding-left: 70px;
+    }
 
-      // boolean false and true
-      &.boolean-false, &.boolean-true {
-        position: relative;
+    // boolean false and true
+    &.boolean-false, &.boolean-true {
+      
+      &> div {
         min-width: 30px;
         margin-left: 5px;
         margin-right: 5px;
-        display: block;
         text-align: left;
         text-indent: -9999em;
-
-        &:hover {
-          background: transparent;
-        }
-
+        
         &:before {
           position: absolute;
           top: 7px;
@@ -673,7 +675,7 @@ table.tablestakes {
           height: 20px;
           @include border-radius(20px);
         }
-
+        
         &:after {
           position: absolute;
           top: 5px;
@@ -685,8 +687,14 @@ table.tablestakes {
         }
       }
 
-      // boolean false
-      &.boolean-false {
+      &:hover {
+        background: transparent;
+      }
+    }
+
+    // boolean false
+    &.boolean-false {
+      &> div {
         &:before {
           background: $danger;
           @include inner-shadow(0, 0, 6px, darken($danger, 30%));
@@ -696,9 +704,11 @@ table.tablestakes {
           left: -3px;
         }
       }
+    }
 
-      // boolean true
-      &.boolean-true {
+    // boolean true
+    &.boolean-true {
+      &> div {
         &:before {
           background: $success;
           @include inner-shadow(0, 0, 6px, darken($success, 30%));
@@ -711,6 +721,7 @@ table.tablestakes {
     }
   }
 }
+
 // Editable
 //
 // These styles relate to cells specifically and support our particular table library functionality
@@ -724,25 +735,25 @@ table.tablestakes {
 
 table.tablestakes {
   th, td {
-    div {
-      // editable
-      &.editable {
-        color: $cell-editable-active-border-color !important;
-        cursor: pointer;
+    // editable
+    &.editable {
+      color: $cell-editable-active-border-color !important;
+      cursor: pointer;
 
-        &:hover {
-          background: $cell-editable-hover-color;
-        }
+      &:hover {
+        background: $cell-editable-hover-color;
+      }
 
-        // active
-        &.active {
-          width: auto;
-          position: relative;
-          cursor: text;
-          border: 1px solid $cell-editable-active-border-color;
-          @include inner-shadow(0, 0, 6px, $grey);
-          background: $cell-editable-active-background;
-
+      // active
+      &.active {
+        width: auto;
+        position: relative;
+        cursor: text;
+        border: 1px solid $cell-editable-active-border-color;
+        @include inner-shadow(0, 0, 6px, $grey);
+        background: $cell-editable-active-background;
+        
+        &> div {
           &:after {
             position: absolute;
             bottom: 0;
@@ -757,21 +768,21 @@ table.tablestakes {
             cursor: pointer;
             overflow: hidden;
           }
-
-          &:hover {
-            background: $cell-editable-active-background;
-          }
-
-          &:focus {
-            outline: none;
-          }
         }
 
-        // changed
-        &.changed {
-          font-weight: bold;
-          border: 1px dotted $cell-editable-changed-border-color;
+        &:hover {
+          background: $cell-editable-active-background;
         }
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      // changed
+      &.changed {
+        font-weight: bold;
+        border: 1px dotted $cell-editable-changed-border-color;
       }
     }
   }
@@ -786,29 +797,25 @@ table.tablestakes {
 // Styleguide 4.1.2
 
 table.tablestakes {
-  word-wrap: break-word;
-
   th, td {
-    div {
-      &.editable {
-        &.active {
-          &.calendar {
-            input {
-              width: auto;
-              height: auto;
-              margin: 0;
-              padding: 0;
-              color: $cell-editable-active-border-color;
-              border: none;
-              background: transparent;
-              outline: none;
-              box-shadow: none;
+    &.editable {
+      &.active {
+        &.calendar {
+          input {
+            width: auto;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            color: $cell-editable-active-border-color;
+            border: none;
+            background: transparent;
+            outline: none;
+            box-shadow: none;
 
-              &:focus {
-                border: none;
-                outline: none;
-                background: transparent;
-              }
+            &:focus {
+              border: none;
+              outline: none;
+              background: transparent;
             }
           }
         }
@@ -836,16 +843,6 @@ table.tablestakes {
       color: $cell-editable-active-border-color;
       background: transparent;
       // line-height: 1em;
-    }
-  }
-}
-
-table.tablestakes {
-  th, td {
-    padding: 0;
-
-    div {
-      padding: 5px;
     }
   }
 }
