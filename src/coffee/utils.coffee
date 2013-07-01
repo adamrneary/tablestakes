@@ -157,7 +157,7 @@ class window.TableStakesLib.Utils
 
   # similar in spirit to d3.functor()
   # https://github.com/mbostock/d3/wiki/Internals
-  ourFunctor: (attr, element,etc) ->
+  ourFunctor: (attr, element, etc) ->
     if typeof attr is 'function'
       attr(element,etc)
     else

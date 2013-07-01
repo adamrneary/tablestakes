@@ -221,7 +221,7 @@ class window.TableStakesLib.Core
       else
         column.classes
 
-    val.push @utils.nestedIcons(d) if column is @columns[0]
+    val.push @utils.nestedIcons(d) if column.isNested
 
     # retrieve classes specified in data itself
     val.push d.classes if d.classes?
