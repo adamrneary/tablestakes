@@ -36,7 +36,7 @@ data = [
   etc: 'etc8'
 ,
   id: "Line with View Finder"
-  type: "Historical"
+  type: "historical"
   etc: 'etc9'
 ,
   id: "Legend"

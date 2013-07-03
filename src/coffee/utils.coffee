@@ -153,7 +153,7 @@ class window.TableStakesLib.Utils
     else if d.values and d.values.length
       'collapsible' + ' ' + 'indent' + indent
     else
-      'indent' + (indent+1)
+      'indent' + (indent)
 
   # similar in spirit to d3.functor()
   # https://github.com/mbostock/d3/wiki/Internals

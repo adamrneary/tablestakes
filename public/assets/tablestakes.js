@@ -1152,6 +1152,7 @@ window.TableStakesLib.Core = (function() {
       return this._columns;
     }
     this._columns = [];
+    this._headRows = null;
     _.each(columnList, function(column) {
       var c, grouppedItems, groupper, i, item, _column, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3, _results, _results1, _results2;
       if (column.timeSeries) {
@@ -1707,7 +1708,7 @@ window.TableStakesLib.Utils = (function() {
     } else if (d.values && d.values.length) {
       return 'collapsible' + ' ' + 'indent' + indent;
     } else {
-      return 'indent' + (indent + 1);
+      return 'indent' + indent;
     }
   };
 

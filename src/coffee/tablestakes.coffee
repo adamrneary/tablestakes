@@ -221,6 +221,7 @@ class window.TableStakes
   columns: (columnList) ->
     return @_columns unless columnList
     @_columns = []
+    @_headRows = null
 
     _.each columnList, (column) =>
       if column.timeSeries
