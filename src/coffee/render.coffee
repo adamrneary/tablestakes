@@ -278,7 +278,7 @@ class window.TableStakesLib.Core
     if table.selectAll('th.deletable-head')[0].length is 0
       table.selectAll("thead tr")
         .append('th')
-          .attr('width', '135px')
+          .attr('width', '15px')
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
