@@ -278,7 +278,7 @@ class window.TableStakesLib.Core
     if table.selectAll('th.deletable-head')[0].length is 0
       table.selectAll("thead tr")
         .append('th')
-          .attr('width', '15px')
+          .attr('width', '135px')
           .classed('deletable-head', true)
 
     # add deletable &lt;td&gt;
@@ -334,8 +334,12 @@ class window.TableStakesLib.Core
 
   #
   _makeNested: (div) ->
+    appliedClasses = d3.select(div.parentNode).attr('class')
     d3.select(div.parentNode)
-      .attr('class', (d) => @utils.nestedIcons(d))
+      .attr('class', (d) =>
+        appliedClasses += ' ' + @utils.nestedIcons(d)
+        _.uniq(appliedClasses.split(' ')).join(' ')
+      )
       .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))
 
   _makeEditable: (d, div, column) ->
