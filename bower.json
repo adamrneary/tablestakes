@@ -22,6 +22,6 @@
     "config.coffee",
     "index.js",
     "package.json",
-    "Procfile",
+    "Procfile"
   ]
 }
