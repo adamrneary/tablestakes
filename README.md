@@ -1,6 +1,10 @@
 # Tablestakes
 Bad-ass interactive tables.
 
+## Installation
+
+    $ bower install git@github.com:activecell/tablestakes.git#x.x.x --save
+
 ## The five-minute setup.
 Check your system for local requirements (run until it passes!):
 
