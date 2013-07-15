@@ -33,7 +33,7 @@ columns = [
   id: "id"
   label: "Name"
   classes: "row-heading"
-  format: (d) -> "row" + d.id
+  format: (d, column) -> "row" + d.id
 ,
   id: 'period'
   dataValue: 'actual'
@@ -42,7 +42,7 @@ columns = [
   filterZero: true
   sorted: 'desc'
   onEdit: editHandler
-  format: (d) -> '$'+d
+  format: (d, column) -> '$'+d.dataValue
 ]
 
 grid = new window.TableStakes()

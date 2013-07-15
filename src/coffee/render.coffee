@@ -163,11 +163,13 @@ class window.TableStakesLib.Core
         if column.timeSeries? and d.period? and d.dataValue?
           index = d.period.indexOf(column.id)
           if column.format
-            column.format d.dataValue[index]
+            cell = _.clone d
+            cell.dataValue = d.dataValue[index]
+            column.format cell, column
           else
             d.dataValue[index]
         else if column.format
-          column.format d
+          column.format d, column
         else
           d[column.id] or '-'
 
