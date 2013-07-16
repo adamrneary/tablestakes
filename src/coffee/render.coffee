@@ -214,7 +214,6 @@ class window.TableStakesLib.Core
   # functions in column classes only to &lt;td&gt; nodes below,
   # not &lt;th&gt; nodes
   _cellClasses: (d, column) ->
-    console.log "_cellClasses"
     val = []
 
     #retrieve classes specific to the column
@@ -223,10 +222,8 @@ class window.TableStakesLib.Core
         column.classes(d, column)
       else
         column.classes
-    console.log "\tcolumn.classes:", val
 
     val.push @utils.nestedIcons(d) if column.isNested
-    console.log "\tnestedIcons:", val
 
     # retrieve classes specified in data itself
     val.push d.classes if d.classes?
