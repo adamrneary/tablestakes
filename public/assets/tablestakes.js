@@ -565,16 +565,18 @@ window.TableStakesLib.Core = (function() {
     return this.columns.forEach(function(column, column_index) {
       var text;
       text = function(d) {
-        var index;
+        var cell, index;
         if ((column.timeSeries != null) && (d.period != null) && (d.dataValue != null)) {
           index = d.period.indexOf(column.id);
           if (column.format) {
-            return column.format(d.dataValue[index]);
+            cell = _.clone(d);
+            cell.dataValue = d.dataValue[index];
+            return column.format(cell, column);
           } else {
             return d.dataValue[index];
           }
         } else if (column.format) {
-          return column.format(d);
+          return column.format(d, column);
         } else {
           return d[column.id] || '-';
         }
@@ -733,9 +735,14 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeNested = function(div) {
-    var _this = this;
+    var appliedClasses,
+      _this = this;
+    d3.select(div.parentNode).classed('collapsible', false);
+    d3.select(div.parentNode).classed('expandable', false);
+    appliedClasses = d3.select(div.parentNode).attr('class');
     return d3.select(div.parentNode).attr('class', function(d) {
-      return _this.utils.nestedIcons(d);
+      appliedClasses += ' ' + _this.utils.nestedIcons(d);
+      return _.uniq(appliedClasses.split(' ')).join(' ');
     }).on('click', function(a, b, c) {
       return _this.events.nestedClick(_this, a, b, c);
     });
@@ -1363,8 +1370,6 @@ window.TableStakesLib.Core = (function() {
     if (!timeFrame) {
       return;
     }
-    this.unFilteredData = this.unFilteredData != null ? this.unFilteredData : _.clone(this.data());
-    this.data(this.unFilteredData);
     isZeroFilter = (_ref = _.find(this._columns, function(col) {
       return _this.utils.ourFunctor(col.filterZero);
     })) != null ? _ref.filterZero : void 0;
