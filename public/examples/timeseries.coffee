@@ -45,12 +45,14 @@ columns = [
   format: (d, column) -> '$'+d.dataValue
 ]
 
+aggregator = 'sum'
+
 grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .headRows('secondary')
   .parseFlatData(dataFromStriker, 'product_id')
-  .dataAggregate('sum')
+  .dataAggregate(aggregator)
   .render()
 
 sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo('#temp')
@@ -90,5 +92,42 @@ sliderTimeFrame.slider
     grid.columns(columns)
       .headRows('secondary')
       .parseFlatData(dataFromStriker, 'product_id')
-      .dataAggregate('sum')
+      .dataAggregate(aggregator)
       .render()
+
+summButton = $("<button class='btn btn-mini'>Summ aggregated data</button>")
+firstButton = $("<button class='btn btn-mini'>'First' of aggregated data</button>")
+lastButton = $("<button class='btn btn-mini'>'Last' of aggregated data</button>")
+buttonGroup = $("<div class='btn-group'></div>")
+buttonGroup.prepend summButton
+buttonGroup.prepend firstButton
+buttonGroup.prepend lastButton
+
+$("#temp").append buttonGroup
+
+summButton.click (e) ->
+  aggregator = 'sum'
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
+  e.stopPropagation()
+
+firstButton.click (e) ->
+  aggregator = 'first'
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
+  e.stopPropagation()
+
+lastButton.click (e) ->
+  aggregator = 'last'
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
+  e.stopPropagation()
