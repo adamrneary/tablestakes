@@ -228,7 +228,7 @@ class window.TableStakesLib.Events
     d3.event.stopPropagation()
 
   toggleBoolean: (node, d, _, unshift, column) ->
-    @_editHandler(d, column, val)
+    @_editHandler(d, column, not d[column.id])
     @core.update()
 
   selectClick: (node, d, _, unshift, column) ->
@@ -272,6 +272,10 @@ class window.TableStakesLib.Events
     self.lastTouch = now
 
   _editHandler: (row, column, newValue) ->
+    # Call onEdit if column is editable, but not contain 'timeSeries' attr
+    unless _.has(column, 'timeSeries')
+      return column.onEdit(row.id, column.id, newValue) if _.isFunction column.onEdit
+
     # Call onEdit function without changing anything if timeFrame have 12 months
     if column.timeSeries.length <= 12
       return column.onEdit(row.id, column.id, newValue) if _.isFunction column.onEdit
