@@ -276,19 +276,6 @@ class window.TableStakesLib.Events
     if column.timeSeries.length <= 12
       return column.onEdit(row.id, column.id, newValue) if _.isFunction column.onEdit
 
-    # Calculate 'groupper': 3 - for quarter; 12 - for year
-    else if 12 < column.timeSeries.length <= 36
-      groupper = 3
-    else
-      groupper = 12
-
-    # Calculate newValue. If string - pass to all months the same value
-    # if Int - divided by 3 (or 12)
-    if _.isNaN parseInt(newValue)
-      dividedValue = newValue
-    else
-      dividedValue = parseInt(newValue) / groupper
-
     # Prepare array of Unix timestamps to call onEdit function.
     # parse columnId (which is have format [firstPeriod]-[lastPeriod])
     [begin, end] = column.id.split('-')
@@ -296,6 +283,16 @@ class window.TableStakesLib.Events
     end = if _.isNaN(parseInt(end)) then undefined else parseInt(end)
     return unless begin and end
 
-    _.each _.filter(column.timeSeries, (periodUnix) -> begin <= periodUnix <= end), (periodUnix, i) ->
+    # Calculate 'groupper' - length of groupped months
+    filteredPeriod = _.filter(column.timeSeries, (periodUnix) -> begin <= periodUnix <= end)
+
+    # Calculate newValue. If string - pass to all months the same value
+    # if Int - divided by 'groupper'
+    if _.isNaN parseInt(newValue)
+      dividedValue = newValue
+    else
+      dividedValue = parseInt(newValue) / filteredPeriod.length
+
+    _.each filteredPeriod, (periodUnix, i) ->
       column.onEdit(row.id, periodUnix, dividedValue) if _.isFunction column.onEdit
     return
