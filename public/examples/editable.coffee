@@ -18,6 +18,7 @@ data = [
   type: "Snapshot / Historical"
 ,
   id: "Horizontal Grouped Bar"
+  editable: true
   type: "Snapshot"
 ,
   id: "Line and Bar Combo"
@@ -48,7 +49,7 @@ columns = [
   label: "Name"
   classes: "row-heading"
   isEditable: (d) ->
-    d.id.indexOf('Horizontal Grouped Bar') isnt -1
+    d.editable
   onEdit: editHandler
   format: (d) ->
     if d.id is '1' then "#{d.id} period" else d.id
