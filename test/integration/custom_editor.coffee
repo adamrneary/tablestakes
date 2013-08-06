@@ -31,7 +31,7 @@ scenario '#editors', 'Custom cell editors', ->
     @test.assertEval (() ->
       $('tr:nth-last-child(1) > td.editable:first-of-type').hasClass('active') is false),
       'does not become active on click'
-    @mouseEvent 'dblclick', 'tr:nth-last-child(1) > td.editable:first-of-type'
+    @mouseEvent 'dblclick', 'tr:nth-last-child(1) > td.editable:first-of-type div'
     @test.assertEval (() ->
       $('tr:nth-last-child(1) > td.editable:first-of-type').hasClass('active')),
       'become active on double click'

@@ -29,7 +29,7 @@ scenario '#timeseries', 'timeSeries table', ->
       $('tbody tr:last-of-type td:last-of-type').hasClass('editable')), 'cells have "editable" class'
 
   next 'becomes active on dblclick', ->
-    @mouseEvent('dblclick', 'tr:last-of-type > td.editable:last-of-type')
+    @mouseEvent('dblclick', 'tr:last-of-type > td.editable:last-of-type div')
     @test.assertEval -> $('tr:last-of-type > td.editable:last-of-type').hasClass('active')
 
 

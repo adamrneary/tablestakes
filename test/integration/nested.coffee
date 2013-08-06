@@ -16,7 +16,7 @@ scenario '#nested', 'nested rows', ->
     @click 'td.expandable'
 
     @test.assertExists 'td.collapsible:first-of-type'
-    @test.assertEval -> $('.indent3').length > 1
+    @test.assertEval -> $('.indent2').length > 1
     @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
   next 'folds first node and children hide', ->

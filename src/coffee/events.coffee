@@ -81,7 +81,7 @@ class window.TableStakesLib.Events
         d.changed = column.id
       unless val is d[d.activatedID]
         @_applyChangedState(d)
-        column.onEdit(d.id, column.id, val) if column.onEdit
+        @_editHandler(d, column, val)
       d.activatedID = null
       @core.update()
 
@@ -228,13 +228,13 @@ class window.TableStakesLib.Events
     d3.event.stopPropagation()
 
   toggleBoolean: (node, d, _, unshift, column) ->
-    column.onEdit(d.id, column.id, not d[column.id]) if column.onEdit
+    @_editHandler(d, column, not d[column.id])
     @core.update()
 
   selectClick: (node, d, _, unshift, column) ->
     val = d3.event.target.value
     unless val is d[column.id]
-      column.onEdit(d.id, column.id, val) if column.onEdit
+      @_editHandler(d, column, val)
     @core.update()
 
   buttonClick: (node, d, _, unshift, column) ->
@@ -270,3 +270,33 @@ class window.TableStakesLib.Events
       @editableClick(self, a, b, c, column)
 
     self.lastTouch = now
+
+  _editHandler: (row, column, newValue) ->
+    # Call onEdit if column is editable, but not contain 'timeSeries' attr
+    unless _.has(column, 'timeSeries')
+      return column.onEdit(row.id, column.id, newValue) if _.isFunction column.onEdit
+
+    # Call onEdit function without changing anything if timeFrame have 12 months
+    if column.timeSeries.length <= 12
+      return column.onEdit(row.id, column.id, newValue) if _.isFunction column.onEdit
+
+    # Prepare array of Unix timestamps to call onEdit function.
+    # parse columnId (which is have format [firstPeriod]-[lastPeriod])
+    [begin, end] = column.id.split('-')
+    begin = if _.isNaN(parseInt(begin)) then undefined else parseInt(begin)
+    end = if _.isNaN(parseInt(end)) then undefined else parseInt(end)
+    return unless begin and end
+
+    # Calculate 'groupper' - length of groupped months
+    filteredPeriod = _.filter(column.timeSeries, (periodUnix) -> begin <= periodUnix <= end)
+
+    # Calculate newValue. If string - pass to all months the same value
+    # if Int - divided by 'groupper'
+    if _.isNaN parseInt(newValue)
+      dividedValue = newValue
+    else
+      dividedValue = parseInt(newValue) / filteredPeriod.length
+
+    _.each filteredPeriod, (periodUnix, i) ->
+      column.onEdit(row.id, periodUnix, dividedValue) if _.isFunction column.onEdit
+    return
