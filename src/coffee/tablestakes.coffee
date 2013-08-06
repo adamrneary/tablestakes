@@ -441,9 +441,9 @@ class window.TableStakes
             _period.push [val,_.last(_slicePeriod.slice(j,j+groupper))].join '-'
             _period_id.push [_.first(_slicePeriodId.slice(j,j+groupper)),_.last(_slicePeriodId.slice(j,j+groupper))].join '-'
             switch flag
-              when 'first' then _dataValue.push _.first _sliceValue
-              when 'last' then _dataValue.push _.last _sliceValue
-              else
+              when 'first' then _dataValue.push _.first _sliceValue.slice(j,j+groupper)
+              when 'last' then _dataValue.push _.last _sliceValue.slice(j,j+groupper)
+              else _dataValue.push '-'
         else
           for val, j in availableTimeFrame by groupper
             _period.push [val,_.last availableTimeFrame[j..j+groupper]].join '-'
