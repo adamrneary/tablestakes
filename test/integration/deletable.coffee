@@ -12,5 +12,5 @@ scenario '#deleteable', 'deletable rows', ->
     @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
   next 'removes "Simple Line" on user delete', ->
-    @click 'table.tablestakes tr:nth-child(3) td.deletable'
+    @click 'table.tablestakes tr:nth-child(3) td.deletable div'
     @test.assertSelectorDoesntHaveText 'table.tablestakes tr', 'Simple'

@@ -27,7 +27,11 @@ editHandler = (id, field, newValue) ->
   newValue = if _.isNaN(parseInt newValue) then newValue else parseInt newValue
   obj = _.filter(dataFromStriker, (obj) -> obj.periodUnix is field)[id]
   dataFromStriker[_.indexOf dataFromStriker, obj].actual = newValue
-  grid.parseFlatData(dataFromStriker, 'product_id').render()
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
 
 columns = [
   id: "id"
@@ -45,12 +49,14 @@ columns = [
   format: (d, column) -> '$'+d.dataValue
 ]
 
+aggregator = 'sum'
+
 grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .headRows('secondary')
   .parseFlatData(dataFromStriker, 'product_id')
-  .dataAggregate('sum')
+  .dataAggregate(aggregator)
   .render()
 
 sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo('#temp')
@@ -75,12 +81,6 @@ sliderTimeFrame.slider
     _.each columns, (col) ->
       if col.timeSeries?
         col.timeSeries = availableTimeFrame
-        if availableTimeFrame.length > 12
-          col.isEditable = false
-          col.onEdit = null
-        else
-          col.isEditable = true
-          col.onEdit = editHandler
 
     labelTimeFrame.text(
       "Available Time Frame:
@@ -90,5 +90,42 @@ sliderTimeFrame.slider
     grid.columns(columns)
       .headRows('secondary')
       .parseFlatData(dataFromStriker, 'product_id')
-      .dataAggregate('sum')
+      .dataAggregate(aggregator)
       .render()
+
+summButton = $("<button class='btn btn-mini'>Summ aggregated data</button>")
+firstButton = $("<button class='btn btn-mini'>'First' of aggregated data</button>")
+lastButton = $("<button class='btn btn-mini'>'Last' of aggregated data</button>")
+buttonGroup = $("<div class='btn-group'></div>")
+buttonGroup.append summButton
+buttonGroup.append firstButton
+buttonGroup.append lastButton
+
+$("#temp").append buttonGroup
+
+summButton.click (e) ->
+  aggregator = 'sum'
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
+  e.stopPropagation()
+
+firstButton.click (e) ->
+  aggregator = 'first'
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
+  e.stopPropagation()
+
+lastButton.click (e) ->
+  aggregator = 'last'
+  grid.columns(columns)
+    .headRows('secondary')
+    .parseFlatData(dataFromStriker, 'product_id')
+    .dataAggregate(aggregator)
+    .render()
+  e.stopPropagation()

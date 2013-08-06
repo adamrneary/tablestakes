@@ -355,13 +355,14 @@ class window.TableStakes
   dataAggregate: (aggregator) ->
     # Function of data aggregation:
     # 1. summ
-    # 2. avarage                - future compatibility
-    # 3. max/min                - future compatibility
-    # 4. last/first             - future compatibility
+    # 2. first/last
+    # 3. avarage                - future compatibility
+    # 4. max/min                - future compatibility
     # 5. user defined function  - future compatibility
     self = @
     aggregator = [aggregator] unless _.isArray aggregator
 
+    # Aggregator functions
     summ = (data, availableTimeFrame) ->
       _data = []
 
@@ -413,6 +414,53 @@ class window.TableStakes
 
       _data
 
+    first_last = (flag, data, availableTimeFrame) ->
+      _data = []
+
+      if availableTimeFrame.length <= 12
+        return data
+      else if 12 < availableTimeFrame.length <= 36
+        groupper = 3
+      else
+        groupper = 12
+
+      _.each data, (row, i) ->
+        _period = []
+        _period_id = []
+        _dataValue = []
+
+        start = _.indexOf row.period, _.first availableTimeFrame
+        end = _.indexOf row.period, _.last availableTimeFrame
+
+        unless start is -1 or end is -1
+          _slicePeriod = if row.period.length then row.period.slice(start, end+1) else []
+          _slicePeriodId = if row.period_id.length then row.period_id.slice(start, end+1) else []
+          _sliceValue = if row.dataValue.length then row.dataValue.slice(start, end+1) else []
+
+          for val, j in _slicePeriod by groupper
+            _period.push [val,_.last(_slicePeriod.slice(j,j+groupper))].join '-'
+            _period_id.push [_.first(_slicePeriodId.slice(j,j+groupper)),_.last(_slicePeriodId.slice(j,j+groupper))].join '-'
+            switch flag
+              when 'first' then _dataValue.push _.first _sliceValue.slice(j,j+groupper)
+              when 'last' then _dataValue.push _.last _sliceValue.slice(j,j+groupper)
+              else _dataValue.push '-'
+        else
+          for val, j in availableTimeFrame by groupper
+            _period.push [val,_.last availableTimeFrame[j..j+groupper]].join '-'
+            _period_id.push [_.first(row.period_id.slice(j,j+groupper)),_.last(row.period_id.slice(j,j+groupper))].join '-'
+            _dataValue.push '-'
+
+        _row = _.clone(row)
+        _row.period_id = _period_id
+        _row.period = _period
+        _row.dataValue = _dataValue
+
+        _data.push _row
+
+      _data
+
+    # End of Aggreagtor functions
+
     timeFrame = _.find(@_columns, (obj) -> obj.timeSeries?).timeSeries
     return unless timeFrame
 
@@ -430,6 +478,8 @@ class window.TableStakes
         data = summ(data, timeFrame)
       else if filter is 'zero'
         data = filterZero(data, timeFrame)
+      else if filter in ['first', 'last']
+        data = first_last(filter, data, timeFrame)
 
       self.data data
 
