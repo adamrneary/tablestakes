@@ -11,12 +11,12 @@ scenario '#sortable', 'sortable rows', ->
   next 'contains "a" in one row', ->
     @test.assertSelectorHasText 'table.tablestakes tr', 'a'
 
-  next 'contains "1" in first row after asc sort', ->
+  next 'contains "a" in first row after asc sort', ->
     @mouseEvent 'click', 'th.sortable:first-of-type'
     @test.assertEval ->
-      $('tr:visible td:first').text() is "1"
+      $('tr:visible td:first').text() is "a"
 
-  next 'contains "z" in first row after desc sort', ->
+  next 'contains "j" in first row after desc sort', ->
     @mouseEvent 'click', 'th.sortable:first-of-type'
     @test.assertEval ->
-      $('tr:visible td:first').text() is "z"
+      $('tr:visible td:first').text() is "j"

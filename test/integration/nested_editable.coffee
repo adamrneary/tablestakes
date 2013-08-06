@@ -16,7 +16,7 @@ scenario '#nested_editable', 'nested rows', ->
     @click 'td.expandable'
 
     @test.assertExists 'td.collapsible:first-of-type'
-    @test.assertEval -> $('.indent3').length > 1
+    @test.assertEval -> $('.indent2').length > 1
     @test.assertSelectorHasText 'table.tablestakes tr', 'Simple'
 
   next 'fold first node and children hide', ->
@@ -31,16 +31,16 @@ scenario '#nested_editable', 'nested rows', ->
     @test.assertEval -> $('tr:nth-last-child(1) > td.editable:first-of-type').hasClass('active') is false
 
   next 'becomes active on double click', ->
-    @mouseEvent 'dblclick', 'tr:nth-last-child(1) > td.editable:first-of-type'
+    @mouseEvent 'dblclick', 'tr:nth-last-child(1) > td.editable:first-of-type div'
     @test.assertEval -> $('tr:nth-last-child(1) > td.editable:first-of-type').hasClass('active')
 
   next 'records change to editable cell', ->
     @test.assertEval (() ->
-      $('td.editable.active').text('Test Text String')
+      $('td.editable.active div').text('Test Text String')
       $('tr:nth-last-child(1) > td.editable:first-of-type').text() is 'Test Text String'),
       'Text of active element becomes text of selected element'
     @test.assertEval (() ->
-      $('td.editable.active').blur()
+      $('td.editable.active div').blur()
       $('tr:nth-last-child(1) > td.editable:first-of-type').hasClass('active') is false),
       'Editable element no more active'
     @test.assertSelectorHasText 'tr:nth-last-child(1) > td.editable:first-of-type', 'Test Text String',
