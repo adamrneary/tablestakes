@@ -770,14 +770,13 @@ table.tablestakes {
             cursor: pointer;
             overflow: hidden;
           }
+          &:focus {
+            outline: none;
+          }
         }
 
         &:hover {
           background: $cell-editable-active-background;
-        }
-
-        &:focus {
-          outline: none;
         }
       }
 
