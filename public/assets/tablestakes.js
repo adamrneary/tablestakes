@@ -341,7 +341,23 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype._editHandler = function(row, column, newValue) {
-    var begin, dividedValue, end, filteredPeriod, _ref;
+    var begin, dividedValue, end, filteredPeriod, parsePercent, _ref;
+    parsePercent = function(value) {
+      var parsedPercent;
+      if (!_.isString(value)) {
+        return value;
+      }
+      if (_.last(value) !== '%') {
+        return value;
+      }
+      parsedPercent = parseFloat(value.replace('%', ''));
+      if (_.isNaN(parsedPercent)) {
+        return value;
+      } else {
+        return parsedPercent / 100.0;
+      }
+    };
+    newValue = parsePercent(newValue);
     if (!_.has(column, 'timeSeries')) {
       if (_.isFunction(column.onEdit)) {
         return column.onEdit(row.id, column.id, newValue);
@@ -361,10 +377,10 @@ window.TableStakesLib.Events = (function() {
     filteredPeriod = _.filter(column.timeSeries, function(periodUnix) {
       return (begin <= periodUnix && periodUnix <= end);
     });
-    if (_.isNaN(parseInt(newValue))) {
+    if (_.isNaN(parseFloat(newValue))) {
       dividedValue = newValue;
     } else {
-      dividedValue = parseInt(newValue) / filteredPeriod.length;
+      dividedValue = parseFloat(newValue) / filteredPeriod.length;
     }
     _.each(filteredPeriod, function(periodUnix, i) {
       if (_.isFunction(column.onEdit)) {
@@ -817,7 +833,11 @@ window.TableStakesLib.Core = (function() {
       if (_.last(formattedValue) !== '%') {
         return value;
       }
-      return "" + (value * 100.0) + "%";
+      if (_.isNumber(value)) {
+        return "" + (value * 100) + "%";
+      } else {
+        return value;
+      }
     };
     _text = function(d) {
       var cell, index, retVal, value, _ref;

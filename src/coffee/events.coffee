@@ -272,6 +272,15 @@ class window.TableStakesLib.Events
     self.lastTouch = now
 
   _editHandler: (row, column, newValue) ->
+    parsePercent = (value) ->
+      return value unless _.isString(value)
+      return value unless _.last(value) is '%'
+
+      parsedPercent = parseFloat value.replace('%', '')
+      if _.isNaN(parsedPercent) then value else parsedPercent/100.0
+
+    newValue = parsePercent newValue
+
     # Call onEdit if column is editable, but not contain 'timeSeries' attr
     unless _.has(column, 'timeSeries')
       return column.onEdit(row.id, column.id, newValue) if _.isFunction column.onEdit
@@ -292,10 +301,10 @@ class window.TableStakesLib.Events
 
     # Calculate newValue. If string - pass to all months the same value
     # if Int - divided by 'groupper'
-    if _.isNaN parseInt(newValue)
+    if _.isNaN parseFloat(newValue)
       dividedValue = newValue
     else
-      dividedValue = parseInt(newValue) / filteredPeriod.length
+      dividedValue = parseFloat(newValue) / filteredPeriod.length
 
     _.each filteredPeriod, (periodUnix, i) ->
       column.onEdit(row.id, periodUnix, dividedValue) if _.isFunction column.onEdit
