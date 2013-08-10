@@ -380,7 +380,10 @@ class window.TableStakesLib.Core
       return value unless _.isString(formattedValue)
       return value unless _.last(formattedValue) is '%'
 
-      return "#{value*100.0}%"
+      if _.isNumber(value)
+        return "#{value*100}%"
+      else
+        return value
 
     _text = (d) ->
       [value, retVal] = if column.timeSeries? and d.period? and d.dataValue?
