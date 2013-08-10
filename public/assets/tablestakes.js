@@ -120,9 +120,7 @@ window.TableStakesLib.Events = (function() {
       }
       if (val !== d[d.activatedID]) {
         this._applyChangedState(d);
-        if (column.onEdit) {
-          column.onEdit(d.id, column.id, val);
-        }
+        this._editHandler(d, column, val);
       }
       d.activatedID = null;
       return this.core.update();
@@ -296,9 +294,7 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype.toggleBoolean = function(node, d, _, unshift, column) {
-    if (column.onEdit) {
-      column.onEdit(d.id, column.id, !d[column.id]);
-    }
+    this._editHandler(d, column, !d[column.id]);
     return this.core.update();
   };
 
@@ -306,9 +302,7 @@ window.TableStakesLib.Events = (function() {
     var val;
     val = d3.event.target.value;
     if (val !== d[column.id]) {
-      if (column.onEdit) {
-        column.onEdit(d.id, column.id, val);
-      }
+      this._editHandler(d, column, val);
     }
     return this.core.update();
   };
@@ -344,6 +338,39 @@ window.TableStakesLib.Events = (function() {
       this.editableClick(self, a, b, c, column);
     }
     return self.lastTouch = now;
+  };
+
+  Events.prototype._editHandler = function(row, column, newValue) {
+    var begin, dividedValue, end, filteredPeriod, _ref;
+    if (!_.has(column, 'timeSeries')) {
+      if (_.isFunction(column.onEdit)) {
+        return column.onEdit(row.id, column.id, newValue);
+      }
+    }
+    if (column.timeSeries.length <= 12) {
+      if (_.isFunction(column.onEdit)) {
+        return column.onEdit(row.id, column.id, newValue);
+      }
+    }
+    _ref = column.id.split('-'), begin = _ref[0], end = _ref[1];
+    begin = _.isNaN(parseInt(begin)) ? void 0 : parseInt(begin);
+    end = _.isNaN(parseInt(end)) ? void 0 : parseInt(end);
+    if (!(begin && end)) {
+      return;
+    }
+    filteredPeriod = _.filter(column.timeSeries, function(periodUnix) {
+      return (begin <= periodUnix && periodUnix <= end);
+    });
+    if (_.isNaN(parseInt(newValue))) {
+      dividedValue = newValue;
+    } else {
+      dividedValue = parseInt(newValue) / filteredPeriod.length;
+    }
+    _.each(filteredPeriod, function(periodUnix, i) {
+      if (_.isFunction(column.onEdit)) {
+        return column.onEdit(row.id, periodUnix, dividedValue);
+      }
+    });
   };
 
   return Events;
@@ -781,14 +808,21 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeActive = function(d, div, column) {
-    var self, _text;
+    var percentFormat, self, _text;
     self = this;
-    _text = function(d) {
-      if (_.has(column, 'timeSeries')) {
-        return d.dataValue[_.indexOf(d.period, column.id)] || '-';
-      } else {
-        return d[column.id] || '-';
+    percentFormat = function(value, formattedValue) {
+      if (!_.isString(formattedValue)) {
+        return value;
       }
+      if (_.last(formattedValue) !== '%') {
+        return value;
+      }
+      return "" + (value * 100.0) + "%";
+    };
+    _text = function(d) {
+      var cell, index, retVal, value, _ref;
+      _ref = (column.timeSeries != null) && (d.period != null) && (d.dataValue != null) ? (index = d.period.indexOf(column.id), column.format ? (cell = _.clone(d), cell.dataValue = d.dataValue[index], [cell.dataValue, column.format(cell, column)]) : [d.dataValue[index], d.dataValue[index]]) : column.format ? [d[column.id], column.format(d, column)] : [d[column.id], d[column.id] || '-'], value = _ref[0], retVal = _ref[1];
+      return percentFormat(value, retVal);
     };
     d3.select(div.parentNode).classed('active', true);
     return d3.select(div).text(_text).attr('contentEditable', true).on('keydown', function(d) {
@@ -1309,7 +1343,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   TableStakes.prototype.dataAggregate = function(aggregator) {
-    var data, isSorted, isZeroFilter, self, summ, timeFrame, _ref, _ref1,
+    var data, first_last, isSorted, isZeroFilter, self, summ, timeFrame, _ref, _ref1,
       _this = this;
     self = this;
     if (!_.isArray(aggregator)) {
@@ -1360,6 +1394,68 @@ window.TableStakesLib.Core = (function() {
         _row.period_id = _period_id;
         _row.period = _period;
         _row.dataValue = _dataValue;
+        if (_row['values'] != null) {
+          _row['values'] = summ(_row['values'], availableTimeFrame);
+        } else if (_row['_values'] != null) {
+          _row['_values'] = summ(_row['_values'], availableTimeFrame);
+        }
+        return _data.push(_row);
+      });
+      return _data;
+    };
+    first_last = function(flag, data, availableTimeFrame) {
+      var groupper, _data, _ref;
+      _data = [];
+      if (availableTimeFrame.length <= 12) {
+        return data;
+      } else if ((12 < (_ref = availableTimeFrame.length) && _ref <= 36)) {
+        groupper = 3;
+      } else {
+        groupper = 12;
+      }
+      _.each(data, function(row, i) {
+        var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _period_id, _row, _slicePeriod, _slicePeriodId, _sliceValue;
+        _period = [];
+        _period_id = [];
+        _dataValue = [];
+        start = _.indexOf(row.period, _.first(availableTimeFrame));
+        end = _.indexOf(row.period, _.last(availableTimeFrame));
+        if (!(start === -1 || end === -1)) {
+          _slicePeriod = row.period.length ? row.period.slice(start, end + 1) : [];
+          _slicePeriodId = row.period_id.length ? row.period_id.slice(start, end + 1) : [];
+          _sliceValue = row.dataValue.length ? row.dataValue.slice(start, end + 1) : [];
+          for ((groupper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); groupper > 0 ? _i < _len : _i >= 0; j = _i += groupper) {
+            val = _slicePeriod[j];
+            _period.push([val, _.last(_slicePeriod.slice(j, j + groupper))].join('-'));
+            _period_id.push([_.first(_slicePeriodId.slice(j, j + groupper)), _.last(_slicePeriodId.slice(j, j + groupper))].join('-'));
+            switch (flag) {
+              case 'first':
+                _dataValue.push(_.first(_sliceValue.slice(j, j + groupper)));
+                break;
+              case 'last':
+                _dataValue.push(_.last(_sliceValue.slice(j, j + groupper)));
+                break;
+              default:
+                _dataValue.push('-');
+            }
+          }
+        } else {
+          for ((groupper > 0 ? (j = _j = 0, _len1 = availableTimeFrame.length) : j = _j = availableTimeFrame.length - 1); groupper > 0 ? _j < _len1 : _j >= 0; j = _j += groupper) {
+            val = availableTimeFrame[j];
+            _period.push([val, _.last(availableTimeFrame.slice(j, +(j + groupper) + 1 || 9e9))].join('-'));
+            _period_id.push([_.first(row.period_id.slice(j, j + groupper)), _.last(row.period_id.slice(j, j + groupper))].join('-'));
+            _dataValue.push('-');
+          }
+        }
+        _row = _.clone(row);
+        _row.period_id = _period_id;
+        _row.period = _period;
+        _row.dataValue = _dataValue;
+        if (_row['values'] != null) {
+          _row['values'] = first_last(_row['values'], availableTimeFrame);
+        } else if (_row['_values'] != null) {
+          _row['_values'] = first_last(_row['_values'], availableTimeFrame);
+        }
         return _data.push(_row);
       });
       return _data;
@@ -1390,6 +1486,8 @@ window.TableStakesLib.Core = (function() {
         data = summ(data, timeFrame);
       } else if (filter === 'zero') {
         data = filterZero(data, timeFrame);
+      } else if (filter === 'first' || filter === 'last') {
+        data = first_last(filter, data, timeFrame);
       }
       return self.data(data);
     });

@@ -376,11 +376,26 @@ class window.TableStakesLib.Core
   _makeActive: (d, div, column) ->
     self = @
 
+    percentFormat = (value, formattedValue) ->
+      return value unless _.isString(formattedValue)
+      return value unless _.last(formattedValue) is '%'
+
+      return "#{value*100.0}%"
+
     _text = (d) ->
-      if _.has(column, 'timeSeries')
-        d.dataValue[_.indexOf(d.period, column.id)] or '-'
+      [value, retVal] = if column.timeSeries? and d.period? and d.dataValue?
+        index = d.period.indexOf(column.id)
+        if column.format
+          cell = _.clone d
+          cell.dataValue = d.dataValue[index]
+          [cell.dataValue, column.format cell, column]
+        else
+          [d.dataValue[index], d.dataValue[index]]
+      else if column.format
+        [d[column.id], column.format d, column]
       else
-        d[column.id] or '-'
+        [d[column.id], d[column.id] or '-']
+      percentFormat(value, retVal)
 
     # TODO: handle .calendar input
     d3.select(div.parentNode).classed('active', true)
