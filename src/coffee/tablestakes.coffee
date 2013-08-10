@@ -410,6 +410,11 @@ class window.TableStakes
         _row.period = _period
         _row.dataValue = _dataValue
 
+        if _row['values']?
+          _row['values'] = summ(_row['values'], availableTimeFrame)
+        else if _row['_values']?
+          _row['_values'] = summ(_row['_values'], availableTimeFrame)
+
         _data.push _row
 
       _data
@@ -454,6 +459,11 @@ class window.TableStakes
         _row.period_id = _period_id
         _row.period = _period
         _row.dataValue = _dataValue
+
+        if _row['values']?
+          _row['values'] = first_last(_row['values'], availableTimeFrame)
+        else if _row['_values']?
+          _row['_values'] = first_last(_row['_values'], availableTimeFrame)
 
         _data.push _row
 
