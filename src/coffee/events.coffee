@@ -274,19 +274,17 @@ class window.TableStakesLib.Events
   _editHandler: (row, column, newValue) ->
     parseInput = (value) ->
       return value unless _.isString(value)
-      parsedValue = value
-      groupDelimiter = ','
-      pullOutSymbols = ['\\$', '%', ' ', groupDelimiter]
+      parsedValue = numeral().unformat(value)
+      if _.first(value) is '$' or _.last(value) is '%'
+        return parsedValue
 
-      # Pull out '$', [digit_group_delimiter], '%'
-      for symbol in pullOutSymbols
-        parsedValue = parsedValue.replace(RegExp(symbol, "gi"), "")
-      parsedValue = parseFloat parsedValue
-
-      # parse '%' at the end
-      if _.last(value) is '%'
-        if _.isNaN(parsedValue) then return value else return parsedValue/100.0
-      if _.isNaN(parsedValue) then return value else return parsedValue
+      if parsedValue is 0 #probably something went wrong
+        if value is '0'
+          parsedValue
+        else
+          value
+      else
+        parsedValue
 
     newValue = parseInput newValue
 
