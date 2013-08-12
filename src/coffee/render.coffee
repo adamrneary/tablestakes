@@ -376,29 +376,34 @@ class window.TableStakesLib.Core
   _makeActive: (d, div, column) ->
     self = @
 
-    percentFormat = (value, formattedValue) ->
-      return value unless _.isString(formattedValue)
-      return value unless _.last(formattedValue) is '%'
-
-      if _.isNumber(value)
-        return "#{value*100}%"
-      else
-        return value
-
-    _text = (d) ->
-      [value, retVal] = if column.timeSeries? and d.period? and d.dataValue?
-        index = d.period.indexOf(column.id)
-        if column.format
+    getValue = (d) ->
+      if column.timeSeries
+        if d.dataValue and d.period
+          index = d.period.indexOf(column.id)
           cell = _.clone d
           cell.dataValue = d.dataValue[index]
-          [cell.dataValue, column.format cell, column]
+          cell
         else
-          [d.dataValue[index], d.dataValue[index]]
-      else if column.format
-        [d[column.id], column.format d, column]
+          ""
       else
-        [d[column.id], d[column.id] or '-']
-      percentFormat(value, retVal)
+        d
+
+    getFormattedValue = (d) ->
+      value = d.dataValue || d[column.id]
+      formattedValue = if column.format
+        column.format(d, column)
+      else
+        if column.timeSeries then d.dataValue else d[column.id]
+
+      # parse formattedValue for numeral().format('$0.[00]a')
+      if _.last(formattedValue) in ["k", "b", "m", "t", "K", "B", "M", "T"]
+        value
+      else
+        formattedValue
+
+    _text = (d) ->
+      value = getValue(d)
+      getFormattedValue(value)
 
     # TODO: handle .calendar input
     d3.select(div.parentNode).classed('active', true)
