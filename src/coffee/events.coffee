@@ -272,14 +272,27 @@ class window.TableStakesLib.Events
     self.lastTouch = now
 
   _editHandler: (row, column, newValue) ->
-    parsePercent = (value) ->
+    parseInput = (value) ->
       return value unless _.isString(value)
-      return value unless _.last(value) is '%'
+      parsedValue = value
 
-      parsedPercent = parseFloat value.replace('%', '')
-      if _.isNaN(parsedPercent) then value else parsedPercent/100.0
+      # parse '$' at the begining
+      if _.first(parsedValue) is '$'
+        groupDelimiter = ','
+        pullOutSymbols = ['\\$', ' ', groupDelimiter]
+        # Pull out '$', [digit_group_delimiter]
+        for symbol in pullOutSymbols
+          parsedValue = parsedValue.replace(RegExp(symbol, "gi"), "")
+        parsedValue = parseFloat parsedValue
+        if _.isNaN(parsedValue) then return value else return parsedValue
 
-    newValue = parsePercent newValue
+      # parse '%' at the end
+      if _.last(value) is '%'
+        parsedValue = parseFloat parsedValue.replace(RegExp("%", "gi"), '')
+        if _.isNaN(parsedValue) then return value else return parsedValue/100.0
+      parsedValue
+
+    newValue = parseInput newValue
 
     # Call onEdit if column is editable, but not contain 'timeSeries' attr
     unless _.has(column, 'timeSeries')
