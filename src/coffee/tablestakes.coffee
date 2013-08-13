@@ -354,7 +354,7 @@ class window.TableStakes
 
   dataAggregate: (aggregator) ->
     # Function of data aggregation:
-    # 1. summ
+    # 1. sum
     # 2. first/last
     # 3. avarage                - future compatibility
     # 4. max/min                - future compatibility
@@ -363,7 +363,7 @@ class window.TableStakes
     aggregator = [aggregator] unless _.isArray aggregator
 
     # Aggregator functions
-    summ = (data, availableTimeFrame) ->
+    sum = (data, availableTimeFrame) ->
       _data = []
 
       if availableTimeFrame.length <= 12
@@ -411,9 +411,9 @@ class window.TableStakes
         _row.dataValue = _dataValue
 
         if _row['values']?
-          _row['values'] = summ(_row['values'], availableTimeFrame)
+          _row['values'] = sum(_row['values'], availableTimeFrame)
         else if _row['_values']?
-          _row['_values'] = summ(_row['_values'], availableTimeFrame)
+          _row['_values'] = sum(_row['_values'], availableTimeFrame)
 
         _data.push _row
 
@@ -485,7 +485,7 @@ class window.TableStakes
       if _.isFunction(filter)
         data = filter(data, timeFrame)
       else if filter is 'sum'
-        data = summ(data, timeFrame)
+        data = sum(data, timeFrame)
       else if filter is 'zero'
         data = filterZero(data, timeFrame)
       else if filter in ['first', 'last']
@@ -496,6 +496,11 @@ class window.TableStakes
     @
 
   # builds getter/setter methods (initialized with defaults)
+  #
+  # for example, if the hash includes {isSortable: false} then:
+  #   1. you get @_isSortable as an internal variable
+  #   2. you get @isSortable() as an external getter method
+  #   3. you get @isSortable(true) as an external setter method
   _synthesize: (hash) ->
     _.each hash, (value, key) =>
       @['_' + key] = value
