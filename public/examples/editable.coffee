@@ -38,6 +38,12 @@ data = [
 ,
   id: "1"
   type: "1"
+,
+  id: "Percentage formatting"
+  type: 0.47
+,
+  id: "Numeral formatting"
+  type: 142857
 ]
 
 editHandler = (id, field, newValue) ->
@@ -59,7 +65,11 @@ columns = [
   isEditable: true
   onEdit: editHandler
   format: (d)->
-    if d.type is '1' then "#{d.type} period" else d.type
+#    if d.type is '1' then "#{d.type} period" else d.type
+    switch d.id
+      when "Percentage formatting" then numeral(d.type).format("0.[0]%")
+      when "Numeral formatting" then numeral(d.type).format("$0.[00]a")
+      else d.type
 ]
 
 grid = new window.TableStakes()
