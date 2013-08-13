@@ -347,11 +347,11 @@ class window.TableStakesLib.Events
     end = if _.isNaN(parseInt(end)) then undefined else parseInt(end)
     return unless begin and end
 
-    # Calculate 'groupper' - length of groupped months
+    # Calculate 'grouper' - length of groupped months
     filteredPeriod = _.filter(column.timeSeries, (periodUnix) -> begin <= periodUnix <= end)
 
     # Calculate newValue. If string - pass to all months the same value
-    # if Int - divided by 'groupper'
+    # if Int - divided by 'grouper'
     if _.isNaN parseFloat(newValue)
       dividedValue = newValue
     else

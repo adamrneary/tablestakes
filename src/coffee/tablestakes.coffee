@@ -239,9 +239,9 @@ class window.TableStakes
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
         else if 12 < column.timeSeries.length <= 36
-          groupper = 3
-          for item, i in column.timeSeries by groupper
-            grouppedItems = _.first(column.timeSeries.slice(i), groupper)
+          grouper = 3
+          for item, i in column.timeSeries by grouper
+            grouppedItems = _.first(column.timeSeries.slice(i), grouper)
             _column = _.clone column
             _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
             if grouppedItems.length > 1
@@ -262,9 +262,9 @@ class window.TableStakes
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
         else
-          groupper = 12
-          for item, i in column.timeSeries by groupper
-            grouppedItems = _.first(column.timeSeries.slice(i), groupper)
+          grouper = 12
+          for item, i in column.timeSeries by grouper
+            grouppedItems = _.first(column.timeSeries.slice(i), grouper)
             _column = _.clone column
             _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
             if new Date(_.first(grouppedItems)).getMonth() is 0
@@ -369,9 +369,9 @@ class window.TableStakes
       if availableTimeFrame.length <= 12
         return data
       else if 12 < availableTimeFrame.length <= 36
-        groupper = 3
+        grouper = 3
       else
-        groupper = 12
+        grouper = 12
 
       _.each data, (row, i) ->
 #        unless row.period? and row.period.length
@@ -387,11 +387,11 @@ class window.TableStakes
           _slicePeriod = if row.period.length then row.period.slice(start, end+1) else []
           _slicePeriodId = if row.period_id.length then row.period_id.slice(start, end+1) else []
           _sliceValue = if row.dataValue.length then row.dataValue.slice(start, end+1) else []
-          for val, j in _slicePeriod by groupper
-            _period.push [val,_.last(_slicePeriod.slice(j,j+groupper))].join '-'
-            _period_id.push [_.first(_slicePeriodId.slice(j,j+groupper)),_.last(_slicePeriodId.slice(j,j+groupper))].join '-'
+          for val, j in _slicePeriod by grouper
+            _period.push [val,_.last(_slicePeriod.slice(j,j+grouper))].join '-'
+            _period_id.push [_.first(_slicePeriodId.slice(j,j+grouper)),_.last(_slicePeriodId.slice(j,j+grouper))].join '-'
             _dataValue.push _.reduce(
-              _sliceValue.slice(j, j+groupper),
+              _sliceValue.slice(j, j+grouper),
             (memo, num) ->
               if _.isNumber(num) and _.isNumber(memo)
                 memo+num
@@ -400,9 +400,9 @@ class window.TableStakes
             , 0
             )
         else
-          for val, j in availableTimeFrame by groupper
-            _period.push [val,_.last availableTimeFrame[j..j+groupper]].join '-'
-            _period_id.push [_.first(row.period_id.slice(j,j+groupper)),_.last(row.period_id.slice(j,j+groupper))].join '-'
+          for val, j in availableTimeFrame by grouper
+            _period.push [val,_.last availableTimeFrame[j..j+grouper]].join '-'
+            _period_id.push [_.first(row.period_id.slice(j,j+grouper)),_.last(row.period_id.slice(j,j+grouper))].join '-'
             _dataValue.push '-'
 
         _row = _.clone(row)
@@ -425,9 +425,9 @@ class window.TableStakes
       if availableTimeFrame.length <= 12
         return data
       else if 12 < availableTimeFrame.length <= 36
-        groupper = 3
+        grouper = 3
       else
-        groupper = 12
+        grouper = 12
 
       _.each data, (row, i) ->
         _period = []
@@ -442,17 +442,17 @@ class window.TableStakes
           _slicePeriodId = if row.period_id.length then row.period_id.slice(start, end+1) else []
           _sliceValue = if row.dataValue.length then row.dataValue.slice(start, end+1) else []
 
-          for val, j in _slicePeriod by groupper
-            _period.push [val,_.last(_slicePeriod.slice(j,j+groupper))].join '-'
-            _period_id.push [_.first(_slicePeriodId.slice(j,j+groupper)),_.last(_slicePeriodId.slice(j,j+groupper))].join '-'
+          for val, j in _slicePeriod by grouper
+            _period.push [val,_.last(_slicePeriod.slice(j,j+grouper))].join '-'
+            _period_id.push [_.first(_slicePeriodId.slice(j,j+grouper)),_.last(_slicePeriodId.slice(j,j+grouper))].join '-'
             switch flag
-              when 'first' then _dataValue.push _.first _sliceValue.slice(j,j+groupper)
-              when 'last' then _dataValue.push _.last _sliceValue.slice(j,j+groupper)
+              when 'first' then _dataValue.push _.first _sliceValue.slice(j,j+grouper)
+              when 'last' then _dataValue.push _.last _sliceValue.slice(j,j+grouper)
               else _dataValue.push '-'
         else
-          for val, j in availableTimeFrame by groupper
-            _period.push [val,_.last availableTimeFrame[j..j+groupper]].join '-'
-            _period_id.push [_.first(row.period_id.slice(j,j+groupper)),_.last(row.period_id.slice(j,j+groupper))].join '-'
+          for val, j in availableTimeFrame by grouper
+            _period.push [val,_.last availableTimeFrame[j..j+grouper]].join '-'
+            _period_id.push [_.first(row.period_id.slice(j,j+grouper)),_.last(row.period_id.slice(j,j+grouper))].join '-'
             _dataValue.push '-'
 
         _row = _.clone(row)
