@@ -24,6 +24,9 @@ class window.TableStakes
     bottom: 0
     left: 0
 
+  # Constructor, getter, and setter methods
+  # ---------------------------------------
+
   constructor: (options) ->
     @core = new window.TableStakesLib.Core
     @utils = new window.TableStakesLib.Utils
@@ -50,183 +53,90 @@ class window.TableStakes
       for key of options
         @set key, options[key]
 
-  parseFlatData: (flatData, key) ->
-    data = []
-    _.each _.keys(_.groupBy(flatData, (obj) -> obj[key])),
-      (productId, i) ->
-        data.push
-          id: i
-          product_id: productId
-          period_id: _.chain(flatData)
-            .filter((obj) -> obj[key] is productId)
-            .map((obj) -> obj.period_id)
-            .value()
-          period: _.chain(flatData)
-            .filter((obj) -> obj[key] is productId)
-            .map((obj) -> obj.periodUnix)
-            .value()
-          dataValue: _.chain(flatData)
-            .filter((obj) -> obj[key] is productId)
-            .map((obj) -> obj.actual)
-            .value()
-    @data(data)
-    @
+  # builds getter/setter methods (initialized with defaults)
+  #
+  # for example, if the hash includes {isSortable: false} then:
+  #   1. you get @_isSortable as an internal variable
+  #   2. you get @isSortable() as an external getter method
+  #   3. you get @isSortable(true) as an external setter method
+  #
+  # See http://bost.ocks.org/mike/chart for more details.
+  _synthesize: (hash) ->
+    _.each hash, (value, key) =>
+      
+      # create and set the internal variable
+      @['_' + key] = value
+      
+      # save the function so that it can be called below
+      func = (key) =>
+        
+        # create the getter/setter function
+        @[key] = (val) ->
+          
+          # get the internal value if it is not being set
+          return @['_' + key] unless val?
+          
+          # else set the variable
+          @['_' + key] = val
+          
+          # return @ to make the method chainable
+          @
+      
+      # call the method a first time to set the default
+      func(key)
 
-  render: ->
-    @gridData = [values: @data()]
-    @columns().forEach (column, i) =>
-      @gridData[0][column['id']] = column['id']
-    @setID @gridData[0], "0"
-    @gridFilteredData = @gridData
-    @_setFilter @gridFilteredData[0], @filterCondition
-    d3.select(@el())
-      .html('')
-      .datum(@gridFilteredData)
-      .call( (selection) => @update selection)
-    #@dispatchManualEvent(d3.select('td').node())
-    @
-
-  update: (selection) ->
-    selection.each (data) =>
-      @core.set
-        selection: selection
-        table: @
-        data: data
-      @core.render()
-
-    @isInRender = false
-    @
-
-  dispatchManualEvent: (target) ->
-    # all browsers except IE before version 9
-    if target.dispatchEvent and document.createEvent
-      mousedownEvent = document.createEvent("MouseEvent")
-      mousedownEvent.initMouseEvent(
-        "dblclick", true, true, window, 0, 0, 0, 0, 0,
-        false, false, false, false, 0, null
-      )
-      target.dispatchEvent(mousedownEvent)
-    else
-      # IE before version 9
-      if document.createEventObject
-        mousedownEvent = document.createEventObject(window.event)
-        # left button is down
-        mousedownEvent.button = 1
-        target.fireEvent("dblclick", mousedownEvent)
-    return
-
-  setID : (node, prefix) ->
-    node['_id'] = prefix
-    if node.values
-      node.values.forEach (subnode, i) =>
-        @setID subnode, prefix+"_"+i
-    if node._values
-      node._values.forEach (subnode, i) =>
-        @setID subnode, prefix+"_"+i
-
-  sort: (columnId, isDesc)->
-    return unless columnId? or isDesc?
-    sortFunction = (a,b)->
-      if a[columnId]? and b[columnId]?
-        if isDesc
-          if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
-            a[columnId] - b[columnId]
-          else
-            first = a[columnId].toString().toUpperCase()
-            second = b[columnId].toString().toUpperCase()
-            if first > second
-              1
-            else
-              -1
-        else
-          if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
-            b[columnId] - a[columnId]
-          else
-            first = a[columnId].toString().toUpperCase()
-            second = b[columnId].toString().toUpperCase()
-            if first < second
-              1
-            else
-              -1
-      else
-        0
-    @data().sort sortFunction
-    @render()
-
-  filter: (key, value) ->
-    value = value or ''
-    value = value.toString().toUpperCase()
-    @filterCondition.set key, value
-    @_setFilter @gridFilteredData[0], @filterCondition
-    @render()
-
-  _setFilter: ( data, filter ) ->
-    self = this
-    data or= []
-    if typeof data._hiddenvalues == "undefined"
-      data['_hiddenvalues'] = []
-    if data.values
-      data.values = data.values.concat(data._hiddenvalues)
-      data._hiddenvalues = []
-      for i in [data.values.length-1..0] by -1
-        if @_setFilter(data.values[i], filter) == null
-          data._hiddenvalues.push(data.values.splice(i, 1)[0])
-    if data._values
-      data._values = data._values.concat(data._hiddenvalues)
-      data._hiddenvalues = []
-      for i in [data._values.length-1..0] by -1
-        if @_setFilter(data._values[i], filter) == null
-          data._hiddenvalues.push(data._values.splice(i, 1)[0])
-
-    if data.values and data.values.length > 0
-      return data
-    if data._values and data._values.length > 0
-      return data
-
-    matchFound = true
-    for key in filter.keys()
-      if data[key]
-        #arr = d3.map data[key], (d) ->
-          #d.toUpperCase()
-        _data = data[key].toUpperCase()
-        if _data.indexOf(filter.get(key)) == -1
-          matchFound = false
-      else
-        matchFound = false
-    if matchFound
-      return data
-    return null
-
+  # DEPRECATED: Use methods built by _synthesize
   get: (key) ->
     @[key]
 
+  # DEPRECATED: Use methods built by _synthesize
   set: (key, value, options) ->
     @[key] = (if value? then value else true) if key?
     @
 
+  # DEPRECATED: Use methods built by _synthesize
   is: (key) ->
     if @[key] then true else false
 
-  # ## Expose Public Variables
-
-  # The following are getter/setter methods
-  # See http://bost.ocks.org/mike/chart for more details.
-
+  # Margins have a custom getter/setter because it builds the 4 sides into one
+  # method just like css does
   margin: (val) ->
+    
+    # get _margin if it is not being set
     return @_margin unless val?
+    
+    # else set _margin
     for side in ['top','right','bottom','left']
       @_margin[side] = val[side] unless typeof val[side] is "undefined"
+    
+    # return @ to make the method chainable
     @
 
+  # Columns have a custom getter/setter because of their inherent complexity
   columns: (columnList) ->
+    
+    # get _columns if they are not being set
     return @_columns unless columnList
+    
+    # clear @_columns and @_headrows because this method does not allow you
+    # to incrementally add columns. the method is a full reset
     @_columns = []
     @_headRows = null
 
+    # create a column for each in the list
     _.each columnList, (column) =>
+      
+      # Time series columns have all sorts of magical complexity. 
+      # TODO: The following trickery should be refactored into another method
+      # because it isn't a simple part of the idea of setting columns
       if column.timeSeries
+      
+        # If there are 12 or fewer periods to display, we will display monthly
+        # data with no grouping and aggregation
         if column.timeSeries.length <= 12
           for item in column.timeSeries
+
+            # TODO: what is this below?
             _column = _.clone column
             if column.label?
               _column.id = item
@@ -236,8 +146,13 @@ class window.TableStakes
               _column.id =  item
               _column.label = new Date(item).toGMTString().split(' ')[2]
               _column.secondary = new Date(item).getFullYear().toString()
+              
+            # create and push the column
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
+            
+        # Else if there are 36 or fewer periods to display, we will display 
+        # quarterly data and aggregate
         else if 12 < column.timeSeries.length <= 36
           grouper = 3
           for item, i in column.timeSeries by grouper
@@ -261,6 +176,12 @@ class window.TableStakes
               .toString() if i is 0
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
+
+        # If there are more than 36 columns to display, we will display annual 
+        # data and aggregate.
+        #
+        # TODO: We should probably explode gracefully if there are more than 
+        # 144 periods to display
         else
           grouper = 12
           for item, i in column.timeSeries by grouper
@@ -284,11 +205,16 @@ class window.TableStakes
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
 
+      # This 'else' is for columns that are not time series. It will get lost
+      # less easily if the time series stuff is refactored to a new method
       else
         c = new window.TableStakesLib.Column(column)
         @_columns.push c
-    @
 
+    # return @ to make the method chainable
+    @
+    
+  # TODO: this method needs a lot of documentation
   headRows: (filter) ->
     return @_headRows unless filter?
     # Variable:
@@ -350,8 +276,210 @@ class window.TableStakes
     @_headRows.push row
     @_headRows.push new window.TableStakesLib.HeadRow(
       col: @_columns)
+    
+    # return @ to make the method chainable
     @
 
+  # TODO: this method needs a lot of documentation
+  parseFlatData: (flatData, key) ->
+    data = []
+    _.each _.keys(_.groupBy(flatData, (obj) -> obj[key])),
+      (productId, i) ->
+        data.push
+          id: i
+          product_id: productId
+          period_id: _.chain(flatData)
+            .filter((obj) -> obj[key] is productId)
+            .map((obj) -> obj.period_id)
+            .value()
+          period: _.chain(flatData)
+            .filter((obj) -> obj[key] is productId)
+            .map((obj) -> obj.periodUnix)
+            .value()
+          dataValue: _.chain(flatData)
+            .filter((obj) -> obj[key] is productId)
+            .map((obj) -> obj.actual)
+            .value()
+    @data(data)
+    
+    # return @ to make the method chainable
+    @
+
+
+  # Render/update methods
+  # ---------------------
+    
+  # TODO: this method needs a lot of documentation
+  render: ->
+    @gridData = [values: @data()]
+    @columns().forEach (column, i) =>
+      @gridData[0][column['id']] = column['id']
+    @setID @gridData[0], "0"
+    @gridFilteredData = @gridData
+    @_setFilter @gridFilteredData[0], @filterCondition
+    d3.select(@el())
+      .html('')
+      .datum(@gridFilteredData)
+      .call( (selection) => @update selection)
+    #@dispatchManualEvent(d3.select('td').node())
+    
+    # return @ to make the method chainable
+    @
+
+  # TODO: this method needs a lot of documentation
+  update: (selection) ->
+    selection.each (data) =>
+      @core.set
+        selection: selection
+        table: @
+        data: data
+      @core.render()
+
+    @isInRender = false
+    
+    # return @ to make the method chainable
+    @
+
+  # TODO: this method needs a lot of documentation
+  dispatchManualEvent: (target) ->
+    # all browsers except IE before version 9
+    if target.dispatchEvent and document.createEvent
+      mousedownEvent = document.createEvent("MouseEvent")
+      mousedownEvent.initMouseEvent(
+        "dblclick", true, true, window, 0, 0, 0, 0, 0,
+        false, false, false, false, 0, null
+      )
+      target.dispatchEvent(mousedownEvent)
+    else
+      # IE before version 9
+      if document.createEventObject
+        mousedownEvent = document.createEventObject(window.event)
+        # left button is down
+        mousedownEvent.button = 1
+        target.fireEvent("dblclick", mousedownEvent)
+    return
+
+  # TODO: this method needs a lot of documentation
+  setID : (node, prefix) ->
+    node['_id'] = prefix
+    if node.values
+      node.values.forEach (subnode, i) =>
+        @setID subnode, prefix+"_"+i
+    if node._values
+      node._values.forEach (subnode, i) =>
+        @setID subnode, prefix+"_"+i
+
+
+  # Simple sort and filter (not time series) methods
+  # ------------------------------------------------
+        
+  # TODO: this method needs a lot of documentation
+  sort: (columnId, isDesc)->
+    return unless columnId? or isDesc?
+    sortFunction = (a,b)->
+      if a[columnId]? and b[columnId]?
+        if isDesc
+          if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
+            a[columnId] - b[columnId]
+          else
+            first = a[columnId].toString().toUpperCase()
+            second = b[columnId].toString().toUpperCase()
+            if first > second
+              1
+            else
+              -1
+        else
+          if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
+            b[columnId] - a[columnId]
+          else
+            first = a[columnId].toString().toUpperCase()
+            second = b[columnId].toString().toUpperCase()
+            if first < second
+              1
+            else
+              -1
+      else
+        0
+    @data().sort sortFunction
+    @render()
+
+  # This method simply provides an external interface for the internal 
+  # _setFilter function
+  filter: (key, value) ->
+    value = value or ''
+    value = value.toString().toUpperCase()
+    @filterCondition.set key, value
+    @_setFilter @gridFilteredData[0], @filterCondition
+    
+    # TODO: Should this be @update() ? It seems in other areas we use update,
+    # which seems lighter. Not sure.
+    @render()
+
+  # TODO: this method needs a lot of documentation
+  _setFilter: ( data, filter ) ->
+    self = this
+    data or= []
+    if typeof data._hiddenvalues == "undefined"
+      data['_hiddenvalues'] = []
+    if data.values
+      data.values = data.values.concat(data._hiddenvalues)
+      data._hiddenvalues = []
+      for i in [data.values.length-1..0] by -1
+        if @_setFilter(data.values[i], filter) == null
+          data._hiddenvalues.push(data.values.splice(i, 1)[0])
+    if data._values
+      data._values = data._values.concat(data._hiddenvalues)
+      data._hiddenvalues = []
+      for i in [data._values.length-1..0] by -1
+        if @_setFilter(data._values[i], filter) == null
+          data._hiddenvalues.push(data._values.splice(i, 1)[0])
+
+    if data.values and data.values.length > 0
+      return data
+    if data._values and data._values.length > 0
+      return data
+
+    matchFound = true
+    for key in filter.keys()
+      if data[key]
+        #arr = d3.map data[key], (d) ->
+          #d.toUpperCase()
+        _data = data[key].toUpperCase()
+        if _data.indexOf(filter.get(key)) == -1
+          matchFound = false
+      else
+        matchFound = false
+    if matchFound
+      return data
+    return null
+
+  # Time series methods
+  # -------------------
+
+  # This method defines how data will be aggregated in the event that a column
+  # is time series and more than 12 periods are to be displayed.
+  #
+  # For example, if you're looking at revenue figures:
+  #     * Jan: 100
+  #     * Feb: 200
+  #     * Mar: 300
+  #
+  # Aggregating using the "sum" method provides:
+  #     * Jan-Mar: 600
+  #
+  # However, if the figures were inventory figures (e.g. how many apples do I 
+  # have at the end of each month?), you cannot add those figures. Because if 
+  # you have:
+  #     * Jan: 100 apples in stock
+  #     * Feb: 200 apples in stock
+  #     * Mar: 300 apples in stock
+  #
+  # Aggregating using last would say:
+  #     * Jan-Mar: 300 apples in stock (not 600!)
+  #
+  # TODO: this method needs a lot of documentation
+  # TODO: we could probably afford to refactor this into its own module and 
+  # just use dataAggregate() as a getter/setter
   dataAggregate: (aggregator) ->
     # Function of data aggregation:
     # 1. sum
@@ -419,6 +547,9 @@ class window.TableStakes
 
       _data
 
+    # TODO: this method needs a lot of documentation
+    # TODO: we could probably afford to refactor this into a module with the 
+    # rest of the aggregation stuff
     first_last = (flag, data, availableTimeFrame) ->
       _data = []
 
@@ -493,24 +624,11 @@ class window.TableStakes
 
       self.data data
 
+    # return @ to make the method chainable
     @
 
-  # builds getter/setter methods (initialized with defaults)
-  #
-  # for example, if the hash includes {isSortable: false} then:
-  #   1. you get @_isSortable as an internal variable
-  #   2. you get @isSortable() as an external getter method
-  #   3. you get @isSortable(true) as an external setter method
-  _synthesize: (hash) ->
-    _.each hash, (value, key) =>
-      @['_' + key] = value
-      func = (key) =>
-        @[key] = (val) ->
-          return @['_' + key] unless val?
-          @['_' + key] = val
-          @
-      func(key)
 
+  # TODO: this method needs a lot of documentation
   filterZeros: (data) ->
     # timeSeries specific function. return if no timeSeries 'columns'
     cols = _.filter @_columns, (col) -> col.timeSeries?
@@ -527,8 +645,11 @@ class window.TableStakes
       _.some(row.dataValue[begin..end], (val) -> val)
 
     @data filteredData
+    
+    # return @ to make the method chainable
     @
 
+  # TODO: this method needs a lot of documentation
   sorter: (data) ->
     # timeSeries specific function. return if no timeSeries 'columns'
     cols = _.filter @_columns, (col) -> col.timeSeries?
@@ -550,4 +671,6 @@ class window.TableStakes
         sum*-1
 
     @data sortedData
+    
+    # return @ to make the method chainable
     @
