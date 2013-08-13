@@ -12,7 +12,7 @@ class window.TableStakesLib.Utils
         break
     currentindex
 
-  findEditableColumn: (d,currentIndex,isNext)->
+  findEditableColumn: (d, currentIndex, isNext) ->
     if isNext
       condition = currentIndex < @core.columns.length
       nextIndex = currentIndex + 1
@@ -27,13 +27,13 @@ class window.TableStakesLib.Utils
         else if column.isEditable(d,column)
           return currentIndex
         else
-          @findEditableColumn d,nextIndex,isNext
+          @findEditableColumn d, nextIndex, isNext
       else
-        @findEditableColumn d,nextIndex,isNext
+        @findEditableColumn d, nextIndex, isNext
     else
       return null
 
-  findEditableCell: (d,column,isNext)->
+  findEditableCell: (d, column, isNext) ->
     if isNext
       node = @core.utils.findNextNode d
     else
