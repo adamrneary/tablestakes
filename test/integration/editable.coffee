@@ -52,6 +52,18 @@ scenario '#editable', 'editable cells', ->
     @test.assertSelectorHasText 'td.changed', 'Other Test Text String',
       'Editable element stores entered value'
 
+  next 'Verify user interactions', ->
+    # make a cell active in the center of the table, press 'tab.' confirm next cell is active
+    # confirm that in the above case, changed value is saved
+    # make last cell in row active, press tab. confirm first cell in next row is active.
+    # confirm tab skips a cell that isn't editable and chooses the next
+    # make last cell in table active. confirm that tab moves to first editable cell.
+    # confirm that shift-tab moves backwards
+    # confirm that 'up' moves to next cell above that is editable (no action if none exists)
+    # confirm the reverse for 'down'
+    # confirm 'enter' blurs the cell and saves the value
+    # confirm 'esc' blurs the cell without saving the value
+
   next 'Verify editable with formatted cells (percentage)', ->
     @mouseEvent('dblclick', 'tr:nth-child(15) > td.editable:last-of-type div')
     @test.assertEval (() ->
@@ -78,7 +90,7 @@ scenario '#editable', 'editable cells', ->
     next 'Verify editable with formatted cells (numeral)', ->
       @mouseEvent('dblclick', 'tr:nth-child(16) > td.editable:last-of-type div')
       @test.assertEval (()->
-        # TODO: be awere of test version and render version
+        # TODO: be aware of test version and render version
         # Current (2013-aug-13) version formats
         $('td.editable.active div').text() is "142857"
       ), 'Text of active cell formatted properly'
