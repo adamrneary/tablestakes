@@ -42,6 +42,7 @@ data = [
 columns = [
     id: "id"
     label: "Name"
+    classes: "row-heading"
   ,
     id: "type"
     label: "Type"
