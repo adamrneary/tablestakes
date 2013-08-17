@@ -3,7 +3,7 @@
   "version": "1.1.1",
   "private": true,
   "scripts": {
-    "test": "./node_modules/testem/testem.js -f test/testem.json ci && ./script/casper test/integration/",
+    "test": "./script/casper test/integration/",
     "start": "node index.js",
     "build": "./node_modules/brunch/bin/brunch build"
   },
