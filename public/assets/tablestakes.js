@@ -138,14 +138,14 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.dragStart = function(tr, d) {
     this.initPosition = $(tr).position();
-    this._makeRowDraggable(tr);
+    this._handleDraggedState(tr);
     return $(tr).css({
       left: this.initPosition.left,
       top: this.initPosition.top
     });
   };
 
-  Events.prototype._makeRowDraggable = function(tr) {
+  Events.prototype._handleDraggedState = function(tr) {
     var cellWidths, onMouseOut, onMouseOver, rowWidth, self, tableEl;
     self = this;
     rowWidth = $(tr).width();
@@ -181,7 +181,7 @@ window.TableStakesLib.Events = (function() {
     var dragMode;
     dragMode = this.core.table.dragMode();
     if (dragMode != null) {
-      return dragMode + '-draggable-destination';
+      return "" + dragMode + "-draggable-destination";
     } else {
       return '';
     }
@@ -198,7 +198,7 @@ window.TableStakesLib.Events = (function() {
     var onDrag, tableEl;
     d3.select(tr).classed('dragged', false);
     tableEl = this.core.table.el();
-    d3.selectAll(tableEl + ' tbody tr, ' + tableEl + ' thead tr').classed(this._draggableDestinationClass(), false).on('mouseover', null).on('mouseout', null);
+    d3.selectAll("" + tableEl + " tbody tr, " + tableEl + " thead tr").classed(this._draggableDestinationClass(), false).on('mouseover', null).on('mouseout', null);
     if (this.core.table.onDrag) {
       onDrag = this.core.table.onDrag();
       switch (this.core.table.dragMode()) {
@@ -341,23 +341,27 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype._editHandler = function(row, column, newValue) {
-    var begin, dividedValue, end, filteredPeriod, parsePercent, _ref;
-    parsePercent = function(value) {
-      var parsedPercent;
+    var begin, dividedValue, end, filteredPeriod, parseInput, _ref;
+    parseInput = function(value) {
+      var parsedValue;
       if (!_.isString(value)) {
         return value;
       }
-      if (_.last(value) !== '%') {
-        return value;
+      parsedValue = numeral().unformat(value);
+      if (_.first(value) === '$' || _.last(value) === '%') {
+        return parsedValue;
       }
-      parsedPercent = parseFloat(value.replace('%', ''));
-      if (_.isNaN(parsedPercent)) {
-        return value;
+      if (parsedValue === 0) {
+        if (value === '0') {
+          return parsedValue;
+        } else {
+          return value;
+        }
       } else {
-        return parsedPercent / 100.0;
+        return parsedValue;
       }
     };
-    newValue = parsePercent(newValue);
+    newValue = parseInput(newValue);
     if (!_.has(column, 'timeSeries')) {
       if (_.isFunction(column.onEdit)) {
         return column.onEdit(row.id, column.id, newValue);
@@ -484,9 +488,8 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._renderHead = function(tableObject) {
-    var allTh, self, sortable, th, thead, theadRow,
+    var allTh, sortable, th, thead, theadRow,
       _this = this;
-    self = this;
     thead = tableObject.selectAll('thead').data(function(d) {
       return d;
     }).enter().append('thead');
@@ -540,7 +543,19 @@ window.TableStakesLib.Core = (function() {
       return d;
     });
     this.tbody.enter().append("tbody");
-    return this._renderRows();
+    this.rows = this.tbody.selectAll("tr").data((function(d) {
+      return d;
+    }), function(d) {
+      return d.id;
+    });
+    this._enterRows();
+    this._updateRows();
+    this._exitRows();
+    if (this.enterRows[0][0]) {
+      d3.select(this.enterRows[0][0]).style("display", "none");
+    }
+    this._renderEnterRows();
+    return this._renderUpdateRows();
   };
 
   Core.prototype._enterRows = function() {
@@ -551,11 +566,13 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._updateRows = function() {
-    var self;
-    self = this;
     this.updateRows = this.rows.order();
     this._addRowEventHandling();
     return this.updateRows.select('.expandable').classed('folded', this.utils.folded);
+  };
+
+  Core.prototype._exitRows = function() {
+    return this.rows.exit().remove();
   };
 
   Core.prototype._addRowEventHandling = function() {
@@ -579,26 +596,6 @@ window.TableStakesLib.Core = (function() {
     return _.each(events, function(value, key) {
       return addEvent(key, value);
     });
-  };
-
-  Core.prototype._exitRows = function() {
-    return this.rows.exit().remove();
-  };
-
-  Core.prototype._renderRows = function() {
-    this.rows = this.tbody.selectAll("tr").data((function(d) {
-      return d;
-    }), function(d) {
-      return d.id;
-    });
-    this._enterRows();
-    this._updateRows();
-    this._exitRows();
-    if (this.enterRows[0][0]) {
-      d3.select(this.enterRows[0][0]).style("display", "none");
-    }
-    this._renderEnterRows();
-    return this._renderUpdateRows();
   };
 
   Core.prototype._renderEnterRows = function() {
@@ -824,25 +821,37 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeActive = function(d, div, column) {
-    var percentFormat, self, _text;
+    var getFormattedValue, getValue, self, _text;
     self = this;
-    percentFormat = function(value, formattedValue) {
-      if (!_.isString(formattedValue)) {
-        return value;
-      }
-      if (_.last(formattedValue) !== '%') {
-        return value;
-      }
-      if (_.isNumber(value)) {
-        return "" + (value * 100) + "%";
+    getValue = function(d) {
+      var cell, index;
+      if (column.timeSeries) {
+        if (d.dataValue && d.period) {
+          index = d.period.indexOf(column.id);
+          cell = _.clone(d);
+          cell.dataValue = d.dataValue[index];
+          return cell;
+        } else {
+          return "";
+        }
       } else {
+        return d;
+      }
+    };
+    getFormattedValue = function(d) {
+      var formattedValue, value, _ref;
+      value = d.dataValue || d[column.id];
+      formattedValue = column.format ? column.format(d, column) : column.timeSeries ? d.dataValue : d[column.id];
+      if ((_ref = _.last(formattedValue)) === "k" || _ref === "b" || _ref === "m" || _ref === "t" || _ref === "K" || _ref === "B" || _ref === "M" || _ref === "T") {
         return value;
+      } else {
+        return formattedValue;
       }
     };
     _text = function(d) {
-      var cell, index, retVal, value, _ref;
-      _ref = (column.timeSeries != null) && (d.period != null) && (d.dataValue != null) ? (index = d.period.indexOf(column.id), column.format ? (cell = _.clone(d), cell.dataValue = d.dataValue[index], [cell.dataValue, column.format(cell, column)]) : [d.dataValue[index], d.dataValue[index]]) : column.format ? [d[column.id], column.format(d, column)] : [d[column.id], d[column.id] || '-'], value = _ref[0], retVal = _ref[1];
-      return percentFormat(value, retVal);
+      var value;
+      value = getValue(d);
+      return getFormattedValue(value);
     };
     d3.select(div.parentNode).classed('active', true);
     return d3.select(div).text(_text).attr('contentEditable', true).on('keydown', function(d) {
@@ -980,6 +989,213 @@ window.TableStakesLib.Core = (function() {
       }
     }
   }
+
+  TableStakes.prototype._synthesize = function(hash) {
+    var _this = this;
+    return _.each(hash, function(value, key) {
+      var func;
+      _this['_' + key] = value;
+      func = function(key) {
+        return _this[key] = function(val) {
+          if (val == null) {
+            return this['_' + key];
+          }
+          this['_' + key] = val;
+          return this;
+        };
+      };
+      return func(key);
+    });
+  };
+
+  TableStakes.prototype.get = function(key) {
+    return this[key];
+  };
+
+  TableStakes.prototype.set = function(key, value, options) {
+    if (key != null) {
+      this[key] = (value != null ? value : true);
+    }
+    return this;
+  };
+
+  TableStakes.prototype.is = function(key) {
+    if (this[key]) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  TableStakes.prototype.margin = function(val) {
+    var side, _i, _len, _ref;
+    if (val == null) {
+      return this._margin;
+    }
+    _ref = ['top', 'right', 'bottom', 'left'];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      side = _ref[_i];
+      if (typeof val[side] !== "undefined") {
+        this._margin[side] = val[side];
+      }
+    }
+    return this;
+  };
+
+  TableStakes.prototype.columns = function(columnList) {
+    var _this = this;
+    if (!columnList) {
+      return this._columns;
+    }
+    this._columns = [];
+    this._headRows = null;
+    _.each(columnList, function(column) {
+      var c, grouper, grouppedItems, i, item, _column, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3, _results, _results1, _results2;
+      if (column.timeSeries) {
+        if (column.timeSeries.length <= 12) {
+          _ref = column.timeSeries;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            item = _ref[_i];
+            _column = _.clone(column);
+            if (column.label != null) {
+              _column.id = item;
+              _column.label = typeof column.label === 'function' ? column.label(item) : column.label;
+            } else {
+              _column.id = item;
+              _column.label = new Date(item).toGMTString().split(' ')[2];
+              _column.secondary = new Date(item).getFullYear().toString();
+            }
+            c = new window.TableStakesLib.Column(_column);
+            _results.push(_this._columns.push(c));
+          }
+          return _results;
+        } else if ((12 < (_ref1 = column.timeSeries.length) && _ref1 <= 36)) {
+          grouper = 3;
+          _ref2 = column.timeSeries;
+          _results1 = [];
+          for ((grouper > 0 ? (i = _j = 0, _len1 = _ref2.length) : i = _j = _ref2.length - 1); grouper > 0 ? _j < _len1 : _j >= 0; i = _j += grouper) {
+            item = _ref2[i];
+            grouppedItems = _.first(column.timeSeries.slice(i), grouper);
+            _column = _.clone(column);
+            _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
+            if (grouppedItems.length > 1) {
+              _column.label = [new Date(_.first(grouppedItems)).toGMTString().split(' ')[2], new Date(_.last(grouppedItems)).toGMTString().split(' ')[2]].join(' - ');
+            } else {
+              _column.label = new Date(_.first(grouppedItems)).toGMTString().split(' ')[2];
+            }
+            _column.secondary = new Date(_.last(grouppedItems)).getFullYear().toString();
+            if (i === 0) {
+              _column.secondary = new Date(_.first(grouppedItems)).getFullYear().toString();
+            }
+            c = new window.TableStakesLib.Column(_column);
+            _results1.push(_this._columns.push(c));
+          }
+          return _results1;
+        } else {
+          grouper = 12;
+          _ref3 = column.timeSeries;
+          _results2 = [];
+          for ((grouper > 0 ? (i = _k = 0, _len2 = _ref3.length) : i = _k = _ref3.length - 1); grouper > 0 ? _k < _len2 : _k >= 0; i = _k += grouper) {
+            item = _ref3[i];
+            grouppedItems = _.first(column.timeSeries.slice(i), grouper);
+            _column = _.clone(column);
+            _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
+            if (new Date(_.first(grouppedItems)).getMonth() === 0) {
+              _column.label = "              " + (new Date(_.first(grouppedItems)).getFullYear());
+            } else if (grouppedItems.length > 1) {
+              _column.label = "              " + (new Date(_.first(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.first(grouppedItems)).getFullYear()) + " -              " + (new Date(_.last(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.last(grouppedItems)).getFullYear());
+            } else {
+              _column.label = "              " + (new Date(_.first(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.first(grouppedItems)).getFullYear());
+            }
+            c = new window.TableStakesLib.Column(_column);
+            _results2.push(_this._columns.push(c));
+          }
+          return _results2;
+        }
+      } else {
+        c = new window.TableStakesLib.Column(column);
+        return _this._columns.push(c);
+      }
+    });
+    return this;
+  };
+
+  TableStakes.prototype.headRows = function(filter) {
+    var row, visiblePeriod, _columns;
+    if (filter == null) {
+      return this._headRows;
+    }
+    this._headRows = [];
+    if (_.filter(this._columns, function(col) {
+      return _.has(col, filter);
+    }).length > 0) {
+      _columns = [];
+      _.each(this._columns, function(col) {
+        var c;
+        c = _.clone(col);
+        if (_.has(col, filter)) {
+          c.label = col[filter];
+        } else {
+          c.label = "";
+        }
+        return _columns.push(c);
+      });
+      row = new window.TableStakesLib.HeadRow({
+        col: _columns,
+        headClasses: filter
+      });
+    } else {
+      this._headRows = null;
+      return this;
+    }
+    if (_.filter(this._columns, function(col) {
+      return _.has(col, 'timeSeries');
+    }).length > 0) {
+      visiblePeriod = [];
+      _.each(row.col, function(column, i) {
+        var begin, end, hidden;
+        hidden = 'hidden';
+        if (column.timeSeries) {
+          if (_.isNumber(column.id)) {
+            return visiblePeriod.push(column.id);
+          } else if (_.isString(column.id)) {
+            begin = parseInt(column.id.split('-')[0]);
+            end = parseInt(column.id.split('-')[1]);
+            return _.each(column.timeSeries, function(date) {
+              if ((begin <= date && date <= end)) {
+                return visiblePeriod.push(date);
+              }
+            });
+          }
+        }
+      });
+      _.each(row.col, function(column, i) {
+        var begin, end, filtered, first;
+        filtered = _.filter(visiblePeriod, function(date) {
+          return (new Date(date)).getFullYear().toString() === column.label;
+        });
+        first = _.first(filtered);
+        if (!first) {
+          first = _.first(visiblePeriod);
+        }
+        if (_.isString(column.id)) {
+          begin = parseInt(column.id.split('-')[0]);
+          end = parseInt(column.id.split('-')[1]);
+          if (!((begin <= first && first <= end))) {
+            return column.label = "";
+          }
+        } else if (column.id !== first) {
+          return column.label = "";
+        }
+      });
+    }
+    this._headRows.push(row);
+    this._headRows.push(new window.TableStakesLib.HeadRow({
+      col: this._columns
+    }));
+    return this;
+  };
 
   TableStakes.prototype.parseFlatData = function(flatData, key) {
     var data;
@@ -1173,211 +1389,22 @@ window.TableStakesLib.Core = (function() {
     return null;
   };
 
-  TableStakes.prototype.get = function(key) {
-    return this[key];
-  };
-
-  TableStakes.prototype.set = function(key, value, options) {
-    if (key != null) {
-      this[key] = (value != null ? value : true);
-    }
-    return this;
-  };
-
-  TableStakes.prototype.is = function(key) {
-    if (this[key]) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  TableStakes.prototype.margin = function(val) {
-    var side, _i, _len, _ref;
-    if (val == null) {
-      return this._margin;
-    }
-    _ref = ['top', 'right', 'bottom', 'left'];
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      side = _ref[_i];
-      if (typeof val[side] !== "undefined") {
-        this._margin[side] = val[side];
-      }
-    }
-    return this;
-  };
-
-  TableStakes.prototype.columns = function(columnList) {
-    var _this = this;
-    if (!columnList) {
-      return this._columns;
-    }
-    this._columns = [];
-    this._headRows = null;
-    _.each(columnList, function(column) {
-      var c, grouppedItems, groupper, i, item, _column, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2, _ref3, _results, _results1, _results2;
-      if (column.timeSeries) {
-        if (column.timeSeries.length <= 12) {
-          _ref = column.timeSeries;
-          _results = [];
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            item = _ref[_i];
-            _column = _.clone(column);
-            if (column.label != null) {
-              _column.id = item;
-              _column.label = typeof column.label === 'function' ? column.label(item) : column.label;
-            } else {
-              _column.id = item;
-              _column.label = new Date(item).toGMTString().split(' ')[2];
-              _column.secondary = new Date(item).getFullYear().toString();
-            }
-            c = new window.TableStakesLib.Column(_column);
-            _results.push(_this._columns.push(c));
-          }
-          return _results;
-        } else if ((12 < (_ref1 = column.timeSeries.length) && _ref1 <= 36)) {
-          groupper = 3;
-          _ref2 = column.timeSeries;
-          _results1 = [];
-          for ((groupper > 0 ? (i = _j = 0, _len1 = _ref2.length) : i = _j = _ref2.length - 1); groupper > 0 ? _j < _len1 : _j >= 0; i = _j += groupper) {
-            item = _ref2[i];
-            grouppedItems = _.first(column.timeSeries.slice(i), groupper);
-            _column = _.clone(column);
-            _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
-            if (grouppedItems.length > 1) {
-              _column.label = [new Date(_.first(grouppedItems)).toGMTString().split(' ')[2], new Date(_.last(grouppedItems)).toGMTString().split(' ')[2]].join(' - ');
-            } else {
-              _column.label = new Date(_.first(grouppedItems)).toGMTString().split(' ')[2];
-            }
-            _column.secondary = new Date(_.last(grouppedItems)).getFullYear().toString();
-            if (i === 0) {
-              _column.secondary = new Date(_.first(grouppedItems)).getFullYear().toString();
-            }
-            c = new window.TableStakesLib.Column(_column);
-            _results1.push(_this._columns.push(c));
-          }
-          return _results1;
-        } else {
-          groupper = 12;
-          _ref3 = column.timeSeries;
-          _results2 = [];
-          for ((groupper > 0 ? (i = _k = 0, _len2 = _ref3.length) : i = _k = _ref3.length - 1); groupper > 0 ? _k < _len2 : _k >= 0; i = _k += groupper) {
-            item = _ref3[i];
-            grouppedItems = _.first(column.timeSeries.slice(i), groupper);
-            _column = _.clone(column);
-            _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
-            if (new Date(_.first(grouppedItems)).getMonth() === 0) {
-              _column.label = "              " + (new Date(_.first(grouppedItems)).getFullYear());
-            } else if (grouppedItems.length > 1) {
-              _column.label = "              " + (new Date(_.first(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.first(grouppedItems)).getFullYear()) + " -              " + (new Date(_.last(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.last(grouppedItems)).getFullYear());
-            } else {
-              _column.label = "              " + (new Date(_.first(grouppedItems)).getMonth() + 1) + "/              " + (new Date(_.first(grouppedItems)).getFullYear());
-            }
-            c = new window.TableStakesLib.Column(_column);
-            _results2.push(_this._columns.push(c));
-          }
-          return _results2;
-        }
-      } else {
-        c = new window.TableStakesLib.Column(column);
-        return _this._columns.push(c);
-      }
-    });
-    return this;
-  };
-
-  TableStakes.prototype.headRows = function(filter) {
-    var row, visiblePeriod, _columns;
-    if (filter == null) {
-      return this._headRows;
-    }
-    this._headRows = [];
-    if (_.filter(this._columns, function(col) {
-      return _.has(col, filter);
-    }).length > 0) {
-      _columns = [];
-      _.each(this._columns, function(col) {
-        var c;
-        c = _.clone(col);
-        if (_.has(col, filter)) {
-          c.label = col[filter];
-        } else {
-          c.label = "";
-        }
-        return _columns.push(c);
-      });
-      row = new window.TableStakesLib.HeadRow({
-        col: _columns,
-        headClasses: filter
-      });
-    } else {
-      this._headRows = null;
-      return this;
-    }
-    if (_.filter(this._columns, function(col) {
-      return _.has(col, 'timeSeries');
-    }).length > 0) {
-      visiblePeriod = [];
-      _.each(row.col, function(column, i) {
-        var begin, end, hidden;
-        hidden = 'hidden';
-        if (column.timeSeries) {
-          if (_.isNumber(column.id)) {
-            return visiblePeriod.push(column.id);
-          } else if (_.isString(column.id)) {
-            begin = parseInt(column.id.split('-')[0]);
-            end = parseInt(column.id.split('-')[1]);
-            return _.each(column.timeSeries, function(date) {
-              if ((begin <= date && date <= end)) {
-                return visiblePeriod.push(date);
-              }
-            });
-          }
-        }
-      });
-      _.each(row.col, function(column, i) {
-        var begin, end, filtered, first;
-        filtered = _.filter(visiblePeriod, function(date) {
-          return (new Date(date)).getFullYear().toString() === column.label;
-        });
-        first = _.first(filtered);
-        if (!first) {
-          first = _.first(visiblePeriod);
-        }
-        if (_.isString(column.id)) {
-          begin = parseInt(column.id.split('-')[0]);
-          end = parseInt(column.id.split('-')[1]);
-          if (!((begin <= first && first <= end))) {
-            return column.label = "";
-          }
-        } else if (column.id !== first) {
-          return column.label = "";
-        }
-      });
-    }
-    this._headRows.push(row);
-    this._headRows.push(new window.TableStakesLib.HeadRow({
-      col: this._columns
-    }));
-    return this;
-  };
-
   TableStakes.prototype.dataAggregate = function(aggregator) {
-    var data, first_last, isSorted, isZeroFilter, self, summ, timeFrame, _ref, _ref1,
+    var data, first_last, isSorted, isZeroFilter, self, sum, timeFrame, _ref, _ref1,
       _this = this;
     self = this;
     if (!_.isArray(aggregator)) {
       aggregator = [aggregator];
     }
-    summ = function(data, availableTimeFrame) {
-      var groupper, _data, _ref;
+    sum = function(data, availableTimeFrame) {
+      var grouper, _data, _ref;
       _data = [];
       if (availableTimeFrame.length <= 12) {
         return data;
       } else if ((12 < (_ref = availableTimeFrame.length) && _ref <= 36)) {
-        groupper = 3;
+        grouper = 3;
       } else {
-        groupper = 12;
+        grouper = 12;
       }
       _.each(data, function(row, i) {
         var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _period_id, _row, _slicePeriod, _slicePeriodId, _sliceValue;
@@ -1390,11 +1417,11 @@ window.TableStakesLib.Core = (function() {
           _slicePeriod = row.period.length ? row.period.slice(start, end + 1) : [];
           _slicePeriodId = row.period_id.length ? row.period_id.slice(start, end + 1) : [];
           _sliceValue = row.dataValue.length ? row.dataValue.slice(start, end + 1) : [];
-          for ((groupper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); groupper > 0 ? _i < _len : _i >= 0; j = _i += groupper) {
+          for ((grouper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); grouper > 0 ? _i < _len : _i >= 0; j = _i += grouper) {
             val = _slicePeriod[j];
-            _period.push([val, _.last(_slicePeriod.slice(j, j + groupper))].join('-'));
-            _period_id.push([_.first(_slicePeriodId.slice(j, j + groupper)), _.last(_slicePeriodId.slice(j, j + groupper))].join('-'));
-            _dataValue.push(_.reduce(_sliceValue.slice(j, j + groupper), function(memo, num) {
+            _period.push([val, _.last(_slicePeriod.slice(j, j + grouper))].join('-'));
+            _period_id.push([_.first(_slicePeriodId.slice(j, j + grouper)), _.last(_slicePeriodId.slice(j, j + grouper))].join('-'));
+            _dataValue.push(_.reduce(_sliceValue.slice(j, j + grouper), function(memo, num) {
               if (_.isNumber(num) && _.isNumber(memo)) {
                 return memo + num;
               } else {
@@ -1403,10 +1430,10 @@ window.TableStakesLib.Core = (function() {
             }, 0));
           }
         } else {
-          for ((groupper > 0 ? (j = _j = 0, _len1 = availableTimeFrame.length) : j = _j = availableTimeFrame.length - 1); groupper > 0 ? _j < _len1 : _j >= 0; j = _j += groupper) {
+          for ((grouper > 0 ? (j = _j = 0, _len1 = availableTimeFrame.length) : j = _j = availableTimeFrame.length - 1); grouper > 0 ? _j < _len1 : _j >= 0; j = _j += grouper) {
             val = availableTimeFrame[j];
-            _period.push([val, _.last(availableTimeFrame.slice(j, +(j + groupper) + 1 || 9e9))].join('-'));
-            _period_id.push([_.first(row.period_id.slice(j, j + groupper)), _.last(row.period_id.slice(j, j + groupper))].join('-'));
+            _period.push([val, _.last(availableTimeFrame.slice(j, +(j + grouper) + 1 || 9e9))].join('-'));
+            _period_id.push([_.first(row.period_id.slice(j, j + grouper)), _.last(row.period_id.slice(j, j + grouper))].join('-'));
             _dataValue.push('-');
           }
         }
@@ -1415,23 +1442,23 @@ window.TableStakesLib.Core = (function() {
         _row.period = _period;
         _row.dataValue = _dataValue;
         if (_row['values'] != null) {
-          _row['values'] = summ(_row['values'], availableTimeFrame);
+          _row['values'] = sum(_row['values'], availableTimeFrame);
         } else if (_row['_values'] != null) {
-          _row['_values'] = summ(_row['_values'], availableTimeFrame);
+          _row['_values'] = sum(_row['_values'], availableTimeFrame);
         }
         return _data.push(_row);
       });
       return _data;
     };
     first_last = function(flag, data, availableTimeFrame) {
-      var groupper, _data, _ref;
+      var grouper, _data, _ref;
       _data = [];
       if (availableTimeFrame.length <= 12) {
         return data;
       } else if ((12 < (_ref = availableTimeFrame.length) && _ref <= 36)) {
-        groupper = 3;
+        grouper = 3;
       } else {
-        groupper = 12;
+        grouper = 12;
       }
       _.each(data, function(row, i) {
         var end, j, start, val, _dataValue, _i, _j, _len, _len1, _period, _period_id, _row, _slicePeriod, _slicePeriodId, _sliceValue;
@@ -1444,26 +1471,26 @@ window.TableStakesLib.Core = (function() {
           _slicePeriod = row.period.length ? row.period.slice(start, end + 1) : [];
           _slicePeriodId = row.period_id.length ? row.period_id.slice(start, end + 1) : [];
           _sliceValue = row.dataValue.length ? row.dataValue.slice(start, end + 1) : [];
-          for ((groupper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); groupper > 0 ? _i < _len : _i >= 0; j = _i += groupper) {
+          for ((grouper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); grouper > 0 ? _i < _len : _i >= 0; j = _i += grouper) {
             val = _slicePeriod[j];
-            _period.push([val, _.last(_slicePeriod.slice(j, j + groupper))].join('-'));
-            _period_id.push([_.first(_slicePeriodId.slice(j, j + groupper)), _.last(_slicePeriodId.slice(j, j + groupper))].join('-'));
+            _period.push([val, _.last(_slicePeriod.slice(j, j + grouper))].join('-'));
+            _period_id.push([_.first(_slicePeriodId.slice(j, j + grouper)), _.last(_slicePeriodId.slice(j, j + grouper))].join('-'));
             switch (flag) {
               case 'first':
-                _dataValue.push(_.first(_sliceValue.slice(j, j + groupper)));
+                _dataValue.push(_.first(_sliceValue.slice(j, j + grouper)));
                 break;
               case 'last':
-                _dataValue.push(_.last(_sliceValue.slice(j, j + groupper)));
+                _dataValue.push(_.last(_sliceValue.slice(j, j + grouper)));
                 break;
               default:
                 _dataValue.push('-');
             }
           }
         } else {
-          for ((groupper > 0 ? (j = _j = 0, _len1 = availableTimeFrame.length) : j = _j = availableTimeFrame.length - 1); groupper > 0 ? _j < _len1 : _j >= 0; j = _j += groupper) {
+          for ((grouper > 0 ? (j = _j = 0, _len1 = availableTimeFrame.length) : j = _j = availableTimeFrame.length - 1); grouper > 0 ? _j < _len1 : _j >= 0; j = _j += grouper) {
             val = availableTimeFrame[j];
-            _period.push([val, _.last(availableTimeFrame.slice(j, +(j + groupper) + 1 || 9e9))].join('-'));
-            _period_id.push([_.first(row.period_id.slice(j, j + groupper)), _.last(row.period_id.slice(j, j + groupper))].join('-'));
+            _period.push([val, _.last(availableTimeFrame.slice(j, +(j + grouper) + 1 || 9e9))].join('-'));
+            _period_id.push([_.first(row.period_id.slice(j, j + grouper)), _.last(row.period_id.slice(j, j + grouper))].join('-'));
             _dataValue.push('-');
           }
         }
@@ -1503,7 +1530,7 @@ window.TableStakesLib.Core = (function() {
       if (_.isFunction(filter)) {
         data = filter(data, timeFrame);
       } else if (filter === 'sum') {
-        data = summ(data, timeFrame);
+        data = sum(data, timeFrame);
       } else if (filter === 'zero') {
         data = filterZero(data, timeFrame);
       } else if (filter === 'first' || filter === 'last') {
@@ -1512,24 +1539,6 @@ window.TableStakesLib.Core = (function() {
       return self.data(data);
     });
     return this;
-  };
-
-  TableStakes.prototype._synthesize = function(hash) {
-    var _this = this;
-    return _.each(hash, function(value, key) {
-      var func;
-      _this['_' + key] = value;
-      func = function(key) {
-        return _this[key] = function(val) {
-          if (val == null) {
-            return this['_' + key];
-          }
-          this['_' + key] = val;
-          return this;
-        };
-      };
-      return func(key);
-    });
   };
 
   TableStakes.prototype.filterZeros = function(data) {

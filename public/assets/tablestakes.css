@@ -21,55 +21,56 @@ table.tablestakes {
       text-decoration: underline; }
   /* line 37 */
   table.tablestakes th, table.tablestakes td {
-    padding: 0; }
-    /* line 39 */
+    padding: 0;
+    text-align: right; }
+    /* line 40 */
     table.tablestakes th > div, table.tablestakes td > div {
       padding: 5px;
       position: relative; }
 
-/* line 59 */
+/* line 60 */
 table.tablestakes thead th, table.tablestakes thead td {
   text-transform: uppercase;
   white-space: pre-line;
   font-weight: normal; }
-/* line 65 */
+/* line 66 */
 table.tablestakes thead td {
   color: #675b5e;
   background: transparent;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
-/* line 73 */
+/* line 74 */
 table.tablestakes thead th {
   color: white;
   background: #007f9b;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
-/* line 83 */
+/* line 84 */
 table.tablestakes thead tr.secondary th, table.tablestakes thead tr.secondary td {
   color: white;
   background: #007f9b !important; }
-/* line 88 */
+/* line 89 */
 table.tablestakes thead tr.secondary td {
   border-bottom: solid 1px #e2dedf; }
-/* line 92 */
+/* line 93 */
 table.tablestakes thead tr.secondary th.underline {
   border-bottom: solid 1px white; }
 
-/* line 116 */
+/* line 117 */
 table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
   color: white;
   background: #007f9b;
   text-align: left;
   font-weight: normal; }
-/* line 123 */
+/* line 124 */
 table.tablestakes thead th.total, table.tablestakes thead td.total {
   color: #231f20;
   background: #a9dde2;
   font-weight: bold; }
 
-/* line 140 */
+/* line 141 */
 table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-size: 16px;
   color: #675b5e;
@@ -78,32 +79,32 @@ table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-style: italic;
   text-align: left; }
 
-/* line 173 */
+/* line 174 */
 table.tablestakes tbody th, table.tablestakes tbody td {
   text-align: right; }
-  /* line 175 */
+  /* line 176 */
   table.tablestakes tbody th.row-heading, table.tablestakes tbody td.row-heading {
     color: #675b5e;
     background: transparent;
     text-transform: none;
     text-align: left; }
-  /* line 182 */
+  /* line 183 */
   table.tablestakes tbody th.total, table.tablestakes tbody td.total {
     color: #231f20;
     background: #a9dde2;
     font-weight: bold; }
-  /* line 188 */
+  /* line 189 */
   table.tablestakes tbody th.left-aligned, table.tablestakes tbody td.left-aligned {
     text-align: left; }
-  /* line 192 */
+  /* line 193 */
   table.tablestakes tbody th.light, table.tablestakes tbody td.light {
     color: #cac3c5;
     background: transparent; }
 
-/* line 213 */
+/* line 214 */
 table.tablestakes thead .resizable:hover .resizable-handle {
   border-right: solid 2px #1d97a2; }
-/* line 218 */
+/* line 219 */
 table.tablestakes thead .resizable .resizable-handle {
   position: absolute;
   top: 0;
@@ -113,26 +114,26 @@ table.tablestakes thead .resizable .resizable-handle {
   height: 100%;
   cursor: col-resize;
   padding: 0; }
-  /* line 228 */
+  /* line 229 */
   table.tablestakes thead .resizable .resizable-handle:hover {
     background: white; }
-  /* line 232 */
+  /* line 233 */
   table.tablestakes thead .resizable .resizable-handle.neighbor {
     background: #00455b; }
-  /* line 236 */
+  /* line 237 */
   table.tablestakes thead .resizable .resizable-handle.left {
     left: 0; }
-  /* line 240 */
+  /* line 241 */
   table.tablestakes thead .resizable .resizable-handle.right {
     right: 0; }
 
-/* line 261 */
+/* line 262 */
 table.tablestakes thead .sortable {
   cursor: pointer; }
-  /* line 264 */
+  /* line 265 */
   table.tablestakes thead .sortable > div {
     padding-right: 20px; }
-    /* line 267 */
+    /* line 268 */
     table.tablestakes thead .sortable > div:before, table.tablestakes thead .sortable > div:after {
       position: absolute;
       right: 0;
@@ -152,33 +153,33 @@ table.tablestakes thead .sortable {
       margin-top: 0;
       color: #00455b;
       font-size: 16px; }
-    /* line 288 */
+    /* line 289 */
     table.tablestakes thead .sortable > div:before {
       top: 0px;
       content: "\f0d8"; }
-    /* line 293 */
+    /* line 294 */
     table.tablestakes thead .sortable > div:after {
       bottom: 2px;
       content: "\f0d7"; }
-  /* line 301 */
+  /* line 302 */
   table.tablestakes thead .sortable.sorted-asc > div:before {
     color: white; }
-  /* line 309 */
+  /* line 310 */
   table.tablestakes thead .sortable.sorted-desc > div:after {
     color: white; }
-  /* line 315 */
+  /* line 316 */
   table.tablestakes thead .sortable .sortable-handle {
     padding: 0; }
 
-/* line 344 */
+/* line 345 */
 table.tablestakes thead tr.reorder-draggable-destination th, table.tablestakes thead tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568; }
-/* line 354 */
+/* line 355 */
 table.tablestakes tbody tr.subtotal th, table.tablestakes tbody tr.subtotal td {
   border-top: solid 1px #e2dedf;
   color: #675b5e;
   background: transparent; }
-/* line 362 */
+/* line 363 */
 table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -186,7 +187,7 @@ table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td
   background: #faf9fa;
   font-weight: bold;
   text-transform: capitalize; }
-/* line 372 */
+/* line 373 */
 table.tablestakes tbody tr.well {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -200,13 +201,13 @@ table.tablestakes tbody tr.well {
   margin: 0;
   color: #675b5e !important;
   background: #f5fbfc !important; }
-  /* line 382 */
+  /* line 383 */
   table.tablestakes tbody tr.well td, table.tablestakes tbody tr.well th {
     color: #a69b9e;
     font-weight: bold;
     text-transform: capitalize;
     border: none; }
-/* line 391 */
+/* line 392 */
 table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -214,7 +215,7 @@ table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   background: transparent !important;
   font-weight: bold !important;
   text-transform: capitalize !important; }
-/* line 402 */
+/* line 403 */
 table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -222,32 +223,32 @@ table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   background: #005568 !important;
   font-weight: bold !important;
   text-transform: capitalize !important; }
-/* line 413 */
+/* line 414 */
 table.tablestakes tbody tr.spacer th, table.tablestakes tbody tr.spacer td {
   text-align: left;
   text-indent: -9999em;
   background: transparent; }
-/* line 421 */
+/* line 422 */
 table.tablestakes tbody tr.emphasis th, table.tablestakes tbody tr.emphasis td {
   color: #30878f;
   background: transparent;
   font-size: 100%;
   font-weight: bold;
   border-bottom: solid 1px #e2dedf; }
-/* line 430 */
+/* line 431 */
 table.tablestakes tbody tr.emphasis2 {
   color: #675b5e;
   background: #fce5b1;
   font-size: 100%;
   font-weight: bold; }
-/* line 438 */
+/* line 439 */
 table.tablestakes tbody tr.reorder-draggable-destination th, table.tablestakes tbody tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568; }
-/* line 444 */
+/* line 445 */
 table.tablestakes tbody tr.hierarchy-draggable-destination th, table.tablestakes tbody tr.hierarchy-draggable-destination td {
   color: white;
   background: #0094b4; }
-/* line 450 */
+/* line 451 */
 table.tablestakes tbody tr.dragged {
   pointer-events: none;
   position: absolute;
@@ -255,7 +256,7 @@ table.tablestakes tbody tr.dragged {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
-  /* line 456 */
+  /* line 457 */
   table.tablestakes tbody tr.dragged td, table.tablestakes tbody tr.dragged th {
     pointer-events: none;
     -moz-opacity: 0.5;
@@ -263,22 +264,22 @@ table.tablestakes tbody tr.dragged {
     opacity: 0.5;
     background: inherit; }
 
-/* line 491 */
+/* line 492 */
 table.tablestakes th.plan, table.tablestakes td.plan {
   color: #675b5e;
   background: #e2f4f5; }
-  /* line 495 */
+  /* line 496 */
   table.tablestakes th.plan.editable:hover, table.tablestakes td.plan.editable:hover {
     background: white; }
-/* line 501 */
+/* line 502 */
 table.tablestakes th.old, table.tablestakes td.old {
   color: #675b5e;
   background: #eeecec; }
-/* line 507 */
+/* line 508 */
 table.tablestakes th.collapsible, table.tablestakes td.collapsible {
   cursor: pointer;
   text-align: left; }
-  /* line 511 */
+  /* line 512 */
   table.tablestakes th.collapsible > div:before, table.tablestakes td.collapsible > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -297,11 +298,11 @@ table.tablestakes th.collapsible, table.tablestakes td.collapsible {
     content: "\f0d7";
     color: #30878f;
     font-size: 16px; }
-/* line 534 */
+/* line 535 */
 table.tablestakes th.expandable, table.tablestakes td.expandable {
   cursor: pointer;
   text-align: left; }
-  /* line 539 */
+  /* line 540 */
   table.tablestakes th.expandable > div:before, table.tablestakes td.expandable > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -320,14 +321,14 @@ table.tablestakes th.expandable, table.tablestakes td.expandable {
     content: "\f0da";
     color: #30878f;
     font-size: 16px; }
-/* line 562 */
+/* line 563 */
 table.tablestakes th.deletable, table.tablestakes td.deletable {
   text-align: left;
   cursor: pointer; }
-  /* line 568 */
+  /* line 569 */
   table.tablestakes th.deletable:hover > div:before, table.tablestakes td.deletable:hover > div:before {
     text-shadow: 1px 2px 6px rgba(220, 110, 89, 0.5); }
-  /* line 575 */
+  /* line 576 */
   table.tablestakes th.deletable > div:before, table.tablestakes td.deletable > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -346,11 +347,11 @@ table.tablestakes th.deletable, table.tablestakes td.deletable {
     content: "\f057";
     color: #dc6e59;
     font-size: 16px; }
-/* line 598 */
+/* line 599 */
 table.tablestakes th.draggable, table.tablestakes td.draggable {
   cursor: pointer;
   text-align: left; }
-  /* line 602 */
+  /* line 603 */
   table.tablestakes th.draggable > div:before, table.tablestakes td.draggable > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -369,38 +370,38 @@ table.tablestakes th.draggable, table.tablestakes td.draggable {
     content: "\f0a6";
     color: #00455b;
     font-size: 16px; }
-/* line 625 */
+/* line 626 */
 table.tablestakes th.indent1, table.tablestakes td.indent1 {
   text-align: left;
   padding-left: 20px; }
-/* line 631 */
+/* line 632 */
 table.tablestakes th.indent2, table.tablestakes td.indent2 {
   text-align: left;
   padding-left: 30px; }
-/* line 637 */
+/* line 638 */
 table.tablestakes th.indent3, table.tablestakes td.indent3 {
   text-align: left;
   padding-left: 40px; }
-/* line 643 */
+/* line 644 */
 table.tablestakes th.indent4, table.tablestakes td.indent4 {
   text-align: left;
   padding-left: 50px; }
-/* line 649 */
+/* line 650 */
 table.tablestakes th.indent5, table.tablestakes td.indent5 {
   text-align: left;
   padding-left: 60px; }
-/* line 655 */
+/* line 656 */
 table.tablestakes th.indent6, table.tablestakes td.indent6 {
   text-align: left;
   padding-left: 70px; }
-/* line 663 */
+/* line 664 */
 table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > div, table.tablestakes td.boolean-false > div, table.tablestakes td.boolean-true > div {
   min-width: 30px;
   margin-left: 5px;
   margin-right: 5px;
   text-align: left;
   text-indent: -9999em; }
-  /* line 670 */
+  /* line 671 */
   table.tablestakes th.boolean-false > div:before, table.tablestakes th.boolean-true > div:before, table.tablestakes td.boolean-false > div:before, table.tablestakes td.boolean-true > div:before {
     position: absolute;
     top: 7px;
@@ -412,7 +413,7 @@ table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > di
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px; }
-  /* line 681 */
+  /* line 682 */
   table.tablestakes th.boolean-false > div:after, table.tablestakes th.boolean-true > div:after, table.tablestakes td.boolean-false > div:after, table.tablestakes td.boolean-true > div:after {
     position: absolute;
     top: 5px;
@@ -421,36 +422,36 @@ table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > di
     width: 24px;
     height: 25px;
     background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat; }
-/* line 692 */
+/* line 693 */
 table.tablestakes th.boolean-false:hover, table.tablestakes th.boolean-true:hover, table.tablestakes td.boolean-false:hover, table.tablestakes td.boolean-true:hover {
   background: transparent; }
-/* line 700 */
+/* line 701 */
 table.tablestakes th.boolean-false > div:before, table.tablestakes td.boolean-false > div:before {
   background: #dc6e59;
   -webkit-box-shadow: inset 0 0 6px #812b1b;
   -moz-box-shadow: inset 0 0 6px #812b1b;
   box-shadow: inset 0 0 6px #812b1b; }
-/* line 705 */
+/* line 706 */
 table.tablestakes th.boolean-false > div:after, table.tablestakes td.boolean-false > div:after {
   left: -3px; }
-/* line 714 */
+/* line 715 */
 table.tablestakes th.boolean-true > div:before, table.tablestakes td.boolean-true > div:before {
   background: #8ac16f;
   -webkit-box-shadow: inset 0 0 6px #416a2d;
   -moz-box-shadow: inset 0 0 6px #416a2d;
   box-shadow: inset 0 0 6px #416a2d; }
-/* line 719 */
+/* line 720 */
 table.tablestakes th.boolean-true > div:after, table.tablestakes td.boolean-true > div:after {
   right: -3px; }
 
-/* line 741 */
+/* line 742 */
 table.tablestakes th.editable, table.tablestakes td.editable {
   color: #30878f !important;
   cursor: pointer; }
-  /* line 745 */
+  /* line 746 */
   table.tablestakes th.editable:hover, table.tablestakes td.editable:hover {
     background: #e2f4f5; }
-  /* line 750 */
+  /* line 751 */
   table.tablestakes th.editable.active, table.tablestakes td.editable.active {
     width: auto;
     position: relative;
@@ -460,7 +461,7 @@ table.tablestakes th.editable, table.tablestakes td.editable {
     -moz-box-shadow: inset 0 0 6px #a69b9e;
     box-shadow: inset 0 0 6px #a69b9e;
     background: #faf9fa; }
-    /* line 759 */
+    /* line 760 */
     table.tablestakes th.editable.active > div:after, table.tablestakes td.editable.active > div:after {
       position: absolute;
       bottom: 0;
@@ -476,18 +477,18 @@ table.tablestakes th.editable, table.tablestakes td.editable {
       box-shadow: 0 1px 1px #005568;
       cursor: pointer;
       overflow: hidden; }
-    /* line 773 */
+    /* line 774 */
     table.tablestakes th.editable.active > div:focus, table.tablestakes td.editable.active > div:focus {
       outline: none; }
-    /* line 778 */
+    /* line 779 */
     table.tablestakes th.editable.active:hover, table.tablestakes td.editable.active:hover {
       background: #faf9fa; }
-  /* line 784 */
+  /* line 785 */
   table.tablestakes th.editable.changed, table.tablestakes td.editable.changed {
     font-weight: bold;
     border: 1px dotted #30878f; }
 
-/* line 805 */
+/* line 806 */
 table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
   width: auto;
   height: auto;
@@ -498,13 +499,13 @@ table.tablestakes th.editable.active.calendar input, table.tablestakes td.editab
   background: transparent;
   outline: none;
   box-shadow: none; }
-  /* line 816 */
+  /* line 817 */
   table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
     border: none;
     outline: none;
     background: transparent; }
 
-/* line 839 */
+/* line 840 */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;
