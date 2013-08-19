@@ -1,6 +1,9 @@
 window.TableStakesLib = {} unless window.TableStakesLib
 class window.TableStakesLib.Core
 
+  # Constructor, getter, and setter methods
+  # ---------------------------------------
+  
   constructor: (options) ->
     @utils = new window.TableStakesLib.Utils
       core: @
@@ -19,12 +22,19 @@ class window.TableStakesLib.Core
     @selection.call (selection) =>
       @table.update selection
 
-  # responsible for &lt;table&gt; and contents
+  # Building the base DOM elements
+  # ------------------------------
+
+  # Responsible for &lt;table&gt; and contents
   #
-  # calls renderHead() for &lt;thead&gt; and contents
-  # calls renderBody() for &lt;tbody&gt; and contents
+  # Calls renderHead() for &lt;thead&gt; and contents
+  # Calls renderBody() for &lt;tbody&gt; and contents
   render: ->
+
+    # First get your data
     @_buildData()
+    
+    # Then build the table itself
     wrap = d3.select(@table.el())
       .selectAll("div")
       .data([[@nodes]])
@@ -32,38 +42,39 @@ class window.TableStakesLib.Core
     @tableEnter = wrapEnter.append("table")
     @tableObject = wrap.select("table")
       .classed(@table.tableClassName, true)
-      # .attr("style", "table-layout:fixed;")
 
+    # Add header and body
     @_renderHead(@tableObject) if @table.header
     @_renderBody(@tableObject)
+    
+    # Apply table-level config
     @_makeDraggable(@tableObject) unless @table.isDraggable() is false
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
 
+  # TODO: This method needs documentation
   _buildData: ->
     @data[0] = id: @table.noData unless @data[0]
     @tree = d3.layout.tree().children (d) -> d.values
     @nodes = @tree.nodes(@data[0])
 
-    # calculate number of columns
+    # Calculate number of columns
     depth = d3.max(@nodes, (node) -> node.depth)
     @tree.size [@table.height, depth * @table.childIndent]
 
-  # responsible for &lt;thead&gt; and contents
+  # Responsible for &lt;thead&gt; and contents
   _renderHead: (tableObject) ->
-    self = @
-
-    # create table header
+    # Create table header
     thead = tableObject.selectAll('thead')
-      .data((d)->d)
+      .data((d) -> d)
       .enter()
         .append('thead')
 
-    if !@headRows
-      # create table header row
+    if !@headRows # TODO: What does this line do?
+      # Create table header row
       theadRow = thead
         .append("tr")
 
-      # append a &lt;th&gt; for each column
+      # Append a &lt;th&gt; for each column
       th = theadRow.selectAll("th")
         .data(@columns)
         .enter()
@@ -74,14 +85,14 @@ class window.TableStakesLib.Core
             .append('div')
               .text((d) -> d.label)
     else
-      # create table header row
+      # Create table header row
       theadRow = thead.selectAll("thead")
         .data(@headRows)
         .enter()
           .append("tr")
             .attr("class", (d) -> d.headClasses)
 
-      # append a &lt;th&gt; for each column
+      # Append a &lt;th&gt; for each column
       th = theadRow.selectAll("th")
         .data((row, i) -> row.col)
         .enter()
@@ -94,36 +105,74 @@ class window.TableStakesLib.Core
             .append('div')
               .text((d) -> d.label)
 
-    # for now, either all columns are resizable or none, set in table config
+    # Apply header-level config
     allTh = theadRow
       .filter((d) -> true unless d.headClasses)
       .selectAll("th")
 
-    sortable = allTh.filter (d)-> d.isSortable
+    # Individual columns can be made sortable, or all, or none
+    sortable = allTh.filter (d) -> d.isSortable
     @_makeSortable(sortable)
+
+    # For now, either all columns are resizable or none, set in table config
     @_makeResizable(allTh) if @table.isResizable()
+    
+    # return @ to make the method chainable (TODO: but why? we can prob delete?)
     @
 
-  # responsible for &lt;tbody&gt; and contents
+  # Responsible for &lt;tbody&gt; and contents
   _renderBody: (tableObject) ->
+    # render the body itself
     @tbody = tableObject.selectAll("tbody").data((d) -> d)
     @tbody.enter().append "tbody"
-    @_renderRows()
+    
+    # Create objects that can be chained against for each row
+    @rows = @tbody.selectAll("tr")
+      .data(((d) -> d), (d) -> d.id)
+    @_enterRows()
+    @_updateRows()
+    @_exitRows()
 
+    # Hide the first row (TODO: but why?)
+    d3.select(@enterRows[0][0])
+      .style("display", "none") if @enterRows[0][0]
+
+    # Now render the rows themselves
+    @_renderEnterRows()
+    @_renderUpdateRows()
+
+  # Creates an object that can be chained against for rows that are entering.
+  #
+  # See D3 documentation for the logic behind thinking in joins:
+  # http://bost.ocks.org/mike/join/
   _enterRows: ->
     @enterRows = @rows
       .enter()
         .append("tr")
         .attr("class", (d) => @_rowClasses(d))
 
+  # Creates an object that can be chained against for rows that are being updated.
+  # Per D3 convention, this *includes* entering and existing rows not exiting.
+  #
+  # See D3 documentation for the logic behind thinking in joins:
+  # http://bost.ocks.org/mike/join/
   _updateRows: ->
-    self = @
-
     @updateRows = @rows.order()
     @_addRowEventHandling()
     @updateRows.select('.expandable')
       .classed('folded', @utils.folded)
 
+  # Creates an object that can be chained against for rows that are exiting.
+  #
+  # See D3 documentation for the logic behind thinking in joins:
+  # http://bost.ocks.org/mike/join/
+  _exitRows: ->
+    @rows
+      .exit()
+        .remove()
+
+  # This method binds basic event handling at the row level so that methods in
+  # events.coffee can handle them.
   _addRowEventHandling: ->
     events =
       click: 'elementClick'
@@ -139,26 +188,17 @@ class window.TableStakesLib.Core
 
     _.each events, (value, key) => addEvent(key, value)
 
-  _exitRows: ->
-    @rows
-      .exit()
-        .remove()
 
-  _renderRows: ->
-    @rows = @tbody.selectAll("tr")
-      .data(((d) -> d), (d) -> d.id)
-    @_enterRows()
-    @_updateRows()
-    @_exitRows()
-
-    d3.select(@enterRows[0][0])
-      .style("display", "none") if @enterRows[0][0]
-    @_renderEnterRows()
-    @_renderUpdateRows()
-
+  # Responsible for rendering new rows
   _renderEnterRows: ->
     self = @
+    
+    # TODO: I am skeptical about the need for this forEach as opposed to using 
+    # a join correctly. Perhaps in the future we will have a D3 maniac at our
+    # disposal who can help with this line.
     @columns.forEach (column, column_index) =>
+      
+      # Determine the text to be included in the cell
       text = (d) ->
         if column.timeSeries? and d.period? and d.dataValue?
           index = d.period.indexOf(column.id)
@@ -174,16 +214,31 @@ class window.TableStakesLib.Core
           d[column.id] or '-'
 
       @enterRows.append('td')
+        
+        # add cell classes
         .attr('class', (d) => @_cellClasses(d, column))
+        
+        # add a column id
         .attr('meta-key', column.id)
-        .append('div')
-          .html(text).each (d, i) -> self._renderCell(column, d, @)
 
+        # include text in a div due to IE problems
+        .append('div') 
+          .html(text).each (d, i) -> 
+            
+            # TODO: Do we really need this? I believe _renderUpdateRows
+            # achieves this for every cell, including entering cells
+            self._renderCell(column, d, @)
+
+  # Responsible for updating existing rows
   _renderUpdateRows: ->
     self = @
     @updateRows.selectAll('div').each (d, i) ->
       self._renderCell(self.columns[i], d, @) if self.columns[i]?
 
+  # Responsible for rendering the cell itself (finally!)
+  #
+  # Note: At this point, the text of the cell is already populated. Here we're
+  # more concerned with classes and behaviors
   _renderCell: (column, d, div) ->
     isEditable = @utils.ourFunctor(column.isEditable, d)
     @_makeNested(div) if @utils.ourFunctor(column.isNested, d)
@@ -194,29 +249,31 @@ class window.TableStakesLib.Core
     @_makeButton(d, div, column) if column.editor is 'button' and isEditable
     @_addShowCount(d, div, column) if column.showCount
 
-  # ## "Class methods" (tongue in cheek) define classes to be applied to tags
+  # "Class methods" (tongue in cheek) define classes to be applied to tags
+  # ----------------------------------------------------------------------
+  #
   # Note: There are other methods that add/remove classes but these are the
   # primary points of contact
 
-  # responsible for &lt;th&gt; classes
+  # Responsible for &lt;th&gt; classes
   # functions in column classes only to &lt;td&gt; nodes below,
   # not &lt;th&gt; nodes
   _columnClasses: (column) ->
     column.classes unless typeof column.classes is 'function'
 
-  # responsible for &lt;tr&gt; classes
+  # Responsible for &lt;tr&gt; classes
   # functions in column classes only to &lt;td&gt; nodes below,
   # not &lt;th&gt; nodes
   _rowClasses: (d) ->
     @table.rowClasses()(d) if @table.rowClasses()?
 
-  # responsible for &lt;td&gt; classes
+  # Responsible for &lt;td&gt; classes
   # functions in column classes only to &lt;td&gt; nodes below,
   # not &lt;th&gt; nodes
   _cellClasses: (d, column) ->
     val = []
 
-    #retrieve classes specific to the column
+    # Retrieve classes specific to the column
     val.push if column.classes?
       if typeof column.classes is 'function'
         column.classes(d, column)
@@ -225,18 +282,20 @@ class window.TableStakesLib.Core
 
     val.push @utils.nestedIcons(d) if column.isNested
 
-    # retrieve classes specified in data itself
+    # Retrieve classes specified in data itself
     val.push d.classes if d.classes?
 
-    # return string split by spaces
+    # Return string split by spaces
     val.join(' ')
 
 
-  # ## "Transform methods" apply optional behaviors and classes based on config
+  # "Transform methods" apply optional behaviors and classes based on config
+  # ------------------------------------------------------------------------
+  
+  # Table-level transform methods
+  # =============================
 
-  # ### Table-level transform methods
-
-  #
+  # TODO: this method needs documentation
   _makeDraggable: (table) ->
     self = @
 
@@ -257,6 +316,7 @@ class window.TableStakesLib.Core
     .on 'mouseout', (d) ->
       self._clearDragBehavior()
 
+  # TODO: this method needs documentation
   _setDragBehavior: ->
     self = @
     dragBehavior = d3.behavior.drag()
@@ -266,6 +326,7 @@ class window.TableStakesLib.Core
       .on('dragend',   (d, x, y) -> self.events.dragEnd(@, d, x, y))
     @updateRows.call dragBehavior
 
+  # TODO: this method needs documentation
   _clearDragBehavior: ->
     self = @
     dragBehavior = d3.behavior.drag()
@@ -275,6 +336,7 @@ class window.TableStakesLib.Core
       .on('dragend', null)
     @updateRows.call dragBehavior
 
+  # TODO: this method needs documentation
   _makeDeletable: (table) ->
     # add space in the table header
     if table.selectAll('th.deletable-head')[0].length is 0
@@ -291,7 +353,7 @@ class window.TableStakesLib.Core
           (d) =>
             @table.onDelete()(d.id) if @utils.ourFunctor(@table.isDeletable(), d)
 
-  #
+  # TODO: this method needs documentation
   _makeResizable: (allTd) =>
     # todo: clean up contexts
     self = @
@@ -315,7 +377,7 @@ class window.TableStakesLib.Core
       .classed('right', true)
       .call dragBehavior
     
-
+  # TODO: this method needs documentation
   _makeSortable: (allTd)->
     self = @
 
@@ -332,9 +394,10 @@ class window.TableStakesLib.Core
     allTd.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
-  # ### Cell-level transform methods
+  # Cell-level transform methods
+  # ============================
 
-  #
+  # TODO: this method needs documentation
   _makeNested: (div) ->
     d3.select(div.parentNode).classed('collapsible', false)
     d3.select(div.parentNode).classed('expandable', false)
@@ -346,6 +409,7 @@ class window.TableStakesLib.Core
       )
       .on('click', (a,b,c) => @events.nestedClick(@,a,b,c))
 
+  # TODO: this method needs documentation
   _makeEditable: (d, div, column) ->
     self = @
 
@@ -373,14 +437,38 @@ class window.TableStakesLib.Core
     else
       @_makeInactive(div)
 
+  # TODO: this method needs documentation
   _makeActive: (d, div, column) ->
     self = @
 
-    _text = (d) ->
-      if _.has(column, 'timeSeries')
-        d.dataValue[_.indexOf(d.period, column.id)] or '-'
+    getValue = (d) ->
+      if column.timeSeries
+        if d.dataValue and d.period
+          index = d.period.indexOf(column.id)
+          cell = _.clone d
+          cell.dataValue = d.dataValue[index]
+          cell
+        else
+          ""
       else
-        d[column.id] or '-'
+        d
+
+    getFormattedValue = (d) ->
+      value = d.dataValue || d[column.id]
+      formattedValue = if column.format
+        column.format(d, column)
+      else
+        if column.timeSeries then d.dataValue else d[column.id]
+
+      # parse formattedValue for numeral().format('$0.[00]a')
+      if _.last(formattedValue) in ["k", "b", "m", "t", "K", "B", "M", "T"]
+        value
+      else
+        formattedValue
+
+    _text = (d) ->
+      value = getValue(d)
+      getFormattedValue(value)
 
     # TODO: handle .calendar input
     d3.select(div.parentNode).classed('active', true)
@@ -392,6 +480,7 @@ class window.TableStakesLib.Core
       .node()
         .focus()
 
+  # TODO: this method needs documentation
   _makeInactive: (node) ->
     self = @
     d3.select(node.parentNode)
@@ -399,10 +488,12 @@ class window.TableStakesLib.Core
     d3.select(node)
       .attr('contentEditable', false)
 
+  # TODO: this method needs documentation
   _makeChanged: (d, div, column) ->
     if d.changedID and (i = d.changedID.indexOf(column.id)) isnt -1
       d.changedID.splice i, 1
 
+  # TODO: this method needs documentation
   _makeSelect: (d, div, column) ->
     options = @utils.ourFunctor(column.selectOptions, d)
     d3.select(div.parentNode)
@@ -426,6 +517,7 @@ class window.TableStakesLib.Core
 
     select.on('change', (a, b, c) => @events.selectClick(@, a, b, c, column))
 
+  # TODO: this method needs documentation
   _makeButton: (d, div, column) ->
     classes = 'btn btn-mini btn-primary'
     html = "<input type='button' value='#{column.label}' class='#{classes}' />"
@@ -433,12 +525,14 @@ class window.TableStakesLib.Core
       .html(html)
       .on('click', (a, b, c) => @events.buttonClick(@, a, b, c, column))
 
+  # TODO: this method needs documentation
   _makeBoolean: (d, div, column) ->
     d3.select(div.parentNode)
       .classed('boolean-true', d[column.id])
       .classed('boolean-false', not d[column.id])
       .on('click', (a, b, c) => @events.toggleBoolean(@, a, b, c, column))
 
+  # TODO: this method needs documentation
   _addShowCount: (d, div, column) ->
     count = d.values?.length or d._values?.length
     d3.select(div).append('span')
