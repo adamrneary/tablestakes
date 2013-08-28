@@ -68,9 +68,6 @@ onDragHandler = (object, target) ->
     u.appendNode(target, object)
     grid.data(data).render()
 
-dragDestination = (d) ->
-  d.depth > 1
-
 draggable = (d) ->
   d.depth > 1
 
@@ -80,7 +77,7 @@ grid = new window.TableStakes()
   .data(data)
   .isDraggable(draggable)
   .dragMode('hierarchy')
-  .isDragDestination(dragDestination)
+  .isDragDestination(true)
   .onDrag(onDragHandler)
   .render()
 

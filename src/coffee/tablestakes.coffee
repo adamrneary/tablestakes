@@ -448,9 +448,9 @@ class window.TableStakes
         if @_setFilter(data._values[i], filter) == null
           data._hiddenvalues.push(data._values.splice(i, 1)[0])
 
-    if data.values and data.values.length > 0
+    if data.values
       return data
-    if data._values and data._values.length > 0
+    if data._values
       return data
 
     matchFound = true
@@ -458,7 +458,7 @@ class window.TableStakes
       if data[key]
         #arr = d3.map data[key], (d) ->
           #d.toUpperCase()
-        _data = data[key].toUpperCase()
+        _data = data[key].toString().toUpperCase()
         if _data.indexOf(filter.get(key)) == -1
           matchFound = false
       else
