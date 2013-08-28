@@ -400,7 +400,21 @@ class window.TableStakes
               -1
       else
         0
-    @data().sort sortFunction
+    # TODO: make it recursive
+    sortRecursive = (data) =>
+      _data = _.map data, (row) ->
+        if row['values']?
+          row.values = sortRecursive(row.values)
+        if row['_values']?
+          row._values = sortRecursive(row._values)
+        row
+      _data.sort sortFunction
+      _data
+
+    if _.find(@data(), (row) -> ('values' in _.keys(row)) or ('_values' in _.keys(row)))
+      @data sortRecursive(@data())
+    else
+      @data().sort sortFunction
     @render()
 
   # This method simply provides an external interface for the internal 
@@ -486,7 +500,7 @@ class window.TableStakes
     # 2. first/last
     # 3. avarage                - future compatibility
     # 4. max/min                - future compatibility
-    # 5. user defined function  - future compatibility
+    # 5. user defined function
     self = @
     aggregator = [aggregator] unless _.isArray aggregator
 
