@@ -400,7 +400,21 @@ class window.TableStakes
               -1
       else
         0
-    @data().sort sortFunction
+    # TODO: make it recursive
+    sortRecursive = (data) =>
+      _data = _.map data, (row) ->
+        if row['values']?
+          row.values = sortRecursive(row.values)
+        if row['_values']?
+          row._values = sortRecursive(row._values)
+        row
+      _data.sort sortFunction
+      _data
+
+    if _.find(@data(), (row) -> ('values' in _.keys(row)) or ('_values' in _.keys(row)))
+      @data sortRecursive(@data())
+    else
+      @data().sort sortFunction
     @render()
 
   # This method simply provides an external interface for the internal 
@@ -434,9 +448,9 @@ class window.TableStakes
         if @_setFilter(data._values[i], filter) == null
           data._hiddenvalues.push(data._values.splice(i, 1)[0])
 
-    if data.values and data.values.length > 0
+    if data.values
       return data
-    if data._values and data._values.length > 0
+    if data._values
       return data
 
     matchFound = true
@@ -444,7 +458,7 @@ class window.TableStakes
       if data[key]
         #arr = d3.map data[key], (d) ->
           #d.toUpperCase()
-        _data = data[key].toUpperCase()
+        _data = data[key].toString().toUpperCase()
         if _data.indexOf(filter.get(key)) == -1
           matchFound = false
       else
@@ -486,7 +500,7 @@ class window.TableStakes
     # 2. first/last
     # 3. avarage                - future compatibility
     # 4. max/min                - future compatibility
-    # 5. user defined function  - future compatibility
+    # 5. user defined function
     self = @
     aggregator = [aggregator] unless _.isArray aggregator
 
