@@ -99,8 +99,7 @@ class window.TableStakesLib.Core
           .append("th")
             .attr("ref", (d,i) -> i)
             .attr("class", (d) =>
-              d.classes += ' ' + 'underline' unless d.label
-              @_columnClasses(d))
+              @_columnClasses(d) + ' underline' unless d.label)
             .style('width', (d) -> d.width)
             .append('div')
               .text((d) -> d.label)
@@ -259,7 +258,10 @@ class window.TableStakesLib.Core
   # functions in column classes only to &lt;td&gt; nodes below,
   # not &lt;th&gt; nodes
   _columnClasses: (column) ->
-    column.classes unless typeof column.classes is 'function'
+    if _.isFunction(column.classes)
+      column.classes({}, column) || ''
+    else
+      column.classes || ''
 
   # Responsible for &lt;tr&gt; classes
   # functions in column classes only to &lt;td&gt; nodes below,
