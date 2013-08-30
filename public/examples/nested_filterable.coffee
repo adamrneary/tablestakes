@@ -73,6 +73,7 @@ draggable = (d) ->
 
 grid = new window.TableStakes()
   .el('#example')
+  .height(300)
   .columns(columns)
   .data(data)
   .isDraggable(draggable)

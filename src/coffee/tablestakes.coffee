@@ -112,6 +112,18 @@ class window.TableStakes
     # return @ to make the method chainable
     @
 
+  # Set 'max-height' attr for table wrapper element
+  height: (height) ->
+    @height = height
+    # return @ to make the method chainable
+    @
+
+  # Set 'max-width' attr for table wrapper element
+  width: (width) ->
+    @width = width
+    # return @ to make the method chainable
+    @
+
   # Columns have a custom getter/setter because of their inherent complexity
   columns: (columnList) ->
     
@@ -317,9 +329,18 @@ class window.TableStakes
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
     @_setFilter @gridFilteredData[0], @filterCondition
-    d3.select(@el())
+    wrap = d3.select(@el())
       .html('')
-      .datum(@gridFilteredData)
+
+    if (@height)
+      wrap.style("max-height", "#{ @height }px")
+        .style("overflow-y", "auto")
+
+    if (@width)
+      wrap.style("max-width", "#{ @width }px")
+        .style("overflow-x", "auto")
+
+    wrap.datum(@gridFilteredData)
       .call( (selection) => @update selection)
     #@dispatchManualEvent(d3.select('td').node())
     

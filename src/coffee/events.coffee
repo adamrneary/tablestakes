@@ -179,6 +179,15 @@ class window.TableStakesLib.Events
       left: @initPosition.left + d3.event.x
       top: @initPosition.top + d3.event.y
 
+    # scroll to position: [0; maxHeight]
+    tableHeight = $(@core.tableObject.node()).height()
+    maxHeight = tableHeight - $(@core.table.el()).height()
+    position = if @initPosition.top + d3.event.y > maxHeight
+      maxHeight
+    else
+      @initPosition.top + d3.event.y
+    $(@core.table.el()).scrollTop(position)
+
   # when the dragging is done, remove the classes applied on dragStart and fire
   # the appropriate onDrag handler
   dragEnd: (tr, d) ->
