@@ -2,6 +2,7 @@
   describe('column', function() {
   return it('constructor', function() {
     var column;
+
     column = new window.TableStakesLib.Column({
       a: 'b'
     });
@@ -15,6 +16,7 @@
 (function() {
   describe("Events", function() {
   var column, columns, d, data, event, table;
+
   event = null;
   table = null;
   data = [
@@ -171,12 +173,14 @@
   });
   it('blur', function() {
     var td;
+
     table = new window.TableStakes().el("#example").data(data).columns(column);
     td = d3.select('#NVD3');
     return assert(event.blur(td, d, column));
   });
   it('keydown press tab, shiftKey-false and ColumnIndex=3', function() {
     var td, _table;
+
     d3.event = {
       'keyCode': 9,
       'shiftKey': false,
@@ -194,6 +198,7 @@
   });
   it('keydown press tab, shiftKey-false and ColumnIndex = 1', function() {
     var td, _table;
+
     d3.event = {
       'keyCode': 9,
       'shiftKey': false,
@@ -212,6 +217,7 @@
   });
   it('keydown press tab, shiftKey-true and ColumnIndex = 3', function() {
     var td, _table;
+
     d3.event = {
       'keyCode': 9,
       'shiftKey': true,
@@ -229,6 +235,7 @@
   });
   it('keydown press tab, shiftKey-true and  ColumnIndex = 0', function() {
     var td, _table;
+
     d3.event = {
       'keyCode': 9,
       'shiftKey': true,
@@ -247,6 +254,7 @@
   });
   it('keydown press up', function() {
     var td, _table;
+
     d3.event = {
       'keyCode': 38,
       'shiftKey': true,
@@ -264,6 +272,7 @@
   });
   it('keydown press down', function() {
     var td, _table;
+
     d3.event = {
       'keyCode': 40,
       'shiftKey': true,
@@ -281,6 +290,7 @@
   });
   it('keydown press Enter', function() {
     var td;
+
     d3.event = {
       'keyCode': 13,
       'shiftKey': true,
@@ -296,6 +306,7 @@
   });
   it('keydown press Escape', function() {
     var td;
+
     d3.event = {
       'keyCode': 27,
       'shiftKey': true,
@@ -313,6 +324,7 @@
   });
   it('dragStart', function() {
     var tr;
+
     tr = d3.select('#NVD3');
     return tr['getBoundingClientRect'] = function() {
       return [34, 23];
@@ -320,22 +332,26 @@
   });
   it('dragMove', function() {
     var tr;
+
     return tr = d3.select('#NVD3');
   });
   it('resizeDrag');
   it('editableClick', function() {
     var td;
+
     return td = d3.select('#NVD3');
   });
   it('nestedClick', function() {});
   it('toggleBoolean', function() {
     var td;
+
     td = d3.select('td').node();
     assert(event.toggleBoolean(td, d, 2, 0, column));
     return assert(d.id === 'test');
   });
   return it('selectClick', function() {
     var td;
+
     d.id = 0;
     d3.event = {
       target: {
@@ -353,6 +369,7 @@
 (function() {
   describe("Render", function() {
   var categories, columns, data, editHandler, render, table, table2;
+
   render = null;
   table = null;
   table2 = null;
@@ -373,6 +390,7 @@
   categories = ['engineering', 'design', 'qa'];
   editHandler = function(id, field, newValue) {
     var row, _i, _len;
+
     for (_i = 0, _len = data.length; _i < _len; _i++) {
       row = data[_i];
       if (row.id === id) {
@@ -416,6 +434,7 @@
   });
   it('window.TableStakesLib.Core', function() {
     var deleteCheck, deleteHandler;
+
     deleteCheck = function(d) {
       return d.type === 'Historical' || d.type === 'Snapshot';
     };
@@ -442,6 +461,7 @@
   });
   return it('update', function() {
     var rendertest;
+
     rendertest = new window.TableStakesLib.Core;
     rendertest['table'] = {
       isInRender: false,
@@ -466,6 +486,7 @@
 (function() {
   describe("Tablestakes API ", function() {
   var columns, data, editHandler, setNewTreeValue, table;
+
   table = null;
   data = [
     {
@@ -527,6 +548,7 @@
   ];
   setNewTreeValue = function(tree, id, field, newValue) {
     var node, _i, _len, _results;
+
     _results = [];
     for (_i = 0, _len = tree.length; _i < _len; _i++) {
       node = tree[_i];
@@ -570,9 +592,11 @@
   describe("chainable getter/setter methods for most internal attributes", function() {
     return it('should return the value set by the same method', function() {
       var attributes;
+
       attributes = ['data', 'isDeletable', 'onDelete', 'isResizable', 'isSortable', 'dragMode', 'isDraggable', 'onDrag', 'isDragDestination', 'el', 'rowClasses'];
       return _.each(attributes, function(attribute) {
         var testVal;
+
         testVal = Math.random();
         assert(table[attribute](testVal) === table);
         return assert(table[attribute]() === testVal);
@@ -582,6 +606,7 @@
   describe("margin", function() {
     it('can set all margin attributes at once', function() {
       var testHash;
+
       testHash = {
         top: 40,
         right: 10,
@@ -596,6 +621,7 @@
     });
     return it('can set 1-2 margin attributes at a time', function() {
       var testHash;
+
       testHash = {
         top: 40,
         right: 10,
@@ -634,6 +660,7 @@
     });
     it('setID', function() {
       var _this = this;
+
       table.gridData = [
         {
           values: table.data()
@@ -651,6 +678,7 @@
     });
     it('update', function() {
       var _this = this;
+
       d3.select(table.el()).html('').call(function(selection) {
         return assert(table.update(selection));
       });
@@ -695,6 +723,7 @@
 (function() {
   describe("Utils", function() {
   var a, b, c, d, f, table, utils;
+
   table = null;
   utils = null;
   d = {
@@ -859,6 +888,7 @@
   });
   it('isChild', function() {
     var utilsTest2;
+
     assert(utils.isChild(d, b));
     assert(utils.isChild(a, f));
     utilsTest2 = new window.TableStakesLib.Utils({
@@ -880,6 +910,7 @@
   });
   return it('isParent', function() {
     var utilsTest;
+
     utils.isParent(a, d);
     utilsTest = new window.TableStakesLib.Utils({
       core: {

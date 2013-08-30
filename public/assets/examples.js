@@ -25,7 +25,7 @@ core = [
     title: "Filterable"
   }, {
     shortLink: "nested_filterable",
-    title: "Filterable and nested"
+    title: "Nested and filterable"
   }, {
     shortLink: "deleteable",
     title: "Deleteable"
@@ -59,16 +59,19 @@ showcaseObject = {
 
 prepareLinks = function(route, el) {
   var link;
+
   link = $("<a>").attr("href", "/#" + route.shortLink).text(route.title);
   el.append($("<li>").append(link));
   showcaseObject.routes[route.shortLink] = route.shortLink;
   return showcaseObject[route.shortLink] = function() {
     var url, urlCoffee;
+
     $("#example_header").text(route.title);
     urlCoffee = "examples/" + route.shortLink + ".coffee";
     url = "examples/" + route.shortLink + ".js";
     return $.get(urlCoffee, function(data) {
       var source;
+
       $("#example_js").text(data).removeClass("rainbow");
       $('#temp').html('');
       Rainbow.color();
@@ -95,6 +98,7 @@ tests = [
 
 $(document).ready(function() {
   var Showcase, perf, showcase;
+
   if (location.pathname === '/') {
     _.map(core, function(route) {
       return prepareLinks(route, $("#coreLinkList"));
@@ -134,15 +138,18 @@ $(document).ready(function() {
 
   Performance.prototype.runTest = function(counter) {
     var _this = this;
+
     if (counter == null) {
       counter = 0;
     }
     return setTimeout(function() {
       var start;
+
       start = Date.now();
       _this[_this.tests[counter].name](_this.tests[counter]);
       return setTimeout(function() {
         var end;
+
         end = Date.now();
         _this.showResult(end - start, counter);
         counter++;
@@ -165,6 +172,7 @@ $(document).ready(function() {
 
   Performance.prototype.generateData = function(rows, columns, configs) {
     var c, column, columnName, config, data, obj, p, _i, _j, _k, _len, _ref;
+
     data = {
       columns: [],
       data: []
@@ -196,12 +204,14 @@ $(document).ready(function() {
 
   Performance.prototype.testInit = function(options) {
     var data;
+
     data = this.generateData(options.rows, options.columns);
     return this.table = new window.TableStakes().el("#example").columns(data.columns).data(data.data).render();
   };
 
   Performance.prototype.testUpdate = function(options) {
     var data;
+
     data = this.generateData(options.rows, options.columns);
     return this.table.columns(data.columns).data(data.data).render();
   };
