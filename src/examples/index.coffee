@@ -20,6 +20,9 @@ core = [
   shortLink: "filterable"
   title: "Filterable"
 ,
+  shortLink: "nested_filterable"
+  title: "Nested and filterable"
+,
   shortLink: "deleteable"
   title: "Deleteable"
 ,

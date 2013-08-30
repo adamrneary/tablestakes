@@ -43,7 +43,8 @@ data = [
 columns = [
   id: "id"
   label: "Name"
-  isNested: true
+  isNested: true,
+  classes: 'row-heading'
 ,
   id: "type"
   label: "Type"

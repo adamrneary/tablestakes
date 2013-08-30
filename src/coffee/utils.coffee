@@ -148,9 +148,9 @@ class window.TableStakesLib.Utils
       indent = (d.depth-1)
     else
       indent = 5
-    if d._values and d._values.length
+    if d._values# and d._values.length
       'expandable' + ' ' + 'indent' + indent
-    else if d.values and d.values.length
+    else if d.values# and d.values.length
       'collapsible' + ' ' + 'indent' + indent
     else
       'indent' + (indent)
