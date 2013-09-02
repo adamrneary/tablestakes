@@ -114,12 +114,14 @@ class window.TableStakes
 
   # Set 'max-height' attr for table wrapper element
   height: (height) ->
+    return @height || false if _.isUndefined(height)
     @height = height
     # return @ to make the method chainable
     @
 
   # Set 'max-width' attr for table wrapper element
   width: (width) ->
+    return @width || false if _.isUndefined(width)
     @width = width
     # return @ to make the method chainable
     @
@@ -332,13 +334,13 @@ class window.TableStakes
     wrap = d3.select(@el())
       .html('')
 
-    if (@height)
-      wrap.style("max-height", "#{ @height }px")
-        .style("overflow-y", "auto")
-
-    if (@width)
-      wrap.style("max-width", "#{ @width }px")
-        .style("overflow-x", "auto")
+#    if (@height)
+#      wrap.style("max-height", "#{ @height }px")
+#        .style("overflow-y", "auto")
+#
+#    if (@width)
+#      wrap.style("max-width", "#{ @width }px")
+#        .style("overflow-x", "auto")
 
     wrap.datum(@gridFilteredData)
       .call( (selection) => @update selection)

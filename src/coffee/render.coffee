@@ -50,6 +50,7 @@ class window.TableStakesLib.Core
     # Apply table-level config
     @_makeDraggable(@tableObject) unless @table.isDraggable() is false
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
+    @_makeScrollable(@tableObject) if _.isNumber(@table.get('height'))
 
   # TODO: This method needs documentation
   _buildData: ->
@@ -114,7 +115,7 @@ class window.TableStakesLib.Core
     @_makeSortable(sortable)
 
     # For now, either all columns are resizable or none, set in table config
-    @_makeResizable(allTh) if @table.isResizable()
+    @_makeResizable(allTh) if @table.isResizable() and not _.isNumber(@table.get('height'))
     
     # return @ to make the method chainable (TODO: but why? we can prob delete?)
     @
@@ -395,6 +396,23 @@ class window.TableStakesLib.Core
       sorted.classed('sorted-desc',!desc)
     allTd.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
+
+  _makeScrollable: (tableObject)->
+    # set width attr to thead > td, th
+    _.each($('.tablestakes thead td'), (d) ->
+      $(d).width($(d).width()))
+    _.each($('.tablestakes thead th'), (d) ->
+      $(d).width($(d).width()))
+
+    # set width attr to tbody > td, th
+    _.each($('.tablestakes tbody td'), (d) ->
+      $(d).width($(d).width()))
+    _.each($('.tablestakes tbody th'), (d) ->
+      $(d).width($(d).width()))
+
+    tableObject.classed("scrollable", true)
+    tableObject.select('tbody').style("height", "#{@table.height}px")
+    @table.isResizable(false)
 
   # Cell-level transform methods
   # ============================
