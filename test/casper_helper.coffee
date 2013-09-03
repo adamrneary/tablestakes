@@ -30,3 +30,6 @@ exports.pending = (desc) ->
 casper.on 'exit', ->
   return if pendings is 0
   @echo "WARNING: #{pendings} pending", 'RED_BAR'
+
+casper.on 'remote.message', (message) ->
+  @echo('log: ' + message)
