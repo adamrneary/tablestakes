@@ -442,10 +442,12 @@ class window.TableStakes
 
   # This method simply provides an external interface for the internal 
   # _setFilter function
-  filter: (key, value) ->
+  filter: (keys, value) ->
     value = value or ''
     value = value.toString().toUpperCase()
-    @filterCondition.set key, value
+    keys = [keys] unless _.isArray(keys)
+    _.each keys, (key) =>
+      @filterCondition.set key, value
     @_setFilter @gridFilteredData[0], @filterCondition
     
     # TODO: Should this be @update() ? It seems in other areas we use update,
@@ -479,13 +481,14 @@ class window.TableStakes
     matchFound = true
     for key in filter.keys()
       if data[key]
-        #arr = d3.map data[key], (d) ->
-          #d.toUpperCase()
         _data = data[key].toString().toUpperCase()
         if _data.indexOf(filter.get(key)) == -1
           matchFound = false
+        else
+          matchFound = true
       else
         matchFound = false
+      break if matchFound
     if matchFound
       return data
     return null
