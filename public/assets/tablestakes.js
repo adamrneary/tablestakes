@@ -1404,10 +1404,16 @@ window.TableStakes = (function() {
     return this.render();
   };
 
-  TableStakes.prototype.filter = function(key, value) {
+  TableStakes.prototype.filter = function(keys, value) {
+    var _this = this;
     value = value || '';
     value = value.toString().toUpperCase();
-    this.filterCondition.set(key, value);
+    if (!_.isArray(keys)) {
+      keys = [keys];
+    }
+    _.each(keys, function(key) {
+      return _this.filterCondition.set(key, value);
+    });
     this._setFilter(this.gridFilteredData[0], this.filterCondition);
     return this.render();
   };
@@ -1451,9 +1457,14 @@ window.TableStakes = (function() {
         _data = data[key].toString().toUpperCase();
         if (_data.indexOf(filter.get(key)) === -1) {
           matchFound = false;
+        } else {
+          matchFound = true;
         }
       } else {
         matchFound = false;
+      }
+      if (matchFound) {
+        break;
       }
     }
     if (matchFound) {
