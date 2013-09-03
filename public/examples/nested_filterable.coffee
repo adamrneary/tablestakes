@@ -1,50 +1,12 @@
-data = [
-  id: 'Account Executive'
-  type: 424993
-  values: [
-    id: 'Duck Philips'
-    type: 84997
-  ,
-    id: 'Ken Cosgrove'
-    type: 127500
-  ]
-,
-  id: 'Assistant'
-  type: 63760
-  values: [
-    id: 'Peggy Olson'
-    type: 63790
-  ]
-,
-  id: 'Creative'
-  type: 573740
-  values: [
-    id: 'Don Draper'
-    type: 148757
-  ,
-    id: 'Harry Crane'
-    type: 127500
-  ,
-    id: 'Paul Kinsey'
-    type: 106243
-  ,
-    id: 'Pete Campbell'
-    type: 84997
-  ,
-    id: 'Sal Romano'
-    type: 106243
-  ]
-,
-  id: 'Partner'
-  type: 424993
-  values: [
-    id: 'Bert Cooper'
-    type: 212497
-  ,
-    id: 'Roger Sterling'
-    type: 212497
-  ]
-]
+data = _.map ['Account Executive','Assistant','Creative','Partner'], (type, i) ->
+  values = _.map(_.range(10), (j)->
+    id: "#{i}#{j}"
+    type: (1000*Math.random())
+  )
+
+  id: type
+  values: values
+  type: (_.reduce(values, ((memo, val) -> memo + val.type), 0))
 
 columns = [
   id: "id"
@@ -57,7 +19,7 @@ columns = [
   label: "Type"
   isSortable: true
   format: (d) ->
-    numeral(d.type).format('$0.[00]')
+    numeral(d.type).format('$0.00')
 ]
 
 onDragHandler = (object, target) ->
@@ -73,6 +35,7 @@ draggable = (d) ->
 
 grid = new window.TableStakes()
   .el('#example')
+  .height(350)
   .columns(columns)
   .data(data)
   .isDraggable(draggable)
@@ -81,8 +44,6 @@ grid = new window.TableStakes()
   .onDrag(onDragHandler)
   .render()
 
-keyup = -> grid.filter $(this).attr('column'), $(this).val()
+keyup = -> grid.filter _.pluck(columns, "id"), $(this).val()
 $('<input id="filter1" column="id" type="text" value="" />')
-  .appendTo('#temp').on 'keyup', keyup
-$('<input id="filter2" column="type" type="text" value="" />')
   .appendTo('#temp').on 'keyup', keyup

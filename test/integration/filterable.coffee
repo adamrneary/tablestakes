@@ -14,11 +14,9 @@ scenario '#filterable', 'table filters', ->
   next 'filters to four rows if user searches for "Line"', ->
     @test.assertEval ->
       $('div#temp input#filter1').val('Line').keyup()
-      $('div#temp input#filter2').val('').keyup()
       $('table tbody tr:visible').length is 4
 
   next 'filters with case-insensitive searches', ->
     @test.assertEval ->
-      $('div#temp input#filter1').val('').keyup()
-      $('div#temp input#filter2').val('HISTORICAL').keyup()
+      $('div#temp input#filter1').val('HISTORICAL').keyup()
       $('table tbody tr:visible').length is 6

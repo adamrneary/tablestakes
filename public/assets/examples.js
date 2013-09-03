@@ -25,7 +25,7 @@ core = [
     title: "Filterable"
   }, {
     shortLink: "nested_filterable",
-    title: "Filterable and nested"
+    title: "Nested and filterable"
   }, {
     shortLink: "deleteable",
     title: "Deleteable"

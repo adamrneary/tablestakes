@@ -112,6 +112,20 @@ class window.TableStakes
     # return @ to make the method chainable
     @
 
+  # Set 'max-height' attr for table wrapper element
+  height: (height) ->
+    return @height || false if _.isUndefined(height)
+    @height = height
+    # return @ to make the method chainable
+    @
+
+  # Set 'max-width' attr for table wrapper element
+  width: (width) ->
+    return @width || false if _.isUndefined(width)
+    @width = width
+    # return @ to make the method chainable
+    @
+
   # Columns have a custom getter/setter because of their inherent complexity
   columns: (columnList) ->
     
@@ -317,9 +331,18 @@ class window.TableStakes
     @setID @gridData[0], "0"
     @gridFilteredData = @gridData
     @_setFilter @gridFilteredData[0], @filterCondition
-    d3.select(@el())
+    wrap = d3.select(@el())
       .html('')
-      .datum(@gridFilteredData)
+
+#    if (@height)
+#      wrap.style("max-height", "#{ @height }px")
+#        .style("overflow-y", "auto")
+#
+#    if (@width)
+#      wrap.style("max-width", "#{ @width }px")
+#        .style("overflow-x", "auto")
+
+    wrap.datum(@gridFilteredData)
       .call( (selection) => @update selection)
     #@dispatchManualEvent(d3.select('td').node())
     
@@ -419,10 +442,12 @@ class window.TableStakes
 
   # This method simply provides an external interface for the internal 
   # _setFilter function
-  filter: (key, value) ->
+  filter: (keys, value) ->
     value = value or ''
     value = value.toString().toUpperCase()
-    @filterCondition.set key, value
+    keys = [keys] unless _.isArray(keys)
+    _.each keys, (key) =>
+      @filterCondition.set key, value
     @_setFilter @gridFilteredData[0], @filterCondition
     
     # TODO: Should this be @update() ? It seems in other areas we use update,
@@ -456,13 +481,14 @@ class window.TableStakes
     matchFound = true
     for key in filter.keys()
       if data[key]
-        #arr = d3.map data[key], (d) ->
-          #d.toUpperCase()
         _data = data[key].toString().toUpperCase()
         if _data.indexOf(filter.get(key)) == -1
           matchFound = false
+        else
+          matchFound = true
       else
         matchFound = false
+      break if matchFound
     if matchFound
       return data
     return null

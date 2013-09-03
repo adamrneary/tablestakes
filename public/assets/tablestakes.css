@@ -513,3 +513,13 @@ table.tablestakes th select, table.tablestakes td select {
   height: auto;
   color: #30878f;
   background: transparent; }
+
+/* line 864 */
+.tablestakes.scrollable thead tr {
+  display: block; }
+/* line 869 */
+.tablestakes.scrollable tbody {
+  display: block;
+  height: 300px;
+  overflow: auto;
+  width: 100%; }
