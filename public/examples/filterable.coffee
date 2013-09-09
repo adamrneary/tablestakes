@@ -54,8 +54,8 @@ grid = new window.TableStakes()
   .data(data)
   .render()
 
-keyup = -> grid.filter $(this).attr('column'), $(this).val()
+keyup = -> grid.filter _.pluck(columns, "id"), $(this).val()
 $('<input id="filter1" column="id" type="text" value="" />')
   .appendTo('#temp').on 'keyup', keyup
-$('<input id="filter2" column="type" type="text" value="" />')
-  .appendTo('#temp').on 'keyup', keyup
+#$('<input id="filter2" column="type" type="text" value="" />')
+#  .appendTo('#temp').on 'keyup', keyup

@@ -848,3 +848,29 @@ table.tablestakes {
     }
   }
 }
+
+// Scrollable table
+//
+// Style for Scrollable table. Note that the &lt;td&gt; and &lt;th&gt; in the &lt;head&gt; element have to have fixed width set to them.
+//
+// .scrollable - 
+//
+// Styleguide 5.1
+
+.tablestakes {
+  
+  &.scrollable {
+    thead {
+      tr {
+        display: block;
+      }
+    }
+    
+    tbody {
+      display: block;
+      height: 300px;
+      overflow: auto;
+      width: 100%
+    }
+  }
+}
