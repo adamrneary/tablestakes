@@ -1,7 +1,11 @@
 data = _.map ['Account Executive','Assistant','Creative','Partner'], (type, i) ->
-  values = _.map(_.range(10), (j)->
+  values = _.map(_.range(5), (j)->
     id: "#{i}#{j}"
     type: (1000*Math.random())
+    values: (_.map(_.range(5), (k)->
+      id: "#{i}#{j}#{k}"
+      type: Math.floor(100*Math.random())
+    ))
   )
 
   id: type
@@ -14,6 +18,11 @@ columns = [
   isNested: true
   classes: 'row-heading'
   isSortable: true
+  format: (d) ->
+    if d['values']?
+      "<strong>#{d.id}</strong>"
+    else
+      d.id
 ,
   id: "type"
   label: "Type"
@@ -35,7 +44,7 @@ draggable = (d) ->
 
 grid = new window.TableStakes()
   .el('#example')
-  .height(350)
+  .height(500)
   .columns(columns)
   .data(data)
   .isDraggable(draggable)
