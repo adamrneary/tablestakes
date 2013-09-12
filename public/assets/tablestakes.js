@@ -526,9 +526,7 @@ window.TableStakesLib.Core = (function() {
       }).enter().append("th").attr("ref", function(d, i) {
         return i;
       }).attr("class", function(d) {
-        if (!d.label) {
-          return _this._columnClasses(d) + ' underline';
-        }
+        return _this._columnClasses(d) + ' underline';
       }).style('width', function(d) {
         return d.width;
       }).append('div').text(function(d) {
@@ -653,7 +651,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._renderCell = function(column, d, div) {
     var isEditable;
-    isEditable = this.utils.ourFunctor(column.isEditable, d);
+    isEditable = this.utils.ourFunctor(column.isEditable, d, column);
     if (this.utils.ourFunctor(column.isNested, d)) {
       this._makeNested(div);
     }
