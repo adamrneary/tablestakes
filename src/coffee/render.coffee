@@ -100,7 +100,7 @@ class window.TableStakesLib.Core
           .append("th")
             .attr("ref", (d,i) -> i)
             .attr("class", (d) =>
-              @_columnClasses(d) + ' underline' unless d.label)
+              @_columnClasses(d) + ' underline')
             .style('width', (d) -> d.width)
             .append('div')
               .text((d) -> d.label)

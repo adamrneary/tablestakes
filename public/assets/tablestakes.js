@@ -526,9 +526,7 @@ window.TableStakesLib.Core = (function() {
       }).enter().append("th").attr("ref", function(d, i) {
         return i;
       }).attr("class", function(d) {
-        if (!d.label) {
-          return _this._columnClasses(d) + ' underline';
-        }
+        return _this._columnClasses(d) + ' underline';
       }).style('width', function(d) {
         return d.width;
       }).append('div').text(function(d) {
