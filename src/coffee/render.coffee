@@ -240,7 +240,7 @@ class window.TableStakesLib.Core
   # Note: At this point, the text of the cell is already populated. Here we're
   # more concerned with classes and behaviors
   _renderCell: (column, d, div) ->
-    isEditable = @utils.ourFunctor(column.isEditable, d)
+    isEditable = @utils.ourFunctor(column.isEditable, d, column)
     @_makeNested(div) if @utils.ourFunctor(column.isNested, d)
     @_makeEditable(d, div, column) if isEditable
     @_makeChanged(d, div, column)

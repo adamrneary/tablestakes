@@ -653,7 +653,7 @@ window.TableStakesLib.Core = (function() {
 
   Core.prototype._renderCell = function(column, d, div) {
     var isEditable;
-    isEditable = this.utils.ourFunctor(column.isEditable, d);
+    isEditable = this.utils.ourFunctor(column.isEditable, d, column);
     if (this.utils.ourFunctor(column.isNested, d)) {
       this._makeNested(div);
     }
