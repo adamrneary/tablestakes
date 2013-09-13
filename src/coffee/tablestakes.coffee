@@ -299,13 +299,14 @@ class window.TableStakes
     data = []
     groupedById = _.groupBy(flatData, (obj) -> obj[idKey])
     _.each _.keys(groupedById), (itemId, i) ->
-      item = {}
+      item = {id: i}
       item[idKey] = itemId
       item["period_id"] = _.pluck(groupedById[itemId], "period_id")
       item["period"] = _.pluck(groupedById[itemId], "periodUnix")
       item["dataValue"] = _.pluck(groupedById[itemId], "actual")
+      data.push item
     @data(data)
-    
+
     # return @ to make the method chainable
     @
 

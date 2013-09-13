@@ -1253,11 +1253,14 @@ window.TableStakes = (function() {
     });
     _.each(_.keys(groupedById), function(itemId, i) {
       var item;
-      item = {};
+      item = {
+        id: i
+      };
       item[idKey] = itemId;
       item["period_id"] = _.pluck(groupedById[itemId], "period_id");
       item["period"] = _.pluck(groupedById[itemId], "periodUnix");
-      return item["dataValue"] = _.pluck(groupedById[itemId], "actual");
+      item["dataValue"] = _.pluck(groupedById[itemId], "actual");
+      return data.push(item);
     });
     this.data(data);
     return this;
