@@ -295,27 +295,18 @@ class window.TableStakes
     @
 
   # TODO: this method needs a lot of documentation
-  parseFlatData: (flatData, key) ->
+  parseFlatData: (flatData, idKey) ->
     data = []
-    _.each _.keys(_.groupBy(flatData, (obj) -> obj[key])),
-      (productId, i) ->
-        data.push
-          id: i
-          product_id: productId
-          period_id: _.chain(flatData)
-            .filter((obj) -> obj[key] is productId)
-            .map((obj) -> obj.period_id)
-            .value()
-          period: _.chain(flatData)
-            .filter((obj) -> obj[key] is productId)
-            .map((obj) -> obj.periodUnix)
-            .value()
-          dataValue: _.chain(flatData)
-            .filter((obj) -> obj[key] is productId)
-            .map((obj) -> obj.actual)
-            .value()
+    groupedById = _.groupBy(flatData, (obj) -> obj[idKey])
+    _.each _.keys(groupedById), (itemId, i) ->
+      item = {id: i}
+      item[idKey] = itemId
+      item["period_id"] = _.pluck(groupedById[itemId], "period_id")
+      item["period"] = _.pluck(groupedById[itemId], "periodUnix")
+      item["dataValue"] = _.pluck(groupedById[itemId], "actual")
+      data.push item
     @data(data)
-    
+
     # return @ to make the method chainable
     @
 

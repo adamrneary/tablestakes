@@ -1245,31 +1245,22 @@ window.TableStakes = (function() {
     return this;
   };
 
-  TableStakes.prototype.parseFlatData = function(flatData, key) {
-    var data;
+  TableStakes.prototype.parseFlatData = function(flatData, idKey) {
+    var data, groupedById;
     data = [];
-    _.each(_.keys(_.groupBy(flatData, function(obj) {
-      return obj[key];
-    })), function(productId, i) {
-      return data.push({
-        id: i,
-        product_id: productId,
-        period_id: _.chain(flatData).filter(function(obj) {
-          return obj[key] === productId;
-        }).map(function(obj) {
-          return obj.period_id;
-        }).value(),
-        period: _.chain(flatData).filter(function(obj) {
-          return obj[key] === productId;
-        }).map(function(obj) {
-          return obj.periodUnix;
-        }).value(),
-        dataValue: _.chain(flatData).filter(function(obj) {
-          return obj[key] === productId;
-        }).map(function(obj) {
-          return obj.actual;
-        }).value()
-      });
+    groupedById = _.groupBy(flatData, function(obj) {
+      return obj[idKey];
+    });
+    _.each(_.keys(groupedById), function(itemId, i) {
+      var item;
+      item = {
+        id: i
+      };
+      item[idKey] = itemId;
+      item["period_id"] = _.pluck(groupedById[itemId], "period_id");
+      item["period"] = _.pluck(groupedById[itemId], "periodUnix");
+      item["dataValue"] = _.pluck(groupedById[itemId], "actual");
+      return data.push(item);
     });
     this.data(data);
     return this;
