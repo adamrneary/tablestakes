@@ -49,7 +49,9 @@ grid = new window.TableStakes()
   .data(data)
   .isDraggable(draggable)
   .dragMode('hierarchy')
-  .isDragDestination(true)
+  .isDragDestination((d)->
+    d.id in ['Account Executive','Assistant','Creative','Partner']
+  )
   .onDrag(onDragHandler)
   .render()
 
