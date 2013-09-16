@@ -473,9 +473,7 @@ class window.TableStakes
         if @_setFilter(data._values[i], filter) == null
           data._hiddenvalues.push(data._values.splice(i, 1)[0])
 
-    if data.values
-      return data
-    if data._values
+    if @utils.ourFunctor(@isDragDestination(), data)
       return data
 
     matchFound = true

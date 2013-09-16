@@ -1441,10 +1441,7 @@ window.TableStakes = (function() {
         }
       }
     }
-    if (data.values) {
-      return data;
-    }
-    if (data._values) {
+    if (this.utils.ourFunctor(this.isDragDestination(), data)) {
       return data;
     }
     matchFound = true;
