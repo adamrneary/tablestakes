@@ -1408,7 +1408,7 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype._setFilter = function(data, filter) {
-    var i, key, matchFound, self, _data, _i, _j, _k, _len, _ref, _ref1, _ref2;
+    var i, isDragDestination, key, matchFound, self, _data, _i, _j, _k, _len, _ref, _ref1, _ref2;
     self = this;
     data || (data = []);
     if (typeof data._hiddenvalues === "undefined") {
@@ -1432,10 +1432,11 @@ window.TableStakes = (function() {
         }
       }
     }
-    if (data.values) {
+    isDragDestination = this.isDraggable() && this.utils.ourFunctor(this.isDragDestination(), data);
+    if ((data.values && data.values.length) || isDragDestination) {
       return data;
     }
-    if (data._values) {
+    if ((data._values && data._values.length) || isDragDestination) {
       return data;
     }
     matchFound = true;
