@@ -478,7 +478,7 @@ window.TableStakesLib.Core = (function() {
     if (this.table.isDeletable() !== false) {
       this._makeDeletable(this.tableObject);
     }
-    if (_.isNumber(this.table.get('height'))) {
+    if (_.isNumber(this.table.height())) {
       return this._makeScrollable(this.tableObject);
     }
   };
@@ -800,7 +800,7 @@ window.TableStakesLib.Core = (function() {
       return $(d).width($(d).width());
     });
     tableObject.classed("scrollable", true);
-    tableObject.select('tbody').style("height", "" + this.table.height + "px");
+    tableObject.select('tbody').style("height", "" + (this.table.height()) + "px");
     return this.table.isResizable(false);
   };
 
@@ -1000,7 +1000,6 @@ window.TableStakes = (function() {
       core: this
     });
     this._synthesize({
-      data: [],
       el: null,
       isDeletable: false,
       onDelete: null,
@@ -1076,17 +1075,31 @@ window.TableStakes = (function() {
 
   TableStakes.prototype.height = function(height) {
     if (_.isUndefined(height)) {
-      return this.height || false;
+      return this._height || false;
     }
-    this.height = height;
+    this._height = height;
     return this;
   };
 
   TableStakes.prototype.width = function(width) {
     if (_.isUndefined(width)) {
-      return this.width || false;
+      return this._width || false;
     }
-    this.width = width;
+    this._width = width;
+    return this;
+  };
+
+  TableStakes.prototype.data = function(arr) {
+    var _this = this;
+    if (arr == null) {
+      return this._data || [];
+    }
+    this._data = arr;
+    _.each(_.filter(this._columns, function(col) {
+      return col.type === "total";
+    }), function(col) {
+      return _this._extendToTotalColumn(col);
+    });
     return this;
   };
 
@@ -1106,11 +1119,11 @@ window.TableStakes = (function() {
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             item = _ref[_i];
             _column = _.clone(column);
+            _column._id = column.id;
+            _column.id = item;
             if (column.label != null) {
-              _column.id = item;
               _column.label = typeof column.label === 'function' ? column.label(item) : column.label;
             } else {
-              _column.id = item;
               _column.label = new Date(item).toGMTString().split(' ')[2];
               _column.secondary = new Date(item).getFullYear().toString();
             }
@@ -1126,6 +1139,7 @@ window.TableStakes = (function() {
             item = _ref2[i];
             grouppedItems = _.first(column.timeSeries.slice(i), grouper);
             _column = _.clone(column);
+            _column._id = column.id;
             _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
             if (grouppedItems.length > 1) {
               _column.label = [new Date(_.first(grouppedItems)).toGMTString().split(' ')[2], new Date(_.last(grouppedItems)).toGMTString().split(' ')[2]].join(' - ');
@@ -1148,6 +1162,7 @@ window.TableStakes = (function() {
             item = _ref3[i];
             grouppedItems = _.first(column.timeSeries.slice(i), grouper);
             _column = _.clone(column);
+            _column._id = column.id;
             _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
             if (new Date(_.first(grouppedItems)).getMonth() === 0) {
               _column.label = "              " + (new Date(_.first(grouppedItems)).getFullYear());
@@ -1161,8 +1176,13 @@ window.TableStakes = (function() {
           }
           return _results2;
         }
+      } else if (column["type"] === "total") {
+        _this._extendToTotalColumn(column);
+        c = new window.TableStakesLib.Column(column);
+        return _this._columns.push(c);
       } else {
         c = new window.TableStakesLib.Column(column);
+        c._id = c.id;
         return _this._columns.push(c);
       }
     });
@@ -1670,6 +1690,57 @@ window.TableStakes = (function() {
       }
     });
     this.data(sortedData);
+    return this;
+  };
+
+  TableStakes.prototype._extendToTotalColumn = function(column) {
+    var data, relatedColumn, timeRange, _ref;
+    if (column == null) {
+      return this;
+    }
+    if (!this._columns) {
+      return this;
+    }
+    data = this.data();
+    if (!data.length) {
+      return this;
+    }
+    relatedColumn = _.find(this._columns, function(col) {
+      return col._id === column.related;
+    });
+    if (relatedColumn == null) {
+      return this;
+    }
+    _.each(data, function(row) {
+      return row = _.omit(row, column.id);
+    });
+    if (relatedColumn["timeSeries"] != null) {
+      timeRange = relatedColumn.timeSeries;
+      if ((_ref = timeRange.length) === 0 || _ref === 1) {
+        return this;
+      }
+      _.each(data, function(row) {
+        if (timeRange.length > 12) {
+          return row[column.id] = _.reduce(row.dataValue, (function(memo, value) {
+            return memo + value;
+          }), 0);
+        } else {
+          return row[column.id] = _.reduce(timeRange, (function(memo, timeStamp) {
+            var index, value;
+            index = row.period.indexOf(timeStamp);
+            if (index !== -1) {
+              value = row.dataValue[index];
+            } else {
+              value = 0;
+            }
+            return memo + value;
+          }), 0);
+        }
+      });
+    } else {
+      console.warn("not implemented yet");
+    }
+    this._data = data;
     return this;
   };
 

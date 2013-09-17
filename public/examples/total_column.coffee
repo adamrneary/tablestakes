@@ -10,26 +10,34 @@ _.each ["hash_key_1","hash_key_2","hash_key_3","hash_key_4","hash_key_5","hash_k
       actual: if i*12 <= j < (i+1)*12 then 0 else (i+1) + (j+1)
 
 columns = [
-  id: "id"
+  id: "product_id"
   label: "Name"
   classes: "row-heading"
-  format: (d, column) -> "row" + d.id
 ,
-  id: 'period'
-  dataValue: 'actual'
+  id: "period"
   timeSeries: availableTimeFrame
   format: (d, column) -> '$'+d.dataValue
+,
+  # Total column - sum of column values per row
+  id: "total"
+  type: "total" # key argument for "total" column
+
+  label: "Total"
+  related: "period" # pointer to coulum(s).id we want to sum
+  format: (d, column) ->
+    numeral(d[column.id] || 0).format('$0.[00]a')
+  classes: "total"
 ]
 
 grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
-  .headRows('secondary')
-  .parseFlatData(dataFromStriker, 'product_id')
-  .dataAggregate('sum')
+  .headRows("secondary")
+  .parseFlatData(dataFromStriker, "product_id")
+  .dataAggregate("sum")
   .render()
 
-sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo('#temp')
+sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo("#temp")
 
 labelTimeFrame =  $('<label>')
   .attr('for', 'sliderTimeFrame')

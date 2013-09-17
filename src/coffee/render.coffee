@@ -50,7 +50,7 @@ class window.TableStakesLib.Core
     # Apply table-level config
     @_makeDraggable(@tableObject) unless @table.isDraggable() is false
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
-    @_makeScrollable(@tableObject) if _.isNumber(@table.get('height'))
+    @_makeScrollable(@tableObject) if _.isNumber(@table.height())
 
   # TODO: This method needs documentation
   _buildData: ->
@@ -411,7 +411,7 @@ class window.TableStakesLib.Core
       $(d).width($(d).width()))
 
     tableObject.classed("scrollable", true)
-    tableObject.select('tbody').style("height", "#{@table.height}px")
+    tableObject.select('tbody').style("height", "#{@table.height()}px")
     @table.isResizable(false)
 
   # Cell-level transform methods
