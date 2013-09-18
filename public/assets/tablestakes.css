@@ -64,11 +64,6 @@ table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
   background: #007f9b;
   text-align: left;
   font-weight: normal; }
-/* line 124 */
-table.tablestakes thead th.total, table.tablestakes thead td.total {
-  color: #231f20;
-  background: #a9dde2;
-  font-weight: bold; }
 
 /* line 141 */
 table.tablestakes tfoot th, table.tablestakes tfoot td {

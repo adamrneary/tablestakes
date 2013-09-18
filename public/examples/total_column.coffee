@@ -19,7 +19,8 @@ columns = [
   format: (d, column) -> '$'+d.dataValue
 ,
   # Total column - sum of column values per row
-  id: "total"
+  id: "total"   # totalColumn.id shouldn't be one of data's fields
+                # for this exmaple it couldn't be 'actual'
   type: "total" # key argument for "total" column
 
   label: "Total"
@@ -35,7 +36,7 @@ grid = new window.TableStakes()
   .headRows("secondary")
   .parseFlatData(dataFromStriker, "product_id")
   .dataAggregate("sum")
-  .render()
+  .render(200)
 
 sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo("#temp")
 
