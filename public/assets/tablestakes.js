@@ -1694,7 +1694,7 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype._extendToTotalColumn = function(column) {
-    var data, relatedColumn, timeRange, _ref;
+    var data, pointer, relatedColumn, relatedColumns, timeRange, _i, _j, _len, _len1, _ref, _ref1;
     if (column == null) {
       return this;
     }
@@ -1705,40 +1705,60 @@ window.TableStakes = (function() {
     if (!data.length) {
       return this;
     }
-    relatedColumn = _.find(this._columns, function(col) {
-      return col._id === column.related;
-    });
-    if (relatedColumn == null) {
+    if (!_.isArray(column.related)) {
+      column.related = [column.related];
+    }
+    relatedColumns = [];
+    _ref = column.related;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      pointer = _ref[_i];
+      relatedColumn = _.find(this._columns, function(col) {
+        return col._id === pointer;
+      });
+      if (relatedColumn == null) {
+        continue;
+      }
+      relatedColumns.push(relatedColumn);
+    }
+    if (!relatedColumns.length) {
       return this;
     }
     _.each(data, function(row) {
       return row = _.omit(row, column.id);
     });
-    if (relatedColumn["timeSeries"] != null) {
-      timeRange = relatedColumn.timeSeries;
-      if ((_ref = timeRange.length) === 0 || _ref === 1) {
-        return this;
-      }
-      _.each(data, function(row) {
-        if (timeRange.length > 12) {
-          return row[column.id] = _.reduce(row.dataValue, (function(memo, value) {
-            return memo + value;
-          }), 0);
-        } else {
-          return row[column.id] = _.reduce(timeRange, (function(memo, timeStamp) {
-            var index, value;
-            index = row.period.indexOf(timeStamp);
-            if (index !== -1) {
-              value = row.dataValue[index];
-            } else {
-              value = 0;
-            }
-            return memo + value;
-          }), 0);
+    console.log("relatedColumns", relatedColumns);
+    for (_j = 0, _len1 = relatedColumns.length; _j < _len1; _j++) {
+      relatedColumn = relatedColumns[_j];
+      console.log("\t", relatedColumn);
+      if (relatedColumn["timeSeries"] != null) {
+        timeRange = relatedColumn.timeSeries;
+        if ((_ref1 = timeRange.length) === 0 || _ref1 === 1) {
+          continue;
         }
-      });
-    } else {
-      console.warn("not implemented yet");
+        _.each(data, function(row) {
+          if (timeRange.length > 12) {
+            return row[column.id] = (row[column.id] || 0) + _.reduce(row.dataValue, (function(memo, value) {
+              return memo + value;
+            }), 0);
+          } else {
+            return row[column.id] = (row[column.id] || 0) + _.reduce(timeRange, (function(memo, timeStamp) {
+              var index, value;
+              index = row.period.indexOf(timeStamp);
+              if (index !== -1) {
+                value = row.dataValue[index];
+              } else {
+                value = 0;
+              }
+              return memo + value;
+            }), 0);
+          }
+        });
+      } else {
+        row[column.id] = (row[column.id] || 0) + row[relatedColumn.id];
+      }
+      console.log("\t", _.map(data, function(row) {
+        return row[column.id];
+      }));
     }
     this._data = data;
     return this;

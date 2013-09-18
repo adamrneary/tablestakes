@@ -731,38 +731,46 @@ class window.TableStakes
     data = @data()
     return @ unless data.length
 
-    relatedColumn = _.find @_columns, (col) -> col._id is column.related
-    return @ unless relatedColumn?
+    column.related = [column.related] unless _.isArray column.related
+    relatedColumns = []
+    for pointer in column.related
+      relatedColumn = _.find @_columns, (col) -> col._id is pointer
+      continue unless relatedColumn?
+      relatedColumns.push relatedColumn
+    return @ unless relatedColumns.length
 
     # we should care about only 1 example for each total column
     _.each data, (row) ->
       # exclude "total column" from row
       row = _.omit row, column.id
 
-    if relatedColumn["timeSeries"]?
-      # do nothing
-      timeRange = relatedColumn.timeSeries
-      return @ if (timeRange.length) in [0, 1]
+    console.log "relatedColumns", relatedColumns
+    for relatedColumn in relatedColumns
+      console.log "\t", relatedColumn
+      if relatedColumn["timeSeries"]?
 
-      _.each data, (row) ->
-        if timeRange.length > 12
-          row[column.id] = _.reduce row.dataValue, ((memo, value) ->
-            memo + value
-          ), 0
-        else
-          row[column.id] = _.reduce timeRange, ((memo, timeStamp) ->
-            index = row.period.indexOf(timeStamp)
+        timeRange = relatedColumn.timeSeries
+        continue if (timeRange.length) in [0, 1]
 
-            unless index is -1
-              value = row.dataValue[index]
-            else
-              value = 0
-            memo + value
-          ), 0
+        _.each data, (row) ->
+          if timeRange.length > 12
+            row[column.id] = (row[column.id] || 0) + _.reduce row.dataValue, ((memo, value) ->
+              memo + value
+            ), 0
+          else
+            row[column.id] = (row[column.id] || 0) + _.reduce timeRange, ((memo, timeStamp) ->
+              index = row.period.indexOf(timeStamp)
 
-    else
-      # do nothing
-      console.warn "not implemented yet"
+              unless index is -1
+                value = row.dataValue[index]
+              else
+                value = 0
+              memo + value
+            ), 0
+
+      else
+        row[column.id] = (row[column.id] || 0) + row[relatedColumn.id]
+      console.log "\t", _.map data, (row) -> row[column.id]
 
     @_data = data
     # return @ to make the method chainable

@@ -25,6 +25,7 @@ columns = [
 
   label: "Total"
   related: "period" # pointer to coulum(s).id we want to sum
+                    # or Array of pointers ex: ["period", "period"]
   format: (d, column) ->
     numeral(d[column.id] || 0).format('$0.[00]a')
   classes: "total"
