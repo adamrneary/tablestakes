@@ -237,10 +237,10 @@ class window.TableStakes
       # This 'else if' is for columns that should calculate sum of all other
       # columns with id = column.related
       else if column["type"] is "total"
-        @_extendToTotalColumn(column)
-
         c = new window.TableStakesLib.Column(column)
         @_columns.push c
+
+        @_extendToTotalColumn(column)
 
       # This 'else' is for columns that are not time series. It will get lost
       # less easily if the time series stuff is refactored to a new method
@@ -719,7 +719,7 @@ class window.TableStakes
         sum*-1
 
     @data sortedData
-    
+
     # return @ to make the method chainable
     @
 
@@ -740,17 +740,17 @@ class window.TableStakes
     return @ unless relatedColumns.length
 
     # we should care about only 1 example for each total column
-    _.each data, (row) ->
+    data = _.map data, (row) ->
       # exclude "total column" from row
       row = _.omit row, column.id
 
-    console.log "relatedColumns", relatedColumns
     for relatedColumn in relatedColumns
-      console.log "\t", relatedColumn
       if relatedColumn["timeSeries"]?
 
         timeRange = relatedColumn.timeSeries
-        continue if (timeRange.length) in [0, 1]
+        if timeRange.length in [0, 1]
+          @_columns = (_.filter @_columns, (col) -> col.id isnt column.id) if relatedColumns.length is 1
+          continue
 
         _.each data, (row) ->
           if timeRange.length > 12
@@ -768,9 +768,10 @@ class window.TableStakes
               memo + value
             ), 0
 
-      else
+      else if relatedColumns.length > 1
         row[column.id] = (row[column.id] || 0) + row[relatedColumn.id]
-      console.log "\t", _.map data, (row) -> row[column.id]
+      else
+        @_columns = _.filter @_columns, (col) -> col.id isnt column.id
 
     @_data = data
     # return @ to make the method chainable

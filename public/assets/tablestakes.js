@@ -462,7 +462,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype.render = function() {
-    var wrap, wrapEnter;
+    var animateSort, wrap, wrapEnter;
     this._buildData();
     wrap = d3.select(this.table.el()).selectAll("div").data([[this.nodes]]);
     wrapEnter = wrap.enter().append("div");
@@ -479,7 +479,14 @@ window.TableStakesLib.Core = (function() {
       this._makeDeletable(this.tableObject);
     }
     if (_.isNumber(this.table.height())) {
-      return this._makeScrollable(this.tableObject);
+      this._makeScrollable(this.tableObject);
+    }
+    animateSort = _.find(this.columns, function(col) {
+      var _ref;
+      return _.has(col, "order") && ((_ref = col.order) === "asc" || _ref === "desc");
+    });
+    if (animateSort) {
+      return this._animatedReordering(this.tableObject);
     }
   };
 
@@ -950,6 +957,8 @@ window.TableStakesLib.Core = (function() {
     });
   };
 
+  Core.prototype._animatedReordering = function(tableObject) {};
+
   return Core;
 
 })();
@@ -1177,9 +1186,9 @@ window.TableStakes = (function() {
           return _results2;
         }
       } else if (column["type"] === "total") {
-        _this._extendToTotalColumn(column);
         c = new window.TableStakesLib.Column(column);
-        return _this._columns.push(c);
+        _this._columns.push(c);
+        return _this._extendToTotalColumn(column);
       } else {
         c = new window.TableStakesLib.Column(column);
         c._id = c.id;
@@ -1723,16 +1732,19 @@ window.TableStakes = (function() {
     if (!relatedColumns.length) {
       return this;
     }
-    _.each(data, function(row) {
+    data = _.map(data, function(row) {
       return row = _.omit(row, column.id);
     });
-    console.log("relatedColumns", relatedColumns);
     for (_j = 0, _len1 = relatedColumns.length; _j < _len1; _j++) {
       relatedColumn = relatedColumns[_j];
-      console.log("\t", relatedColumn);
       if (relatedColumn["timeSeries"] != null) {
         timeRange = relatedColumn.timeSeries;
         if ((_ref1 = timeRange.length) === 0 || _ref1 === 1) {
+          if (relatedColumns.length === 1) {
+            this._columns = _.filter(this._columns, function(col) {
+              return col.id !== column.id;
+            });
+          }
           continue;
         }
         _.each(data, function(row) {
@@ -1753,12 +1765,13 @@ window.TableStakes = (function() {
             }), 0);
           }
         });
-      } else {
+      } else if (relatedColumns.length > 1) {
         row[column.id] = (row[column.id] || 0) + row[relatedColumn.id];
+      } else {
+        this._columns = _.filter(this._columns, function(col) {
+          return col.id !== column.id;
+        });
       }
-      console.log("\t", _.map(data, function(row) {
-        return row[column.id];
-      }));
     }
     this._data = data;
     return this;

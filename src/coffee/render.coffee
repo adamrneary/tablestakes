@@ -52,6 +52,10 @@ class window.TableStakesLib.Core
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
     @_makeScrollable(@tableObject) if _.isNumber(@table.height())
 
+    animateSort = _.find @columns, (col) ->
+      _.has(col, "order") and (col.order in ["asc", "desc"])
+    @_animatedReordering(@tableObject) if animateSort
+
   # TODO: This method needs documentation
   _buildData: ->
     @data[0] = id: @table.noData unless @data[0]
@@ -558,3 +562,5 @@ class window.TableStakesLib.Core
     d3.select(div).append('span')
       .classed('childrenCount', true)
       .text (d) -> if count then '(' + count + ')' else ''
+
+  _animatedReordering: (tableObject) ->

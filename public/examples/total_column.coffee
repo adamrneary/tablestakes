@@ -19,8 +19,7 @@ columns = [
   format: (d, column) -> '$'+d.dataValue
 ,
   # Total column - sum of column values per row
-  id: "total"   # totalColumn.id shouldn't be one of data's fields
-                # for this exmaple it couldn't be 'actual'
+  id: "total"   # uniq column's ID
   type: "total" # key argument for "total" column
 
   label: "Total"
@@ -29,6 +28,7 @@ columns = [
   format: (d, column) ->
     numeral(d[column.id] || 0).format('$0.[00]a')
   classes: "total"
+  order: 'desc'
 ]
 
 grid = new window.TableStakes()
