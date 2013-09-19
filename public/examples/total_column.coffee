@@ -28,7 +28,7 @@ columns = [
   format: (d, column) ->
     numeral(d[column.id] || 0).format('$0.[00]a')
   classes: "total"
-  order: 'desc'
+  sorted: 'asc'
 ]
 
 grid = new window.TableStakes()
@@ -37,7 +37,7 @@ grid = new window.TableStakes()
   .headRows("secondary")
   .parseFlatData(dataFromStriker, "product_id")
   .dataAggregate("sum")
-  .render(200)
+  .render()
 
 sliders = $('<div id="sliders" class="ui-horizontal-slider"></div>').appendTo("#temp")
 

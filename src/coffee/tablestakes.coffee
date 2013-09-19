@@ -340,6 +340,11 @@ class window.TableStakes
     
   # TODO: this method needs a lot of documentation
   render: ->
+    # Apply sorting to column
+    sortedColumn = _.find @columns(), (col) ->
+      _.has(col, "sorted")
+    @sorter(sortedColumn) if sortedColumn?
+
     @gridData = [values: @data()]
     @columns().forEach (column, i) =>
       @gridData[0][column['id']] = column['id']
@@ -404,7 +409,7 @@ class window.TableStakes
   # ------------------------------------------------
         
   # TODO: this method needs a lot of documentation
-  sort: (columnId, isDesc)->
+  sort: (columnId, isDesc, returnData = false)->
     return unless columnId? or isDesc?
     sortFunction = (a,b)->
       if a[columnId]? and b[columnId]?
@@ -441,10 +446,14 @@ class window.TableStakes
       _data.sort sortFunction
       _data
 
+    _data = @data()
     if _.find(@data(), (row) -> ('values' in _.keys(row)) or ('_values' in _.keys(row)))
-      @data sortRecursive(@data())
+      _data = sortRecursive(_data)
     else
-      @data().sort sortFunction
+      _data.sort sortFunction
+
+    return _data if returnData
+    @_data = _data
     @render()
 
   # This method simply provides an external interface for the internal 
@@ -655,8 +664,8 @@ class window.TableStakes
 
     isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
     @filterZeros(@data()) if isZeroFilter
-    isSorted = _.find(@_columns, (col) => @utils.ourFunctor(col.sorted))?.sorted
-    @sorter(@data()) if isSorted
+#    isSorted = _.find(@_columns, (col) => @utils.ourFunctor(col.sorted))?.sorted
+#    @sorter(@data()) if isSorted
 
     data = @data()
 
@@ -698,27 +707,13 @@ class window.TableStakes
     @
 
   # TODO: this method needs a lot of documentation
-  sorter: (data) ->
-    # timeSeries specific function. return if no timeSeries 'columns'
-    cols = _.filter @_columns, (col) -> col.timeSeries?
-    return unless cols.length
+  sorter: (column) ->
+    return @ unless column? and column.sorted
 
-    availableTimeFrame = _.first(cols).timeSeries
-    sortedData = data
-    sorted = _.find(@_columns, (col) -> col.sorted)?.sorted
-
-    sortedData = _.sortBy sortedData, (row) ->
-      begin = _.indexOf row.period, _.first(availableTimeFrame)
-      end = _.indexOf row.period, _.last(availableTimeFrame)
-      if begin < 0 or end < 0 or end < begin
-        return 0
-      sum = _.reduce row.dataValue[begin..end], ((memo, num) -> memo+num), 0
-      if sorted is 'asc'
-        sum
-      else if sorted is 'desc'
-        sum*-1
-
-    @data sortedData
+    unless _.has(column, "timeSeries")
+      @_data = @sort(column.id, column.sorted is "desc", true)
+    else
+      console.warn "Will be implemented later"
 
     # return @ to make the method chainable
     @

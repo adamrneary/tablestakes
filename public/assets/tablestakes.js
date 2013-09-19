@@ -462,7 +462,7 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype.render = function() {
-    var animateSort, wrap, wrapEnter;
+    var wrap, wrapEnter;
     this._buildData();
     wrap = d3.select(this.table.el()).selectAll("div").data([[this.nodes]]);
     wrapEnter = wrap.enter().append("div");
@@ -479,14 +479,7 @@ window.TableStakesLib.Core = (function() {
       this._makeDeletable(this.tableObject);
     }
     if (_.isNumber(this.table.height())) {
-      this._makeScrollable(this.tableObject);
-    }
-    animateSort = _.find(this.columns, function(col) {
-      var _ref;
-      return _.has(col, "order") && ((_ref = col.order) === "asc" || _ref === "desc");
-    });
-    if (animateSort) {
-      return this._animatedReordering(this.tableObject);
+      return this._makeScrollable(this.tableObject);
     }
   };
 
@@ -957,8 +950,6 @@ window.TableStakesLib.Core = (function() {
     });
   };
 
-  Core.prototype._animatedReordering = function(tableObject) {};
-
   return Core;
 
 })();
@@ -1296,8 +1287,14 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype.render = function() {
-    var wrap,
+    var sortedColumn, wrap,
       _this = this;
+    sortedColumn = _.find(this.columns(), function(col) {
+      return _.has(col, "sorted");
+    });
+    if (sortedColumn != null) {
+      this.sorter(sortedColumn);
+    }
     this.gridData = [
       {
         values: this.data()
@@ -1360,9 +1357,12 @@ window.TableStakes = (function() {
     }
   };
 
-  TableStakes.prototype.sort = function(columnId, isDesc) {
-    var sortFunction, sortRecursive,
+  TableStakes.prototype.sort = function(columnId, isDesc, returnData) {
+    var sortFunction, sortRecursive, _data,
       _this = this;
+    if (returnData == null) {
+      returnData = false;
+    }
     if (!((columnId != null) || (isDesc != null))) {
       return;
     }
@@ -1412,13 +1412,18 @@ window.TableStakes = (function() {
       _data.sort(sortFunction);
       return _data;
     };
+    _data = this.data();
     if (_.find(this.data(), function(row) {
       return (__indexOf.call(_.keys(row), 'values') >= 0) || (__indexOf.call(_.keys(row), '_values') >= 0);
     })) {
-      this.data(sortRecursive(this.data()));
+      _data = sortRecursive(_data);
     } else {
-      this.data().sort(sortFunction);
+      _data.sort(sortFunction);
     }
+    if (returnData) {
+      return _data;
+    }
+    this._data = _data;
     return this.render();
   };
 
@@ -1493,7 +1498,7 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype.dataAggregate = function(aggregator) {
-    var data, first_last, isSorted, isZeroFilter, self, sum, timeFrame, _ref, _ref1,
+    var data, first_last, isZeroFilter, self, sum, timeFrame, _ref,
       _this = this;
     self = this;
     if (!_.isArray(aggregator)) {
@@ -1622,12 +1627,6 @@ window.TableStakes = (function() {
     if (isZeroFilter) {
       this.filterZeros(this.data());
     }
-    isSorted = (_ref1 = _.find(this._columns, function(col) {
-      return _this.utils.ourFunctor(col.sorted);
-    })) != null ? _ref1.sorted : void 0;
-    if (isSorted) {
-      this.sorter(this.data());
-    }
     data = this.data();
     _.each(aggregator, function(filter) {
       if (_.isFunction(filter)) {
@@ -1669,36 +1668,15 @@ window.TableStakes = (function() {
     return this;
   };
 
-  TableStakes.prototype.sorter = function(data) {
-    var availableTimeFrame, cols, sorted, sortedData, _ref;
-    cols = _.filter(this._columns, function(col) {
-      return col.timeSeries != null;
-    });
-    if (!cols.length) {
-      return;
+  TableStakes.prototype.sorter = function(column) {
+    if (!((column != null) && column.sorted)) {
+      return this;
     }
-    availableTimeFrame = _.first(cols).timeSeries;
-    sortedData = data;
-    sorted = (_ref = _.find(this._columns, function(col) {
-      return col.sorted;
-    })) != null ? _ref.sorted : void 0;
-    sortedData = _.sortBy(sortedData, function(row) {
-      var begin, end, sum;
-      begin = _.indexOf(row.period, _.first(availableTimeFrame));
-      end = _.indexOf(row.period, _.last(availableTimeFrame));
-      if (begin < 0 || end < 0 || end < begin) {
-        return 0;
-      }
-      sum = _.reduce(row.dataValue.slice(begin, +end + 1 || 9e9), (function(memo, num) {
-        return memo + num;
-      }), 0);
-      if (sorted === 'asc') {
-        return sum;
-      } else if (sorted === 'desc') {
-        return sum * -1;
-      }
-    });
-    this.data(sortedData);
+    if (!_.has(column, "timeSeries")) {
+      this._data = this.sort(column.id, column.sorted === "desc", true);
+    } else {
+      console.warn("Will be implemented later");
+    }
     return this;
   };
 
