@@ -1669,13 +1669,37 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype.sorter = function(column) {
+    var timeRange;
     if (!((column != null) && column.sorted)) {
       return this;
     }
     if (!_.has(column, "timeSeries")) {
       this._data = this.sort(column.id, column.sorted === "desc", true);
     } else {
-      console.warn("Will be implemented later");
+      timeRange = column.timeSeries;
+      this._data = _.sortBy(this._data, function(row) {
+        var sum;
+        sum = 0;
+        if (timeRange.length > 12) {
+          sum = _.reduce(row.dataValue, (function(memo, value) {
+            return memo + value;
+          }), 0);
+        } else {
+          sum = _.reduce(timeRange, (function(memo, timeStamp) {
+            var index, value;
+            index = row.period.indexOf(timeStamp);
+            if (index !== -1) {
+              value = row.dataValue[index];
+            } else {
+              value = 0;
+            }
+            return memo + value;
+          }), 0);
+        }
+        if (column.sorted === "desc") {
+          return sum *= -1;
+        }
+      });
     }
     return this;
   };

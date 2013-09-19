@@ -664,8 +664,6 @@ class window.TableStakes
 
     isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
     @filterZeros(@data()) if isZeroFilter
-#    isSorted = _.find(@_columns, (col) => @utils.ourFunctor(col.sorted))?.sorted
-#    @sorter(@data()) if isSorted
 
     data = @data()
 
@@ -713,7 +711,24 @@ class window.TableStakes
     unless _.has(column, "timeSeries")
       @_data = @sort(column.id, column.sorted is "desc", true)
     else
-      console.warn "Will be implemented later"
+      timeRange = column.timeSeries
+      @_data = _.sortBy @_data, (row) ->
+        sum = 0
+        if timeRange.length > 12
+          sum =  _.reduce row.dataValue, ((memo, value) ->
+            memo + value
+          ), 0
+        else
+          sum = _.reduce timeRange, ((memo, timeStamp) ->
+            index = row.period.indexOf(timeStamp)
+
+            unless index is -1
+              value = row.dataValue[index]
+            else
+              value = 0
+            memo + value
+          ), 0
+        sum *= -1 if column.sorted is "desc"
 
     # return @ to make the method chainable
     @
