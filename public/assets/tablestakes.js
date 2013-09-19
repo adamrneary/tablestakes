@@ -1363,7 +1363,6 @@ window.TableStakes = (function() {
     if (returnData == null) {
       returnData = false;
     }
-    console.log("sort", columnId, isAsc, returnData);
     if (!((columnId != null) || isAsc)) {
       return;
     }
@@ -1671,7 +1670,6 @@ window.TableStakes = (function() {
 
   TableStakes.prototype.sorter = function(column) {
     var timeRange;
-    console.log("sorter");
     if (!((column != null) && column.sorted)) {
       return this;
     }

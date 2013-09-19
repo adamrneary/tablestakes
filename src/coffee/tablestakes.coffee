@@ -410,7 +410,6 @@ class window.TableStakes
         
   # TODO: this method needs a lot of documentation
   sort: (columnId, isAsc, returnData = false)->
-    console.log "sort", columnId, isAsc, returnData
     return unless columnId? or isAsc
     sortFunction = (a,b)->
       if a[columnId]? and b[columnId]?
@@ -707,7 +706,6 @@ class window.TableStakes
 
   # TODO: this method needs a lot of documentation
   sorter: (column) ->
-    console.log "sorter"
     return @ unless column? and column.sorted
 
     unless _.has(column, "timeSeries")
