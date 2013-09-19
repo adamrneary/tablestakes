@@ -409,11 +409,12 @@ class window.TableStakes
   # ------------------------------------------------
         
   # TODO: this method needs a lot of documentation
-  sort: (columnId, isDesc, returnData = false)->
-    return unless columnId? or isDesc?
+  sort: (columnId, isAsc, returnData = false)->
+    console.log "sort", columnId, isAsc, returnData
+    return unless columnId? or isAsc
     sortFunction = (a,b)->
       if a[columnId]? and b[columnId]?
-        if isDesc
+        if isAsc
           if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
             a[columnId] - b[columnId]
           else
@@ -706,10 +707,11 @@ class window.TableStakes
 
   # TODO: this method needs a lot of documentation
   sorter: (column) ->
+    console.log "sorter"
     return @ unless column? and column.sorted
 
     unless _.has(column, "timeSeries")
-      @_data = @sort(column.id, column.sorted is "desc", true)
+      @_data = @sort(column.id, column.sorted is "asc", true)
     else
       timeRange = column.timeSeries
       @_data = _.sortBy @_data, (row) ->
@@ -728,7 +730,8 @@ class window.TableStakes
               value = 0
             memo + value
           ), 0
-        sum *= -1 if column.sorted is "desc"
+        sum *= -1 unless column.sorted is "asc"
+        return sum
 
     # return @ to make the method chainable
     @

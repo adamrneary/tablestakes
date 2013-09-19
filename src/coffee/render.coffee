@@ -389,11 +389,11 @@ class window.TableStakesLib.Core
         .classed('sortable-handle', true)
 
     sorted = allTd.filter (column)->
-      column.desc?
+      column.asc?
     if sorted[0] and sorted[0].length > 0
-      desc = sorted.data()[0].desc
-      sorted.classed('sorted-asc',desc)
-      sorted.classed('sorted-desc',!desc)
+      asc = sorted.data()[0].asc
+      sorted.classed('sorted-asc',asc)
+      sorted.classed('sorted-desc',!asc)
     allTd.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 

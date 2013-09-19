@@ -28,7 +28,7 @@ columns = [
   format: (d, column) ->
     numeral(d[column.id] || 0).format('$0.[00]a')
   classes: "total"
-  sorted: 'asc'
+  sorted: 'desc'
 ]
 
 grid = new window.TableStakes()

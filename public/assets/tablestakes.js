@@ -327,15 +327,15 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype.toggleSort = function(el, column) {
-    column.desc = !column.desc;
+    column.asc = !column.asc;
     d3.selectAll('.sorted-desc').classed('sorted-desc', false);
     d3.selectAll('.sorted-asc').classed('sorted-asc', false);
     d3.selectAll('th').filter(function(d) {
       if (d.id !== column.id) {
-        return d.desc = null;
+        return d.asc = null;
       }
     });
-    return this.core.table.sort(column.id, column.desc);
+    return this.core.table.sort(column.id, column.asc);
   };
 
   Events.prototype.doubleTap = function(self, a, b, c, column) {
@@ -770,16 +770,16 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeSortable = function(allTd) {
-    var desc, self, sorted;
+    var asc, self, sorted;
     self = this;
     allTd.classed('sortable', true).append("div").classed('sortable-handle', true);
     sorted = allTd.filter(function(column) {
-      return column.desc != null;
+      return column.asc != null;
     });
     if (sorted[0] && sorted[0].length > 0) {
-      desc = sorted.data()[0].desc;
-      sorted.classed('sorted-asc', desc);
-      sorted.classed('sorted-desc', !desc);
+      asc = sorted.data()[0].asc;
+      sorted.classed('sorted-asc', asc);
+      sorted.classed('sorted-desc', !asc);
     }
     return allTd.on('click', function(a, b, c) {
       return self.events.toggleSort(this, a, b, c);
@@ -1357,19 +1357,20 @@ window.TableStakes = (function() {
     }
   };
 
-  TableStakes.prototype.sort = function(columnId, isDesc, returnData) {
+  TableStakes.prototype.sort = function(columnId, isAsc, returnData) {
     var sortFunction, sortRecursive, _data,
       _this = this;
     if (returnData == null) {
       returnData = false;
     }
-    if (!((columnId != null) || (isDesc != null))) {
+    console.log("sort", columnId, isAsc, returnData);
+    if (!((columnId != null) || isAsc)) {
       return;
     }
     sortFunction = function(a, b) {
       var first, second;
       if ((a[columnId] != null) && (b[columnId] != null)) {
-        if (isDesc) {
+        if (isAsc) {
           if (_.isNumber(a[columnId]) && _.isNumber(b[columnId])) {
             return a[columnId] - b[columnId];
           } else {
@@ -1670,11 +1671,12 @@ window.TableStakes = (function() {
 
   TableStakes.prototype.sorter = function(column) {
     var timeRange;
+    console.log("sorter");
     if (!((column != null) && column.sorted)) {
       return this;
     }
     if (!_.has(column, "timeSeries")) {
-      this._data = this.sort(column.id, column.sorted === "desc", true);
+      this._data = this.sort(column.id, column.sorted === "asc", true);
     } else {
       timeRange = column.timeSeries;
       this._data = _.sortBy(this._data, function(row) {
@@ -1696,9 +1698,10 @@ window.TableStakes = (function() {
             return memo + value;
           }), 0);
         }
-        if (column.sorted === "desc") {
-          return sum *= -1;
+        if (column.sorted !== "asc") {
+          sum *= -1;
         }
+        return sum;
       });
     }
     return this;
