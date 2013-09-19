@@ -768,21 +768,24 @@ class window.TableStakes
         _.each data, (row) ->
           if timeRange.length > 12
             row[column.id] = (row[column.id] || 0) + _.reduce row.dataValue, ((memo, value) ->
-              memo + value
+              # prevent adding NaN, undefined, null and so on...
+              memo + (value || 0)
             ), 0
           else
             row[column.id] = (row[column.id] || 0) + _.reduce timeRange, ((memo, timeStamp) ->
               index = row.period.indexOf(timeStamp)
 
               unless index is -1
-                value = row.dataValue[index]
+                # prevent adding NaN, undefined, null and so on...
+                value = row.dataValue[index] || 0
               else
                 value = 0
               memo + value
             ), 0
 
       else if relatedColumns.length > 1
-        row[column.id] = (row[column.id] || 0) + row[relatedColumn.id]
+        # prevent adding NaN, undefined, null and so on...
+        row[column.id] = (row[column.id] || 0) + (row[relatedColumn.id] || 0)
       else
         @_columns = _.filter @_columns, (col) -> col.id isnt column.id
 

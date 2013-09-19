@@ -1755,14 +1755,14 @@ window.TableStakes = (function() {
         _.each(data, function(row) {
           if (timeRange.length > 12) {
             return row[column.id] = (row[column.id] || 0) + _.reduce(row.dataValue, (function(memo, value) {
-              return memo + value;
+              return memo + (value || 0);
             }), 0);
           } else {
             return row[column.id] = (row[column.id] || 0) + _.reduce(timeRange, (function(memo, timeStamp) {
               var index, value;
               index = row.period.indexOf(timeStamp);
               if (index !== -1) {
-                value = row.dataValue[index];
+                value = row.dataValue[index] || 0;
               } else {
                 value = 0;
               }
@@ -1771,7 +1771,7 @@ window.TableStakes = (function() {
           }
         });
       } else if (relatedColumns.length > 1) {
-        row[column.id] = (row[column.id] || 0) + row[relatedColumn.id];
+        row[column.id] = (row[column.id] || 0) + (row[relatedColumn.id] || 0);
       } else {
         this._columns = _.filter(this._columns, function(col) {
           return col.id !== column.id;
