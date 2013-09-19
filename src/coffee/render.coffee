@@ -50,7 +50,7 @@ class window.TableStakesLib.Core
     # Apply table-level config
     @_makeDraggable(@tableObject) unless @table.isDraggable() is false
     @_makeDeletable(@tableObject) unless @table.isDeletable() is false
-    @_makeScrollable(@tableObject) if _.isNumber(@table.get('height'))
+    @_makeScrollable(@tableObject) if _.isNumber(@table.height())
 
   # TODO: This method needs documentation
   _buildData: ->
@@ -389,11 +389,11 @@ class window.TableStakesLib.Core
         .classed('sortable-handle', true)
 
     sorted = allTd.filter (column)->
-      column.desc?
+      column.asc?
     if sorted[0] and sorted[0].length > 0
-      desc = sorted.data()[0].desc
-      sorted.classed('sorted-asc',desc)
-      sorted.classed('sorted-desc',!desc)
+      asc = sorted.data()[0].asc
+      sorted.classed('sorted-asc',asc)
+      sorted.classed('sorted-desc',!asc)
     allTd.on 'click', (a,b,c)->
       self.events.toggleSort @,a,b,c
 
@@ -411,7 +411,7 @@ class window.TableStakesLib.Core
       $(d).width($(d).width()))
 
     tableObject.classed("scrollable", true)
-    tableObject.select('tbody').style("height", "#{@table.height}px")
+    tableObject.select('tbody').style("height", "#{@table.height()}px")
     @table.isResizable(false)
 
   # Cell-level transform methods

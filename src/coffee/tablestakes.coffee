@@ -34,7 +34,6 @@ class window.TableStakes
 
     # builds getter/setter methods (initialized with defaults)
     @_synthesize
-      data: []
       el: null
       isDeletable: false
       onDelete: null
@@ -114,21 +113,35 @@ class window.TableStakes
 
   # Set 'max-height' attr for table wrapper element
   height: (height) ->
-    return @height || false if _.isUndefined(height)
-    @height = height
+    return @_height || false if _.isUndefined(height)
+    @_height = height
     # return @ to make the method chainable
     @
 
   # Set 'max-width' attr for table wrapper element
   width: (width) ->
-    return @width || false if _.isUndefined(width)
-    @width = width
+    return @_width || false if _.isUndefined(width)
+    @_width = width
+    # return @ to make the method chainable
+    @
+
+  # Set data
+  data: (arr) ->
+    # get the internal value if it is not being set
+    return @_data || [] unless arr?
+
+    # create and set the internal variable
+    @_data = arr
+
+    # extend data array
+    _.each _.filter(@_columns, (col) -> col.type is "total"), (col) =>
+      @_extendToTotalColumn(col)
+
     # return @ to make the method chainable
     @
 
   # Columns have a custom getter/setter because of their inherent complexity
   columns: (columnList) ->
-    
     # get _columns if they are not being set
     return @_columns unless columnList
     
@@ -152,12 +165,12 @@ class window.TableStakes
 
             # TODO: what is this below?
             _column = _.clone column
+            _column._id = column.id
+            _column.id =  item
             if column.label?
-              _column.id = item
               _column.label = if typeof column.label is 'function'
               then column.label item else column.label
             else
-              _column.id =  item
               _column.label = new Date(item).toGMTString().split(' ')[2]
               _column.secondary = new Date(item).getFullYear().toString()
               
@@ -172,6 +185,7 @@ class window.TableStakes
           for item, i in column.timeSeries by grouper
             grouppedItems = _.first(column.timeSeries.slice(i), grouper)
             _column = _.clone column
+            _column._id = column.id
             _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
             if grouppedItems.length > 1
               _column.label = [
@@ -201,6 +215,7 @@ class window.TableStakes
           for item, i in column.timeSeries by grouper
             grouppedItems = _.first(column.timeSeries.slice(i), grouper)
             _column = _.clone column
+            _column._id = column.id
             _column.id = [_.first(grouppedItems),_.last(grouppedItems)].join '-'
             if new Date(_.first(grouppedItems)).getMonth() is 0
               _column.label = "
@@ -219,10 +234,19 @@ class window.TableStakes
             c = new window.TableStakesLib.Column(_column)
             @_columns.push c
 
+      # This 'else if' is for columns that should calculate sum of all other
+      # columns with id = column.related
+      else if column["type"] is "total"
+        c = new window.TableStakesLib.Column(column)
+        @_columns.push c
+
+        @_extendToTotalColumn(column)
+
       # This 'else' is for columns that are not time series. It will get lost
       # less easily if the time series stuff is refactored to a new method
       else
         c = new window.TableStakesLib.Column(column)
+        c._id = c.id
         @_columns.push c
 
     # return @ to make the method chainable
@@ -316,6 +340,11 @@ class window.TableStakes
     
   # TODO: this method needs a lot of documentation
   render: ->
+    # Apply sorting to column
+    sortedColumn = _.find @columns(), (col) ->
+      _.has(col, "sorted")
+    @sorter(sortedColumn) if sortedColumn?
+
     @gridData = [values: @data()]
     @columns().forEach (column, i) =>
       @gridData[0][column['id']] = column['id']
@@ -324,14 +353,6 @@ class window.TableStakes
     @_setFilter @gridFilteredData[0], @filterCondition
     wrap = d3.select(@el())
       .html('')
-
-#    if (@height)
-#      wrap.style("max-height", "#{ @height }px")
-#        .style("overflow-y", "auto")
-#
-#    if (@width)
-#      wrap.style("max-width", "#{ @width }px")
-#        .style("overflow-x", "auto")
 
     wrap.datum(@gridFilteredData)
       .call( (selection) => @update selection)
@@ -388,11 +409,12 @@ class window.TableStakes
   # ------------------------------------------------
         
   # TODO: this method needs a lot of documentation
-  sort: (columnId, isDesc)->
-    return unless columnId? or isDesc?
+  sort: (columnId, isAsc, returnData = false)->
+    console.log "sort", columnId, isAsc, returnData
+    return unless columnId? or isAsc
     sortFunction = (a,b)->
       if a[columnId]? and b[columnId]?
-        if isDesc
+        if isAsc
           if _.isNumber(a[columnId]) and _.isNumber(b[columnId])
             a[columnId] - b[columnId]
           else
@@ -425,10 +447,14 @@ class window.TableStakes
       _data.sort sortFunction
       _data
 
+    _data = @data()
     if _.find(@data(), (row) -> ('values' in _.keys(row)) or ('_values' in _.keys(row)))
-      @data sortRecursive(@data())
+      _data = sortRecursive(_data)
     else
-      @data().sort sortFunction
+      _data.sort sortFunction
+
+    return _data if returnData
+    @_data = _data
     @render()
 
   # This method simply provides an external interface for the internal 
@@ -639,8 +665,6 @@ class window.TableStakes
 
     isZeroFilter = _.find(@_columns, (col) => @utils.ourFunctor(col.filterZero))?.filterZero
     @filterZeros(@data()) if isZeroFilter
-    isSorted = _.find(@_columns, (col) => @utils.ourFunctor(col.sorted))?.sorted
-    @sorter(@data()) if isSorted
 
     data = @data()
 
@@ -682,27 +706,86 @@ class window.TableStakes
     @
 
   # TODO: this method needs a lot of documentation
-  sorter: (data) ->
-    # timeSeries specific function. return if no timeSeries 'columns'
-    cols = _.filter @_columns, (col) -> col.timeSeries?
-    return unless cols.length
+  sorter: (column) ->
+    console.log "sorter"
+    return @ unless column? and column.sorted
 
-    availableTimeFrame = _.first(cols).timeSeries
-    sortedData = data
-    sorted = _.find(@_columns, (col) -> col.sorted)?.sorted
+    unless _.has(column, "timeSeries")
+      @_data = @sort(column.id, column.sorted is "asc", true)
+    else
+      timeRange = column.timeSeries
+      @_data = _.sortBy @_data, (row) ->
+        sum = 0
+        if timeRange.length > 12
+          sum =  _.reduce row.dataValue, ((memo, value) ->
+            memo + value
+          ), 0
+        else
+          sum = _.reduce timeRange, ((memo, timeStamp) ->
+            index = row.period.indexOf(timeStamp)
 
-    sortedData = _.sortBy sortedData, (row) ->
-      begin = _.indexOf row.period, _.first(availableTimeFrame)
-      end = _.indexOf row.period, _.last(availableTimeFrame)
-      if begin < 0 or end < 0 or end < begin
-        return 0
-      sum = _.reduce row.dataValue[begin..end], ((memo, num) -> memo+num), 0
-      if sorted is 'asc'
-        sum
-      else if sorted is 'desc'
-        sum*-1
+            unless index is -1
+              value = row.dataValue[index]
+            else
+              value = 0
+            memo + value
+          ), 0
+        sum *= -1 unless column.sorted is "asc"
+        return sum
 
-    @data sortedData
-    
+    # return @ to make the method chainable
+    @
+
+  # Add one more item (cell / column) to every row as sum of all related columns
+  _extendToTotalColumn: (column) ->
+    return @ unless column?
+    return @ unless @_columns
+
+    data = @data()
+    return @ unless data.length
+
+    column.related = [column.related] unless _.isArray column.related
+    relatedColumns = []
+    for pointer in column.related
+      relatedColumn = _.find @_columns, (col) -> col._id is pointer
+      continue unless relatedColumn?
+      relatedColumns.push relatedColumn
+    return @ unless relatedColumns.length
+
+    # we should care about only 1 example for each total column
+    data = _.map data, (row) ->
+      # exclude "total column" from row
+      row = _.omit row, column.id
+
+    for relatedColumn in relatedColumns
+      if relatedColumn["timeSeries"]?
+
+        timeRange = relatedColumn.timeSeries
+        if timeRange.length in [0, 1]
+          @_columns = (_.filter @_columns, (col) -> col.id isnt column.id) if relatedColumns.length is 1
+          continue
+
+        _.each data, (row) ->
+          if timeRange.length > 12
+            row[column.id] = (row[column.id] || 0) + _.reduce row.dataValue, ((memo, value) ->
+              memo + value
+            ), 0
+          else
+            row[column.id] = (row[column.id] || 0) + _.reduce timeRange, ((memo, timeStamp) ->
+              index = row.period.indexOf(timeStamp)
+
+              unless index is -1
+                value = row.dataValue[index]
+              else
+                value = 0
+              memo + value
+            ), 0
+
+      else if relatedColumns.length > 1
+        row[column.id] = (row[column.id] || 0) + row[relatedColumn.id]
+      else
+        @_columns = _.filter @_columns, (col) -> col.id isnt column.id
+
+    @_data = data
     # return @ to make the method chainable
     @

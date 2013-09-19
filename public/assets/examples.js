@@ -48,6 +48,9 @@ core = [
     shortLink: "timeseries",
     title: "Timeseries"
   }, {
+    shortLink: "total_column",
+    title: "Timeseries and Total column"
+  }, {
     shortLink: "all",
     title: "Full stack"
   }
