@@ -327,15 +327,15 @@ window.TableStakesLib.Events = (function() {
   };
 
   Events.prototype.toggleSort = function(el, column) {
-    column.desc = !column.desc;
+    column.asc = !column.asc;
     d3.selectAll('.sorted-desc').classed('sorted-desc', false);
     d3.selectAll('.sorted-asc').classed('sorted-asc', false);
     d3.selectAll('th').filter(function(d) {
       if (d.id !== column.id) {
-        return d.desc = null;
+        return d.asc = null;
       }
     });
-    return this.core.table.sort(column.id, column.desc);
+    return this.core.table.sort(column.id, column.asc);
   };
 
   Events.prototype.doubleTap = function(self, a, b, c, column) {
@@ -478,7 +478,7 @@ window.TableStakesLib.Core = (function() {
     if (this.table.isDeletable() !== false) {
       this._makeDeletable(this.tableObject);
     }
-    if (_.isNumber(this.table.get('height'))) {
+    if (_.isNumber(this.table.height())) {
       return this._makeScrollable(this.tableObject);
     }
   };
@@ -770,16 +770,16 @@ window.TableStakesLib.Core = (function() {
   };
 
   Core.prototype._makeSortable = function(allTd) {
-    var desc, self, sorted;
+    var asc, self, sorted;
     self = this;
     allTd.classed('sortable', true).append("div").classed('sortable-handle', true);
     sorted = allTd.filter(function(column) {
-      return column.desc != null;
+      return column.asc != null;
     });
     if (sorted[0] && sorted[0].length > 0) {
-      desc = sorted.data()[0].desc;
-      sorted.classed('sorted-asc', desc);
-      sorted.classed('sorted-desc', !desc);
+      asc = sorted.data()[0].asc;
+      sorted.classed('sorted-asc', asc);
+      sorted.classed('sorted-desc', !asc);
     }
     return allTd.on('click', function(a, b, c) {
       return self.events.toggleSort(this, a, b, c);
@@ -800,7 +800,7 @@ window.TableStakesLib.Core = (function() {
       return $(d).width($(d).width());
     });
     tableObject.classed("scrollable", true);
-    tableObject.select('tbody').style("height", "" + this.table.height + "px");
+    tableObject.select('tbody').style("height", "" + (this.table.height()) + "px");
     return this.table.isResizable(false);
   };
 
@@ -1000,7 +1000,6 @@ window.TableStakes = (function() {
       core: this
     });
     this._synthesize({
-      data: [],
       el: null,
       isDeletable: false,
       onDelete: null,
@@ -1076,17 +1075,31 @@ window.TableStakes = (function() {
 
   TableStakes.prototype.height = function(height) {
     if (_.isUndefined(height)) {
-      return this.height || false;
+      return this._height || false;
     }
-    this.height = height;
+    this._height = height;
     return this;
   };
 
   TableStakes.prototype.width = function(width) {
     if (_.isUndefined(width)) {
-      return this.width || false;
+      return this._width || false;
     }
-    this.width = width;
+    this._width = width;
+    return this;
+  };
+
+  TableStakes.prototype.data = function(arr) {
+    var _this = this;
+    if (arr == null) {
+      return this._data || [];
+    }
+    this._data = arr;
+    _.each(_.filter(this._columns, function(col) {
+      return col.type === "total";
+    }), function(col) {
+      return _this._extendToTotalColumn(col);
+    });
     return this;
   };
 
@@ -1106,11 +1119,11 @@ window.TableStakes = (function() {
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             item = _ref[_i];
             _column = _.clone(column);
+            _column._id = column.id;
+            _column.id = item;
             if (column.label != null) {
-              _column.id = item;
               _column.label = typeof column.label === 'function' ? column.label(item) : column.label;
             } else {
-              _column.id = item;
               _column.label = new Date(item).toGMTString().split(' ')[2];
               _column.secondary = new Date(item).getFullYear().toString();
             }
@@ -1126,6 +1139,7 @@ window.TableStakes = (function() {
             item = _ref2[i];
             grouppedItems = _.first(column.timeSeries.slice(i), grouper);
             _column = _.clone(column);
+            _column._id = column.id;
             _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
             if (grouppedItems.length > 1) {
               _column.label = [new Date(_.first(grouppedItems)).toGMTString().split(' ')[2], new Date(_.last(grouppedItems)).toGMTString().split(' ')[2]].join(' - ');
@@ -1148,6 +1162,7 @@ window.TableStakes = (function() {
             item = _ref3[i];
             grouppedItems = _.first(column.timeSeries.slice(i), grouper);
             _column = _.clone(column);
+            _column._id = column.id;
             _column.id = [_.first(grouppedItems), _.last(grouppedItems)].join('-');
             if (new Date(_.first(grouppedItems)).getMonth() === 0) {
               _column.label = "              " + (new Date(_.first(grouppedItems)).getFullYear());
@@ -1161,8 +1176,13 @@ window.TableStakes = (function() {
           }
           return _results2;
         }
+      } else if (column["type"] === "total") {
+        c = new window.TableStakesLib.Column(column);
+        _this._columns.push(c);
+        return _this._extendToTotalColumn(column);
       } else {
         c = new window.TableStakesLib.Column(column);
+        c._id = c.id;
         return _this._columns.push(c);
       }
     });
@@ -1267,8 +1287,14 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype.render = function() {
-    var wrap,
+    var sortedColumn, wrap,
       _this = this;
+    sortedColumn = _.find(this.columns(), function(col) {
+      return _.has(col, "sorted");
+    });
+    if (sortedColumn != null) {
+      this.sorter(sortedColumn);
+    }
     this.gridData = [
       {
         values: this.data()
@@ -1331,16 +1357,20 @@ window.TableStakes = (function() {
     }
   };
 
-  TableStakes.prototype.sort = function(columnId, isDesc) {
-    var sortFunction, sortRecursive,
+  TableStakes.prototype.sort = function(columnId, isAsc, returnData) {
+    var sortFunction, sortRecursive, _data,
       _this = this;
-    if (!((columnId != null) || (isDesc != null))) {
+    if (returnData == null) {
+      returnData = false;
+    }
+    console.log("sort", columnId, isAsc, returnData);
+    if (!((columnId != null) || isAsc)) {
       return;
     }
     sortFunction = function(a, b) {
       var first, second;
       if ((a[columnId] != null) && (b[columnId] != null)) {
-        if (isDesc) {
+        if (isAsc) {
           if (_.isNumber(a[columnId]) && _.isNumber(b[columnId])) {
             return a[columnId] - b[columnId];
           } else {
@@ -1383,13 +1413,18 @@ window.TableStakes = (function() {
       _data.sort(sortFunction);
       return _data;
     };
+    _data = this.data();
     if (_.find(this.data(), function(row) {
       return (__indexOf.call(_.keys(row), 'values') >= 0) || (__indexOf.call(_.keys(row), '_values') >= 0);
     })) {
-      this.data(sortRecursive(this.data()));
+      _data = sortRecursive(_data);
     } else {
-      this.data().sort(sortFunction);
+      _data.sort(sortFunction);
     }
+    if (returnData) {
+      return _data;
+    }
+    this._data = _data;
     return this.render();
   };
 
@@ -1464,7 +1499,7 @@ window.TableStakes = (function() {
   };
 
   TableStakes.prototype.dataAggregate = function(aggregator) {
-    var data, first_last, isSorted, isZeroFilter, self, sum, timeFrame, _ref, _ref1,
+    var data, first_last, isZeroFilter, self, sum, timeFrame, _ref,
       _this = this;
     self = this;
     if (!_.isArray(aggregator)) {
@@ -1593,12 +1628,6 @@ window.TableStakes = (function() {
     if (isZeroFilter) {
       this.filterZeros(this.data());
     }
-    isSorted = (_ref1 = _.find(this._columns, function(col) {
-      return _this.utils.ourFunctor(col.sorted);
-    })) != null ? _ref1.sorted : void 0;
-    if (isSorted) {
-      this.sorter(this.data());
-    }
     data = this.data();
     _.each(aggregator, function(filter) {
       if (_.isFunction(filter)) {
@@ -1640,36 +1669,116 @@ window.TableStakes = (function() {
     return this;
   };
 
-  TableStakes.prototype.sorter = function(data) {
-    var availableTimeFrame, cols, sorted, sortedData, _ref;
-    cols = _.filter(this._columns, function(col) {
-      return col.timeSeries != null;
-    });
-    if (!cols.length) {
-      return;
+  TableStakes.prototype.sorter = function(column) {
+    var timeRange;
+    console.log("sorter");
+    if (!((column != null) && column.sorted)) {
+      return this;
     }
-    availableTimeFrame = _.first(cols).timeSeries;
-    sortedData = data;
-    sorted = (_ref = _.find(this._columns, function(col) {
-      return col.sorted;
-    })) != null ? _ref.sorted : void 0;
-    sortedData = _.sortBy(sortedData, function(row) {
-      var begin, end, sum;
-      begin = _.indexOf(row.period, _.first(availableTimeFrame));
-      end = _.indexOf(row.period, _.last(availableTimeFrame));
-      if (begin < 0 || end < 0 || end < begin) {
-        return 0;
-      }
-      sum = _.reduce(row.dataValue.slice(begin, +end + 1 || 9e9), (function(memo, num) {
-        return memo + num;
-      }), 0);
-      if (sorted === 'asc') {
+    if (!_.has(column, "timeSeries")) {
+      this._data = this.sort(column.id, column.sorted === "asc", true);
+    } else {
+      timeRange = column.timeSeries;
+      this._data = _.sortBy(this._data, function(row) {
+        var sum;
+        sum = 0;
+        if (timeRange.length > 12) {
+          sum = _.reduce(row.dataValue, (function(memo, value) {
+            return memo + value;
+          }), 0);
+        } else {
+          sum = _.reduce(timeRange, (function(memo, timeStamp) {
+            var index, value;
+            index = row.period.indexOf(timeStamp);
+            if (index !== -1) {
+              value = row.dataValue[index];
+            } else {
+              value = 0;
+            }
+            return memo + value;
+          }), 0);
+        }
+        if (column.sorted !== "asc") {
+          sum *= -1;
+        }
         return sum;
-      } else if (sorted === 'desc') {
-        return sum * -1;
+      });
+    }
+    return this;
+  };
+
+  TableStakes.prototype._extendToTotalColumn = function(column) {
+    var data, pointer, relatedColumn, relatedColumns, timeRange, _i, _j, _len, _len1, _ref, _ref1;
+    if (column == null) {
+      return this;
+    }
+    if (!this._columns) {
+      return this;
+    }
+    data = this.data();
+    if (!data.length) {
+      return this;
+    }
+    if (!_.isArray(column.related)) {
+      column.related = [column.related];
+    }
+    relatedColumns = [];
+    _ref = column.related;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      pointer = _ref[_i];
+      relatedColumn = _.find(this._columns, function(col) {
+        return col._id === pointer;
+      });
+      if (relatedColumn == null) {
+        continue;
       }
+      relatedColumns.push(relatedColumn);
+    }
+    if (!relatedColumns.length) {
+      return this;
+    }
+    data = _.map(data, function(row) {
+      return row = _.omit(row, column.id);
     });
-    this.data(sortedData);
+    for (_j = 0, _len1 = relatedColumns.length; _j < _len1; _j++) {
+      relatedColumn = relatedColumns[_j];
+      if (relatedColumn["timeSeries"] != null) {
+        timeRange = relatedColumn.timeSeries;
+        if ((_ref1 = timeRange.length) === 0 || _ref1 === 1) {
+          if (relatedColumns.length === 1) {
+            this._columns = _.filter(this._columns, function(col) {
+              return col.id !== column.id;
+            });
+          }
+          continue;
+        }
+        _.each(data, function(row) {
+          if (timeRange.length > 12) {
+            return row[column.id] = (row[column.id] || 0) + _.reduce(row.dataValue, (function(memo, value) {
+              return memo + value;
+            }), 0);
+          } else {
+            return row[column.id] = (row[column.id] || 0) + _.reduce(timeRange, (function(memo, timeStamp) {
+              var index, value;
+              index = row.period.indexOf(timeStamp);
+              if (index !== -1) {
+                value = row.dataValue[index];
+              } else {
+                value = 0;
+              }
+              return memo + value;
+            }), 0);
+          }
+        });
+      } else if (relatedColumns.length > 1) {
+        row[column.id] = (row[column.id] || 0) + row[relatedColumn.id];
+      } else {
+        this._columns = _.filter(this._columns, function(col) {
+          return col.id !== column.id;
+        });
+      }
+    }
+    this._data = data;
     return this;
   };
 

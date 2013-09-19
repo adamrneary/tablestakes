@@ -297,16 +297,16 @@ class window.TableStakesLib.Events
     @core.update()
 
   toggleSort: (el,column)->
-    column.desc = !column.desc
+    column.asc = !column.asc
 
     #disable sort for all columns
     d3.selectAll('.sorted-desc').classed('sorted-desc',false)
     d3.selectAll('.sorted-asc').classed('sorted-asc',false)
     d3.selectAll('th').filter (d)->
       if d.id isnt column.id
-        d.desc = null
+        d.asc = null
 
-    @core.table.sort column.id, column.desc
+    @core.table.sort column.id, column.asc
 
   doubleTap: (self, a, b, c, column) ->
     # Pseudo double-click implementation
