@@ -22,7 +22,7 @@ Then navigate to the [showcase](http://localhost:5000).
 
 ## Detailed documentation
 
-* [common information]()
+* [common information](https://github.com/activecell/tablestakes/blob/345_api-documentation/docs/common.md)
 * [columns]
 
 ### Hacking on the source
