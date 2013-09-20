@@ -22,8 +22,8 @@ Then navigate to the [showcase](http://localhost:5000).
 
 ## Detailed documentation
 
-* [common information](https://github.com/activecell/tablestakes/blob/345_api-documentation/docs/common.md)
-* [columns]
+* [common information](docs/common.md)
+* [columns](docs/columns.md)
 
 ### Hacking on the source
 * Source for the library is in src/coffee/
