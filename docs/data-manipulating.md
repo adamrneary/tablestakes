@@ -3,10 +3,10 @@
 #### data()
 
 Set data to table.
-```data``` - array, that describes table's data. Each element of ```data``` describes row.
+```data``` - array, that describes table's data. Each element of ```data``` describes a row.
 Every array's item (row) should be JavaScript object.
-Every array's item (row) could contain any quantity of pairs {key: value}, but used will be only those which have reference from colums array.
-*For example*: ```columns``` array defines to use values from row by keys **id** and **label**
+Every array's item (row) could contain any quantity of pairs {key: value}, but only these will be used which have reference from colums array.
+*For example*: ```columns``` array defines to use values from a row by keys **id** and **label**
 
 ```coffeescript
 data = [

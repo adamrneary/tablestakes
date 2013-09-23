@@ -13,11 +13,13 @@ new window.TableStakes()
 * [el()](#placement) - element to render table
 * [columns()](columns.md) - list of columns
 * [data()](data-manipulating.md) - data manipulating
-* [rowClasses()](#row-classes) - adding specific class custom row
+* [rowClasses()](#row-classes) - adding specific class to custom row
+* [isDeletable()](#deletable) - delete table rows
+* [isDraggable()](#draggable) - reorder table rows with "drag and drop"
 
 
 
-##### Placement
+#### Placement
 
 ```coffeescript
 new window.TableStakes()
@@ -35,7 +37,7 @@ Will create new instance of table placed inside of ```#example```
 ```
 
 
-##### Row Classes
+#### Row Classes
 
 Allows to apply custom classes to any (or all) rows. There are 2 ways to apply classes to table row.  
 1. Function ```rowClasses(rowClassesResolver)``` takes 1 argument - pointer to function.  
@@ -82,3 +84,68 @@ new window.TableStakes()
     "total2" if d.etc is 'etc2'
   .render()
 ```
+
+
+#### Deletable
+
+To add functionality of removing table rows two methods should be called:  
+[```isDeletable(arg)```](#deleteresolver) - function to resolve which rows could be deletable. **arg** should be *true/flase* statement, or pointer to [deleteResolver](#deleteresolver) function.
+[```onDelete(deleteHandler)```](#deletehandler) - function to update [dataArray](data-manipulate.md) after delete button clicked.
+
+##### deleteResolver()
+
+Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will be deletable.  
+```deleteResolver(rowItem)``` takes one argument **rowItem** item from dataArray] and return *true/false*.
+
+```coffeescript
+deleteResolver = (rowItem) ->
+  rowItem.id % 2
+```
+
+##### deleteHandler()
+
+function calls every time when table's row deletes.  
+```deleteHandler(rowId)``` takes one argument **rowId**. Its the same as value from pair ```{id: value}``` of dataArray's item.
+```coffeescript
+deleteHandler = (rowId) ->
+  data = _.reject(data, (row) -> row.id is rowId)
+  grid.data(data).render()
+```
+
+```coffeescript
+data = [
+  id: 1
+  type: "ahaha"
+,
+  id: 2
+  type: "Historical"
+,
+  id: 3
+  type: "Snapshot"
+,
+  id: 4
+  type: "Historical"
+]
+
+columns = [
+  id: "id"
+  label: "Name"
+,
+  id: "type"
+  label: "Type"
+]
+
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .isDeletable(deleteResolver)
+  .onDelete(deleteHandler)
+  .render()
+```
+
+
+#### Draggable
+
+Coming Soon
+
