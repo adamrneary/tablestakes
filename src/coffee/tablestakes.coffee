@@ -627,7 +627,7 @@ class window.TableStakes
 
         unless start is -1 or end is -1
           _slicePeriod = if row.period.length then row.period.slice(start, end+1) else []
-          _slicePeriodId = if row.period_id.length then row.period_id.slice(start, end+1) else []
+          _slicePeriodId = if row.period_id and row.period_id.length then row.period_id.slice(start, end+1) else []
           _sliceValue = if row.dataValue.length then row.dataValue.slice(start, end+1) else []
 
           for val, j in _slicePeriod by grouper

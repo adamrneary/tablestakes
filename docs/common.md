@@ -13,7 +13,6 @@ new window.TableStakes()
 * [el()](#placement) - element to render table
 * [columns()](columns.md) - list of columns
 * [data()](data-manipulating.md) - data manipulating
-  * [timeSeries](#timeseries) - specific data manipulating methods
 * [rowClasses()](#row-classes) - adding specific class custom row
 
 

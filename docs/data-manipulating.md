@@ -1,5 +1,7 @@
 ### Data manipulating
 
+#### data()
+
 Set data to table.
 ```data``` - array, that describes table's data. Each element of ```data``` describes row.
 Every array's item (row) should be JavaScript object.
@@ -114,7 +116,7 @@ new window.TableStakes()
 4. [*user defined function*](#external-function-syntax) ```dataAggregate(aggregator)``` for any other needs
 
 ```coffeescript
-timeRange = [1356984000000, 1359662400000, 1362081600000, 1364760000000, 1367352000000, 1370030400000, 1372622400000, 1375300800000, 1377979200000, 1380571200000, 1383249600000, 1385841600000, 1388520000000] # [Jan 2013 ... Jan 2014]
+timeRange = [1357070400000, 1359748800000, 1362168000000, 1364846400000, 1367438400000, 1370116800000, 1372708800000, 1375387200000, 1378065600000, 1380657600000, 1383336000000, 1385928000000, 1388606400000] # [Jan 2013 ... Jan 2014]
 
 columns = [
   id: "id"
@@ -145,3 +147,61 @@ new window.TableStakes()
 
 
 ##### External function syntax
+
+All aggregation logic are the same (grouping by month / quarter / year; value selecting; etc), except of applying aggregation function. External function shuld take 2 arguments: ```dataArray```, ```selectedTimeRange```
+* ```dataArray``` is the same you pass into **data()** function or result of **parseFlatData()** function.
+* ```selectedTimeRange``` range of unixTimeStamps
+
+
+Function should return array, organized the same way as original.
+
+```coffeescript
+externalDataAggregateFunction = (dataArray, selectedTimeRange) ->
+  # function return data multiplied by 2 if selectedTimeRange > 12
+  _data = []
+
+  # this is how columns.id selector creates
+  if selectedTimeRange.length <= 12
+    return dataArray
+  else if 12 < selectedTimeRange.length <= 36
+    grouper = 3
+  else
+    grouper = 12
+
+  multiplier = 2
+
+  _.each dataArray, (row, i) ->
+    _period = []
+    _dataValue = []
+
+    start = _.indexOf row.period, _.first selectedTimeRange
+    end = _.indexOf row.period, _.last selectedTimeRange
+
+    unless start is -1 or end is -1
+      _slicePeriod = if row.period.length then row.period.slice(start, end+1) else []
+      _sliceValue = if row.dataValue.length then row.dataValue.slice(start, end+1) else []
+
+      for val, j in _slicePeriod by grouper
+        # this is how columns.id selector creates
+        _period.push [val,_.last(_slicePeriod.slice(j,j+grouper))].join '-'
+        _dataValue.push _.reduce _sliceValue.slice(j,j+grouper), ((memo, value)-> memo + value*multiplier), 0
+    else
+      for val, j in selectedTimeRange by grouper
+        _period.push [val,_.last selectedTimeRange[j..j+grouper]].join '-'
+        _dataValue.push '-'
+
+    _row = _.clone(row)
+    _row.period = _period
+    _row.dataValue = _dataValue
+
+    _data.push _row
+
+  _data
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(rowData)
+  .dataAggregate(externalDataAggregateFunction)
+  .render()
+```

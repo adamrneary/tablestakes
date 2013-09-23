@@ -53,6 +53,9 @@ core = [
   }, {
     shortLink: "all",
     title: "Full stack"
+  }, {
+    shortLink: "test",
+    title: "While docs testing"
   }
 ];
 
