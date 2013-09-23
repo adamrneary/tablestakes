@@ -34,6 +34,62 @@ new window.TableStakes()
   .render()
 ```
 
+#### Nested data, expandable/collapsible rows
+
+To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. One of [columns](columns.md) should contain pair ```{isNested: true}```. **value** should be array of objects, related to *columns*  
+*values* - for expanded of nested rows; *_values* - for collapsed of nested rows.
+
+```coffeescript
+data = [
+  id: "NVD3"
+  type: "ahaha"
+  values: [
+    id: "Charts"
+    _values: [
+      id: "Simple Line"
+      type: "Historical"
+    ,
+      id: "Scatter / Bubble"
+      type: "Snapshot"
+    ,
+      id: "Stacked / Stream / Expanded Area"
+      type: "Historical"
+    ]
+  ,
+    id: "Chart Components"
+    values: [
+      id: "Legend"
+      type: "Universal"
+    ,
+      id: "Line with View Finder"
+      type: "Historical"
+    ]
+  ]
+,
+  id: "New Root"
+  type: "tatata"
+  values: [
+    id: "1"
+    type: "123"
+  ]
+]
+
+columns = [
+  id: "id"
+  label: "Name"
+  isNested: true
+,
+  id: "type"
+  label: "Type"
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .render()
+```
+
 ### timeSeries option
 
 * [parseFlatData()](#parseflatdata) - consuming flat array of objects
