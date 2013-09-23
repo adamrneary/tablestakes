@@ -148,8 +148,10 @@ grid = new window.TableStakes()
 #### Draggable
 
 Allows to drag one selected table row from one place to another. There are two options:
-* [reorder](#reorder-dragging)  
-* [hierarchy](#hierarchy-dragging)  
+* [reorder](#reorder-dragging)
+  * [Reorder Draggable Example](/public/examples/reorder_dragging.coffee)
+* [hierarchy](#hierarchy-dragging)
+  * [Hierarchy Draggable Example](/public/examples/hierarchy_dragging.coffee)
 
 For both options ```isDraggable(arg)``` should be called to enable dragging. It takes one argument **arg**. **arg** should be *true/flase* statement, or pointer to [dragResolver](#dragresolver) function.  
 And ```onDrag(onDragHandler)``` - function to update [dataArray](data-manipulating.md) when you end dragging. It takes one argument - pointer to [afterDrag](#ondraghandler) function.
