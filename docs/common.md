@@ -39,7 +39,9 @@ Will create new instance of table placed inside of ```#example```
 
 Allows to apply custom classes to any (or all) rows. There are 2 ways to apply classes to table row.  
 1. Function ```rowClasses(rowClassesResolver)``` takes 1 argument - pointer to function.  
-2. Add pair ```{classes: "customeRowClass"}``` to every item of [dataArray](data-manipulating.md)
+2. Add pair ```{classes: "customeRowClass"}``` to every item of [dataArray](data-manipulating.md)
+
+```rowClassesResolver``` takes 1 argument - item of dataArray (row). Function returns string value of row's class.
 
 ```coffeescript
 data = [
