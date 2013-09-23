@@ -13,10 +13,11 @@ new window.TableStakes()
 * [el()](#placement) - element to render table
 * [columns()](columns.md) - list of columns
 * [data()](data-manipulating.md) - data manipulating
+* [isResizable()](#resizable) - resize of table columns
 * [rowClasses()](#row-classes) - adding specific class to custom row
 * [isDeletable()](#deletable) - delete table rows
 * [isDraggable()](#draggable) - reorder table rows with "drag and drop"
-* [isResizable()](#resizable) - resize of table columns
+  * [auto scroll](#auto-scroll) - auto scroll table while dragging
 
 
 
@@ -35,6 +36,21 @@ Will create new instance of table placed inside of ```#example```
     </table>
   </div>
 </div>
+```
+
+
+#### Resizable
+
+Allows to change column's width. ```isResizable(arg)``` takes one argument **arg** *true* or *false* statement.  
+*by default this option is enabled*
+
+```coffeescript
+new window.TableStakes()
+  .el('#example')
+  .columns(columns)
+  .data(data)
+  .isResizable(false)    # disable columns width changing
+  .render()
 ```
 
 
@@ -210,17 +226,18 @@ rowDestinationResolver = (rowItem) ->
   rowItem.depth > 1
 ```
 
+##### Auto Scroll
 
-#### Resizable
-
-Allows to change column's width. ```isResizable(arg)``` takes one argument **arg** *true / false* value.  
-*by default this option is enabled*
+Allow to scroll table with reorder dragging. When [dataArray](data-manipulating.md) have a lot of items (rows) height of could be more than desired. To manually fix table's height and save table's column name method ```height(value)``` should be called. Where **value** is height of ```<tbody>``` element.  
+When method ```height(value)``` is called, then class *scrollable* will be assigned to ```<table>``` and [resizable](#resizable) option disabled.  
 
 ```coffeescript
 new window.TableStakes()
   .el('#example')
+  .height(500)
   .columns(columns)
   .data(data)
-  .isResizable(false)    # disable columns width changing
   .render()
 ```
+
+[Example](/public/examples/nested_filterable.coffee)
