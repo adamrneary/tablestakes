@@ -16,6 +16,7 @@ new window.TableStakes()
 * [rowClasses()](#row-classes) - adding specific class to custom row
 * [isDeletable()](#deletable) - delete table rows
 * [isDraggable()](#draggable) - reorder table rows with "drag and drop"
+* [isResizable()](#resizable) - resize of table columns
 
 
 
@@ -149,7 +150,7 @@ grid = new window.TableStakes()
 
 Allows to drag one selected table row from one place to another. There are two options:
 * [reorder](#reorder-dragging)
-  * [Reorder Draggable Example](/public/examples/reorder_dragging.coffee)
+  * [Reorder Draggable Example](../public/examples/reorder_dragging.coffee)
 * [hierarchy](#hierarchy-dragging)
   * [Hierarchy Draggable Example](/public/examples/hierarchy_dragging.coffee)
 
@@ -209,3 +210,17 @@ rowDestinationResolver = (rowItem) ->
   rowItem.depth > 1
 ```
 
+
+#### Resizable
+
+Allows to change column's width. ```isResizable(arg)``` takes one argument **arg** *true / false* value.  
+*by default this option is enabled*
+
+```coffeescript
+new window.TableStakes()
+  .el('#example')
+  .columns(columns)
+  .data(data)
+  .isResizable(false)    # disable columns width changing
+  .render()
+```
