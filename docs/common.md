@@ -37,4 +37,46 @@ Will create new instance of table placed inside of ```#example```
 
 ##### Row Classes
 
-*Coming Soon*
+Allows to apply custom classes to any (or all) rows. There are 2 ways to apply classes to table row.  
+1. Function ```rowClasses(rowClassesResolver)``` takes 1 argument - pointer to function.  
+2. Add pair ```{classes: "customeRowClass"}``` to every item of [dataArray](data-manipulating.md)
+
+```coffeescript
+data = [
+  id: "Grouped / Stacked Multi-Bar"
+  type: "Snapshot / Historical"
+  etc: 'etc1'
+,
+  id: "Horizontal Grouped Bar"
+  type: "Snapshot"
+  etc: 'etc2'
+,
+  id: "Line and Bar Combo"
+  type: "Historical"
+  etc: 'etc3'
+,
+  id: "1"
+  type: "123"
+  etc: 'etc4'
+  classes: "total"
+]
+
+columns = [
+  id: "id"
+  label: "Name"
+,
+  id: "type"
+  label: "Type"
+,
+  id: "etc"
+  label: "Etc"
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(data)
+  .rowClasses (d) ->
+    "total2" if d.etc is 'etc2'
+  .render()
+```
