@@ -16,7 +16,7 @@ Where *columnsArray* is array of objects ```{key: value}```. Possible variation 
 * [*format*](#format) - apply style formatting to output
   * [*formatFunction*](#formatfunction)
 * [*isSortable*](#issortable) - allow to sort table rows in ascending (descending) order
-* *isNested* - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
+* [*isNested*](#isnested) - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
 * *editable* - add special classes and event listeners to allow editing of table's cell
   * *onEdit* - editHandler apply changes to [dataArray](data-manipulating.md)
 * *timeSeries* - some specific methods for columns and data gouped by time factor.
@@ -147,7 +147,57 @@ columnsArray = [
 
 #### isNested
 
-Coming soon
+```isNested: true``` **isSortable** key takes *true* or *false* statement. This option modifies table rows generating and adds event listener to expand (collapse) nested data. Should be used together with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows).  
+To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. **value** should be array of objects, related to *columnsArray*  
+*values* - for expanded nested rows; *_values* - for collapsed nested rows.
+
+```coffeescript
+dataArray = [
+  id: "NVD3"
+  type: "ahaha"
+  values: [
+    id: "Charts"
+    _values: [
+      id: "Simple Line"
+      type: "Historical"
+    ,
+      id: "Scatter / Bubble"
+      type: "Snapshot"
+    ]
+  ,
+    id: "Chart Components"
+    values: [
+      id: "Legend"
+      type: "Universal"
+    ,
+      id: "Line with View Finder"
+      type: "Historical"
+    ]
+  ]
+,
+  id: "New Root"
+  type: "tatata"
+  values: [
+    id: "1"
+    type: "123"
+  ]
+]
+
+columnsArray = [
+  id: "id"
+  label: "Name"
+  isNested: true
+,
+  id: "type"
+  label: "Type"
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columnsArray)
+  .data(dataArray)
+  .render()
+```
 
 
 #### editable

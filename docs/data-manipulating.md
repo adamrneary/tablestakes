@@ -36,7 +36,7 @@ new window.TableStakes()
 
 #### Nested data, expandable/collapsible rows
 
-To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. One of the [columns](columns.md) should contain the pair ```{isNested: true}```. **value** should be array of objects, related to *columns*
+To create table with expandale/collapsible rows. One of the [columns](columns.md) should contain the pair ```{isNested: true}```. [dataArray](data-manipulating.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. **value** should be array of objects, related to *columns*
 *values* - for expanded of nested rows; *_values* - for collapsed of nested rows.
 
 ```coffeescript
