@@ -20,6 +20,11 @@ Run the project locally (with tests and watcher):
 
 Then navigate to the [showcase](http://localhost:5000).
 
+## Detailed documentation
+
+* [common information](docs/common.md)
+* [columns](docs/columns.md)
+
 ### Hacking on the source
 * Source for the library is in src/coffee/
 * Tests for the library are in test/

@@ -1523,7 +1523,7 @@ window.TableStakes = (function() {
         end = _.indexOf(row.period, _.last(availableTimeFrame));
         if (!(start === -1 || end === -1)) {
           _slicePeriod = row.period.length ? row.period.slice(start, end + 1) : [];
-          _slicePeriodId = row.period_id.length ? row.period_id.slice(start, end + 1) : [];
+          _slicePeriodId = row.period_id && row.period_id.length ? row.period_id.slice(start, end + 1) : [];
           _sliceValue = row.dataValue.length ? row.dataValue.slice(start, end + 1) : [];
           for ((grouper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); grouper > 0 ? _i < _len : _i >= 0; j = _i += grouper) {
             val = _slicePeriod[j];
@@ -1577,7 +1577,7 @@ window.TableStakes = (function() {
         end = _.indexOf(row.period, _.last(availableTimeFrame));
         if (!(start === -1 || end === -1)) {
           _slicePeriod = row.period.length ? row.period.slice(start, end + 1) : [];
-          _slicePeriodId = row.period_id.length ? row.period_id.slice(start, end + 1) : [];
+          _slicePeriodId = row.period_id && row.period_id.length ? row.period_id.slice(start, end + 1) : [];
           _sliceValue = row.dataValue.length ? row.dataValue.slice(start, end + 1) : [];
           for ((grouper > 0 ? (j = _i = 0, _len = _slicePeriod.length) : j = _i = _slicePeriod.length - 1); grouper > 0 ? _i < _len : _i >= 0; j = _i += grouper) {
             val = _slicePeriod[j];
