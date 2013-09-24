@@ -12,13 +12,14 @@ Where *columnsArray* is array of objects ```{key: value}```. Possible variation 
 * [*id*](#id) - pointer to **key** attribute of [dataArray](data-manipulating.md)
 * [*label*](#label) - name of column
 * [*classes*](#classes) - specific column class
-  * [*columnClassFunction()*](#columnclassfunction)
+  * [*columnClassFunction*](#columnclassfunction)
 * [*format*](#format) - apply style formatting to output
   * [*formatFunction*](#formatfunction)
 * [*isSortable*](#issortable) - allow to sort table rows in ascending (descending) order
 * [*isNested*](#isnested) - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
-* *editable* - add special classes and event listeners to allow editing of table's cell
-  * *onEdit* - editHandler apply changes to [dataArray](data-manipulating.md)
+* [*isEditable*](#iseditable) - add special classes and event listeners to allow editing of table's cell
+  * [*editableCellResolver*](#editablecellresolver)
+  * [*onEdit*](#onedit) - editHandler apply changes to [dataArray](data-manipulating.md)
 * *timeSeries* - some specific methods for columns and data gouped by time factor.
 
 Additional option
@@ -67,7 +68,7 @@ columnsArray = [
 
 #### classes
 
-```classes: classesValue``` Add a specific class to whole column of selected cell. **classesValue** could be a string value or pointer to [columnClassFunction].
+```classes: classesValue``` Add a specific class to whole column or selected cell. **classesValue** could be a string value or pointer to [columnClassFunction](#columnclassfunction).
 
 ```coffeescript
 columnsArray = [
@@ -200,9 +201,51 @@ new window.TableStakes()
 ```
 
 
-#### editable
+#### isEditable
 
-Coming soon
+```isEditable: editableValue``` Add a specific class to whole column or selected cell. **editableValue** could be a *true* or *false* statement; or pointer to [editableCellResolver](#editablecellresolver) function.  
+If **isEditable** could be set to *true* (by statement or by [editableCellResolver](#editablecellresolver) function) pair ```onEdit: editHandler``` should be [set](#onedit).
+
+```coffeescript
+editHandler = null
+
+columns = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+  isEditable: true
+  onEdit: editHandler
+]
+```
+
+
+##### editableCellResolver
+
+```editableCellResolver(dataItem, columnItem)``` function takes two optional arguments; should return *true* or *false* statement. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+
+```coffeescript
+editableCellResolver = (dataItem, columnItem) ->
+  if dataItem.id is "Simple Line"
+  and columnItem.id is "id"
+    return true
+  else
+    return false
+    
+editHandler = null
+
+columns = [
+  id: "id"
+  label: "Name"
+  isEditable: editableCellResolver
+  onEdit: editHandler
+,
+  id: "type"
+  label: "Type"
+]
+```
 
 
 ##### onEdit
