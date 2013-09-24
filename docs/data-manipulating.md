@@ -36,7 +36,7 @@ new window.TableStakes()
 
 #### Nested data, expandable/collapsible rows
 
-To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. One of [columns](columns.md) should contain pair ```{isNested: true}```. **value** should be array of objects, related to *columns*  
+To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. One of the [columns](columns.md) should contain the pair ```{isNested: true}```. **value** should be array of objects, related to *columns*
 *values* - for expanded of nested rows; *_values* - for collapsed of nested rows.
 
 ```coffeescript
@@ -162,7 +162,7 @@ new window.TableStakes()
 
 #### dataAggregate()
 
- Long time ranges accupies a lot of page space. To reduce timeSeries column quantity and aggregate data method ```dataAggregate(aggregator)```  could be used.
+ Long time ranges occupy a lot of page space. To reduce timeSeries column quantity and aggregate data method ```dataAggregate(aggregator)```  could be used.
  If time range *12 items*, or less aggregation will be applied. If time range *more that 12 and less or equal 36* - quarterly. If time range *more than 36* - by year.
  It takes on of 4 possible arguments:
 

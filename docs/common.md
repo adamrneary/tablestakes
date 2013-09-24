@@ -13,8 +13,8 @@ new window.TableStakes()
 * [el()](#placement) - element to render table
 * [columns()](columns.md) - list of columns
 * [data()](data-manipulating.md) - data manipulating
-* [isResizable()](#resizable) - resize of table columns
-* [rowClasses()](#row-classes) - adding specific class to custom row
+* [isResizable()](#resizable) - resize table columns
+* [rowClasses()](#row-classes) - adding a specific class to a custom row
 * [filtering](#filtering) - filter table rows by key words
 * [isDeletable()](#deletable) - delete table rows
 * [isDraggable()](#draggable) - reorder table rows with "drag and drop"
@@ -242,7 +242,7 @@ rowDestinationResolver = (rowItem) ->
 
 ##### Auto Scroll
 
-Allow to scroll table with reorder dragging. When [dataArray](data-manipulating.md) have a lot of items (rows) height of could be more than desired. To manually fix table's height and save table's column name method ```height(value)``` should be called. Where **value** is height of ```<tbody>``` element.  
+Allow to scroll table with reorder dragging. When [dataArray](data-manipulating.md) has a lot of items (rows) the tables height could be more than desired. To manually fix table's height and save table's column name method ```height(value)``` should be called. Where **value** is height of ```<tbody>``` element.
 When method ```height(value)``` is called, then class *scrollable* will be assigned to ```<table>``` and [resizable](#resizable) option disabled.  
 
 ```coffeescript

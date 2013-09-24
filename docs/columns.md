@@ -9,8 +9,8 @@ grid = new window.TableStakes()
 ```
 
 Where *columnsArray* is array of objects ```{key: value}```. Possible variation of **key**:
-* *id* - pointer to **key** attribute of [dataArray](data-manipulating.md)
-* *label* - name of column
+* [*id*](#id) - pointer to **key** attribute of [dataArray](data-manipulating.md)
+* [*label*](#label) - name of column
 * *classes* - specific column class
 * *format* - apply style formatting to output
 * *isSortable* - allow to sort table rows in ascending (descending) order
@@ -26,7 +26,26 @@ Additional option
 
 #### id
 
-Coming soon
+*Required field*  
+```{id: valueSelector}``` **valueSelector** should be on of keys from items of [dataArray](data-manipulating.md)
+
+```coffeescript
+columnsArray = [
+  id: "id"    # column 1
+,
+  id: "type"  # column 2
+]
+
+dataArray = [
+  id: "nerds for good"  # will be used, column 1
+  type: "ahaha"         # will be used, column 2
+  label: "LOL"          # will not be used
+,
+  type: "Historical"    # will be used, column 2
+  id: "Simple Line"     # will be used, column 1
+  port: undefined       # will not be used
+]
+```
 
 
 #### label
