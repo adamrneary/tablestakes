@@ -122,7 +122,7 @@ myTable = new window.TableStakes()
 
 * Required at instantiation: [el()](#el)
 * Required: [columns()](columns.md)
-* Required: [data()](data-manipulating.md)
+* Required: [data()](data.md)
 * [isResizable()](#resizable)
 * [rowClasses()](#row-classes)
 * [filter()](#filter)
