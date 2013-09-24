@@ -15,6 +15,7 @@ new window.TableStakes()
 * [data()](data-manipulating.md) - data manipulating
 * [isResizable()](#resizable) - resize of table columns
 * [rowClasses()](#row-classes) - adding specific class to custom row
+* [filtering](#filtering) - filter table rows by key words
 * [isDeletable()](#deletable) - delete table rows
 * [isDraggable()](#draggable) - reorder table rows with "drag and drop"
   * [auto scroll](#auto-scroll) - auto scroll table while dragging
@@ -93,13 +94,25 @@ columns = [
   label: "Etc"
 ]
 
-new window.TableStakes()
+grid = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
   .rowClasses (d) ->
     "total2" if d.etc is 'etc2'
   .render()
+```
+
+
+#### Filtering
+
+Filter rows by "keyword". Row filtering could be by one column or by some selected columns.
+
+```filter(columns, keyword)``` function takes two arguments. **columns** - value of *id* field from [columnsArray](columns.md); or array of values. **keyword** - argument to filter by.  
+*NOTE: If table is [nested](data-manipulating.md#nested-data-expandablecollapsible-rows), ["drag destination"](common.md#rowdestinationresolver) rows excludes from filtering*
+
+```coffeescript
+grid.filter "type", "c2"
 ```
 
 
@@ -225,6 +238,7 @@ Function calls for every item from [dataArray](data-manipulate.md) to resolve wh
 rowDestinationResolver = (rowItem) ->
   rowItem.depth > 1
 ```
+
 
 ##### Auto Scroll
 
