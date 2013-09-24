@@ -13,8 +13,9 @@ Where *columnsArray* is array of objects ```{key: value}```. Possible variation 
 * [*label*](#label) - name of column
 * [*classes*](#classes) - specific column class
   * [*columnClassFunction()*](#columnclassfunction)
-* *format* - apply style formatting to output
-* *isSortable* - allow to sort table rows in ascending (descending) order
+* [*format*](#format) - apply style formatting to output
+  * [*formatFunction*](#formatfunction)
+* [*isSortable*](#issortable) - allow to sort table rows in ascending (descending) order
 * *isNested* - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
 * *editable* - add special classes and event listeners to allow editing of table's cell
   * *onEdit* - editHandler apply changes to [dataArray](data-manipulating.md)
@@ -51,7 +52,7 @@ dataArray = [
 
 #### label
 
-Display name of the column. Will be capitalized.
+```label: columnName``` **columnName** is display name of the column. Will be capitalized. Should be *String*
 
 ```coffeescript
 columnsArray = [
@@ -85,6 +86,9 @@ columnsArray = [
 ```columnClassFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
 
 ```coffeescript
+columnClassFunction = (dataItem, columnItem) ->
+  "total" if dataItem[columnItem.id] is "Historical"
+
 columnsArray = [
   id: "id"
   label: "Name"
@@ -92,20 +96,53 @@ columnsArray = [
 ,
   id: "type"
   label: "Type"
-  classes: (d, column) ->
-    "total" if d[column.id] is "Historical"
+  classes: columnClassFunction
 ]
 ```
 
 
 #### format
 
-Coming soon
+```format: formatFunction``` Apply custom formatting to column or table cell.
+
+
+##### formatFunction()
+
+```formatFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* or *Number* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+
+```coffeescript
+formatFunction = (dataItem, columnItem) ->
+  switch dataItem[columnItem.id]
+    when "ahaha" then dataItem.label
+    else "default"
+
+columnsArray = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+  format: formatFunction
+]
+```
 
 
 #### isSortable
 
-Coming soon
+```isSortable: true``` **isSortable** key takes *true* or *false* statement. This option modifies column's cell by adding sorting arrows and adding event listener. Click on column's (table header) cell toggles current sorting state. At first table render all rows are at unsorted state.
+
+```coffeescript
+columnsArray = [
+  id: "id"
+  label: "Name"
+  isSortable: true
+,
+  id: "type"
+  label: "Type"
+  isSortable: true
+]
+```
 
 
 #### isNested
