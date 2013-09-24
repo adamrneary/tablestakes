@@ -11,7 +11,8 @@ grid = new window.TableStakes()
 Where *columnsArray* is array of objects ```{key: value}```. Possible variation of **key**:
 * [*id*](#id) - pointer to **key** attribute of [dataArray](data-manipulating.md)
 * [*label*](#label) - name of column
-* *classes* - specific column class
+* [*classes*](#classes) - specific column class
+  * [*columnClassFunction()*](#columnclassfunction)
 * *format* - apply style formatting to output
 * *isSortable* - allow to sort table rows in ascending (descending) order
 * *isNested* - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
@@ -50,12 +51,51 @@ dataArray = [
 
 #### label
 
-Coming soon
+Display name of the column. Will be capitalized.
+
+```coffeescript
+columnsArray = [
+  id: "id"
+  label: "Name"
+,
+  id: "type"
+  label: "Type"
+]
+```
 
 
 #### classes
 
-Coming soon
+```classes: classesValue``` Add a specific class to whole column of selected cell. **classesValue** could be a string value or pointer to [columnClassFunction].
+
+```coffeescript
+columnsArray = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+]
+```
+
+
+##### columnClassFunction
+
+```columnClassFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+
+```coffeescript
+columnsArray = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+  classes: (d, column) ->
+    "total" if d[column.id] is "Historical"
+]
+```
 
 
 #### format
