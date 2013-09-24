@@ -1,35 +1,145 @@
 # Tablestakes Common API
 
-![GitHub Logo](/docs/common/common_1.png)
+## General concepts
 
-### Creating instance of tablestakes
+Since Tablestakes is built on [d3](https://github.com/mbostock/d3/), we tried to follow d3 conventions where possible. Two such concepts to improve usability and simplicity are:
+
+1. A Tablestakes object is a closure with getter/setter methods
+1. Methods that apply to rows are "functors"
+
+### Getter/setter methods
+
+Please see [http://bost.ocks.org/mike/chart](http://bost.ocks.org/mike/chart/).
+
+One key advantage for using this approach in the wild is that table configurations pair well with [view hierarchies](http://www.adamrneary.com/2013/02/18/view_hierarchies_backbone/).
+
+Suppose the table you eventually require involves the following:
+
+```coffeescript
+myTable = new window.TableStakes()
+  .el(@el)
+  .data(@data)
+  .columns(@columns)
+  .height(400)
+  .render()
+```
+
+You might create a view class that implements the base table with any configuration that will apply to all tables in your app:
+
+```coffeescript
+module.exports = class BaseTableView extends View
+  className: 'table-container'
+
+  initialize: ->
+    @table = new window.TableStakes()
+      .el(@el)
+
+    mediator.on 'searchString:change', (searchString, field) =>
+      @table.filter field, searchString
+
+    mediator.on 'route:rendered', () =>
+      @table.render()
+```
+
+By binding the rendering of the table to a BackBone event, you release child view classes from having to render the table. Instead, they need only configure the table.
+
+Perhaps you then have a particular type of table that only needs add configuration specific to its use:
+
+```coffeescript
+module.exports = class LargeTableView extends BaseTableView
+
+  initialize: ->
+    super
+
+    @table.height(400)
+```
+
+Finally, you would have a view that actually implements the table and provides column configurations and data:
+
+```coffeescript
+@tableView = @createView LargeTableView
+@tableView.table
+  .data(@data)
+  .columns(@columns)
+```
+
+As tables begin to require more and more configuration to achieve your goals, being able to separate functionality into view hierarchies results in more maintainable code.
+
+### Functors
+
+Since the term "functor" seems to mean something different to everyone or to different programming languages, I will presume that you disagree with my use of the term. Here's what I mean:
+
+```coffeescript
+ourFunctor: (attr, element, etc) ->
+  if typeof attr is 'function'
+    attr(element, etc)
+  else
+    attr
+```
+
+This is similar to [d3.functor](https://github.com/mbostock/d3/wiki/Internals#wiki-functor).
+
+In our case, the functor generally applies to configurations that impact rows of data, such as `isEditable`. In the context of a column, you might see:
+
+`isEditable: true`
+
+…in which case the column is editable for all rows, or:
+
+```coffeescript
+isEditable: (d) ->
+  d.editable
+```
+
+…in which case the column is editable only for those rows whose editable property is true. Naturally the logic for the function can be much more complex.
+
+This approach provides much more granular controls over table configuration.
+
+## The Tablestakes object
+
+### Create a new instance of Tablestakes
 
 ```coffeescript
 new window.TableStakes()
+```
+
+A Tablestakes object can be created without all required attributes being set. However, the required attributes must be set prior to calling `render()` to avoid catastrophe.
+
+#### Providing attributes on instantation
+
+TODO: Example of providing
+
+#### Chaining setter methods and rendering
+
+```coffeescript
+myTable = new window.TableStakes()
+  .el('#example')
+  .data(myDataArray)
+  .columns(myColumns)
+  .render()
 ```
 
 ### Options
 
-* [el()](#placement) - element to render table
-* [columns()](columns.md) - list of columns
-* [data()](data-manipulating.md) - data manipulating
-* [isResizable()](#resizable) - resize table columns
-* [rowClasses()](#row-classes) - adding a specific class to a custom row
-* [filtering](#filtering) - filter table rows by key words
-* [isDeletable()](#deletable) - delete table rows
-* [isDraggable()](#draggable) - reorder table rows with "drag and drop"
-  * [auto scroll](#auto-scroll) - auto scroll table while dragging
+* Required at instantiation: [el()](#el)
+* Required: [columns()](columns.md)
+* Required: [data()](data-manipulating.md)
+* [isResizable()](#resizable)
+* [rowClasses()](#row-classes)
+* [filter()](#filter)
+* [isDeletable()](#deletable)
+* [isDraggable()](#draggable)
+  * [auto scroll](#auto-scroll)
 
+#### el()
 
-
-#### Placement
+*Required at instantiation*
 
 ```coffeescript
-new window.TableStakes()
-  .el("#example")
-  .render()
+table = new Tablestakes().el("#example")
 ```
-Will create new instance of table placed inside of ```#example```
+
+Creates a new instance of a Tablestakes object inside of `#example`
+
 ```html
 <div id="example">
   <div>
@@ -39,10 +149,9 @@ Will create new instance of table placed inside of ```#example```
 </div>
 ```
 
-
 #### Resizable
 
-Allows to change column's width. ```isResizable(arg)``` takes one argument **arg** *true* or *false* statement.  
+Allows to change column's width. ```isResizable(arg)``` takes one argument **arg** *true* or *false* statement.
 *by default this option is enabled*
 
 ```coffeescript
@@ -57,8 +166,8 @@ new window.TableStakes()
 
 #### Row Classes
 
-Allows to apply custom classes to any (or all) rows. There are 2 ways to apply classes to table row.  
-1. Function ```rowClasses(rowClassesResolver)``` takes 1 argument - pointer to function.  
+Allows to apply custom classes to any (or all) rows. There are 2 ways to apply classes to table row.
+1. Function ```rowClasses(rowClassesResolver)``` takes 1 argument - pointer to function.
 2. Add pair ```{classes: "customeRowClass"}``` to every item of [dataArray](data-manipulating.md)
 
 ```rowClassesResolver``` takes 1 argument - item of dataArray (row). Function returns string value of row's class.
@@ -104,11 +213,11 @@ grid = new window.TableStakes()
 ```
 
 
-#### Filtering
+#### Filter
 
 Filter rows by "keyword". Row filtering could be by one column or by some selected columns.
 
-```filter(columns, keyword)``` function takes two arguments. **columns** - value of *id* field from [columnsArray](columns.md); or array of values. **keyword** - argument to filter by.  
+```filter(columns, keyword)``` function takes two arguments. **columns** - value of *id* field from [columnsArray](columns.md); or array of values. **keyword** - argument to filter by.
 *NOTE: If table is [nested](data-manipulating.md#nested-data-expandablecollapsible-rows), ["drag destination"](common.md#rowdestinationresolver) rows excludes from filtering*
 
 ```coffeescript
@@ -118,13 +227,13 @@ grid.filter "type", "c2"
 
 #### Deletable
 
-To add functionality of removing table rows two methods should be called:  
+To add functionality of removing table rows two methods should be called:
 [```isDeletable(arg)```](#deleteresolver) - function to resolve which rows could be deletable. **arg** should be *true/flase* statement, or pointer to [deleteResolver](#deleteresolver) function.
 [```onDelete(deleteHandler)```](#deletehandler) - function to update [dataArray](data-manipulate.md) after delete button clicked.
 
 ##### deleteResolver()
 
-Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will be deletable.  
+Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will be deletable.
 ```deleteResolver(rowItem)``` takes one argument **rowItem** item from dataArray] and return *true/false*.
 
 ```coffeescript
@@ -134,7 +243,7 @@ deleteResolver = (rowItem) ->
 
 ##### deleteHandler()
 
-function calls every time when table's row deletes.  
+function calls every time when table's row deletes.
 ```deleteHandler(rowId)``` takes one argument **rowId**. Its the same as value from pair ```{id: value}``` of dataArray's item.
 ```coffeescript
 deleteHandler = (rowId) ->
@@ -183,12 +292,12 @@ Allows to drag one selected table row from one place to another. There are two o
 * [hierarchy](#hierarchy-dragging)
   * [Hierarchy Draggable Example](/public/examples/hierarchy_dragging.coffee)
 
-For both options ```isDraggable(arg)``` should be called to enable dragging. It takes one argument **arg**. **arg** should be *true/flase* statement, or pointer to [dragResolver](#dragresolver) function.  
+For both options ```isDraggable(arg)``` should be called to enable dragging. It takes one argument **arg**. **arg** should be *true/flase* statement, or pointer to [dragResolver](#dragresolver) function.
 And ```onDrag(onDragHandler)``` - function to update [dataArray](data-manipulating.md) when you end dragging. It takes one argument - pointer to [afterDrag](#ondraghandler) function.
 
 ##### dragResolver()
 
-Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will be deletable.  
+Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will be deletable.
 ```dragResolver(rowItem)``` takes one argument **rowItem** item from dataArray and return *true/false*.
 
 ```coffeescript
@@ -232,7 +341,7 @@ onDragHandler = (rowSource, rowDestination) ->
 
 ###### rowDestinationResolver()
 
-Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will could be destination for draggable rows.  
+Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will could be destination for draggable rows.
 ```rowDestinationResolver(rowItem)``` takes one argument **rowItem** extended item from dataArray and return *true/false*.
 ```coffeescript
 rowDestinationResolver = (rowItem) ->
@@ -243,7 +352,7 @@ rowDestinationResolver = (rowItem) ->
 ##### Auto Scroll
 
 Allow to scroll table with reorder dragging. When [dataArray](data-manipulating.md) has a lot of items (rows) the tables height could be more than desired. To manually fix table's height and save table's column name method ```height(value)``` should be called. Where **value** is height of ```<tbody>``` element.
-When method ```height(value)``` is called, then class *scrollable* will be assigned to ```<table>``` and [resizable](#resizable) option disabled.  
+When method ```height(value)``` is called, then class *scrollable* will be assigned to ```<table>``` and [resizable](#resizable) option disabled.
 
 ```coffeescript
 new window.TableStakes()
