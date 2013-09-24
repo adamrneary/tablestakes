@@ -1,4 +1,4 @@
-# Tablestakes Common API
+# Tablestakes API Documentation
 
 ## General concepts
 
@@ -6,6 +6,7 @@ Since Tablestakes is built on [d3](https://github.com/mbostock/d3/), we tried to
 
 1. A Tablestakes object is a closure with getter/setter methods
 1. Methods that apply to rows are "functors"
+1. Callbacks for interactivity
 
 ### Getter/setter methods
 
@@ -50,7 +51,6 @@ module.exports = class LargeTableView extends BaseTableView
 
   initialize: ->
     super
-
     @table.height(400)
 ```
 
@@ -94,6 +94,33 @@ isEditable: (d) ->
 
 This approach provides much more granular controls over table configuration.
 
+### Callbacks for interactivity
+
+In order to maintain a strict separation of concerns between app data, app state, and app UI, all user interactions with a Tablestakes object are managed with callbacks.
+
+The Tablestakes object is part of the app UI.
+
+#### Separation of app UI (Tablestakes) and app state
+
+A common requirement for table interactivity is a dynamic relationship to filters or timeframes, which would generally be considered app state rather than persistent app data.
+
+As such, Tablestakes maintains no code that allows the user to adjust these values. They must be created outside of the table object (e.g. a filter textbox). Further, it's a best practice to avoid binding changes to these external UI elements directly to updates to the Tablestakes object. Instead:
+
+1. User interactions with state-oriented UI objects should trigger updates to app state
+1. Changes to app state should trigger updates to Tablestakes objects
+
+#### Separation of app UI (Tablestakes) and app data
+
+More importantly, since Tablestakes is interactive, it is important to remember that user changes to data are passed to callbacks and never interact with data directly. For example:
+
+1. A user edits a value in an editable cell
+1. Tablestakes will replace the cell's `editable` class with the `changed` class without re-rendering
+1. Tablestakes calls the onEdit callback function to pass the new value to the app
+1. The app's callback function manages all validation and persisting of the change
+1. Changes to app data should trigger updates to Tablestakes objects
+
+As such, the app should always bind Tablestakes objects to changes in app state and app data.
+
 ## The Tablestakes object
 
 ### Create a new instance of Tablestakes
@@ -104,9 +131,9 @@ new window.TableStakes()
 
 A Tablestakes object can be created without all required attributes being set. However, the required attributes must be set prior to calling `render()` to avoid catastrophe.
 
-#### Providing attributes on instantation
+#### Providing attributes on instantiation
 
-TODO: Example of providing
+*TODO: Example of providing attributes on instantiation*
 
 #### Chaining setter methods and rendering
 
@@ -123,22 +150,26 @@ myTable = new window.TableStakes()
 * Required at instantiation: [el()](#el)
 * Required: [columns()](columns.md)
 * Required: [data()](data.md)
-* [isResizable()](#resizable)
-* [rowClasses()](#row-classes)
+* [isResizable()](#isResizable)
+* [rowClasses()](#rowClasses)
 * [filter()](#filter)
-* [isDeletable()](#deletable)
-* [isDraggable()](#draggable)
+* [isDeletable()](#isDeletable)
+* [isDraggable()](#isDraggable)
   * [auto scroll](#auto-scroll)
 
 #### el()
 
+Creates a new instance of a Tablestakes object inside of the specified DOM element.
+
 *Required at instantiation*
+
+* Getter: table.el() returns a String with the table element
+* Setter: table.el(element) takes a String as an argument and sets the table element
+* Default: There is no default value
 
 ```coffeescript
 table = new Tablestakes().el("#example")
 ```
-
-Creates a new instance of a Tablestakes object inside of `#example`
 
 ```html
 <div id="example">
@@ -149,10 +180,13 @@ Creates a new instance of a Tablestakes object inside of `#example`
 </div>
 ```
 
-#### Resizable
+#### isResizable()
 
-Allows to change column's width. ```isResizable(arg)``` takes one argument **arg** *true* or *false* statement.
-*by default this option is enabled*
+Allows the user to change columns' widths by dragging.
+
+* Getter: table.isResizable() returns a Boolean specifying if tables columns are resizable
+* Setter: table.isResizable(flag) takes a Boolean specifying if tables columns are resizable
+* Default: `true`
 
 ```coffeescript
 new window.TableStakes()
@@ -163,95 +197,95 @@ new window.TableStakes()
   .render()
 ```
 
+#### rowClasses()
 
-#### Row Classes
+Apply custom classes to any (or all) rows.
 
-Allows to apply custom classes to any (or all) rows. There are 2 ways to apply classes to table row.
-1. Function ```rowClasses(rowClassesResolver)``` takes 1 argument - pointer to function.
-2. Add pair ```{classes: "customeRowClass"}``` to every item of [dataArray](data-manipulating.md)
+* Getter: table.rowClasses() returns the rowClasses functor
+* Setter: table.rowClasses(attr) applies the functor to all rows
+* Default: No custom classes are applied by default
 
-```rowClassesResolver``` takes 1 argument - item of dataArray (row). Function returns string value of row's class.
+As a functor method, if the passed `attr` is a String, the classes will be applied to all rows. If the passed `attr` is a function, it will be applied to all rows.
+
+Note: Rows also have a "classes" attribute covered in the [data()](data.md) section.
 
 ```coffeescript
 data = [
-  id: "Grouped / Stacked Multi-Bar"
-  type: "Snapshot / Historical"
-  etc: 'etc1'
+  id: "apples"
+  value: 123
 ,
-  id: "Horizontal Grouped Bar"
-  type: "Snapshot"
-  etc: 'etc2'
+  id: "bananas"
+  value: 234
 ,
-  id: "Line and Bar Combo"
-  type: "Historical"
-  etc: 'etc3'
+  id: "oranges"
+  value: 345
 ,
-  id: "1"
-  type: "123"
-  etc: 'etc4'
-  classes: "total"
+  id: "kiwi"
+  value: 456
+  classes: "yum"
 ]
 
 columns = [
   id: "id"
   label: "Name"
 ,
-  id: "type"
-  label: "Type"
-,
-  id: "etc"
-  label: "Etc"
+  id: "value"
+  label: "Inventory count"
 ]
 
-grid = new window.TableStakes()
+table = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
   .rowClasses (d) ->
-    "total2" if d.etc is 'etc2'
+    "highlight" if d.value > 250
   .render()
 ```
 
+#### filter()
 
-#### Filter
+Filters rows by "keyword". Row filtering could be by one column or by some selected columns.
 
-Filter rows by "keyword". Row filtering could be by one column or by some selected columns.
+```filter(columns, keyword)``` function takes two arguments.
 
-```filter(columns, keyword)``` function takes two arguments. **columns** - value of *id* field from [columnsArray](columns.md); or array of values. **keyword** - argument to filter by.
-*NOTE: If table is [nested](data-manipulating.md#nested-data-expandablecollapsible-rows), ["drag destination"](common.md#rowdestinationresolver) rows excludes from filtering*
+* **columns** - value of *id* field from [columnsArray](columns.md) or an array of column ids.
+* **keyword** - argument to filter by
 
-```coffeescript
-grid.filter "type", "c2"
-```
+If the column values being filtered are strings (more common), the filter is applied with wildcards on either side. (This means both "apple" and "applesauce" would be a match if the filter was "apple.") If the column values being filtered are numeric (less common), it filters for an exact match.
 
-
-#### Deletable
-
-To add functionality of removing table rows two methods should be called:
-[```isDeletable(arg)```](#deleteresolver) - function to resolve which rows could be deletable. **arg** should be *true/flase* statement, or pointer to [deleteResolver](#deleteresolver) function.
-[```onDelete(deleteHandler)```](#deletehandler) - function to update [dataArray](data-manipulate.md) after delete button clicked.
-
-##### deleteResolver()
-
-Function calls for every item from [dataArray](data-manipulate.md) to resolve which table's row will be deletable.
-```deleteResolver(rowItem)``` takes one argument **rowItem** item from dataArray] and return *true/false*.
+*NOTE: If table is [nested](data-manipulating.md#nested-data-expandablecollapsible-rows), ["drag destination"](common.md#rowdestinationresolver) rows are excluded from filtering*
 
 ```coffeescript
-deleteResolver = (rowItem) ->
-  rowItem.id % 2
+table.filter "id", "apple"
 ```
 
-##### deleteHandler()
+#### isDeletable()
 
-function calls every time when table's row deletes.
-```deleteHandler(rowId)``` takes one argument **rowId**. Its the same as value from pair ```{id: value}``` of dataArray's item.
+Provides mechanisms for removing rows.
+
+Two methods are required to implement this functionality:
+
+* [`isDeletable()`](#isDeletable) - A functor to resolve which rows could be deletable
+* [`onDelete()`](#onDelete) - A callback function to update app data or state
+
+##### isDeletable()
+
+`table.isDeletable(true)` would mark all table rows as deletable. Or, provide a function to validate against each row:
+
+```coffeescript
+table.isDeletable (d) ->
+  d.name isnt 'Customer' and d.position isnt 1
+```
+
+##### onDelete()
+
+When the user attempts to delete a row, the callback function will be called with the row's id field.
+
 ```coffeescript
 deleteHandler = (rowId) ->
   data = _.reject(data, (row) -> row.id is rowId)
-  grid.data(data).render()
-```
+  table.data(data).render()
 
-```coffeescript
 data = [
   id: 1
   type: "ahaha"
@@ -274,7 +308,7 @@ columns = [
   label: "Type"
 ]
 
-grid = new window.TableStakes()
+table = new window.TableStakes()
   .el("#example")
   .columns(columns)
   .data(data)
@@ -283,6 +317,7 @@ grid = new window.TableStakes()
   .render()
 ```
 
+_Note:_ Though this example is intentionally quite simple, it would be common for the callback function to manage any client-side validations and persistence of any data changes. The callback function should generally not trigger the `render()` function. Instead, the `render()` function should be bound to changes in the underlying data.
 
 #### Draggable
 
@@ -318,7 +353,7 @@ Function calls every time when dragging is over. Arguments of function depends o
 onDragHandler = (object, index) ->
   data = _.without(data, object)
   data.splice(index, 0, object)
-  grid.data(data).render()
+  table.data(data).render()
 ```
 
 ##### Hierarchy Dragging
@@ -331,12 +366,12 @@ onDragHandler = (object, index) ->
 
 ```coffeescript
 onDragHandler = (rowSource, rowDestination) ->
-  u = grid.core.utils
+  u = table.core.utils
   if target? and object? and
   not u.isChild(rowDestination, rowSource) and not u.isParent(rowDestination, rowSource)
     u.removeNode(rowSource)
     u.appendNode(rowDestination, rowSource)
-    grid.data(data).render()
+    table.data(data).render()
 ```
 
 ###### rowDestinationResolver()
