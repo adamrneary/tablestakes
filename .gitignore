@@ -5,5 +5,9 @@ npm-debug.log
 
 .sass-cache/
 public/docs
+ghpages/assets/
+ghpages/docs/
+ghpages/styleguide.html
+
 
 .idea

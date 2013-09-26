@@ -87,9 +87,9 @@ $(document).ready ->
 
     Showcase = Backbone.Router.extend(showcaseObject)
     showcase = new Showcase()
-    Backbone.history.start()
-
-    showcase.navigate "/#base"  unless window.location.hash
+#    Backbone.history.start()
+    window.location.hash = "#base"
+#    showcase.navigate "/#base"  unless window.location.hash
 
   else if location.pathname is '/performance'
     perf = new Performance

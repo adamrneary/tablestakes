@@ -48,9 +48,6 @@ core = [
     shortLink: "timeseries",
     title: "Timeseries"
   }, {
-    shortLink: "total_column",
-    title: "Timeseries and Total column"
-  }, {
     shortLink: "all",
     title: "Full stack"
   }
@@ -104,10 +101,7 @@ $(document).ready(function() {
     });
     Showcase = Backbone.Router.extend(showcaseObject);
     showcase = new Showcase();
-    Backbone.history.start();
-    if (!window.location.hash) {
-      return showcase.navigate("/#base");
-    }
+    return window.location.hash = "#base";
   } else if (location.pathname === '/performance') {
     return perf = new Performance({
       el: $('<div id="performance" />').appendTo('#content'),
