@@ -59,7 +59,7 @@
 
   prepareLinks = function(route, el) {
     var link;
-    link = $("<a>").attr("href", "/#" + route.shortLink).text(route.title);
+    link = $("<a>").attr("href", "#" + route.shortLink).text(route.title);
     el.append($("<li>").append(link));
     showcaseObject.routes[route.shortLink] = route.shortLink;
     return showcaseObject[route.shortLink] = function() {
