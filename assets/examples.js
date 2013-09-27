@@ -95,18 +95,18 @@
 
   $(document).ready(function() {
     var Showcase, perf, showcase;
-    if (location.pathname !== 'performance/') {
+    if (location.pathname === 'performance/') {
+      return perf = new Performance({
+        el: $('<div id="performance" />').appendTo('#content'),
+        tests: tests
+      });
+    } else {
       _.map(core, function(route) {
         return prepareLinks(route, $("#coreLinkList"));
       });
       Showcase = Backbone.Router.extend(showcaseObject);
       showcase = new Showcase();
       return window.location.hash = "#base";
-    } else if (location.pathname === 'performance/') {
-      return perf = new Performance({
-        el: $('<div id="performance" />').appendTo('#content'),
-        tests: tests
-      });
     }
   });
 
