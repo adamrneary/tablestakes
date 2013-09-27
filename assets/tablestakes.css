@@ -482,7 +482,7 @@ table.tablestakes th.boolean-false > div:after, table.tablestakes th.boolean-tru
   display: block;
   width: 24px;
   height: 25px;
-  background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat;
+  background: url("../images/styleguide/sprite_air.png") -10px -10px no-repeat;
 }
 /* line 693, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false:hover, table.tablestakes th.boolean-true:hover, table.tablestakes td.boolean-false:hover, table.tablestakes td.boolean-true:hover {
