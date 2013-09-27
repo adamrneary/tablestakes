@@ -1,4 +1,3 @@
-/* line 18, ../../src/scss/tablestakes.scss */
 table.tablestakes {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -14,32 +13,26 @@ table.tablestakes {
   color: #675b5e;
   background: transparent;
 }
-/* line 29, ../../src/scss/tablestakes.scss */
 table.tablestakes a {
   color: #006b75;
 }
-/* line 32, ../../src/scss/tablestakes.scss */
 table.tablestakes a:hover, table.tablestakes a:focus {
   text-decoration: underline;
 }
-/* line 37, ../../src/scss/tablestakes.scss */
 table.tablestakes th, table.tablestakes td {
   padding: 0;
   text-align: right;
 }
-/* line 40, ../../src/scss/tablestakes.scss */
 table.tablestakes th > div, table.tablestakes td > div {
   padding: 5px;
   position: relative;
 }
 
-/* line 60, ../../src/scss/tablestakes.scss */
 table.tablestakes thead th, table.tablestakes thead td {
   text-transform: uppercase;
   white-space: pre-line;
   font-weight: normal;
 }
-/* line 66, ../../src/scss/tablestakes.scss */
 table.tablestakes thead td {
   color: #675b5e;
   background: transparent;
@@ -47,7 +40,6 @@ table.tablestakes thead td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* line 74, ../../src/scss/tablestakes.scss */
 table.tablestakes thead th {
   color: white;
   background: #007f9b;
@@ -55,21 +47,17 @@ table.tablestakes thead th {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-/* line 84, ../../src/scss/tablestakes.scss */
 table.tablestakes thead tr.secondary th, table.tablestakes thead tr.secondary td {
   color: white;
   background: #007f9b !important;
 }
-/* line 89, ../../src/scss/tablestakes.scss */
 table.tablestakes thead tr.secondary td {
   border-bottom: solid 1px #e2dedf;
 }
-/* line 93, ../../src/scss/tablestakes.scss */
 table.tablestakes thead tr.secondary th.underline {
   border-bottom: solid 1px white;
 }
 
-/* line 117, ../../src/scss/tablestakes.scss */
 table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
   color: white;
   background: #007f9b;
@@ -77,7 +65,6 @@ table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
   font-weight: normal;
 }
 
-/* line 141, ../../src/scss/tablestakes.scss */
 table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-size: 16px;
   color: #675b5e;
@@ -87,38 +74,31 @@ table.tablestakes tfoot th, table.tablestakes tfoot td {
   text-align: left;
 }
 
-/* line 174, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody th, table.tablestakes tbody td {
   text-align: right;
 }
-/* line 176, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody th.row-heading, table.tablestakes tbody td.row-heading {
   color: #675b5e;
   background: transparent;
   text-transform: none;
   text-align: left;
 }
-/* line 183, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody th.total, table.tablestakes tbody td.total {
   color: #231f20;
   background: #a9dde2;
   font-weight: bold;
 }
-/* line 189, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody th.left-aligned, table.tablestakes tbody td.left-aligned {
   text-align: left;
 }
-/* line 193, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody th.light, table.tablestakes tbody td.light {
   color: #cac3c5;
   background: transparent;
 }
 
-/* line 214, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .resizable:hover .resizable-handle {
   border-right: solid 2px #1d97a2;
 }
-/* line 219, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .resizable .resizable-handle {
   position: absolute;
   top: 0;
@@ -129,32 +109,25 @@ table.tablestakes thead .resizable .resizable-handle {
   cursor: col-resize;
   padding: 0;
 }
-/* line 229, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .resizable .resizable-handle:hover {
   background: white;
 }
-/* line 233, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .resizable .resizable-handle.neighbor {
   background: #00455b;
 }
-/* line 237, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .resizable .resizable-handle.left {
   left: 0;
 }
-/* line 241, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .resizable .resizable-handle.right {
   right: 0;
 }
 
-/* line 262, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable {
   cursor: pointer;
 }
-/* line 265, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable > div {
   padding-right: 20px;
 }
-/* line 268, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable > div:before, table.tablestakes thead .sortable > div:after {
   position: absolute;
   right: 0;
@@ -175,40 +148,32 @@ table.tablestakes thead .sortable > div:before, table.tablestakes thead .sortabl
   color: #00455b;
   font-size: 16px;
 }
-/* line 289, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable > div:before {
   top: 0px;
   content: "\f0d8";
 }
-/* line 294, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable > div:after {
   bottom: 2px;
   content: "\f0d7";
 }
-/* line 302, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable.sorted-asc > div:before {
   color: white;
 }
-/* line 310, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable.sorted-desc > div:after {
   color: white;
 }
-/* line 316, ../../src/scss/tablestakes.scss */
 table.tablestakes thead .sortable .sortable-handle {
   padding: 0;
 }
 
-/* line 345, ../../src/scss/tablestakes.scss */
 table.tablestakes thead tr.reorder-draggable-destination th, table.tablestakes thead tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568;
 }
-/* line 355, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.subtotal th, table.tablestakes tbody tr.subtotal td {
   border-top: solid 1px #e2dedf;
   color: #675b5e;
   background: transparent;
 }
-/* line 363, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -217,7 +182,6 @@ table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td
   font-weight: bold;
   text-transform: capitalize;
 }
-/* line 373, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.well {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -232,14 +196,12 @@ table.tablestakes tbody tr.well {
   color: #675b5e !important;
   background: #f5fbfc !important;
 }
-/* line 383, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.well td, table.tablestakes tbody tr.well th {
   color: #a69b9e;
   font-weight: bold;
   text-transform: capitalize;
   border: none;
 }
-/* line 392, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -248,7 +210,6 @@ table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   font-weight: bold !important;
   text-transform: capitalize !important;
 }
-/* line 403, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -257,13 +218,11 @@ table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   font-weight: bold !important;
   text-transform: capitalize !important;
 }
-/* line 414, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.spacer th, table.tablestakes tbody tr.spacer td {
   text-align: left;
   text-indent: -9999em;
   background: transparent;
 }
-/* line 422, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.emphasis th, table.tablestakes tbody tr.emphasis td {
   color: #30878f;
   background: transparent;
@@ -271,23 +230,19 @@ table.tablestakes tbody tr.emphasis th, table.tablestakes tbody tr.emphasis td {
   font-weight: bold;
   border-bottom: solid 1px #e2dedf;
 }
-/* line 431, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.emphasis2 {
   color: #675b5e;
   background: #fce5b1;
   font-size: 100%;
   font-weight: bold;
 }
-/* line 439, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.reorder-draggable-destination th, table.tablestakes tbody tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568;
 }
-/* line 445, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.hierarchy-draggable-destination th, table.tablestakes tbody tr.hierarchy-draggable-destination td {
   color: white;
   background: #0094b4;
 }
-/* line 451, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.dragged {
   pointer-events: none;
   position: absolute;
@@ -296,7 +251,6 @@ table.tablestakes tbody tr.dragged {
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
-/* line 457, ../../src/scss/tablestakes.scss */
 table.tablestakes tbody tr.dragged td, table.tablestakes tbody tr.dragged th {
   pointer-events: none;
   -moz-opacity: 0.5;
@@ -305,26 +259,21 @@ table.tablestakes tbody tr.dragged td, table.tablestakes tbody tr.dragged th {
   background: inherit;
 }
 
-/* line 492, ../../src/scss/tablestakes.scss */
 table.tablestakes th.plan, table.tablestakes td.plan {
   color: #675b5e;
   background: #e2f4f5;
 }
-/* line 496, ../../src/scss/tablestakes.scss */
 table.tablestakes th.plan.editable:hover, table.tablestakes td.plan.editable:hover {
   background: white;
 }
-/* line 502, ../../src/scss/tablestakes.scss */
 table.tablestakes th.old, table.tablestakes td.old {
   color: #675b5e;
   background: #eeecec;
 }
-/* line 508, ../../src/scss/tablestakes.scss */
 table.tablestakes th.collapsible, table.tablestakes td.collapsible {
   cursor: pointer;
   text-align: left;
 }
-/* line 512, ../../src/scss/tablestakes.scss */
 table.tablestakes th.collapsible > div:before, table.tablestakes td.collapsible > div:before {
   font-family: FontAwesome;
   font-weight: normal;
@@ -344,12 +293,10 @@ table.tablestakes th.collapsible > div:before, table.tablestakes td.collapsible 
   color: #30878f;
   font-size: 16px;
 }
-/* line 535, ../../src/scss/tablestakes.scss */
 table.tablestakes th.expandable, table.tablestakes td.expandable {
   cursor: pointer;
   text-align: left;
 }
-/* line 540, ../../src/scss/tablestakes.scss */
 table.tablestakes th.expandable > div:before, table.tablestakes td.expandable > div:before {
   font-family: FontAwesome;
   font-weight: normal;
@@ -369,16 +316,13 @@ table.tablestakes th.expandable > div:before, table.tablestakes td.expandable > 
   color: #30878f;
   font-size: 16px;
 }
-/* line 563, ../../src/scss/tablestakes.scss */
 table.tablestakes th.deletable, table.tablestakes td.deletable {
   text-align: left;
   cursor: pointer;
 }
-/* line 569, ../../src/scss/tablestakes.scss */
 table.tablestakes th.deletable:hover > div:before, table.tablestakes td.deletable:hover > div:before {
   text-shadow: 1px 2px 6px rgba(220, 110, 89, 0.5);
 }
-/* line 576, ../../src/scss/tablestakes.scss */
 table.tablestakes th.deletable > div:before, table.tablestakes td.deletable > div:before {
   font-family: FontAwesome;
   font-weight: normal;
@@ -398,12 +342,10 @@ table.tablestakes th.deletable > div:before, table.tablestakes td.deletable > di
   color: #dc6e59;
   font-size: 16px;
 }
-/* line 599, ../../src/scss/tablestakes.scss */
 table.tablestakes th.draggable, table.tablestakes td.draggable {
   cursor: pointer;
   text-align: left;
 }
-/* line 603, ../../src/scss/tablestakes.scss */
 table.tablestakes th.draggable > div:before, table.tablestakes td.draggable > div:before {
   font-family: FontAwesome;
   font-weight: normal;
@@ -423,37 +365,30 @@ table.tablestakes th.draggable > div:before, table.tablestakes td.draggable > di
   color: #00455b;
   font-size: 16px;
 }
-/* line 626, ../../src/scss/tablestakes.scss */
 table.tablestakes th.indent1, table.tablestakes td.indent1 {
   text-align: left;
   padding-left: 20px;
 }
-/* line 632, ../../src/scss/tablestakes.scss */
 table.tablestakes th.indent2, table.tablestakes td.indent2 {
   text-align: left;
   padding-left: 30px;
 }
-/* line 638, ../../src/scss/tablestakes.scss */
 table.tablestakes th.indent3, table.tablestakes td.indent3 {
   text-align: left;
   padding-left: 40px;
 }
-/* line 644, ../../src/scss/tablestakes.scss */
 table.tablestakes th.indent4, table.tablestakes td.indent4 {
   text-align: left;
   padding-left: 50px;
 }
-/* line 650, ../../src/scss/tablestakes.scss */
 table.tablestakes th.indent5, table.tablestakes td.indent5 {
   text-align: left;
   padding-left: 60px;
 }
-/* line 656, ../../src/scss/tablestakes.scss */
 table.tablestakes th.indent6, table.tablestakes td.indent6 {
   text-align: left;
   padding-left: 70px;
 }
-/* line 664, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > div, table.tablestakes td.boolean-false > div, table.tablestakes td.boolean-true > div {
   min-width: 30px;
   margin-left: 5px;
@@ -461,7 +396,6 @@ table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > di
   text-align: left;
   text-indent: -9999em;
 }
-/* line 671, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false > div:before, table.tablestakes th.boolean-true > div:before, table.tablestakes td.boolean-false > div:before, table.tablestakes td.boolean-true > div:before {
   position: absolute;
   top: 7px;
@@ -474,7 +408,6 @@ table.tablestakes th.boolean-false > div:before, table.tablestakes th.boolean-tr
   -moz-border-radius: 20px;
   border-radius: 20px;
 }
-/* line 682, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false > div:after, table.tablestakes th.boolean-true > div:after, table.tablestakes td.boolean-false > div:after, table.tablestakes td.boolean-true > div:after {
   position: absolute;
   top: 5px;
@@ -484,43 +417,35 @@ table.tablestakes th.boolean-false > div:after, table.tablestakes th.boolean-tru
   height: 25px;
   background: url("../images/styleguide/sprite_air.png") -10px -10px no-repeat;
 }
-/* line 693, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false:hover, table.tablestakes th.boolean-true:hover, table.tablestakes td.boolean-false:hover, table.tablestakes td.boolean-true:hover {
   background: transparent;
 }
-/* line 701, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false > div:before, table.tablestakes td.boolean-false > div:before {
   background: #dc6e59;
   -webkit-box-shadow: inset 0 0 6px #812b1b;
   -moz-box-shadow: inset 0 0 6px #812b1b;
   box-shadow: inset 0 0 6px #812b1b;
 }
-/* line 706, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-false > div:after, table.tablestakes td.boolean-false > div:after {
   left: -3px;
 }
-/* line 715, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-true > div:before, table.tablestakes td.boolean-true > div:before {
   background: #8ac16f;
   -webkit-box-shadow: inset 0 0 6px #416a2d;
   -moz-box-shadow: inset 0 0 6px #416a2d;
   box-shadow: inset 0 0 6px #416a2d;
 }
-/* line 720, ../../src/scss/tablestakes.scss */
 table.tablestakes th.boolean-true > div:after, table.tablestakes td.boolean-true > div:after {
   right: -3px;
 }
 
-/* line 742, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable, table.tablestakes td.editable {
   color: #30878f !important;
   cursor: pointer;
 }
-/* line 746, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable:hover, table.tablestakes td.editable:hover {
   background: #e2f4f5;
 }
-/* line 751, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.active, table.tablestakes td.editable.active {
   width: auto;
   position: relative;
@@ -531,7 +456,6 @@ table.tablestakes th.editable.active, table.tablestakes td.editable.active {
   box-shadow: inset 0 0 6px #a69b9e;
   background: #faf9fa;
 }
-/* line 760, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.active > div:after, table.tablestakes td.editable.active > div:after {
   position: absolute;
   bottom: 0;
@@ -548,21 +472,17 @@ table.tablestakes th.editable.active > div:after, table.tablestakes td.editable.
   cursor: pointer;
   overflow: hidden;
 }
-/* line 774, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.active > div:focus, table.tablestakes td.editable.active > div:focus {
   outline: none;
 }
-/* line 779, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.active:hover, table.tablestakes td.editable.active:hover {
   background: #faf9fa;
 }
-/* line 785, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.changed, table.tablestakes td.editable.changed {
   font-weight: bold;
   border: 1px dotted #30878f;
 }
 
-/* line 806, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
   width: auto;
   height: auto;
@@ -574,14 +494,12 @@ table.tablestakes th.editable.active.calendar input, table.tablestakes td.editab
   outline: none;
   box-shadow: none;
 }
-/* line 817, ../../src/scss/tablestakes.scss */
 table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
   border: none;
   outline: none;
   background: transparent;
 }
 
-/* line 840, ../../src/scss/tablestakes.scss */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;
@@ -591,11 +509,9 @@ table.tablestakes th select, table.tablestakes td select {
   background: transparent;
 }
 
-/* line 864, ../../src/scss/tablestakes.scss */
 .tablestakes.scrollable thead tr {
   display: block;
 }
-/* line 869, ../../src/scss/tablestakes.scss */
 .tablestakes.scrollable tbody {
   display: block;
   height: 500px;
