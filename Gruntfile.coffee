@@ -48,7 +48,7 @@ module.exports = (grunt) ->
       ]
 
     copy:
-      main:
+      examples:
         files: [
           expand: true, cwd: "src/examples/list/", src: ["*.coffee"], dest: "ghpages/examples/"
         ]
@@ -116,8 +116,6 @@ module.exports = (grunt) ->
         templateData: {empty: ""}
         output: "ghpages/performance.html"
 
-
-
     grunt.registerTask "compile-css", [
       "compass"
       "clean:compass"
@@ -143,11 +141,9 @@ module.exports = (grunt) ->
       "symlink"
       "compile-handlebars"
       "compile-styleguide"
-      "gh-pages"
-      "clean:afterpush"
+#      "gh-pages"
+#      "clean:afterpush"
 #      "watch"
     ]
 
-    grunt.loadNpmTasks "grunt-contrib-symlink"
-    grunt.loadNpmTasks "grunt-compile-handlebars"
     grunt.loadNpmTasks "showcase"

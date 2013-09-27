@@ -13,9 +13,5 @@
   "dependencies": {
     "showcase": "https://github.com/activecell/showcase/tarball/grunt",
     "grunt": "~0.4.1"
-  },
-  "devDependencies": {
-    "grunt-contrib-symlink": "~0.2.0",
-    "grunt-compile-handlebars": "~0.6.0"
   }
 }
