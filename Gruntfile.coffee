@@ -2,15 +2,6 @@ module.exports = (grunt) ->
   grunt.initConfig
     pkg: grunt.file.readJSON("package.json")
 
-#    "gh-pages":
-#      options:
-#        base: "#{__dirname}/ghpages"
-#        branch: "gh-pages"
-#        repo: "git@github.com:Aluman/TestGrunt.git"
-#      ghp:
-#        disabled: no
-#        src: ["**/*"]
-
     "gh-pages":
       options:
         base: "#{__dirname}/ghpages"
@@ -23,7 +14,7 @@ module.exports = (grunt) ->
     docco:
       options:
         layout : "parallel"
-        output : "ghpages/docs/"
+        output : "ghpages/annotated_sources/"
         timeout: 1000
       docs:
         disabled: no
@@ -47,10 +38,28 @@ module.exports = (grunt) ->
           sassDir: 'src/scss'
           cssDir: 'ghpages/assets/'
 
-    clean: [
-      "ghpages/assets/colors.css"
-      "ghpages/assets/mixins.css"
-    ]
+    clean:
+      compass: [
+        "ghpages/assets/colors.css"
+        "ghpages/assets/mixins.css"
+      ]
+      afterpush:[
+        "ghpages"
+      ]
+
+    copy:
+      main:
+        files: [
+          expand: true, cwd: "src/examples/list/", src: ["*.coffee"], dest: "ghpages/examples/"
+        ]
+      docs:
+        files: [
+          expand: true, cwd: "docs/", src: ["**"], dest: "ghpages/docs/"
+        ]
+      testrunner:
+        files: [
+          expand: true, cwd: "test/", src: ["test_runner.html"], dest: "ghpages/"
+        ]
 
     watch:
       coffee:
@@ -78,9 +87,40 @@ module.exports = (grunt) ->
         sections: "views/sections/"
         dstpath: "ghpages/"
 
+    symlink:
+      fonts:
+        src: 'node_modules/showcase/vendor/fonts/'
+        dest: 'ghpages/fonts'
+      images:
+        src: 'node_modules/showcase/vendor/images/'
+        dest: 'ghpages/images'
+      vendor:
+        src: 'node_modules/showcase/vendor/'
+        dest: 'ghpages/vendor'
+
+    "compile-handlebars":
+      index:
+        template: "views/layout.hbs"
+        templateData: {body: "EmptyPage"}
+        output: "ghpages/index.html"
+      home:
+        template: "{{{datablock}}}"
+        templateData: {datablock: "EmptyPage"}
+        output: "ghpages/home.html"
+      demo:
+        template: "views/examples/index.hbs"
+        templateData: {demoblock: "<script src='assets/examples.js' defer></script>"}
+        output: "ghpages/demo.html"
+      performance:
+        template: "{{{empty}}}"
+        templateData: {empty: ""}
+        output: "ghpages/performance.html"
+
+
+
     grunt.registerTask "compile-css", [
       "compass"
-      "clean"
+      "clean:compass"
     ]
 
     grunt.registerTask "compile-assets", [
@@ -96,14 +136,18 @@ module.exports = (grunt) ->
       "styleguide"
     ]
 
-
     grunt.registerTask "default", [
       "compile-assets"
       "compile-docs"
-#      "copy"
+      "copy"
+      "symlink"
+      "compile-handlebars"
       "compile-styleguide"
-#      "gh-pages"
-      "watch"
+      "gh-pages"
+      "clean:afterpush"
+#      "watch"
     ]
 
+    grunt.loadNpmTasks "grunt-contrib-symlink"
+    grunt.loadNpmTasks "grunt-compile-handlebars"
     grunt.loadNpmTasks "showcase"

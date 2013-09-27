@@ -50,7 +50,7 @@ core = [
 
 showcaseObject = routes: {}
 prepareLinks = (route, el) ->
-  link = $("<a>").attr("href", "/#" + route.shortLink).text(route.title)
+  link = $("<a>").attr("href", "#" + route.shortLink).text(route.title)
   el.append $("<li>").append(link)
   showcaseObject.routes[route.shortLink] = route.shortLink
   showcaseObject[route.shortLink] = ->
@@ -81,17 +81,15 @@ tests = [
 ]
 
 $(document).ready ->
-  if location.pathname is '/'
+  if location.pathname is 'performance/'
+    perf = new Performance
+      el: $('<div id="performance" />').appendTo('#content')
+      tests: tests
+
+  else
     _.map core, (route) ->
       prepareLinks route, $("#coreLinkList")
 
     Showcase = Backbone.Router.extend(showcaseObject)
     showcase = new Showcase()
-#    Backbone.history.start()
     window.location.hash = "#base"
-#    showcase.navigate "/#base"  unless window.location.hash
-
-  else if location.pathname is '/performance'
-    perf = new Performance
-      el: $('<div id="performance" />').appendTo('#content')
-      tests: tests

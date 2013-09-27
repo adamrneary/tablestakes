@@ -12,16 +12,10 @@
   },
   "dependencies": {
     "showcase": "https://github.com/activecell/showcase/tarball/grunt",
-    "grunt": "~0.4.1",
-    "coffee-script": "~1.6.2",
-    "kss": "~0.3.6"
+    "grunt": "~0.4.1"
   },
   "devDependencies": {
-    "brunch": "~1.6.2",
-    "javascript-brunch": "~1.5.1",
-    "coffee-script-brunch": "~1.5.1",
-    "css-brunch": "~1.5.1",
-    "sass-brunch": "~1.5.1",
-    "testem": "~0.3.27"
+    "grunt-contrib-symlink": "~0.2.0",
+    "grunt-compile-handlebars": "~0.6.0"
   }
 }
