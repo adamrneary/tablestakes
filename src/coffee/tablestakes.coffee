@@ -782,8 +782,9 @@ class window.TableStakes
             ), 0
 
       else if relatedColumns.length > 1
-        # prevent adding NaN, undefined, null and so on...
-        row[column.id] = (row[column.id] || 0) + (row[relatedColumn.id] || 0)
+        _.each data, (row) ->
+          # prevent adding NaN, undefined, null and so on...
+          row[column.id] = (row[column.id] || 0) + (row[relatedColumn.id] || 0)
       else
         @_columns = _.filter @_columns, (col) -> col.id isnt column.id
 

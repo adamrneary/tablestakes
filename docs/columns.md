@@ -23,8 +23,8 @@ Where *columnsArray* is array of objects ```{key: value}```. Possible variation 
 * [*timeSeries*](#timeseries) - some specific methods for columns and data gouped by time factor.
 
 Additional option
-* [*custom editors*](#customeditors) - additional option for *select*, *date*, *boolean* editors
-* *total column* - the sum of several columns
+* [*custom editors*](#custom-editors) - additional option for *select*, *date*, *boolean* editors
+* [*total column*](#total-column) - the sum of several columns
 
 
 #### id
@@ -396,5 +396,51 @@ Where ```{editor: "button"}``` and **onClick** are bound together. Button's **va
 
 #### Total Column
 
-Coming soon
+Special column to sum values of different columns. To define "total Column" columnsArray should contain object with pairs ```{key: value}``` like thees
 
+```cpffeescript
+type: "total"
+related: relatedColumns
+```
+
+Where **relatedColumns** is *String* or *Array* of strings equal to column's id field which will be summed. If length of **relatedColumns** is &#x2264; 1 then "total Column" will be hidden. *Exception:* if **relatedColumns** points to [timeSeries column](#timeseries) associative array will be used.
+Full example are available
+
+```coffeescript
+columnsArray = [
+  id: "id"
+  label: "Name"
+,
+  id: "column_1"
+  label: "Column 1"
+,
+  id: "column_2"
+  label: "Column 2"
+,
+  id: "total"   # uniq column's ID
+  type: "total" # key argument for "total" column
+
+  label: "Total"
+  related: ["column_1", "column_2"]
+]
+
+dataArray = [
+  id: "row 1"
+  column_1: 1
+  column_2: 2
+,
+  id: "row 2"
+  column_1: 3
+  column_2: 4
+,
+  id: "row 3"
+  column_1: 5
+  column_2: 6
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columnsArray)
+  .data(dataArray)
+  .render()
+```

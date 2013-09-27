@@ -1769,7 +1769,9 @@ window.TableStakes = (function() {
           }
         });
       } else if (relatedColumns.length > 1) {
-        row[column.id] = (row[column.id] || 0) + (row[relatedColumn.id] || 0);
+        _.each(data, function(row) {
+          return row[column.id] = (row[column.id] || 0) + (row[relatedColumn.id] || 0);
+        });
       } else {
         this._columns = _.filter(this._columns, function(col) {
           return col.id !== column.id;
