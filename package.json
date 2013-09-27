@@ -6,7 +6,7 @@
     "test": "grunt && ./node_modules/testem/testem.js -f test/testem.json ci && grunt clean:afterpush"
   },
   "dependencies": {
-    "showcase": "https://github.com/activecell/showcase/tarball/grunt",
+    "showcase": "git://github.com/activecell/showcase.git#grunt",
     "grunt": "~0.4.1"
   },
   "devDependencies": {
