@@ -289,7 +289,44 @@ grid = new window.TableStakes()
 
 #### timeSeries
 
-Coming soon
+Tablestakes lib contains some specific methods for [columns](columns.md) and data gouped by time factor.
+First of all ```columns``` should be defined by adding key **timeSeries** with value equal to array of [UnixTimeStamps](http://www.unixtimestamp.com/index.php) which will be displayed.
+
+```coffeescript
+columns = [
+  id: "id"
+  label: "Name"
+,
+  id: 'timeSeries'
+  dataValue: 'actual'
+  timeSeries: [1356984000000, 1359662400000, 1362081600000, 1364760000000, 1367352000000, 1370030400000, 1372622400000, 1375300800000, 1377979200000, 1380571200000, 1383249600000, 1385841600000] # [Jan 2013 ... Dec 2013]
+]
+```
+
+Then ```data``` array should contain **period** and **dataValue** keys. Which are arrays of values for whole observing period. **period** array of UnixTimeStamps, **dataValue** array of values.
+Table with 13 columns: *Name, Jan, Feb, ..., Dec* and 2 rows
+
+```coffeescript
+timeRange = [new Date(2012, i, 2).getTime() for i in [0..35]][0] # [Jan 2012 ... Dec 2014]
+
+rowData = [
+  id: "First row"
+  period: timeRange
+  dataValue: [0..35]
+,
+  id: "Second row"
+  period: timeRange
+  dataValue: [36..71]
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(rowData)
+  .render()
+```
+
+More timeSeries options described [here](data.md#parseflatdata)
 
 
 #### Custom Editors
