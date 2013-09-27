@@ -35,7 +35,7 @@ module.exports = (grunt) ->
     sass:
       tablestakes:
         options:
-          style: 'expanded'
+          outputStyle: 'expanded'
         files:
           'ghpages/assets/tablestakes.css': 'src/scss/tablestakes.scss'
 
