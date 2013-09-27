@@ -1,8 +1,8 @@
 {
-  "test_page": "public/test_runner.html",
+  "test_page": "ghpages/test_runner.html",
   "launch_in_ci": ["phantomjs"],
   "launch_in_dev": ["phantomjs"],
   "serve_files": [
-    "public/assets/*.js"
+    "ghpages/assets/*.js"
   ]
 }
