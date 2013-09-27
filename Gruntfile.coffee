@@ -32,17 +32,18 @@ module.exports = (grunt) ->
           "ghpages/assets/examples.js"   : "src/examples/*.coffee"
           "ghpages/assets/unit_tests.js" : "test/unit/*.coffee"
 
-    compass:
-      compileJoined:
+    sass:
+      tablestakes:
         options:
-          sassDir: 'src/scss'
-          cssDir: 'ghpages/assets/'
+          style: 'expanded'
+        files:
+          'ghpages/assets/tablestakes.css': 'src/scss/tablestakes.scss'
 
     clean:
-      compass: [
-        "ghpages/assets/colors.css"
-        "ghpages/assets/mixins.css"
-      ]
+#      sass: [
+#        "ghpages/assets/colors.css"
+#        "ghpages/assets/mixins.css"
+#      ]
       afterpush:[
         "ghpages"
       ]
@@ -70,9 +71,9 @@ module.exports = (grunt) ->
         ]
         tasks: ["coffee"]
 
-      compass:
+      sass:
         files: ["src/scss"]
-        tasks: ["compass"]
+        tasks: ["sass"]
 
     styleguide:
       options:
@@ -117,8 +118,8 @@ module.exports = (grunt) ->
         output: "ghpages/performance.html"
 
     grunt.registerTask "compile-css", [
-      "compass"
-      "clean:compass"
+      "sass"
+#      "clean:compass"
     ]
 
     grunt.registerTask "compile-assets", [
