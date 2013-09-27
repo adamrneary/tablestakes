@@ -1,6 +1,6 @@
 ### Columns
 
-Function and array of objects to define relation between [dataArray](data-manipulating.md) and corresponding table columns.
+Function and array of objects to define relation between [dataArray](data.md) and corresponding table columns.
 ```coffeescript
 grid = new window.TableStakes()
   .el("#example")
@@ -9,17 +9,17 @@ grid = new window.TableStakes()
 ```
 
 Where *columnsArray* is array of objects ```{key: value}```. Possible variation of **key**:
-* [*id*](#id) - pointer to **key** attribute of [dataArray](data-manipulating.md)
+* [*id*](#id) - pointer to **key** attribute of [dataArray](data.md)
 * [*label*](#label) - name of column
 * [*classes*](#classes) - specific column class
   * [*columnClassFunction*](#columnclassfunction)
 * [*format*](#format) - apply style formatting to output
   * [*formatFunction*](#formatfunction)
 * [*isSortable*](#issortable) - allow to sort table rows in ascending (descending) order
-* [*isNested*](#isnested) - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
+* [*isNested*](#isnested) - allow to build table with [nested data](data.md#nested-data-expandablecollapsible-rows)
 * [*isEditable*](#iseditable) - add special classes and event listeners to allow editing of table's cell
   * [*editableCellResolver*](#editablecellresolver)
-  * [*onEdit*](#onedit) - editHandler apply changes to [dataArray](data-manipulating.md)
+  * [*onEdit*](#onedit) - editHandler apply changes to [dataArray](data.md)
 * *timeSeries* - some specific methods for columns and data gouped by time factor.
 
 Additional option
@@ -29,8 +29,8 @@ Additional option
 
 #### id
 
-*Required field*  
-```{id: valueSelector}``` **valueSelector** should be on of keys from items of [dataArray](data-manipulating.md)
+*Required field*
+```{id: valueSelector}``` **valueSelector** should be on of keys from items of [dataArray](data.md)
 
 ```coffeescript
 columnsArray = [
@@ -84,7 +84,7 @@ columnsArray = [
 
 ##### columnClassFunction
 
-```columnClassFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+```columnClassFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* value. **dataItem** - selected from [dataArray](data.md) item; **columnItem** - selected from columnsArray item.
 
 ```coffeescript
 columnClassFunction = (dataItem, columnItem) ->
@@ -109,7 +109,7 @@ columnsArray = [
 
 ##### formatFunction()
 
-```formatFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* or *Number* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+```formatFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* or *Number* value. **dataItem** - selected from [dataArray](data.md) item; **columnItem** - selected from columnsArray item.
 
 ```coffeescript
 formatFunction = (dataItem, columnItem) ->
@@ -148,8 +148,8 @@ columnsArray = [
 
 #### isNested
 
-```isNested: true``` **isSortable** key takes *true* or *false* statement. This option modifies table rows generating and adds event listener to expand (collapse) nested data. Should be used together with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows).  
-To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. **value** should be array of objects, related to *columnsArray*  
+```isNested: true``` **isSortable** key takes *true* or *false* statement. This option modifies table rows generating and adds event listener to expand (collapse) nested data. Should be used together with [nested data](data.md#nested-data-expandablecollapsible-rows).
+To create table with expandale/collapsible rows. [dataArray](data.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. **value** should be array of objects, related to *columnsArray*
 *values* - for expanded nested rows; *_values* - for collapsed nested rows.
 
 ```coffeescript
@@ -203,7 +203,7 @@ new window.TableStakes()
 
 #### isEditable
 
-```isEditable: editableValue``` Add a specific class to whole column or selected cell. **editableValue** could be a *true* or *false* statement; or pointer to [editableCellResolver](#editablecellresolver) function.  
+```isEditable: editableValue``` Add a specific class to whole column or selected cell. **editableValue** could be a *true* or *false* statement; or pointer to [editableCellResolver](#editablecellresolver) function.
 If **isEditable** could be set to *true* (by statement or by [editableCellResolver](#editablecellresolver) function) pair ```onEdit: editHandler``` should be [set](#onedit).
 
 ```coffeescript
@@ -224,7 +224,7 @@ columns = [
 
 ##### editableCellResolver
 
-```editableCellResolver(dataItem, columnItem)``` function takes two optional arguments; should return *true* or *false* statement. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+```editableCellResolver(dataItem, columnItem)``` function takes two optional arguments; should return *true* or *false* statement. **dataItem** - selected from [dataArray](data.md) item; **columnItem** - selected from columnsArray item.
 
 ```coffeescript
 editableCellResolver = (dataItem, columnItem) ->
@@ -233,7 +233,7 @@ editableCellResolver = (dataItem, columnItem) ->
     return true
   else
     return false
-    
+
 editHandler = null
 
 columns = [
@@ -250,7 +250,41 @@ columns = [
 
 ##### onEdit
 
-Coming soon
+When the user attempts to edit a cell, the callback function will be called with the row's id field, column's id field and new value.
+
+```coffeescript
+editHandler = (rowId, columnId, newValue) ->
+  (row[columnId] = newValue if row.id is rowId) for row in dataArray
+  grid.data(dataArray).render()
+
+columnsArray = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+  isEditable: true
+  onEdit: editHandler
+]
+
+dataArray = [
+  id: "nerds for good"
+  type: "ahaha"
+,
+  id: "Simple Line"
+  type: "Historical"
+,
+  id: "Scatter / Bubble"
+  type: "Snapshot"
+]
+
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columnsArray)
+  .data(dataArray)
+  .render()
+```
 
 
 #### timeSeries
