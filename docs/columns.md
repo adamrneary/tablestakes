@@ -20,10 +20,10 @@ Where *columnsArray* is array of objects ```{key: value}```. Possible variation 
 * [*isEditable*](#iseditable) - add special classes and event listeners to allow editing of table's cell
   * [*editableCellResolver*](#editablecellresolver)
   * [*onEdit*](#onedit) - editHandler apply changes to [dataArray](data.md)
-* *timeSeries* - some specific methods for columns and data gouped by time factor.
+* [*timeSeries*](#timeseries) - some specific methods for columns and data gouped by time factor.
 
 Additional option
-* *custom editors* - additional option for *select*, *date*, *boolean* editors
+* [*custom editors*](#customeditors) - additional option for *select*, *date*, *boolean* editors
 * *total column* - the sum of several columns
 
 
@@ -331,22 +331,67 @@ More timeSeries options described [here](data.md#parseflatdata)
 
 #### Custom Editors
 
-Coming soon
+For some editors created more flexible rules. To enable one of thees option set pair ```{key: value}``` as **key** equal to *editor* and **value** to one from list
+
+* [*select*](#select)
+* [*calendar*](#calendar)
+* [*boolean*](#boolean)
+* [*button*](#button)
+
+And some additional options.
+Full example are available at [tablestakes-showcase](http://tablestakes-showcase.herokuapp.com/#editable)
+
+```coffeescript
+editHandler = (rowId, columnId, newValue) ->
+  (row[columnId] = newValue if row.id is rowId) for row in data
+  grid.data(data).render()
+
+clickHandler = (rowId, columnId, value) ->
+  if columnId is 'archive'
+    data = _.without(data, _.find(data, (row) -> row.id is rowId))
+    grid.data(data).render()
+```
 
 
-##### Select
+##### select
 
-Coming soon
+```coffeescript
+isEditable: true
+onEdit: editHandler
+editor: 'select'
+selectOptions: options
+```
+
+Where **options** is array of available select's options, like "['engineering', 'design', 'qa']"
 
 
-##### Date
+##### calendar
 
-Coming soon
+```coffeescript
+isEditable: true
+onEdit: editHandler
+editor: 'calendar'
+```
 
 
-##### Boolean
+##### boolean
 
-Coming soon
+```coffeescript
+isEditable: true
+onEdit: editHandler
+editor: 'boolean'
+```
+
+
+##### button
+
+```coffeescript
+isEditable: true
+editor: "button"
+onClick: clickHandler
+```
+
+Where ```{editor: "button"}``` and **onClick** are bound together. Button's **value** attribute is equal to column's **label** field.
 
 
 #### Total Column
