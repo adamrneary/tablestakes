@@ -344,6 +344,7 @@ class window.TableStakes
     sortedColumn = _.find @columns(), (col) ->
       _.has(col, "sorted")
     @sorter(sortedColumn) if sortedColumn?
+    sortedColumn.asc = sortedColumn.sorted is "asc" if sortedColumn?
 
     @gridData = [values: @data()]
     @columns().forEach (column, i) =>
