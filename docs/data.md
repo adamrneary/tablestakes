@@ -96,7 +96,7 @@ new window.TableStakes()
 * [dataAggragate()](#dataaggregate)
   * [external function syntax](#external-function-syntax)
 
-Tablestakes lib contains some specific methods for columns and data gouped by time factor.
+Tablestakes lib contains some specific methods for [columns](columns.md) and data gouped by time factor.
 First of all ```columns``` should be defined by adding key **timeSeries** with value equal to array of [UnixTimeStamps](http://www.unixtimestamp.com/index.php) which will be displayed.
 ```coffeescript
 columns = [

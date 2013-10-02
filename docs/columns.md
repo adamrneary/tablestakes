@@ -1,6 +1,6 @@
 ### Columns
 
-Function and array of objects to define relation between [dataArray](data-manipulating.md) and corresponding table columns.
+Function and array of objects to define relation between [dataArray](data.md) and corresponding table columns.
 ```coffeescript
 grid = new window.TableStakes()
   .el("#example")
@@ -9,27 +9,28 @@ grid = new window.TableStakes()
 ```
 
 Where *columnsArray* is array of objects ```{key: value}```. Possible variation of **key**:
-* [*id*](#id) - pointer to **key** attribute of [dataArray](data-manipulating.md)
+* [*id*](#id) - pointer to **key** attribute of [dataArray](data.md)
 * [*label*](#label) - name of column
 * [*classes*](#classes) - specific column class
-  * [*columnClassFunction()*](#columnclassfunction)
+  * [*columnClassFunction*](#columnclassfunction)
 * [*format*](#format) - apply style formatting to output
   * [*formatFunction*](#formatfunction)
 * [*isSortable*](#issortable) - allow to sort table rows in ascending (descending) order
-* [*isNested*](#isnested) - allow to build table with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows)
-* *editable* - add special classes and event listeners to allow editing of table's cell
-  * *onEdit* - editHandler apply changes to [dataArray](data-manipulating.md)
-* *timeSeries* - some specific methods for columns and data gouped by time factor.
+* [*isNested*](#isnested) - allow to build table with [nested data](data.md#nested-data-expandablecollapsible-rows)
+* [*isEditable*](#iseditable) - add special classes and event listeners to allow editing of table's cell
+  * [*editableCellResolver*](#editablecellresolver)
+  * [*onEdit*](#onedit) - editHandler apply changes to [dataArray](data.md)
+* [*timeSeries*](#timeseries) - some specific methods for columns and data gouped by time factor.
 
 Additional option
-* *custom editors* - additional option for *select*, *date*, *boolean* editors
-* *total column* - the sum of several columns
+* [*custom editors*](#custom-editors) - additional option for *select*, *date*, *boolean* editors
+* [*total column*](#total-column) - the sum of several columns
 
 
 #### id
 
-*Required field*  
-```{id: valueSelector}``` **valueSelector** should be on of keys from items of [dataArray](data-manipulating.md)
+*Required field*
+```{id: valueSelector}``` **valueSelector** should be on of keys from items of [dataArray](data.md)
 
 ```coffeescript
 columnsArray = [
@@ -67,7 +68,7 @@ columnsArray = [
 
 #### classes
 
-```classes: classesValue``` Add a specific class to whole column of selected cell. **classesValue** could be a string value or pointer to [columnClassFunction].
+```classes: classesValue``` Add a specific class to whole column or selected cell. **classesValue** could be a string value or pointer to [columnClassFunction](#columnclassfunction).
 
 ```coffeescript
 columnsArray = [
@@ -83,7 +84,7 @@ columnsArray = [
 
 ##### columnClassFunction
 
-```columnClassFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+```columnClassFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* value. **dataItem** - selected from [dataArray](data.md) item; **columnItem** - selected from columnsArray item.
 
 ```coffeescript
 columnClassFunction = (dataItem, columnItem) ->
@@ -108,7 +109,7 @@ columnsArray = [
 
 ##### formatFunction()
 
-```formatFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* or *Number* value. **dataItem** - selected from [dataArray](data-manipulating.md) item; **columnItem** - selected from columnsArray item.
+```formatFunction(dataItem, columnItem)``` function takes two optional arguments; should return *String* or *Number* value. **dataItem** - selected from [dataArray](data.md) item; **columnItem** - selected from columnsArray item.
 
 ```coffeescript
 formatFunction = (dataItem, columnItem) ->
@@ -147,8 +148,8 @@ columnsArray = [
 
 #### isNested
 
-```isNested: true``` **isSortable** key takes *true* or *false* statement. This option modifies table rows generating and adds event listener to expand (collapse) nested data. Should be used together with [nested data](data-manipulating.md#nested-data-expandablecollapsible-rows).  
-To create table with expandale/collapsible rows. [dataArray](data-manipulating.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. **value** should be array of objects, related to *columnsArray*  
+```isNested: true``` **isSortable** key takes *true* or *false* statement. This option modifies table rows generating and adds event listener to expand (collapse) nested data. Should be used together with [nested data](data.md#nested-data-expandablecollapsible-rows).
+To create table with expandale/collapsible rows. [dataArray](data.md) should cointain a specific pair ```{key: value}``` **key** can have one of two values: *values* or *_values*. **value** should be array of objects, related to *columnsArray*
 *values* - for expanded nested rows; *_values* - for collapsed nested rows.
 
 ```coffeescript
@@ -200,42 +201,246 @@ new window.TableStakes()
 ```
 
 
-#### editable
+#### isEditable
 
-Coming soon
+```isEditable: editableValue``` Add a specific class to whole column or selected cell. **editableValue** could be a *true* or *false* statement; or pointer to [editableCellResolver](#editablecellresolver) function.
+If **isEditable** could be set to *true* (by statement or by [editableCellResolver](#editablecellresolver) function) pair ```onEdit: editHandler``` should be [set](#onedit).
+
+```coffeescript
+editHandler = null
+
+columns = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+  isEditable: true
+  onEdit: editHandler
+]
+```
+
+
+##### editableCellResolver
+
+```editableCellResolver(dataItem, columnItem)``` function takes two optional arguments; should return *true* or *false* statement. **dataItem** - selected from [dataArray](data.md) item; **columnItem** - selected from columnsArray item.
+
+```coffeescript
+editableCellResolver = (dataItem, columnItem) ->
+  if dataItem.id is "Simple Line"
+  and columnItem.id is "id"
+    return true
+  else
+    return false
+
+editHandler = null
+
+columns = [
+  id: "id"
+  label: "Name"
+  isEditable: editableCellResolver
+  onEdit: editHandler
+,
+  id: "type"
+  label: "Type"
+]
+```
 
 
 ##### onEdit
 
-Coming soon
+When the user attempts to edit a cell, the callback function will be called with the row's id field, column's id field and new value.
+
+```coffeescript
+editHandler = (rowId, columnId, newValue) ->
+  (row[columnId] = newValue if row.id is rowId) for row in dataArray
+  grid.data(dataArray).render()
+
+columnsArray = [
+  id: "id"
+  label: "Name"
+  classes: "row-heading"
+,
+  id: "type"
+  label: "Type"
+  isEditable: true
+  onEdit: editHandler
+]
+
+dataArray = [
+  id: "nerds for good"
+  type: "ahaha"
+,
+  id: "Simple Line"
+  type: "Historical"
+,
+  id: "Scatter / Bubble"
+  type: "Snapshot"
+]
+
+grid = new window.TableStakes()
+  .el("#example")
+  .columns(columnsArray)
+  .data(dataArray)
+  .render()
+```
 
 
 #### timeSeries
 
-Coming soon
+Tablestakes lib contains some specific methods for [columns](columns.md) and data gouped by time factor.
+First of all ```columns``` should be defined by adding key **timeSeries** with value equal to array of [UnixTimeStamps](http://www.unixtimestamp.com/index.php) which will be displayed.
+
+```coffeescript
+columns = [
+  id: "id"
+  label: "Name"
+,
+  id: 'timeSeries'
+  dataValue: 'actual'
+  timeSeries: [1356984000000, 1359662400000, 1362081600000, 1364760000000, 1367352000000, 1370030400000, 1372622400000, 1375300800000, 1377979200000, 1380571200000, 1383249600000, 1385841600000] # [Jan 2013 ... Dec 2013]
+]
+```
+
+Then ```data``` array should contain **period** and **dataValue** keys. Which are arrays of values for whole observing period. **period** array of UnixTimeStamps, **dataValue** array of values.
+Table with 13 columns: *Name, Jan, Feb, ..., Dec* and 2 rows
+
+```coffeescript
+timeRange = [new Date(2012, i, 2).getTime() for i in [0..35]][0] # [Jan 2012 ... Dec 2014]
+
+rowData = [
+  id: "First row"
+  period: timeRange
+  dataValue: [0..35]
+,
+  id: "Second row"
+  period: timeRange
+  dataValue: [36..71]
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columns)
+  .data(rowData)
+  .render()
+```
+
+More timeSeries options described [here](data.md#parseflatdata)
 
 
 #### Custom Editors
 
-Coming soon
+For some editors created more flexible rules. To enable one of thees option set pair ```{key: value}``` as **key** equal to *editor* and **value** to one from list
+
+* [*select*](#select)
+* [*calendar*](#calendar)
+* [*boolean*](#boolean)
+* [*button*](#button)
+
+And some additional options.
+Full example are available at [tablestakes-showcase](http://tablestakes-showcase.herokuapp.com/#editable)
+
+```coffeescript
+editHandler = (rowId, columnId, newValue) ->
+  (row[columnId] = newValue if row.id is rowId) for row in data
+  grid.data(data).render()
+
+clickHandler = (rowId, columnId, value) ->
+  if columnId is 'archive'
+    data = _.without(data, _.find(data, (row) -> row.id is rowId))
+    grid.data(data).render()
+```
 
 
-##### Select
+##### select
 
-Coming soon
+```coffeescript
+isEditable: true
+onEdit: editHandler
+editor: 'select'
+selectOptions: options
+```
+
+Where **options** is array of available select's options, like "['engineering', 'design', 'qa']"
 
 
-##### Date
+##### calendar
 
-Coming soon
+```coffeescript
+isEditable: true
+onEdit: editHandler
+editor: 'calendar'
+```
 
 
-##### Boolean
+##### boolean
 
-Coming soon
+```coffeescript
+isEditable: true
+onEdit: editHandler
+editor: 'boolean'
+```
+
+
+##### button
+
+```coffeescript
+isEditable: true
+editor: "button"
+onClick: clickHandler
+```
+
+Where ```{editor: "button"}``` and **onClick** are bound together. Button's **value** attribute is equal to column's **label** field.
 
 
 #### Total Column
 
-Coming soon
+Special column to sum values of different columns. To define "total Column" columnsArray should contain object with pairs ```{key: value}``` like thees
 
+```cpffeescript
+type: "total"
+related: relatedColumns
+```
+
+Where **relatedColumns** is *String* or *Array* of strings equal to column's id field which will be summed. If length of **relatedColumns** is &#x2264; 1 then "total Column" will be hidden. *Exception:* if **relatedColumns** points to [timeSeries column](#timeseries) associative array will be used.
+Full example are available
+
+```coffeescript
+columnsArray = [
+  id: "id"
+  label: "Name"
+,
+  id: "column_1"
+  label: "Column 1"
+,
+  id: "column_2"
+  label: "Column 2"
+,
+  id: "total"   # uniq column's ID
+  type: "total" # key argument for "total" column
+
+  label: "Total"
+  related: ["column_1", "column_2"]
+]
+
+dataArray = [
+  id: "row 1"
+  column_1: 1
+  column_2: 2
+,
+  id: "row 2"
+  column_1: 3
+  column_2: 4
+,
+  id: "row 3"
+  column_1: 5
+  column_2: 6
+]
+
+new window.TableStakes()
+  .el("#example")
+  .columns(columnsArray)
+  .data(dataArray)
+  .render()
+```
