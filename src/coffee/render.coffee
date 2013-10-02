@@ -111,7 +111,7 @@ class window.TableStakesLib.Core
       .selectAll("th")
 
     # Individual columns can be made sortable, or all, or none
-    sortable = allTh.filter (d) -> d.isSortable
+    sortable = allTh.filter (d) -> d.isSortable or d.sorted?
     @_makeSortable(sortable)
 
     # For now, either all columns are resizable or none, set in table config

@@ -328,6 +328,15 @@ window.TableStakesLib.Events = (function() {
 
   Events.prototype.toggleSort = function(el, column) {
     column.asc = !column.asc;
+    if (_.has(column, "sorted")) {
+      switch (column.asc) {
+        case true:
+          column.sorted = "asc";
+          break;
+        default:
+          column.sorted = "desc";
+      }
+    }
     d3.selectAll('.sorted-desc').classed('sorted-desc', false);
     d3.selectAll('.sorted-asc').classed('sorted-asc', false);
     d3.selectAll('th').filter(function(d) {
@@ -539,7 +548,7 @@ window.TableStakesLib.Core = (function() {
       }
     }).selectAll("th");
     sortable = allTh.filter(function(d) {
-      return d.isSortable;
+      return d.isSortable || (d.sorted != null);
     });
     this._makeSortable(sortable);
     if (this.table.isResizable() && !_.isNumber(this.table.get('height'))) {
@@ -1294,6 +1303,9 @@ window.TableStakes = (function() {
     });
     if (sortedColumn != null) {
       this.sorter(sortedColumn);
+    }
+    if (sortedColumn != null) {
+      sortedColumn.asc = sortedColumn.sorted === "asc";
     }
     this.gridData = [
       {

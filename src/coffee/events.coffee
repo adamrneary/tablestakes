@@ -298,6 +298,10 @@ class window.TableStakesLib.Events
 
   toggleSort: (el,column)->
     column.asc = !column.asc
+    if _.has(column, "sorted")
+      switch column.asc
+        when true then column.sorted = "asc"
+        else column.sorted = "desc"
 
     #disable sort for all columns
     d3.selectAll('.sorted-desc').classed('sorted-desc',false)
