@@ -342,7 +342,9 @@ class window.TableStakes
   render: ->
     # Apply sorting to column
     sortedColumn = _.find @columns(), (col) ->
-      _.has(col, "sorted")
+      _.has(col, "sorted") and _.has(col, "asc")
+    sortedColumn = _.find @columns(), (col) ->
+      _.has(col, "sorted") unless sortedColumn
     @sorter(sortedColumn) if sortedColumn?
     sortedColumn.asc = sortedColumn.sorted is "asc" if sortedColumn?
 
@@ -729,7 +731,7 @@ class window.TableStakes
               value = 0
             memo + value
           ), 0
-        sum *= -1 unless column.sorted is "asc"
+        sum *= -1 unless column.asc is "asc"
         return sum
 
     # return @ to make the method chainable

@@ -548,7 +548,7 @@ window.TableStakesLib.Core = (function() {
       }
     }).selectAll("th");
     sortable = allTh.filter(function(d) {
-      return d.isSortable || (d.sorted != null);
+      return (d.isSortable || (d.sorted != null)) && !(_.has(d, "timeSeries"));
     });
     this._makeSortable(sortable);
     if (this.table.isResizable() && !_.isNumber(this.table.get('height'))) {
@@ -1299,7 +1299,12 @@ window.TableStakes = (function() {
     var sortedColumn, wrap,
       _this = this;
     sortedColumn = _.find(this.columns(), function(col) {
-      return _.has(col, "sorted");
+      return _.has(col, "sorted") && _.has(col, "asc");
+    });
+    sortedColumn = _.find(this.columns(), function(col) {
+      if (!sortedColumn) {
+        return _.has(col, "sorted");
+      }
     });
     if (sortedColumn != null) {
       this.sorter(sortedColumn);
@@ -1708,7 +1713,7 @@ window.TableStakes = (function() {
             return memo + value;
           }), 0);
         }
-        if (column.sorted !== "asc") {
+        if (column.asc !== "asc") {
           sum *= -1;
         }
         return sum;
