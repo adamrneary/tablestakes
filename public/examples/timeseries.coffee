@@ -93,9 +93,9 @@ sliderTimeFrame.slider
       .dataAggregate(aggregator)
       .render()
 
-sumButton = $("<button class='btn btn-mini'>Sum aggregated data</button>")
-firstButton = $("<button class='btn btn-mini'>'First' of aggregated data</button>")
-lastButton = $("<button class='btn btn-mini'>'Last' of aggregated data</button>")
+sumButton = $("<button class='btn btn-sm'>Sum aggregated data</button>")
+firstButton = $("<button class='btn btn-sm'>'First' of aggregated data</button>")
+lastButton = $("<button class='btn btn-sm'>'Last' of aggregated data</button>")
 buttonGroup = $("<div class='btn-group'></div>")
 buttonGroup.append sumButton
 buttonGroup.append firstButton

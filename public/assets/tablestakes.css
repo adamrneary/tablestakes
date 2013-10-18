@@ -11,61 +11,62 @@ table.tablestakes {
   width: 100%;
   padding: 0px;
   border-collapse: separate;
+  font-size: 14px;
   color: #675b5e;
   background: transparent; }
-  /* line 29 */
+  /* line 31 */
   table.tablestakes a {
     color: #006b75; }
-    /* line 32 */
+    /* line 34 */
     table.tablestakes a:hover, table.tablestakes a:focus {
       text-decoration: underline; }
-  /* line 37 */
+  /* line 39 */
   table.tablestakes th, table.tablestakes td {
     padding: 0;
     text-align: right; }
-    /* line 40 */
+    /* line 42 */
     table.tablestakes th > div, table.tablestakes td > div {
       padding: 5px;
       position: relative; }
 
-/* line 60 */
+/* line 62 */
 table.tablestakes thead th, table.tablestakes thead td {
   text-transform: uppercase;
   white-space: pre-line;
   font-weight: normal; }
-/* line 66 */
+/* line 68 */
 table.tablestakes thead td {
   color: #675b5e;
   background: transparent;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
-/* line 74 */
+/* line 76 */
 table.tablestakes thead th {
   color: white;
   background: #007f9b;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
-/* line 84 */
+/* line 86 */
 table.tablestakes thead tr.secondary th, table.tablestakes thead tr.secondary td {
   color: white;
   background: #007f9b !important; }
-/* line 89 */
+/* line 91 */
 table.tablestakes thead tr.secondary td {
   border-bottom: solid 1px #e2dedf; }
-/* line 93 */
+/* line 95 */
 table.tablestakes thead tr.secondary th.underline {
   border-bottom: solid 1px white; }
 
-/* line 117 */
+/* line 119 */
 table.tablestakes thead th.row-heading, table.tablestakes thead td.row-heading {
   color: white;
   background: #007f9b;
   text-align: left;
   font-weight: normal; }
 
-/* line 141 */
+/* line 143 */
 table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-size: 16px;
   color: #675b5e;
@@ -74,32 +75,32 @@ table.tablestakes tfoot th, table.tablestakes tfoot td {
   font-style: italic;
   text-align: left; }
 
-/* line 174 */
+/* line 176 */
 table.tablestakes tbody th, table.tablestakes tbody td {
   text-align: right; }
-  /* line 176 */
+  /* line 178 */
   table.tablestakes tbody th.row-heading, table.tablestakes tbody td.row-heading {
     color: #675b5e;
     background: transparent;
     text-transform: none;
     text-align: left; }
-  /* line 183 */
+  /* line 185 */
   table.tablestakes tbody th.total, table.tablestakes tbody td.total {
     color: #231f20;
     background: #a9dde2;
     font-weight: bold; }
-  /* line 189 */
+  /* line 191 */
   table.tablestakes tbody th.left-aligned, table.tablestakes tbody td.left-aligned {
     text-align: left; }
-  /* line 193 */
+  /* line 195 */
   table.tablestakes tbody th.light, table.tablestakes tbody td.light {
     color: #cac3c5;
     background: transparent; }
 
-/* line 214 */
+/* line 216 */
 table.tablestakes thead .resizable:hover .resizable-handle {
   border-right: solid 2px #1d97a2; }
-/* line 219 */
+/* line 221 */
 table.tablestakes thead .resizable .resizable-handle {
   position: absolute;
   top: 0;
@@ -109,26 +110,26 @@ table.tablestakes thead .resizable .resizable-handle {
   height: 100%;
   cursor: col-resize;
   padding: 0; }
-  /* line 229 */
+  /* line 231 */
   table.tablestakes thead .resizable .resizable-handle:hover {
     background: white; }
-  /* line 233 */
+  /* line 235 */
   table.tablestakes thead .resizable .resizable-handle.neighbor {
     background: #00455b; }
-  /* line 237 */
+  /* line 239 */
   table.tablestakes thead .resizable .resizable-handle.left {
     left: 0; }
-  /* line 241 */
+  /* line 243 */
   table.tablestakes thead .resizable .resizable-handle.right {
     right: 0; }
 
-/* line 262 */
+/* line 264 */
 table.tablestakes thead .sortable {
   cursor: pointer; }
-  /* line 265 */
+  /* line 267 */
   table.tablestakes thead .sortable > div {
     padding-right: 20px; }
-    /* line 268 */
+    /* line 270 */
     table.tablestakes thead .sortable > div:before, table.tablestakes thead .sortable > div:after {
       position: absolute;
       right: 0;
@@ -148,33 +149,33 @@ table.tablestakes thead .sortable {
       margin-top: 0;
       color: #00455b;
       font-size: 16px; }
-    /* line 289 */
+    /* line 291 */
     table.tablestakes thead .sortable > div:before {
       top: 0px;
       content: "\f0d8"; }
-    /* line 294 */
+    /* line 296 */
     table.tablestakes thead .sortable > div:after {
       bottom: 2px;
       content: "\f0d7"; }
-  /* line 302 */
+  /* line 304 */
   table.tablestakes thead .sortable.sorted-asc > div:before {
     color: white; }
-  /* line 310 */
+  /* line 312 */
   table.tablestakes thead .sortable.sorted-desc > div:after {
     color: white; }
-  /* line 316 */
+  /* line 318 */
   table.tablestakes thead .sortable .sortable-handle {
     padding: 0; }
 
-/* line 345 */
+/* line 347 */
 table.tablestakes thead tr.reorder-draggable-destination th, table.tablestakes thead tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568; }
-/* line 355 */
+/* line 357 */
 table.tablestakes tbody tr.subtotal th, table.tablestakes tbody tr.subtotal td {
   border-top: solid 1px #e2dedf;
   color: #675b5e;
   background: transparent; }
-/* line 363 */
+/* line 365 */
 table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -182,7 +183,7 @@ table.tablestakes tbody tr.subtotal2 th, table.tablestakes tbody tr.subtotal2 td
   background: #faf9fa;
   font-weight: bold;
   text-transform: capitalize; }
-/* line 373 */
+/* line 375 */
 table.tablestakes tbody tr.well {
   -webkit-border-radius: 0;
   -moz-border-radius: 0;
@@ -196,13 +197,13 @@ table.tablestakes tbody tr.well {
   margin: 0;
   color: #675b5e !important;
   background: #f5fbfc !important; }
-  /* line 383 */
+  /* line 385 */
   table.tablestakes tbody tr.well td, table.tablestakes tbody tr.well th {
     color: #a69b9e;
     font-weight: bold;
     text-transform: capitalize;
     border: none; }
-/* line 392 */
+/* line 394 */
 table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -210,7 +211,7 @@ table.tablestakes tbody tr.total th, table.tablestakes tbody tr.total td {
   background: transparent !important;
   font-weight: bold !important;
   text-transform: capitalize !important; }
-/* line 403 */
+/* line 405 */
 table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   border-top: solid 1px #e2dedf;
   border-bottom: solid 1px #e2dedf;
@@ -218,32 +219,32 @@ table.tablestakes tbody tr.total2 th, table.tablestakes tbody tr.total2 td {
   background: #005568 !important;
   font-weight: bold !important;
   text-transform: capitalize !important; }
-/* line 414 */
+/* line 416 */
 table.tablestakes tbody tr.spacer th, table.tablestakes tbody tr.spacer td {
   text-align: left;
   text-indent: -9999em;
   background: transparent; }
-/* line 422 */
+/* line 424 */
 table.tablestakes tbody tr.emphasis th, table.tablestakes tbody tr.emphasis td {
   color: #30878f;
   background: transparent;
   font-size: 100%;
   font-weight: bold;
   border-bottom: solid 1px #e2dedf; }
-/* line 431 */
+/* line 433 */
 table.tablestakes tbody tr.emphasis2 {
   color: #675b5e;
   background: #fce5b1;
   font-size: 100%;
   font-weight: bold; }
-/* line 439 */
+/* line 441 */
 table.tablestakes tbody tr.reorder-draggable-destination th, table.tablestakes tbody tr.reorder-draggable-destination td {
   border-bottom: solid 2px #005568; }
-/* line 445 */
+/* line 447 */
 table.tablestakes tbody tr.hierarchy-draggable-destination th, table.tablestakes tbody tr.hierarchy-draggable-destination td {
   color: white;
   background: #0094b4; }
-/* line 451 */
+/* line 453 */
 table.tablestakes tbody tr.dragged {
   pointer-events: none;
   position: absolute;
@@ -251,7 +252,7 @@ table.tablestakes tbody tr.dragged {
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15); }
-  /* line 457 */
+  /* line 459 */
   table.tablestakes tbody tr.dragged td, table.tablestakes tbody tr.dragged th {
     pointer-events: none;
     -moz-opacity: 0.5;
@@ -259,22 +260,22 @@ table.tablestakes tbody tr.dragged {
     opacity: 0.5;
     background: inherit; }
 
-/* line 492 */
+/* line 494 */
 table.tablestakes th.plan, table.tablestakes td.plan {
   color: #675b5e;
   background: #e2f4f5; }
-  /* line 496 */
+  /* line 498 */
   table.tablestakes th.plan.editable:hover, table.tablestakes td.plan.editable:hover {
     background: white; }
-/* line 502 */
+/* line 504 */
 table.tablestakes th.old, table.tablestakes td.old {
   color: #675b5e;
   background: #eeecec; }
-/* line 508 */
+/* line 510 */
 table.tablestakes th.collapsible, table.tablestakes td.collapsible {
   cursor: pointer;
   text-align: left; }
-  /* line 512 */
+  /* line 514 */
   table.tablestakes th.collapsible > div:before, table.tablestakes td.collapsible > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -293,11 +294,11 @@ table.tablestakes th.collapsible, table.tablestakes td.collapsible {
     content: "\f0d7";
     color: #30878f;
     font-size: 16px; }
-/* line 535 */
+/* line 537 */
 table.tablestakes th.expandable, table.tablestakes td.expandable {
   cursor: pointer;
   text-align: left; }
-  /* line 540 */
+  /* line 542 */
   table.tablestakes th.expandable > div:before, table.tablestakes td.expandable > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -316,14 +317,14 @@ table.tablestakes th.expandable, table.tablestakes td.expandable {
     content: "\f0da";
     color: #30878f;
     font-size: 16px; }
-/* line 563 */
+/* line 565 */
 table.tablestakes th.deletable, table.tablestakes td.deletable {
   text-align: left;
   cursor: pointer; }
-  /* line 569 */
+  /* line 571 */
   table.tablestakes th.deletable:hover > div:before, table.tablestakes td.deletable:hover > div:before {
     text-shadow: 1px 2px 6px rgba(220, 110, 89, 0.5); }
-  /* line 576 */
+  /* line 578 */
   table.tablestakes th.deletable > div:before, table.tablestakes td.deletable > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -342,11 +343,11 @@ table.tablestakes th.deletable, table.tablestakes td.deletable {
     content: "\f057";
     color: #dc6e59;
     font-size: 16px; }
-/* line 599 */
+/* line 601 */
 table.tablestakes th.draggable, table.tablestakes td.draggable {
   cursor: pointer;
   text-align: left; }
-  /* line 603 */
+  /* line 605 */
   table.tablestakes th.draggable > div:before, table.tablestakes td.draggable > div:before {
     font-family: FontAwesome;
     font-weight: normal;
@@ -365,38 +366,38 @@ table.tablestakes th.draggable, table.tablestakes td.draggable {
     content: "\f0a6";
     color: #00455b;
     font-size: 16px; }
-/* line 626 */
+/* line 628 */
 table.tablestakes th.indent1, table.tablestakes td.indent1 {
   text-align: left;
   padding-left: 20px; }
-/* line 632 */
+/* line 634 */
 table.tablestakes th.indent2, table.tablestakes td.indent2 {
   text-align: left;
   padding-left: 30px; }
-/* line 638 */
+/* line 640 */
 table.tablestakes th.indent3, table.tablestakes td.indent3 {
   text-align: left;
   padding-left: 40px; }
-/* line 644 */
+/* line 646 */
 table.tablestakes th.indent4, table.tablestakes td.indent4 {
   text-align: left;
   padding-left: 50px; }
-/* line 650 */
+/* line 652 */
 table.tablestakes th.indent5, table.tablestakes td.indent5 {
   text-align: left;
   padding-left: 60px; }
-/* line 656 */
+/* line 658 */
 table.tablestakes th.indent6, table.tablestakes td.indent6 {
   text-align: left;
   padding-left: 70px; }
-/* line 664 */
+/* line 666 */
 table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > div, table.tablestakes td.boolean-false > div, table.tablestakes td.boolean-true > div {
   min-width: 30px;
   margin-left: 5px;
   margin-right: 5px;
   text-align: left;
   text-indent: -9999em; }
-  /* line 671 */
+  /* line 673 */
   table.tablestakes th.boolean-false > div:before, table.tablestakes th.boolean-true > div:before, table.tablestakes td.boolean-false > div:before, table.tablestakes td.boolean-true > div:before {
     position: absolute;
     top: 7px;
@@ -408,7 +409,7 @@ table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > di
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px; }
-  /* line 682 */
+  /* line 684 */
   table.tablestakes th.boolean-false > div:after, table.tablestakes th.boolean-true > div:after, table.tablestakes td.boolean-false > div:after, table.tablestakes td.boolean-true > div:after {
     position: absolute;
     top: 5px;
@@ -417,36 +418,36 @@ table.tablestakes th.boolean-false > div, table.tablestakes th.boolean-true > di
     width: 24px;
     height: 25px;
     background: url("/images/styleguide/sprite_air.png") -10px -10px no-repeat; }
-/* line 693 */
+/* line 695 */
 table.tablestakes th.boolean-false:hover, table.tablestakes th.boolean-true:hover, table.tablestakes td.boolean-false:hover, table.tablestakes td.boolean-true:hover {
   background: transparent; }
-/* line 701 */
+/* line 703 */
 table.tablestakes th.boolean-false > div:before, table.tablestakes td.boolean-false > div:before {
   background: #dc6e59;
   -webkit-box-shadow: inset 0 0 6px #812b1b;
   -moz-box-shadow: inset 0 0 6px #812b1b;
   box-shadow: inset 0 0 6px #812b1b; }
-/* line 706 */
+/* line 708 */
 table.tablestakes th.boolean-false > div:after, table.tablestakes td.boolean-false > div:after {
   left: -3px; }
-/* line 715 */
+/* line 717 */
 table.tablestakes th.boolean-true > div:before, table.tablestakes td.boolean-true > div:before {
   background: #8ac16f;
   -webkit-box-shadow: inset 0 0 6px #416a2d;
   -moz-box-shadow: inset 0 0 6px #416a2d;
   box-shadow: inset 0 0 6px #416a2d; }
-/* line 720 */
+/* line 722 */
 table.tablestakes th.boolean-true > div:after, table.tablestakes td.boolean-true > div:after {
   right: -3px; }
 
-/* line 742 */
+/* line 744 */
 table.tablestakes th.editable, table.tablestakes td.editable {
   color: #30878f !important;
   cursor: pointer; }
-  /* line 746 */
+  /* line 748 */
   table.tablestakes th.editable:hover, table.tablestakes td.editable:hover {
     background: #e2f4f5; }
-  /* line 751 */
+  /* line 753 */
   table.tablestakes th.editable.active, table.tablestakes td.editable.active {
     width: auto;
     position: relative;
@@ -456,7 +457,7 @@ table.tablestakes th.editable, table.tablestakes td.editable {
     -moz-box-shadow: inset 0 0 6px #a69b9e;
     box-shadow: inset 0 0 6px #a69b9e;
     background: #faf9fa; }
-    /* line 760 */
+    /* line 762 */
     table.tablestakes th.editable.active > div:after, table.tablestakes td.editable.active > div:after {
       position: absolute;
       bottom: 0;
@@ -472,18 +473,18 @@ table.tablestakes th.editable, table.tablestakes td.editable {
       box-shadow: 0 1px 1px #005568;
       cursor: pointer;
       overflow: hidden; }
-    /* line 774 */
+    /* line 776 */
     table.tablestakes th.editable.active > div:focus, table.tablestakes td.editable.active > div:focus {
       outline: none; }
-    /* line 779 */
+    /* line 781 */
     table.tablestakes th.editable.active:hover, table.tablestakes td.editable.active:hover {
       background: #faf9fa; }
-  /* line 785 */
+  /* line 787 */
   table.tablestakes th.editable.changed, table.tablestakes td.editable.changed {
     font-weight: bold;
     border: 1px dotted #30878f; }
 
-/* line 806 */
+/* line 808 */
 table.tablestakes th.editable.active.calendar input, table.tablestakes td.editable.active.calendar input {
   width: auto;
   height: auto;
@@ -494,13 +495,13 @@ table.tablestakes th.editable.active.calendar input, table.tablestakes td.editab
   background: transparent;
   outline: none;
   box-shadow: none; }
-  /* line 817 */
+  /* line 819 */
   table.tablestakes th.editable.active.calendar input:focus, table.tablestakes td.editable.active.calendar input:focus {
     border: none;
     outline: none;
     background: transparent; }
 
-/* line 840 */
+/* line 842 */
 table.tablestakes th select, table.tablestakes td select {
   padding: 0;
   width: 100%;
@@ -509,10 +510,10 @@ table.tablestakes th select, table.tablestakes td select {
   color: #30878f;
   background: transparent; }
 
-/* line 864 */
+/* line 866 */
 .tablestakes.scrollable thead tr {
   display: block; }
-/* line 869 */
+/* line 871 */
 .tablestakes.scrollable tbody {
   display: block;
   height: 500px;

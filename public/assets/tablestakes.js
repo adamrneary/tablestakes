@@ -933,7 +933,7 @@ window.TableStakesLib.Core = (function() {
   Core.prototype._makeButton = function(d, div, column) {
     var classes, html, select,
       _this = this;
-    classes = 'btn btn-mini btn-primary';
+    classes = 'btn btn-sm btn-primary';
     html = "<input type='button' value='" + column.label + "' class='" + classes + "' />";
     return select = d3.select(div).html(html).on('click', function(a, b, c) {
       return _this.events.buttonClick(_this, a, b, c, column);

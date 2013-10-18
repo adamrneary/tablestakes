@@ -539,7 +539,7 @@ class window.TableStakesLib.Core
 
   # TODO: this method needs documentation
   _makeButton: (d, div, column) ->
-    classes = 'btn btn-mini btn-primary'
+    classes = 'btn btn-sm btn-primary'
     html = "<input type='button' value='#{column.label}' class='#{classes}' />"
     select = d3.select(div)
       .html(html)

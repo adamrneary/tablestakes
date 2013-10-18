@@ -18,10 +18,12 @@
 table.tablestakes {
   @include border-radius(4px);
   @include box-sizing(border-box);
+  
   position: relative;
   width: 100%;
   padding: 0px;
   border-collapse: separate;
+  font-size: 14px;
   color: $table-color;
   background: $table-background;
   // border-spacing: 0;
