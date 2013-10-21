@@ -93,15 +93,16 @@ sliderTimeFrame.slider
       .dataAggregate(aggregator)
       .render()
 
-sumButton = $("<button class='btn btn-sm'>Sum aggregated data</button>")
-firstButton = $("<button class='btn btn-sm'>'First' of aggregated data</button>")
-lastButton = $("<button class='btn btn-sm'>'Last' of aggregated data</button>")
+sumButton = $("<button class='btn btn-primary btn-sm'>Sum aggregated data</button>")
+firstButton = $("<button class='btn btn-primary btn-sm'>'First' of aggregated data</button>")
+lastButton = $("<button class='btn btn-primary btn-sm'>'Last' of aggregated data</button>")
 buttonGroup = $("<div class='btn-group'></div>")
 buttonGroup.append sumButton
 buttonGroup.append firstButton
 buttonGroup.append lastButton
 
 $("#temp").append buttonGroup
+$("#temp").addClass("widget-block")
 
 sumButton.click (e) ->
   aggregator = 'sum'
