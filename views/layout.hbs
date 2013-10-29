@@ -4,12 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
   <title>Tablestakes: Bad-ass interactive tables.</title>
-  <link href="/vendor/stylesheets/activecell-branding.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/stylesheets/profitably-branding.css" rel="stylesheet" type="text/css">
   <link href="/vendor/stylesheets/jquery-ui.css" rel="stylesheet" type="text/css">
   <link href="/vendor/rainbow/theme.css" rel="stylesheet" type="text/css">
   <link href="/vendor/stylesheets/styleguide.css" rel="stylesheet" type="text/css">
   <link href="/assets/tablestakes.css" rel="stylesheet" type="text/css">
   <link rel="icon" type="image/vnd.microsoft.icon" href="/images/styleguide/favicon.ico">
+  <!-- Font Awesome -->
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
 </head>
 <body style="padding-top: 60px">
   <nav class="navbar navbar-inverse navbar-fixed-top" role="banner">
@@ -44,7 +46,7 @@
 
   <script src="/vendor/javascripts/jquery.js"></script>
   <script src="/vendor/javascripts/jquery-ui.js"></script>
-  <script src="/vendor/javascripts/activecell-branding.js"></script>
+  <script src="/vendor/javascripts/profitably-branding.js"></script>
   <script src="/vendor/javascripts/underscore.js"></script>
   <script src="/vendor/javascripts/backbone.js"></script>
   <script src="/vendor/javascripts/d3.js"></script>
@@ -60,5 +62,13 @@
   <!-- Typekit -->
   <script type="text/javascript" src="//use.typekit.net/xff3ece.js"></script>
   <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  
+  <script type="text/javascript" charset="utf-8">
+  $(function() {
+    setInterval(function(){
+      $("select").chosen({disable_search_threshold: 10});
+    }, 500);
+  });
+  </script>
 </body>
 </html>
